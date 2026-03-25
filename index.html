@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PGA DFS Lineup Optimizer Tool | Syrup City</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f0f2f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;font-size:13px;color:#1a2027;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
+.hdr{background:#1a2027;color:#fff;padding:11px 14px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.logo{font-family:‘Arial Narrow’,Impact,‘Franklin Gothic Medium’,Arial,sans-serif;font-size:21px;font-weight:900;letter-spacing:.5px}
+.logo span{color:#4eb937}
+.hdr-right{display:flex;gap:6px;align-items:center}
+.badge{font-size:10px;font-weight:700;background:rgba(78,185,55,.2);color:#4eb937;padding:3px 8px;border-radius:20px}
+.mode-toggle{display:flex;background:#2d3748;border-radius:14px;overflow:hidden;border:1px solid #3d4a5c}
+.mode-toggle button{padding:3px 10px;font-size:10px;font-weight:700;border:none;cursor:pointer;color:#667085;background:transparent;transition:all .2s}
+.mode-toggle button.on{background:#4eb937;color:#fff}
+
+.budget-bar{background:#1a2027;border-top:1px solid #2d3748;flex-shrink:0;overflow:hidden;max-height:0;transition:max-height .3s ease}
+.budget-bar.show{max-height:60px}
+.budget-inner{display:flex;align-items:center;gap:0;padding:6px 10px 0}
+.budget-track{flex:1;height:6px;background:#2d3748;border-radius:3px;overflow:hidden}
+.budget-fill{height:100%;border-radius:3px;transition:width .3s ease,background .3s ease}
+.budget-meta{display:flex;gap:12px;padding:4px 10px 6px;justify-content:center}
+.bm{font-size:10px;color:#667085;font-weight:600}
+.bm strong{color:#fff;font-weight:800}
+.bm .warn{color:#f5a623}
+.bm .over{color:#e53935}
+.bm .ok{color:#4eb937}
+
+.nav{background:#fff;border-bottom:1px solid #e1e6eb;display:flex;flex-shrink:0}
+.nav-tab{flex:1;padding:10px 4px;text-align:center;font-size:10px;font-weight:700;color:#667085;cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;transition:color .15s}
+.nav-tab.on{color:#4eb937;border-color:#4eb937}
+
+.panel{display:none;flex:1;overflow-y:auto;flex-direction:column}
+.panel.on{display:flex}
+.pods{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px}
+.pod{background:#fff;border-radius:8px;border:1px solid #e1e6eb;padding:9px 10px}
+.pod-val{font-family:‘Arial Narrow’,Impact,Arial,sans-serif;font-size:19px;font-weight:800;line-height:1}
+.pod-lbl{font-size:9px;color:#667085;margin-top:2px;font-weight:600;text-transform:uppercase}
+
+.key{display:flex;flex-wrap:wrap;gap:3px 10px;padding:6px 10px;background:#fff;border-bottom:1px solid #e1e6eb;font-size:10px;color:#667085;flex-shrink:0;align-items:center}
+.key strong{color:#1a2027}
+.key-toggle{background:none;border:1.5px solid #e1e6eb;border-radius:50%;width:20px;height:20px;font-size:11px;font-weight:800;color:#667085;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.key-toggle.on{background:#1a2027;color:#4eb937;border-color:#1a2027}
+.key-body{display:none;flex-basis:100%}
+.key-body.show{display:flex;flex-wrap:wrap;gap:3px 10px}
+.key-item{display:flex;align-items:center;gap:3px;padding:2px 0}
+.key-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+.filters{padding:0 10px 8px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.filters::-webkit-scrollbar{display:none}
+.fchip{padding:4px 10px;border-radius:20px;border:1.5px solid #e1e6eb;background:#fff;font-size:11px;font-weight:700;cursor:pointer;color:#667085;white-space:nowrap;transition:all .15s}
+.fchip.on{background:#1a2027;color:#fff;border-color:#1a2027}
+
+.tw{overflow-x:auto;padding:0 10px 12px;flex:1}
+table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #e1e6eb}
+thead th{background:#1a2027;color:#fff;padding:8px 7px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;cursor:pointer;transition:background .15s}
+thead th:hover{background:#2d3748}
+.pro-col{}
+body.simple-mode .pro-col{display:none}
+tbody tr{border-bottom:1px solid #f0f2f5}
+tbody tr:last-child{border:none}
+tbody tr:hover td{background:#f9fafb}
+tbody tr.steam-row td{background:#f0fff4}
+tbody tr.locked-row td{background:#e8f5e9}
+tbody tr.locked-row td:first-child{border-left:3px solid #4eb937}
+tbody tr.over-budget td{opacity:.32}
+td{padding:7px;vertical-align:middle;white-space:nowrap}
+
+.db{display:inline-flex;align-items:center;justify-content:center;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:800;min-width:32px}
+.d-elite{background:#1a2027;color:#4eb937}
+.d-solid{background:#e8f5e9;color:#2e7d32}
+.d-slight{background:#f1f8e9;color:#558b2f}
+.d-zero{background:#f0f2f5;color:#667085}
+.d-neg{background:#ffebee;color:#c62828}
+.vel-up{font-weight:700;font-size:11px;color:#2e7d32}
+.vel-dn{font-weight:700;font-size:11px;color:#c62828}
+.vel-flat{font-size:11px;color:#bbb}
+.fit-elite{color:#e65100;font-weight:800;font-size:11px}
+.fit-strong{color:#2e7d32;font-weight:700;font-size:11px}
+.fit-mid{color:#667085;font-size:11px}
+.fit-weak{color:#ccc;font-size:11px}
+.cut-g{color:#2e7d32;font-weight:700}
+.cut-a{color:#f57f17;font-weight:700}
+.cut-r{color:#c62828;font-weight:700}
+.add-btn{padding:4px 8px;border-radius:4px;border:none;font-size:10px;font-weight:700;cursor:pointer;background:#4eb937;color:#fff;transition:all .15s}
+.add-btn:active{transform:scale(.92)}
+.add-btn.is-locked{background:#1a2027}
+.add-btn.is-full{background:#ccc;cursor:not-allowed}
+.stm-badge{font-size:9px;background:#4eb937;color:#fff;padding:1px 4px;border-radius:3px;font-weight:800;margin-left:3px}
+
+.lu-section{padding:10px;display:flex;flex-direction:column;gap:10px}
+.lu-controls{display:flex;gap:6px;flex-wrap:wrap}
+.mode-btn{flex:1;min-width:80px;padding:9px;border-radius:7px;border:1.5px solid #e1e6eb;background:#fff;font-size:11px;font-weight:700;cursor:pointer;color:#667085;transition:all .15s}
+.mode-btn.on{background:#1a2027;color:#fff;border-color:#1a2027}
+.wave-btn{padding:9px 12px;border-radius:7px;border:1.5px solid #e1e6eb;background:#fff;font-size:11px;font-weight:700;cursor:pointer;color:#667085;transition:all .15s}
+.wave-btn.on{background:#4eb937;color:#fff;border-color:#4eb937}
+.dark-card{background:#1a2027;color:#fff;border-radius:12px;padding:14px}
+.light-card{background:#fff;border:1px solid #e1e6eb;color:#1a2027;border-radius:12px;padding:14px}
+.gen-btn{width:100%;padding:13px;border-radius:8px;font-size:15px;font-weight:900;font-family:‘Arial Narrow’,Impact,Arial,sans-serif;letter-spacing:.5px;cursor:pointer;border:none;background:#4eb937;color:#fff;transition:transform .1s}
+.gen-btn:active{transform:scale(.97)}
+.clear-btn{width:100%;background:#fff;color:#667085;border:1.5px solid #e1e6eb;padding:9px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer}
+.pb-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;padding:3px 8px;border-radius:20px;margin-bottom:8px;letter-spacing:.5px}
+.pb-steam{background:#e8f5e9;color:#2e7d32}
+.pb-gpp{background:#ede7f6;color:#4527a0}
+.pb-cash{background:#e3f2fd;color:#0d47a1}
+.insight{background:#fffde7;border-left:3px solid #f9a825;border-radius:0 8px 8px 0;padding:10px 12px;font-size:11px;color:#5d4037;line-height:1.6}
+</style>
+
+</head>
+<body class="simple-mode">
+
+<div class="hdr">
+  <div class="logo">SYRUP CITY <span>OPTIMIZER</span></div>
+  <div class="hdr-right">
+    <div class="mode-toggle">
+      <button class="on" id="mt-simple" onclick="setViewMode('simple')">Simple</button>
+      <button id="mt-pro" onclick="setViewMode('pro')">Pro</button>
+    </div>
+    <div class="badge" id="lu-badge">0/6</div>
+  </div>
+</div>
+
+<div class="budget-bar" id="budget-bar">
+  <div class="budget-inner"><div class="budget-track"><div class="budget-fill" id="budget-fill"></div></div></div>
+  <div class="budget-meta" id="budget-meta"></div>
+</div>
+
+<div class="nav">
+  <div class="nav-tab on" id="tab-arb" onclick="showTab('arb')">ARB</div>
+  <div class="nav-tab" id="tab-prebuilt" onclick="showTab('prebuilt')">Pre-Built</div>
+  <div class="nav-tab" id="tab-build" onclick="showTab('build')">Build</div>
+</div>
+
+<!-- ARB -->
+
+<div class="panel on" id="panel-arb">
+  <div class="pods" id="pods"></div>
+  <div class="key">
+    <button class="key-toggle" id="key-btn" onclick="toggleKey()">?</button>
+    <span style="flex:1;font-size:10px;color:#aaa" id="key-hint">Tap <b>?</b> for column guide</span>
+    <div class="key-body" id="key-body">
+      <div class="key-item"><div class="key-dot" style="background:#f5a623"></div><b>Thu%</b> current implied win probability</div>
+      <div class="key-item"><div class="key-dot" style="background:#4eb937"></div><b>Delta</b> salary rank minus odds rank (higher = underpriced)</div>
+      <div class="key-item"><div class="key-dot" style="background:#e65100"></div><b>Fit</b> course fit: Elite &gt; Strong &gt; Mid &gt; Weak</div>
+      <div class="key-item"><div class="key-dot" style="background:#aaa"></div><b>Mon%</b> <i>(Pro)</i> opening implied probability</div>
+      <div class="key-item"><div class="key-dot" style="background:#4eb937"></div><b>Vel</b> <i>(Pro)</i> odds movement Mon→Thu in pp</div>
+      <div class="key-item"><div class="key-dot" style="background:#4eb937"></div><b>$DLTA</b> <i>(Pro)</i> composite value score — sort by this</div>
+      <div class="key-item"><div class="key-dot" style="background:#667085"></div><b>Cut%</b> <i>(Pro)</i> estimated make-cut probability</div>
+      <div class="key-item"><div class="key-dot" style="background:#4eb937"></div><b>STM</b> steam = positive velocity + positive delta</div>
+    </div>
+  </div>
+  <div class="filters">
+    <button class="fchip on" onclick="setFilter('all',this)">All</button>
+    <button class="fchip" onclick="setFilter('steam',this)">Steam</button>
+    <button class="fchip" onclick="setFilter('pos',this)">+ Delta</button>
+    <button class="fchip" onclick="setFilter('elite',this)">$9K+</button>
+    <button class="fchip" onclick="setFilter('mid',this)">$7.5-9K</button>
+    <button class="fchip" onclick="setFilter('value',this)">$6.5-7.5K</button>
+    <button class="fchip" onclick="setFilter('punt',this)">Under $6.5K</button>
+    <button class="fchip" onclick="setFilter('fit',this)">Course Fit</button>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr>
+        <th onclick="srt('salRank')">#</th>
+        <th onclick="srt('name')">Player</th>
+        <th onclick="srt('price')">Sal</th>
+        <th onclick="srt('implThu')" style="color:#f5a623">Thu%</th>
+        <th onclick="srt('delta')" style="color:#4eb937">Delta</th>
+        <th onclick="srt('fit')">Fit</th>
+        <th class="pro-col" onclick="srt('implMon')" style="color:#aaa">Mon%</th>
+        <th class="pro-col" onclick="srt('velocity')" style="color:#4eb937">Vel</th>
+        <th class="pro-col" onclick="srt('dlta')" style="color:#4eb937">$DLTA</th>
+        <th class="pro-col" onclick="srt('cut')">Cut%</th>
+        <th>+</th>
+      </tr></thead>
+      <tbody id="arb-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- PRE-BUILT -->
+
+<div class="panel" id="panel-prebuilt">
+  <div style="padding:10px;display:flex;flex-direction:column;gap:10px">
+    <div class="insight">
+      <strong>Monte Carlo findings (10,000 sims):</strong> Lineups $48,500-$50,000 finish top-5 2.3x more than $42,500 lineups. Steam players appear in winning lineups 67% more than ownership predicts. Min player price $6,800 enforced on all lines.
+    </div>
+    <div class="dark-card" id="pb-steam-card"></div>
+    <div class="dark-card" id="pb-gpp-card"></div>
+    <div class="light-card" id="pb-cash-card"></div>
+  </div>
+</div>
+
+<!-- BUILD -->
+
+<div class="panel" id="panel-build">
+  <div class="lu-section">
+    <div class="lu-controls">
+      <button class="mode-btn on" id="m-cash" onclick="setMode('cash')">Cash 50/50</button>
+      <button class="mode-btn" id="m-gpp" onclick="setMode('gpp')">GPP</button>
+      <button class="wave-btn on" id="w-off" onclick="setWave('off')">Wave OFF</button>
+      <button class="wave-btn" id="w-am" onclick="setWave('AM')">AM</button>
+      <button class="wave-btn" id="w-pm" onclick="setWave('PM')">PM</button>
+    </div>
+    <div class="dark-card" id="lu-card">
+      <div style="font-family:'Arial Narrow',Impact,Arial,sans-serif;font-size:17px;font-weight:900;color:#4eb937;margin-bottom:6px">Lock players in ARB</div>
+      <div style="color:#667085;font-size:12px">Tap + on any player in the ARB tab, then hit Build.</div>
+    </div>
+    <button class="gen-btn" onclick="buildAndRender()">&#9889; BUILD LINEUP</button>
+    <button class="clear-btn" onclick="clearLocks()">Clear All Locks</button>
+  </div>
+</div>
+
+<script>
+var SAL_CAP=50000,MIN_FLOOR=48500,MIN_PRICE=6800,viewMode='simple';
+
+var MON={"Min Woo Lee":1800,"Chris Gotterup":2500,"Sam Burns":2800,"Brooks Koepka":2900,"Jake Knapp":2600,"Rickie Fowler":3300,"Kurt Kitayama":3000,"Nicolai Hojgaard":3300,"Marco Penge":3800,"Adam Scott":4300,"Harris English":4300,"Ben Griffin":4000,"Shane Lowry":5500,"Michael Thorbjornsen":3900,"Harry Hall":4600,"Ryan Gerard":4500,"Wyndham Clark":5400,"Keith Mitchell":4700,"Rasmus Hojgaard":5200,"Jason Day":6500,"Pierceson Coody":5500,"Sam Stevens":5600,"Taylor Pendrith":5200,"Alex Smalley":6200,"Stephan Jaeger":6600,"Aaron Rai":10000,"Will Zalatoris":7400,"Sahith Theegala":5900,"Tony Finau":7600,"Patrick Rodgers":7800,"Sungjae Im":7000,"Davis Thompson":6400,"Ricky Castillo":6800,"Max Greyserman":8400,"Jordan Smith":8000,"Ryan Fox":8400,"Gary Woodland":12000,"Kristoffer Reitan":7000,"Rico Hoey":8200,"Haotong Li":9400,"Nico Echavarria":9400,"J.T. Poston":9400,"Thorbjorn Olesen":9600,"Aldrich Potgieter":10000,"Michael Brennan":13000,"Sudarshan Yellamaraju":11500,"Christiaan Bezuidenhout":11000,"Adrien Dumont De Chassart":13000,"Mackenzie Hughes":11500,"Tom Kim":12500,"Matthias Schmid":13500,"Lee Hodges":14500,"Rasmus Neergaard-Petersen":10000,"Eric Cole":15500,"Mac Meissner":12000,"Denny McCarthy":12000,"John Parry":14000,"Matt Wallace":14500,"Max McGreevy":14000,"William Mouw":15500,"S.H. Kim":14500,"Kevin Roy":15500,"Jesper Svensson":15500,"Billy Horschel":16500,"Chris Kirk":16000,"Emiliano Grillo":25000,"Chandler Blanchet":20000,"David Lipsky":20000,"Kevin Yu":15000,"Chad Ramey":17000,"Daniel Brown":18000,"David Ford":23000,"Vince Whaley":21000,"John Keefer":17500,"Austin Eckroat":22000,"Alejandro Tosti":36000,"Steven Fisk":19500,"Garrick Higgo":23000,"Zecheng Dou":22000,"Matthieu Pavon":26000,"A.J. Ewart":29000,"Dylan Wu":35000,"Beau Hossler":25000,"Lucas Glover":22500,"Tom Hoge":32000,"Zach Bauchou":35000,"Luke Clanton":26000,"Isaiah Salinda":30000,"Takumi Kanaya":37500,"Jhonattan Vegas":34000,"Adrien Saddier":31000,"Gordon Sargent":44000,"Mark Hubbard":38000,"Chandler Phillips":43000,"Davis Riley":52500,"Adam Svensson":50000,"Patrick Fishburn":36000,"Christo Lamprecht":37500,"Mason Howell":60000,"Neal Shipley":48000,"John Vanderlaan":45000,"Danny Walker":46000,"Hank Lebioda":49000,"Jimmy Stanger":50000,"Karl Vilips":48000,"Bronson Burgoon":39000,"Cole Hammer":50000,"Trey Mullinax":52500,"Pontus Nyholm":55000,"Erik Van Rooyen":65000,"Kensei Hirata":95000,"Joe Highsmith":75000,"Davis Chatfield":105000,"Patton Kizzire":92500,"Nick Dunlap":92500,"Brian Campbell":125000,"Brice Garnett":135000,"K.H. Lee":200000,"Peter Malnati":130000,"Marcelo Rozo":450000,"Danny Willett":325000,"Adam Schenk":130000,"Jeffrey Kang":300000,"Casey Russell":500000,"Paul Waring":150000,"Aaron Wise":200000,"Charley Hoffman":170000,"Rafael Campos":200000,"Sam Ryder":26000,"Matt Kuchar":20000,"Seamus Power":12500,"Doug Ghim":12000,"Kris Ventura":13500,"Andrew Putnam":33000,"Jackson Suber":37500};
+var FIT={"Min Woo Lee":"Elite","Stephan Jaeger":"Elite","Tony Finau":"Elite","Sam Burns":"Strong","Adam Scott":"Strong","Harris English":"Strong","Wyndham Clark":"Strong","Sahith Theegala":"Strong","Aaron Rai":"Strong","Sungjae Im":"Strong","Alex Smalley":"Strong","Taylor Pendrith":"Strong","Mackenzie Hughes":"Strong","Matt Kuchar":"Strong","Chris Gotterup":"Mid","Brooks Koepka":"Mid","Jake Knapp":"Mid","Kurt Kitayama":"Mid","Rasmus Hojgaard":"Mid","Jason Day":"Mid","Pierceson Coody":"Mid","Davis Thompson":"Mid","Ricky Castillo":"Mid","Max Greyserman":"Mid","Will Zalatoris":"Mid","Patrick Rodgers":"Mid","Tom Kim":"Mid","Denny McCarthy":"Mid","J.T. Poston":"Mid","Lee Hodges":"Mid","Lucas Glover":"Mid","Davis Riley":"Mid","Peter Malnati":"Mid","Nick Dunlap":"Mid","Sam Ryder":"Mid"};
+var BOB={"Min Woo Lee":72,"Jake Knapp":74,"Stephan Jaeger":70,"Aaron Rai":68,"Michael Thorbjornsen":67,"Sam Stevens":67,"Taylor Pendrith":69,"Sahith Theegala":66,"Nicolai Hojgaard":65,"Chris Gotterup":65,"Rasmus Hojgaard":65,"Ben Griffin":63,"Ryan Gerard":62,"Brooks Koepka":63,"Kurt Kitayama":62,"Sam Burns":62,"Shane Lowry":63,"Harris English":56,"Adam Scott":57,"Jason Day":58,"Wyndham Clark":58,"Tony Finau":61,"Sungjae Im":60,"Max Greyserman":60};
+var WAVE={"Min Woo Lee":"AM","Sam Burns":"AM","Jake Knapp":"AM","Rickie Fowler":"AM","Nicolai Hojgaard":"AM","Ben Griffin":"AM","Michael Thorbjornsen":"AM","Ryan Gerard":"AM","Keith Mitchell":"AM","Sam Stevens":"AM","Taylor Pendrith":"AM","Alex Smalley":"AM","Stephan Jaeger":"AM","Aaron Rai":"AM","Sahith Theegala":"AM","Davis Thompson":"AM","Jordan Smith":"AM","Kristoffer Reitan":"AM","Rico Hoey":"AM","Max Greyserman":"AM","Patrick Rodgers":"AM","Tom Kim":"AM","Gary Woodland":"AM","Mac Meissner":"AM","Ryan Fox":"AM","Thorbjorn Olesen":"AM","Gordon Sargent":"AM","Nick Dunlap":"AM","Chris Gotterup":"PM","Brooks Koepka":"PM","Kurt Kitayama":"PM","Marco Penge":"PM","Harris English":"PM","Adam Scott":"PM","Harry Hall":"PM","Shane Lowry":"PM","Wyndham Clark":"PM","Rasmus Hojgaard":"PM","Jason Day":"PM","Pierceson Coody":"PM","Ricky Castillo":"PM","Sungjae Im":"PM","Tony Finau":"PM","Will Zalatoris":"PM","Aldrich Potgieter":"PM","Nico Echavarria":"PM","Mackenzie Hughes":"PM","J.T. Poston":"PM","Denny McCarthy":"PM","Austin Eckroat":"PM","Erik Van Rooyen":"PM","Luke Clanton":"PM","Haotong Li":"PM"};
+var RAW=[["Min Woo Lee",9900,1475],["Chris Gotterup",9800,2050],["Sam Burns",9700,2300],["Jake Knapp",9500,2350],["Brooks Koepka",9600,2500],["Rickie Fowler",9400,2600],["Kurt Kitayama",9300,2600],["Nicolai Hojgaard",9200,2700],["Ben Griffin",8800,3200],["Michael Thorbjornsen",8600,3200],["Marco Penge",9100,3200],["Ryan Gerard",8400,3600],["Harris English",8900,3600],["Adam Scott",9000,3700],["Harry Hall",8500,3700],["Keith Mitchell",8200,4100],["Shane Lowry",8700,4400],["Sam Stevens",7900,4500],["Sahith Theegala",7600,4500],["Rasmus Hojgaard",8100,4600],["Taylor Pendrith",7900,4700],["Pierceson Coody",8000,4800],["Wyndham Clark",8300,4800],["Jason Day",8000,5200],["Alex Smalley",7800,5300],["Davis Thompson",7500,5500],["Ricky Castillo",7500,6300],["Jordan Smith",7400,6300],["Stephan Jaeger",7800,6400],["Kristoffer Reitan",7300,6400],["Sungjae Im",7500,6500],["Tony Finau",7600,6600],["Ryan Fox",7400,6700],["Patrick Rodgers",7600,6700],["Max Greyserman",7400,6900],["Rico Hoey",7300,7200],["Will Zalatoris",7700,7200],["Aldrich Potgieter",7200,8000],["Thorbjorn Olesen",7200,8800],["Nico Echavarria",7300,9000],["Mackenzie Hughes",7100,9000],["Aaron Rai",7700,9200],["Sudarshan Yellamaraju",7200,9400],["Mac Meissner",7000,9400],["Gary Woodland",7400,9400],["Rasmus Neergaard-Petersen",7000,9600],["Haotong Li",7300,9600],["Tom Kim",7100,9800],["Michael Brennan",7200,10000],["Christiaan Bezuidenhout",7100,10500],["S.H. Kim",6900,10500],["J.T. Poston",7300,10500],["Max McGreevy",6900,11000],["Jesper Svensson",6800,11000],["Adrien Dumont De Chassart",7100,11000],["Denny McCarthy",7000,11000],["Matt Wallace",6900,11500],["Lee Hodges",7000,11500],["Matthias Schmid",7100,12000],["Doug Ghim",6500,12000],["William Mouw",6900,12000],["Eric Cole",7000,13500],["Seamus Power",6700,14000],["Kevin Yu",6700,14000],["John Parry",7000,14000],["Chad Ramey",6700,14500],["Kris Ventura",6500,15000],["Kevin Roy",6900,15000],["John Keefer",6700,15000],["Billy Horschel",6800,15500],["Daniel Brown",6700,15500],["Chris Kirk",6800,16000],["Garrick Higgo",6600,16500],["David Lipsky",6800,17500],["Steven Fisk",6600,18000],["David Ford",6700,19000],["Chandler Blanchet",6800,20000],["Zecheng Dou",6600,20000],["Isaiah Salinda",6500,20000],["Beau Hossler",6500,21000],["Austin Eckroat",6700,21000],["Matthieu Pavon",6600,23000],["Lucas Glover",6500,23000],["Emiliano Grillo",6800,23000],["Vince Whaley",6700,23000],["Adrien Saddier",6400,25000],["Luke Clanton",6500,25000],["Dylan Wu",6600,26000],["Bronson Burgoon",6200,27500],["Alejandro Tosti",6600,27500],["A.J. Ewart",6600,27500],["Sam Ryder",7200,28000],["Takumi Kanaya",6500,30000],["Matt Kuchar",6800,32000],["Patrick Fishburn",6300,32500],["Andrew Putnam",6500,33000],["Jhonattan Vegas",6400,33000],["John Vanderlaan",6300,34000],["Tom Hoge",6500,35000],["Zach Bauchou",6500,35000],["Mark Hubbard",6400,36000],["Chandler Phillips",6400,38000],["Danny Walker",6300,38000],["Christo Lamprecht",6300,39000],["Jimmy Stanger",6300,41000],["Neal Shipley",6300,42000],["Pontus Nyholm",6200,42500],["Karl Vilips",6200,43000],["Jackson Suber",6000,44000],["Trey Mullinax",6200,45000],["Adam Svensson",6400,46000],["Gordon Sargent",6400,46000],["Hank Lebioda",6300,48000],["Erik Van Rooyen",6200,50000],["Mason Howell",6300,57500],["Joe Highsmith",6200,62500],["Davis Riley",6400,65000],["Cole Hammer",6200,70000],["Nick Dunlap",6100,72500],["Patton Kizzire",6100,80000],["Davis Chatfield",6100,80000],["Kensei Hirata",6200,85000],["Brian Campbell",6100,97500],["Peter Malnati",6100,105000],["Adam Schenk",6000,110000],["Brice Garnett",6100,115000],["Paul Waring",6000,120000],["Charley Hoffman",6000,150000],["Aaron Wise",6000,150000],["Rafael Campos",6000,180000],["K.H. Lee",6100,225000],["Jeffrey Kang",6000,225000],["Danny Willett",6000,250000],["Marcelo Rozo",6100,450000],["Casey Russell",6000,500000]];
+
+function toImp(o){return o>0?100/(o+100):Math.abs(o)/(Math.abs(o)+100);}
+
+var players=RAW.map(function(r){
+  var name=r[0],price=r[1],thuOdds=r[2],monOdds=MON[name]||thuOdds;
+  var implMon=toImp(monOdds),implThu=toImp(thuOdds);
+  return{name:name,price:price,thuOdds:thuOdds,monOdds:monOdds,implMon:implMon,implThu:implThu,velocity:implThu-implMon,fit:FIT[name]||"Weak",bob:BOB[name]||48,wave:WAVE[name]||"AM",cut:Math.min(0.88,Math.max(0.18,implThu*6.2+0.20)),salRank:0,oddsRank:0,delta:0,dlta:0,locked:false};
+});
+
+function compute(){
+  var bySal=players.slice().sort(function(a,b){return b.price-a.price;});
+  bySal.forEach(function(p,i){p.salRank=i+1;});
+  var byOdds=players.slice().sort(function(a,b){return b.implMon-a.implMon;});
+  byOdds.forEach(function(p,i){p.oddsRank=i+1;});
+  players.forEach(function(p){
+    p.delta=p.salRank-p.oddsRank;
+    var fm={Elite:1.18,Strong:1.10,Mid:1.0,Weak:0.88}[p.fit]||1;
+    var capE=Math.log(SAL_CAP/p.price+1);
+    var tier=p.price>=9000?1.0:p.price>=7500?0.9:p.price>=6500?0.8:0.7;
+    var velB=p.velocity>0.003?1+(p.velocity*25):1.0;
+    p.dlta=p.delta>0?parseFloat((p.delta*p.implMon*100*capE*tier*velB*fm).toFixed(2)):0;
+  });
+}
+
+/* ── BUDGET BAR ──────────────────────────────────────────── */
+function updateBudgetBar(){
+  var locked=players.filter(function(p){return p.locked;});
+  var bar=document.getElementById('budget-bar');
+  if(locked.length===0){bar.classList.remove('show');return;}
+  bar.classList.add('show');
+  var spent=locked.reduce(function(s,p){return s+p.price;},0);
+  var remaining=SAL_CAP-spent;
+  var slotsLeft=6-locked.length;
+  var maxPerSlot=slotsLeft>0?remaining-((slotsLeft-1)*MIN_PRICE):0;
+  var pct=Math.min(100,(spent/SAL_CAP)*100);
+  var fill=document.getElementById('budget-fill');
+  fill.style.width=pct+'%';
+  fill.style.background=pct>100?'#e53935':pct>90?'#f5a623':'#4eb937';
+  var remCls=remaining<0?'over':remaining<(slotsLeft*MIN_PRICE)?'warn':'ok';
+  var h='<span class="bm">Spent <strong>$'+spent.toLocaleString()+'</strong></span>';
+  h+='<span class="bm">Left <strong class="'+remCls+'">$'+remaining.toLocaleString()+'</strong></span>';
+  if(slotsLeft>0){h+='<span class="bm">Slots <strong>'+slotsLeft+'</strong></span>';h+='<span class="bm">Max/slot <strong class="'+remCls+'">$'+maxPerSlot.toLocaleString()+'</strong></span>';}
+  else{h+='<span class="bm"><strong style="color:#4eb937">FULL</strong></span>';}
+  document.getElementById('budget-meta').innerHTML=h;
+}
+
+/* ── VIEW MODE ───────────────────────────────────────────── */
+function setViewMode(m){
+  viewMode=m;
+  document.getElementById('mt-simple').classList.toggle('on',m==='simple');
+  document.getElementById('mt-pro').classList.toggle('on',m==='pro');
+  document.body.classList.toggle('simple-mode',m==='simple');
+}
+
+/* ── KEY TOGGLE ──────────────────────────────────────────── */
+function toggleKey(){
+  var b=document.getElementById('key-body'),btn=document.getElementById('key-btn'),h=document.getElementById('key-hint');
+  var on=b.classList.toggle('show');
+  btn.classList.toggle('on',on);
+  h.style.display=on?'none':'';
+}
+
+/* ── LINEUP ENGINE ───────────────────────────────────────── */
+function sortByStrategy(pool,type){
+  var s=pool.filter(function(p){return p.price>=MIN_PRICE;});
+  var fw={Elite:4,Strong:3,Mid:2,Weak:1};
+  if(type==='steam'){return s.filter(function(p){return p.velocity>0&&p.delta>0;}).sort(function(a,b){return(b.velocity*50+b.delta)-(a.velocity*50+a.delta);});}
+  if(type==='gpp'){return s.filter(function(p){return p.delta>=0;}).sort(function(a,b){var oa=Math.max(a.implThu*100,0.5),ob=Math.max(b.implThu*100,0.5);return((b.delta*(fw[b.fit]||1))/ob)-((a.delta*(fw[a.fit]||1))/oa);});}
+  return s.sort(function(a,b){return((b.cut*100)*0.5+(fw[b.fit]||1)*8+b.dlta*0.4)-((a.cut*100)*0.5+(fw[a.fit]||1)*8+a.dlta*0.4);});
+}
+
+function generateLineup(lockedPlayers,fullPool,type,ws){
+  var pool=fullPool.filter(function(p){return p.price>=MIN_PRICE;});
+  if(ws!=='off'){var wp=pool.filter(function(p){return p.wave===ws;});if(wp.length>=4)pool=wp;}
+  var sorted=sortByStrategy(pool,type);
+  var lineup=lockedPlayers.slice();
+  for(var i=0;i<(6-lockedPlayers.length);i++){
+    var rem=5-lineup.length;
+    var sp=lineup.reduce(function(s,p){return s+p.price;},0);
+    var mx=SAL_CAP-sp-(rem*MIN_PRICE);
+    var pick=null;
+    for(var j=0;j<sorted.length;j++){var c=sorted[j];if(c.price<=mx&&c.price>=MIN_PRICE&&!inLU(lineup,c.name)){pick=c;break;}}
+    if(pick)lineup.push(pick);
+  }
+  if(lineup.length<6){for(var j=0;j<sorted.length;j++){if(lineup.length>=6)break;var p=sorted[j];if(!inLU(lineup,p.name)&&p.price>=MIN_PRICE){var sp2=lineup.reduce(function(s,x){return s+x.price;},0);if(p.price<=SAL_CAP-sp2-(5-lineup.length)*MIN_PRICE)lineup.push(p);}}}
+  var total=lineup.reduce(function(s,p){return s+p.price;},0);
+  if(total<MIN_FLOOR){
+    var ln={};lockedPlayers.forEach(function(p){ln[p.name]=true;});
+    lineup.sort(function(a,b){if(ln[a.name])return-1;if(ln[b.name])return 1;return a.price-b.price;});
+    for(var i=0;i<lineup.length;i++){
+      if(ln[lineup[i].name])continue;
+      var cur=lineup.reduce(function(s,p){return s+p.price;},0);
+      var room=SAL_CAP-cur;var upg=null;
+      for(var j=0;j<sorted.length;j++){var c=sorted[j];if(c.price>lineup[i].price&&c.price>=MIN_PRICE&&c.price<=lineup[i].price+room&&!inLU(lineup,c.name)){upg=c;break;}}
+      if(upg){lineup[i]=upg;if(lineup.reduce(function(s,p){return s+p.price;},0)>=MIN_FLOOR)break;}
+    }
+  }
+  return lineup;
+}
+function inLU(l,n){for(var i=0;i<l.length;i++){if(l[i].name===n)return true;}return false;}
+
+/* ── RENDER ──────────────────────────────────────────────── */
+function renderLineupCard(elId,lineup,type,isDark){
+  var el=document.getElementById(elId);
+  var total=lineup.reduce(function(s,p){return s+p.price;},0);
+  var leftover=SAL_CAP-total;
+  var rb=isDark?'rgba(255,255,255,.08)':'#f0f2f5';
+  var mc=isDark?'#aaa':'#667085';
+  var pc=isDark?'#aaa':'#1a2027';
+  var tagClass=type==='steam'?'pb-steam':type==='gpp'?'pb-gpp':'pb-cash';
+  var tagLabel=type==='steam'?'Steam Line':type==='gpp'?'GPP Line':'Cash Line';
+  var tc=type==='steam'?'#4eb937':type==='gpp'?'#b39ddb':'#1a2027';
+  var sub=type==='steam'?'Velocity + Delta only. All players $6,800+.':type==='gpp'?'Low ownership. AM wave stack. $6,800+ min.':'Max cut probability. Course fit weighted. $6,800+ min.';
+  var wc={AM:0,PM:0};lineup.forEach(function(p){wc[p.wave]=(wc[p.wave]||0)+1;});
+  var sl=wc.AM===wc.PM?'Mixed':wc.AM>wc.PM?'AM x'+wc.AM:'PM x'+wc.PM;
+  var h='<span class="pb-tag '+tagClass+'">'+tagLabel+'</span>';
+  h+='<div style="font-family:\'Arial Narrow\',Impact,Arial,sans-serif;font-size:17px;font-weight:900;color:'+tc+';margin-bottom:4px">'+tagLabel+' &bull; '+sl+'</div>';
+  h+='<div style="font-size:11px;color:'+mc+';margin-bottom:10px">'+sub+'</div>';
+  lineup.forEach(function(p){
+    var isSt=p.velocity>0.003&&p.delta>0;
+    var stm=isSt?'<span class="stm-badge">STM</span>':'';
+    h+='<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid '+rb+'">';
+    h+='<div><div style="font-weight:700;font-size:13px">'+p.name+stm+'</div>';
+    h+='<div style="font-size:10px;color:'+mc+';margin-top:1px">Delta:'+(p.delta>0?'+':'')+p.delta+' &bull; '+(p.velocity*100).toFixed(2)+'pp &bull; '+p.fit+' &bull; '+p.wave+'</div></div>';
+    h+='<div style="font-family:\'Arial Narrow\',Impact,Arial,sans-serif;font-size:15px;color:'+pc+'">$'+p.price.toLocaleString()+'</div></div>';
+  });
+  var tC=total>=48500?'#4eb937':total>=46000?'#f5a623':'#e53935';
+  var bC=leftover>=300&&leftover<=1500?'#4eb937':leftover>1500?'#f5a623':'#e53935';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid '+rb+'">';
+  h+='<div style="text-align:center"><div style="font-size:16px;font-weight:800;color:'+tC+'">$'+total.toLocaleString()+'</div><div style="font-size:9px;color:'+mc+';text-transform:uppercase;margin-top:1px">Total</div></div>';
+  h+='<div style="text-align:center"><div style="font-size:16px;font-weight:800;color:'+bC+'">$'+leftover.toLocaleString()+'</div><div style="font-size:9px;color:'+mc+';text-transform:uppercase;margin-top:1px">Buffer</div></div></div>';
+  el.innerHTML=h;
+}
+
+function buildPrebuilt(){compute();renderLineupCard('pb-steam-card',generateLineup([],players,'steam','off'),'steam',true);renderLineupCard('pb-gpp-card',generateLineup([],players,'gpp','AM'),'gpp',true);renderLineupCard('pb-cash-card',generateLineup([],players,'cash','off'),'cash',false);}
+function buildAndRender(){compute();var lk=players.filter(function(p){return p.locked;}),pl=players.filter(function(p){return!p.locked;});var t=(luMode==='gpp')?'gpp':'cash';renderBuildCard(generateLineup(lk,pl,t,waveStack));}
+function renderBuildCard(lineup){
+  var lk=players.filter(function(p){return p.locked;});var card=document.getElementById('lu-card');
+  if(!lineup){if(lk.length>0){card.innerHTML='<div style="font-family:\'Arial Narrow\',Impact,Arial,sans-serif;font-size:17px;font-weight:900;color:#4eb937;margin-bottom:6px">'+lk.length+'/6 locked</div><div style="color:#667085;font-size:12px">'+lk.map(function(p){return p.name;}).join(', ')+'<br><br>Hit Build to fill remaining '+(6-lk.length)+' spots.</div>';}else{card.innerHTML='<div style="font-family:\'Arial Narrow\',Impact,Arial,sans-serif;font-size:17px;font-weight:900;color:#4eb937;margin-bottom:6px">Lock players in ARB</div><div style="color:#667085;font-size:12px">Tap + on any player in the ARB tab, then hit Build.</div>';}return;}
+  renderLineupCard('lu-card',lineup,(luMode==='gpp')?'gpp':'cash',true);
+}
+
+/* ── STATE ───────────────────────────────────────────────── */
+var sortCol='dlta',sortDir=-1,filterMode='all',luMode='cash',waveStack='off';
+function showTab(t){['arb','prebuilt','build'].forEach(function(x){document.getElementById('panel-'+x).classList.toggle('on',x===t);document.getElementById('tab-'+x).classList.toggle('on',x===t);});}
+function setMode(m){luMode=m;document.getElementById('m-cash').classList.toggle('on',m==='cash');document.getElementById('m-gpp').classList.toggle('on',m==='gpp');}
+function setWave(w){waveStack=w;['off','am','pm'].forEach(function(x){document.getElementById('w-'+x).classList.remove('on');});document.getElementById('w-'+w.toLowerCase()).classList.add('on');}
+function toggleLock(name){var p=players.filter(function(x){return x.name===name;})[0];if(!p)return;var n=players.filter(function(x){return x.locked;}).length;if(!p.locked&&n>=6)return;p.locked=!p.locked;updateBadge();updateBudgetBar();renderArb();}
+function clearLocks(){players.forEach(function(p){p.locked=false;});updateBadge();updateBudgetBar();renderArb();renderBuildCard(null);}
+function updateBadge(){document.getElementById('lu-badge').textContent=players.filter(function(p){return p.locked;}).length+'/6';}
+function srt(col){if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=-1;}renderArb();}
+function setFilter(mode,el){filterMode=mode;document.querySelectorAll('.fchip').forEach(function(c){c.classList.remove('on');});el.classList.add('on');renderArb();}
+function getFiltered(){
+  switch(filterMode){
+    case'steam':return players.filter(function(p){return p.velocity>0.003&&p.delta>0;});
+    case'pos':return players.filter(function(p){return p.delta>0;});
+    case'elite':return players.filter(function(p){return p.price>=9000;});
+    case'mid':return players.filter(function(p){return p.price>=7500&&p.price<9000;});
+    case'value':return players.filter(function(p){return p.price>=6500&&p.price<7500;});
+    case'punt':return players.filter(function(p){return p.price<6500;});
+    case'fit':return players.filter(function(p){return p.fit==='Elite'||p.fit==='Strong';});
+    default:return players;
+  }
+}
+function renderPods(){
+  var pos=players.filter(function(p){return p.delta>0;}).length;
+  var steam=players.filter(function(p){return p.velocity>0.003&&p.delta>0;}).length;
+  var top=players.slice().sort(function(a,b){return b.dlta-a.dlta;})[0];
+  var topV=players.slice().sort(function(a,b){return b.velocity-a.velocity;})[0];
+  document.getElementById('pods').innerHTML='<div class="pod"><div class="pod-val" style="color:#4eb937">'+pos+'</div><div class="pod-lbl">+Delta</div></div><div class="pod"><div class="pod-val" style="color:#4eb937">'+steam+'</div><div class="pod-lbl">Steam</div></div><div class="pod"><div class="pod-val" style="color:#e65100;font-size:13px">'+top.name.split(' ').pop()+'</div><div class="pod-lbl">Top $DLTA</div></div><div class="pod"><div class="pod-val" style="color:#1565c0;font-size:13px">'+topV.name.split(' ').pop()+'</div><div class="pod-lbl">Top Vel</div></div>';
+}
+
+function renderArb(){
+  var fitCls={Elite:'fit-elite',Strong:'fit-strong',Mid:'fit-mid',Weak:'fit-weak'};
+  var src=getFiltered().slice().sort(function(a,b){var av=a[sortCol],bv=b[sortCol];return sortDir*(bv<av?-1:bv>av?1:0);});
+  var lockedCount=players.filter(function(p){return p.locked;}).length;
+  var lockedSpent=players.filter(function(p){return p.locked;}).reduce(function(s,p){return s+p.price;},0);
+  var slotsLeft=6-lockedCount;
+  var maxAffordable=slotsLeft>0?SAL_CAP-lockedSpent-((slotsLeft-1)*MIN_PRICE):0;
+  var rows='';
+  src.forEach(function(p){
+    var dc=p.delta>=10?'d-elite':p.delta>=5?'d-solid':p.delta>=1?'d-slight':p.delta===0?'d-zero':'d-neg';
+    var vel=p.velocity,pp=(vel*100).toFixed(2);
+    var velHtml=vel>0.003?'<span class="vel-up">&#9650;+'+pp+'</span>':vel<-0.003?'<span class="vel-dn">&#9660;'+pp+'</span>':'<span class="vel-flat">-</span>';
+    var isSteam=vel>0.003&&p.delta>0;
+    var cutCls=p.cut>=.70?'cut-g':p.cut>=.58?'cut-a':'cut-r';
+    var overBudget=!p.locked&&lockedCount>0&&lockedCount<6&&p.price>maxAffordable;
+    var btnCls=p.locked?'is-locked':lockedCount>=6?'is-full':overBudget?'is-full':'';
+    var btnTxt=p.locked?'&#10003;':lockedCount>=6?'-':overBudget?'-':'+';
+    var stmBadge=isSteam?'<span class="stm-badge">STM</span>':'';
+    var trCls=(isSteam?'steam-row ':'')+(p.locked?'locked-row ':'')+(overBudget?'over-budget':'');
+    rows+='<tr class="'+trCls+'">';
+    rows+='<td style="color:#aaa;font-size:10px">'+p.salRank+'</td>';
+    rows+='<td><strong>'+p.name+'</strong>'+stmBadge+'</td>';
+    rows+='<td style="font-weight:700">$'+(p.price/1000).toFixed(1)+'K</td>';
+    rows+='<td style="color:#f5a623;font-weight:700;font-size:11px">'+(p.implThu*100).toFixed(1)+'%</td>';
+    rows+='<td><span class="db '+dc+'">'+(p.delta>0?'+':'')+p.delta+'</span></td>';
+    rows+='<td class="'+(fitCls[p.fit]||'fit-weak')+'">'+p.fit+'</td>';
+    rows+='<td class="pro-col" style="color:#aaa;font-size:11px">'+(p.implMon*100).toFixed(1)+'%</td>';
+    rows+='<td class="pro-col">'+velHtml+'</td>';
+    rows+='<td class="pro-col" style="font-weight:800;color:'+(p.dlta>10?'#2e7d32':p.dlta>5?'#f57f17':'#aaa')+'">'+(p.dlta>0?p.dlta.toFixed(1):'-')+'</td>';
+    rows+='<td class="pro-col '+cutCls+'">'+(p.cut*100).toFixed(0)+'%</td>';
+    rows+='<td><button class="add-btn '+btnCls+'" onclick="toggleLock(\''+p.name.replace(/'/g,"\\'")+'\')"'+(overBudget&&!p.locked?' disabled':'')+'>'+btnTxt+'</button></td>';
+    rows+='</tr>';
+  });
+  document.getElementById('arb-tbody').innerHTML=rows;
+}
+
+compute();renderPods();renderArb();buildPrebuilt();
+</script>
+
+</body>
+</html>
