@@ -1,2 +1,2 @@
-# syrup-city-optimizer
-Dfs PGA golf optimizer for Texas children’s open 2026
+# valero texas open
+Dfs PGA golf optimizer for valero texas open
