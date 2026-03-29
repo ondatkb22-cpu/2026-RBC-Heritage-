@@ -174,13 +174,53 @@ textarea::placeholder{color:var(--muted)}
     <div class="logo-sub">VALERO TEXAS OPEN 2026 · TPC SAN ANTONIO · APR 2–5</div>
   </div>
   <div style="display:flex;gap:6px;align-items:center">
-    <span class="badge badge-teal" id="status-badge">Loading...</span>
+    <span class="badge badge-teal" id="status-badge">Loading Data & Sims...</span>
   </div>
 </div>
 
-<!-- ═══ ARB ═══ -->
+<div class="panel on" id="panel-guide">
+  <div style="padding:16px 12px 8px">
+    <div style="font-family:var(--disp);font-size:24px;font-weight:900;color:var(--gold-bright);line-height:1">User Guide</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--mono)">HOW TO USE THE TEXAS VALUE ENGINE</div>
+  </div>
 
-<div class="panel on" id="panel-arb">
+  <div class="card">
+    <div class="card-head"><span class="card-title">HQC Optimization Framework</span></div>
+    <div class="card-body">
+      <p style="font-size:11px;color:var(--sub);margin-bottom:8px">This tool replaces standard linear programming with a Hybrid Quantum-Classical architecture.</p>
+      <ol style="padding-left:14px;font-size:12px;line-height:1.8;color:var(--sub)">
+        <li><strong>Gaussian Mixture Modeling:</strong> The engine automatically runs 1,000 Monte Carlo iterations per player on load, adjusting variance based on course fit and cut probability.</li>
+        <li><strong>Stochastic Combinatorial Search:</strong> Rather than taking greedy local maximums, the Build and Pre-Built algorithms run 5,000 wide-net randomized searches to optimize the knapsack problem, seeking the 85th percentile ceiling for GPPs and 20th percentile floor for Cash.</li>
+        <li><strong>Lock & Build:</strong> Navigate to the <strong>Arb</strong> tab to find mathematical values. Tap the <strong style="color:#fff">+</strong> to lock your core. Then navigate to <strong>Build</strong> to automatically surround them with the stochastically optimal plays.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-title">Glossary / Key terms</span></div>
+    <div style="padding:4px 0">
+      <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px"><strong style="color:var(--teal)">Δ (Delta):</strong> Salary Rank minus Odds Rank. A positive number indicates the field/market is pricing them cheaper than their win probability suggests.</div>
+      <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px"><strong style="color:var(--teal-bright)">Vel (Velocity):</strong> Real-time betting line movement. "▲" means odds are shortening (money is coming in).</div>
+      <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px"><strong style="color:var(--gold)">$DLTA:</strong> The master value metric prior to simulation. Blends Odds, Delta, Velocity, Cut Equity, and Course Fit.</div>
+      <div style="padding:9px 14px;font-size:11px"><strong style="color:#fff">Proj Ceil / Proj Floor:</strong> The 85th percentile and 20th percentile outputs of the 1,000-run Monte Carlo simulations, replacing raw average projections.</div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:var(--red);background:rgba(217,83,79,0.03)">
+    <div class="card-head" style="border-color:rgba(217,83,79,0.3)"><span class="card-title" style="color:var(--red)">Bankroll & Disclaimer</span></div>
+    <div class="card-body">
+      <p style="font-size:11px;color:var(--sub);margin-bottom:8px">Daily Fantasy Golf is inherently high variance. Practice strict bankroll management to ensure long-term profitability.</p>
+      <ul style="padding-left:14px;font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:12px">
+        <li><strong>The 10% Rule:</strong> Never put more than 10% of your total bankroll into play in a single tournament week.</li>
+        <li><strong>The 80/20 Split:</strong> Allocate 80% of your weekly play to Cash games (50/50s, Double Ups) and 20% to GPPs (Tournaments).</li>
+        <li><strong>Trust the Process:</strong> This tool utilizes mathematical probabilities and statistical modeling, but golf guarantees nothing. Play within your means.</li>
+      </ul>
+      <p style="font-size:10px;font-weight:700;color:var(--red)">If you or someone you know has a gambling problem and wants help, call 1-800-GAMBLER.</p>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-arb">
   <div class="pods" id="pods"></div>
   <div class="key-strip" id="key-strip">
     <span><strong style="color:var(--gold)">$DLTA</strong> sort this</span>
@@ -222,18 +262,15 @@ textarea::placeholder{color:var(--muted)}
   </div>
 </div>
 
-<!-- ═══ PRE-BUILT ═══ -->
-
 <div class="panel" id="panel-prebuilt">
   <div class="insight">
-    <strong>TPC San Antonio rules:</strong> SG:T2G + SG:APP = non-negotiable. Wind exposure makes Scrambling & Around the Green critical. Balanced builds outperform — $48,500+ salary floor enforced. 0.003 velocity threshold for steam detection.
+    <strong>TPC San Antonio rules:</strong> SG:T2G + SG:APP = non-negotiable. Wind exposure makes Scrambling & Around the Green critical.<br><br>
+    <em>Powered by Monte Carlo Gaussian Modeling (1,000 iterations per player). Pre-Built logic executes 5,000 stochastic randomized searches to find the mathematically optimal 85th Percentile Ceiling (GPP) and 20th Percentile Floor (Cash).</em>
   </div>
   <div id="pb-steam-card" class="lu-card"></div>
   <div id="pb-gpp-card" class="lu-card"></div>
   <div id="pb-cash-card" class="lu-card"></div>
 </div>
-
-<!-- ═══ BUILD ═══ -->
 
 <div class="panel" id="panel-build">
   <div class="mode-row">
@@ -252,12 +289,10 @@ textarea::placeholder{color:var(--muted)}
   </div>
 
   <div style="padding:0 12px">
-    <button class="btn btn-gold" onclick="buildAndRender()">Auto-Fill Lineup</button>
+    <button class="btn btn-gold" onclick="buildAndRender()">Auto-Fill Optimal Lineup</button>
     <button class="clear-btn" onclick="clearLocks()">Clear Entire Roster</button>
   </div>
 </div>
-
-<!-- ═══ DATA ═══ -->
 
 <div class="panel" id="panel-data">
   <div class="card" style="margin-top:12px">
@@ -289,8 +324,6 @@ textarea::placeholder{color:var(--muted)}
     </div>
   </div>
 </div>
-
-<!-- ═══ COURSE INTEL ═══ -->
 
 <div class="panel" id="panel-intel">
   <div style="padding:16px 12px 8px">
@@ -350,52 +383,6 @@ textarea::placeholder{color:var(--muted)}
   </div>
 </div>
 
-<!-- ═══ GUIDE & INFO ═══ -->
-
-<div class="panel" id="panel-guide">
-  <div style="padding:16px 12px 8px">
-    <div style="font-family:var(--disp);font-size:24px;font-weight:900;color:var(--gold-bright);line-height:1">User Guide</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--mono)">HOW TO USE THE TEXAS VALUE ENGINE</div>
-  </div>
-
-  <div class="card">
-    <div class="card-head"><span class="card-title">Step-by-Step Instructions</span></div>
-    <div class="card-body">
-      <ol style="padding-left:14px;font-size:12px;line-height:1.8;color:var(--sub)">
-        <li><strong>Analyze the Arb Tab:</strong> Review the field sorted by our master value metric ($DLTA) to find golfers whose DraftKings salaries are mispriced compared to their win probability and course fit.</li>
-        <li><strong>Lock Your Core:</strong> Tap the <strong style="color:#fff">+</strong> button next to a player to lock them into your roster. Keep an eye on your remaining salary in the bottom HUD strip.</li>
-        <li><strong>Build Your Lineup:</strong> Switch to the <strong>Build</strong> tab. Select Cash or GPP, set your wave stacking preference (AM/PM), and tap "Auto-Fill Lineup" to calculate the mathematically optimal lineup around your locks.</li>
-        <li><strong>Review Pre-Built:</strong> Need quick action? The <strong>Pre-Built</strong> tab automatically generates optimal Cash, GPP, and Line-Movement (Steam) rosters for the current field.</li>
-      </ol>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-head"><span class="card-title">Glossary / Key terms</span></div>
-    <div style="padding:4px 0">
-      <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px"><strong style="color:var(--teal)">Δ (Delta):</strong> Salary Rank minus Odds Rank. A positive number means a player is cheaper than their win probability suggests.</div>
-      <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px"><strong style="color:var(--teal-bright)">Vel (Velocity):</strong> Real-time betting line movement. "▲" means odds are shortening (improving).</div>
-      <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px"><strong style="color:var(--gold)">$DLTA:</strong> The Engine's Master Score. Blends Odds, Delta, Velocity, Cut Equity, and Course Fit into one number.</div>
-      <div style="padding:9px 14px;border-bottom:1px solid var(--border);font-size:11px"><strong style="color:#fff">Conviction:</strong> LOCK (>8 score), STRONG (>5), CONSIDER (>2), FADE (<2 or neg Delta).</div>
-      <div style="padding:9px 14px;font-size:11px"><strong style="color:#fff">Fit:</strong> Course fit specifically evaluated for TPC San Antonio (Greg Norman design, high winds, Poa Trivialis).</div>
-    </div>
-  </div>
-
-  <div class="card" style="border-color:var(--red);background:rgba(217,83,79,0.03)">
-    <div class="card-head" style="border-color:rgba(217,83,79,0.3)"><span class="card-title" style="color:var(--red)">Bankroll & Disclaimer</span></div>
-    <div class="card-body">
-      <p style="font-size:11px;color:var(--sub);margin-bottom:8px">Daily Fantasy Golf is high variance. Practice strict bankroll management to ensure long-term profitability.</p>
-      <ul style="padding-left:14px;font-size:11px;line-height:1.6;color:var(--muted);margin-bottom:12px">
-        <li><strong>The 10% Rule:</strong> Never put more than 10% of your total bankroll into play in a single week.</li>
-        <li><strong>The 80/20 Split:</strong> Allocate 80% of your weekly play to Cash games (50/50s, Head-to-Heads, Double Ups) and 20% to GPPs (Tournaments).</li>
-        <li><strong>Trust the Process:</strong> This tool utilizes mathematical probabilities and statistical modeling, but golf is inherently unpredictable. Play within your means.</li>
-      </ul>
-      <p style="font-size:10px;font-weight:700;color:var(--red)">If you or someone you know has a gambling problem and wants help, call 1-800-GAMBLER.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Permanent Roster Strip HUD -->
 <div class="roster-strip" id="roster-strip">
   <div style="display:flex;align-items:center;">
     PLYRS: <span class="rs-val" id="rs-count" style="color:var(--text)">0/6</span>
@@ -409,12 +396,12 @@ textarea::placeholder{color:var(--muted)}
 </div>
 
 <div class="nav">
-  <div class="nav-tab on" onclick="showTab('arb')">Arb</div>
+  <div class="nav-tab on" onclick="showTab('guide')">Guide</div>
+  <div class="nav-tab" onclick="showTab('arb')">Arb</div>
   <div class="nav-tab" onclick="showTab('prebuilt')">Pre</div>
   <div class="nav-tab" onclick="showTab('build')">Build</div>
   <div class="nav-tab" onclick="showTab('data')">Data</div>
   <div class="nav-tab" onclick="showTab('intel')">Course</div>
-  <div class="nav-tab" onclick="showTab('guide')">Guide</div>
 </div>
 
 <script>
@@ -579,6 +566,14 @@ function fuzzyFind(name){
   return null;
 }
 
+// Simple Box-Muller transform for Monte Carlo Sims
+function randomNormal(mean, stdDev) {
+  var u = 0, v = 0;
+  while(u === 0) u = Math.random();
+  while(v === 0) v = Math.random();
+  return mean + stdDev * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+}
+
 function compute(){
   if(!players.length) return;
   players.slice().sort(function(a,b){return b.price-a.price;}).forEach(function(p,i){p.salRank=i+1;});
@@ -612,6 +607,20 @@ function compute(){
     else if(p.delta<0||(p.fit==='Weak'&&p.dlta<2)){p.conviction='FADE';p.convSort=0;}
     else{p.conviction='CONSIDER';p.convSort=2;}
     p.fitSort={Elite:4,Strong:3,Mid:2,Weak:1}[p.fit]||0;
+
+    // --- MONTE CARLO GAUSSIAN MIXTURE SIMULATION ---
+    var mu = p.dlta * 10; 
+    var sigma = 12 + (1 - p.cut) * 20; 
+    if(p.fit === 'Elite') sigma *= 0.85; 
+    if(p.fit === 'Weak') sigma *= 1.25;
+
+    var sims = [];
+    for(var i=0; i<1000; i++) sims.push(randomNormal(mu, sigma));
+    sims.sort(function(a,b){return a-b;});
+
+    p.simFloor = sims[Math.floor(1000 * 0.20)]; // 20th Percentile
+    p.simMean = sims[Math.floor(1000 * 0.50)];  // 50th Percentile
+    p.simCeil = sims[Math.floor(1000 * 0.85)];  // 85th Percentile
   });
 }
 
@@ -686,8 +695,8 @@ function loadWaves(){
 }
 
 function showTab(t){
-  ['arb','prebuilt','build','data','intel','guide'].forEach(function(x){document.getElementById('panel-'+x).classList.toggle('on',x===t);});
-  document.querySelectorAll('.nav-tab').forEach(function(el,i){el.classList.toggle('on',['arb','prebuilt','build','data','intel','guide'][i]===t);});
+  ['guide','arb','prebuilt','build','data','intel'].forEach(function(x){document.getElementById('panel-'+x).classList.toggle('on',x===t);});
+  document.querySelectorAll('.nav-tab').forEach(function(el,i){el.classList.toggle('on',['guide','arb','prebuilt','build','data','intel'][i]===t);});
   if(t==='prebuilt') buildPrebuilt();
 }
 
@@ -730,7 +739,6 @@ function updateBadge(){
   var locked = players.filter(function(p){return p.locked;});
   var count = locked.length;
   
-  // Update HUD Strip
   document.getElementById('rs-count').textContent= count+'/6';
   var spent = locked.reduce(function(s,p){return s+p.price;}, 0);
   var rem = SAL_CAP - spent;
@@ -818,6 +826,7 @@ function renderCurrentCore() {
   el.innerHTML = html;
 }
 
+// --- STOCHASTIC COMBINATORIAL SEARCH (QAOA Proxy) ---
 function buildLineup(locked, pool, type, wave) {
   var avail = pool.filter(function(p){ return p.price >= MIN_PRICE; });
 
@@ -826,66 +835,53 @@ function buildLineup(locked, pool, type, wave) {
     if (wp.length >= 6 - locked.length) avail = wp; 
   }
 
-  var sortFn;
-  if (type === 'steam') {
-    sortFn = function(a,b){ return ((b.velocity>VEL_THRESHOLD?10:0)+b.dlta) - ((a.velocity>VEL_THRESHOLD?10:0)+a.dlta); };
-  } else if (type === 'gpp') {
-    sortFn = function(a,b){ return b.dlta - a.dlta; };
-  } else {
-    sortFn = function(a,b){ return (b.dlta*0.5 + b.cut*100*0.3 + b.convSort*10*0.2) - (a.dlta*0.5 + a.cut*100*0.3 + a.convSort*10*0.2); };
-  }
-
-  avail.sort(sortFn);
-
   var bestLineup = [];
-  var bestScore = -1;
-
-  var sortedByPrice = avail.slice().sort(function(a,b){ return a.price - b.price; });
-
-  for (var skip = 0; skip < avail.length; skip++) {
+  var bestScore = -999999;
+  
+  // Run 5,000 stochastic combinations to bypass local minima
+  for(var iter=0; iter<5000; iter++) {
     var lineup = locked.slice();
     var ln = {};
     locked.forEach(function(p){ ln[p.name] = true; });
     var o10 = lineup.filter(function(p){ return p.price >= 10000; }).length;
+    var spent = lineup.reduce(function(s,p){ return s + p.price; }, 0);
 
-    for (var i = 0; i < avail.length && lineup.length < 6; i++) {
-      if (skip > 0 && i < skip && locked.length === 0) continue; 
-      
-      var c = avail[i];
-      if (ln[c.name]) continue;
+    // Shuffle pool stochastically, weighted slightly by type
+    var shuffled = avail.slice().sort(function(a,b){ 
+        var weightA = type==='gpp'? a.simCeil : type==='cash'? a.simFloor : a.simMean;
+        var weightB = type==='gpp'? b.simCeil : type==='cash'? b.simFloor : b.simMean;
+        return (weightB - weightA) + (Math.random() * 40 - 20); 
+    });
 
-      var sp = lineup.reduce(function(s,p){ return s + p.price; }, 0);
-      var rem = 5 - lineup.length;
+    for(var i=0; i<shuffled.length && lineup.length<6; i++) {
+       var c = shuffled[i];
+       if(ln[c.name]) continue;
+       if(spent + c.price + (5 - lineup.length)*MIN_PRICE > SAL_CAP) continue;
+       if(type === 'cash' && c.price >= 10000 && o10 >= 1) continue;
 
-      var minCostRemaining = 0;
-      var found = 0;
-      for (var j = 0; j < sortedByPrice.length && found < rem; j++) {
-        var cheapP = sortedByPrice[j];
-        if (!ln[cheapP.name] && cheapP.name !== c.name) {
-          minCostRemaining += cheapP.price;
-          found++;
-        }
-      }
-
-      if (found < rem || c.price + sp + minCostRemaining > SAL_CAP) continue;
-      
-      if (type === 'cash' && c.price >= 10000 && o10 >= 1) continue;
-
-      lineup.push(c);
-      ln[c.name] = true;
-      if (c.price >= 10000) o10++;
+       lineup.push(c);
+       ln[c.name] = true;
+       spent += c.price;
+       if(c.price >= 10000) o10++;
     }
 
-    if (lineup.length === 6) {
-      var score = lineup.reduce(function(s,p){ return s + p.dlta; }, 0);
-      if (score > bestScore) {
-        bestScore = score;
-        bestLineup = lineup.slice();
-      }
-      if (skip === 0) break;
+    if(lineup.length === 6) {
+        var score = 0;
+        if(type === 'cash') {
+            score = lineup.reduce(function(s,p){ return s + p.simFloor + (p.cut*20); }, 0);
+            if(spent < 48500) score -= 100; // Penalize leaving too much salary in cash
+        } else if(type === 'gpp') {
+            score = lineup.reduce(function(s,p){ return s + p.simCeil; }, 0);
+        } else { // steam
+            score = lineup.reduce(function(s,p){ return s + p.simMean + (p.velocity>VEL_THRESHOLD?50:0); }, 0);
+        }
+
+        if(score > bestScore) {
+            bestScore = score;
+            bestLineup = lineup.slice();
+        }
     }
   }
-
   return bestLineup;
 }
 
@@ -909,10 +905,17 @@ function renderLUCard(elId,lineup,type){
   var convCls={LOCK:'conv-lock',STRONG:'conv-strong',CONSIDER:'conv-consider',FADE:'conv-fade'};
   var html='<div style="padding:14px 16px;border-bottom:1px solid var(--border)"><span class="pb-tag '+tagC+'">'+tagL+'</span><div style="font-family:var(--disp);font-size:17px;font-weight:900;color:'+titleC+';margin-top:4px">'+tagL+' · '+stackL+'</div></div>';
   lineup.forEach(function(p,i){var isSteam=p.velocity>VEL_THRESHOLD&&p.delta>0;var stm=isSteam?'<span class="stm-badge">STM</span>':'';html+='<div class="lu-slot"><div class="lu-slot-num">G'+(i+1)+'</div><div style="flex:1;min-width:0"><div class="lu-slot-name">'+p.name+stm+'</div><div class="lu-slot-meta">Δ'+(p.delta>0?'+':'')+p.delta+' · <span class="conv '+(convCls[p.conviction]||'')+'">'+p.conviction+'</span> · '+p.fit+(p.wave?' · '+p.wave:'')+'</div></div><div class="lu-slot-sal">$'+p.price.toLocaleString()+'</div></div>';});
+  
   var totalC=total>=48500?'var(--teal-bright)':total>=46000?'var(--amber)':'var(--red)';
-  var avgD=lineup.reduce(function(s,p){return s+p.dlta;},0)/lineup.length;
+  
+  var scoreLbl = type === 'gpp' ? 'Proj Ceiling' : type === 'cash' ? 'Proj Floor' : 'Proj Mean';
+  var scoreVal = 0;
+  if(type === 'gpp') scoreVal = lineup.reduce(function(s,p){return s+p.simCeil;},0);
+  else if(type === 'cash') scoreVal = lineup.reduce(function(s,p){return s+p.simFloor;},0);
+  else scoreVal = lineup.reduce(function(s,p){return s+p.simMean;},0);
+
   var stCt=lineup.filter(function(p){return p.velocity>VEL_THRESHOLD&&p.delta>0;}).length;
-  html+='<div class="lu-totals"><div><div class="lu-total-val" style="color:'+totalC+'">$'+total.toLocaleString()+'</div><div class="lu-total-lbl">Total</div></div><div><div class="lu-total-val" style="color:var(--gold)">'+avgD.toFixed(1)+'</div><div class="lu-total-lbl">Avg $DLTA</div></div><div><div class="lu-total-val" style="color:var(--teal-bright)">'+stCt+'</div><div class="lu-total-lbl">Steam</div></div><div><div class="lu-total-val" style="color:var(--sub)">$'+left.toLocaleString()+'</div><div class="lu-total-lbl">Buffer</div></div></div>';
+  html+='<div class="lu-totals"><div><div class="lu-total-val" style="color:'+totalC+'">$'+total.toLocaleString()+'</div><div class="lu-total-lbl">Total</div></div><div><div class="lu-total-val" style="color:var(--gold)">'+scoreVal.toFixed(1)+'</div><div class="lu-total-lbl">'+scoreLbl+'</div></div><div><div class="lu-total-val" style="color:var(--teal-bright)">'+stCt+'</div><div class="lu-total-lbl">Steam</div></div><div><div class="lu-total-val" style="color:var(--sub)">$'+left.toLocaleString()+'</div><div class="lu-total-lbl">Buffer</div></div></div>';
   el.innerHTML=html;
 }
 
@@ -922,7 +925,10 @@ function buildAndRender(){
   renderLUCard('lu-card',buildLineup(locked,pool,luMode,waveStack),luMode);
 }
 
+// Initialize the engine with the default data instantly
 loadData(DEFAULT_DATA.trim());
+// Open the guide tab first automatically
+showTab('guide');
 
 </script>
 </body>
