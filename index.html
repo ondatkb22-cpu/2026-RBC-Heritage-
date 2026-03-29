@@ -7,31 +7,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#081118;--surface:#0e1a24;--surface2:#152636;--surface3:#1c3348;
-  --border:#1e364d;--border2:#2a4a6b;
-  --text:#e8f0f5;--sub:#9cb8cc;--muted:#5a7a94;
-  --teal:#2a9d8f;--teal-bright:#48e5d3;
-  --gold:#e9c46a;--gold-bright:#f4d35e;
-  --red:#e76f51;--red-bg:rgba(231,111,81,.12);
-  --amber:#f5a623;--amber-bg:rgba(245,166,35,.12);
-  --blue:#4fc3f7;
-  --steam-bg:rgba(42,157,143,.08);--lock-bg:rgba(233,196,106,.06);
+  --bg:#0B131E; /* Deep Valero Navy */
+  --surface:#16202B; /* Darker slate */
+  --surface2:#1E2B3A;
+  --surface3:#2C3D51;
+  --border:#2A3A4C;
+  --border2:#3D5065;
+  --text:#F4F1EA; /* Bone white / Parchment */
+  --sub:#B9C3CE;
+  --muted:#7A8D9F;
+  --teal:#7D9A3B; /* Texas Agave Green */
+  --teal-bright:#A6CD4F; 
+  --gold:#D4AF37; /* Alamo Gold */
+  --gold-bright:#FFD700;
+  --red:#D9534F; /* Terracotta / Texas Red */
+  --red-bg:rgba(217, 83, 79, 0.12);
+  --amber:#E5A823;
+  --amber-bg:rgba(229, 168, 35, 0.12);
+  --blue:#5BC0DE;
+  --steam-bg:rgba(125, 154, 59, 0.08); 
+  --lock-bg:rgba(212, 175, 55, 0.06);
   --mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;--disp:'Playfair Display',serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5;min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden;padding-bottom:60px}
 body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
 
-.hdr{background:linear-gradient(135deg,#081118 0%,#0c1822 40%,#122230 100%);border-bottom:1px solid var(--border);padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
+.hdr{background:linear-gradient(135deg,#0B131E 0%,#0E1925 40%,#132230 100%);border-bottom:1px solid var(--border);padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
 .logo{font-family:var(--disp);font-size:22px;font-weight:900;color:var(--gold-bright);line-height:1;letter-spacing:-.5px}
 .logo-sub{font-size:10px;color:var(--teal-bright);font-family:var(--mono);margin-top:2px;letter-spacing:.5px}
 .badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;font-family:var(--mono);letter-spacing:.3px}
-.badge-gold{background:rgba(233,196,106,.15);color:var(--gold);border:1px solid rgba(233,196,106,.25)}
-.badge-teal{background:rgba(42,157,143,.15);color:var(--teal);border:1px solid rgba(42,157,143,.25)}
+.badge-gold{background:rgba(212, 175, 55, 0.15);color:var(--gold);border:1px solid rgba(212, 175, 55, 0.3)}
+.badge-teal{background:rgba(125, 154, 59, 0.15);color:var(--teal-bright);border:1px solid rgba(125, 154, 59, 0.3)}
 
 .nav{display:flex;background:var(--surface);border-top:1px solid var(--border);position:fixed;bottom:0;width:100%;z-index:1000}
 .nav-tab{flex:1;padding:14px 6px;text-align:center;font-size:10px;font-weight:700;color:var(--muted);cursor:pointer;border-top:3px solid transparent;text-transform:uppercase;letter-spacing:.5px;transition:all .15s}
-.nav-tab.on{color:var(--gold);border-color:var(--gold);background:rgba(233,196,106,.04)}
+.nav-tab.on{color:var(--gold);border-color:var(--gold);background:rgba(212, 175, 55, 0.04)}
 .nav-tab:hover:not(.on){color:var(--sub)}
 
 .panel{display:none;flex:1;overflow-y:auto}
@@ -48,31 +59,31 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .filters{padding:8px 12px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}
 .filters::-webkit-scrollbar{display:none}
 .fchip{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .12s;font-family:var(--sans)}
-.fchip.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.fchip.on{background:var(--teal);color:#0B131E;border-color:var(--teal)}
 .fchip:hover:not(.on){border-color:var(--border2);color:var(--sub)}
 
 .tw{overflow-x:auto;padding:0 12px 12px}
 table{width:100%;border-collapse:collapse;font-size:12px;background:var(--surface);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
 thead th{background:var(--surface2);color:var(--muted);padding:8px 7px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;cursor:pointer;border-bottom:1px solid var(--border)}
 thead th:hover{color:var(--text)}
-tbody tr{border-bottom:1px solid rgba(30,54,77,.6)}
+tbody tr{border-bottom:1px solid rgba(42, 58, 76, 0.6)}
 tbody tr:last-child{border:none}
-tbody tr:hover td{background:rgba(42,157,143,.04)}
+tbody tr:hover td{background:rgba(125, 154, 59, 0.06)}
 tbody tr.steam-row td{background:var(--steam-bg)}
 tbody tr.lock-row td{background:var(--lock-bg)}
 tbody tr.fade-row td{opacity:.35}
 td{padding:7px;vertical-align:middle;white-space:nowrap}
 
 .db{display:inline-flex;align-items:center;justify-content:center;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:800;min-width:32px;font-family:var(--mono)}
-.d-elite{background:var(--gold);color:#081118}
-.d-solid{background:rgba(42,157,143,.2);color:var(--teal)}
-.d-slight{background:rgba(42,157,143,.1);color:var(--teal)}
-.d-zero{background:rgba(90,122,148,.15);color:var(--muted)}
+.d-elite{background:var(--gold);color:#0B131E}
+.d-solid{background:rgba(125, 154, 59, 0.25);color:var(--teal-bright)}
+.d-slight{background:rgba(125, 154, 59, 0.12);color:var(--teal)}
+.d-zero{background:rgba(122, 141, 159, 0.15);color:var(--muted)}
 .d-neg{background:var(--red-bg);color:var(--red)}
 
 .conv{font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:.3px;font-family:var(--mono);white-space:nowrap}
-.conv-lock{background:var(--gold);color:#081118}
-.conv-strong{background:rgba(42,157,143,.2);color:var(--teal)}
+.conv-lock{background:var(--gold);color:#0B131E}
+.conv-strong{background:rgba(125, 154, 59, 0.2);color:var(--teal-bright)}
 .conv-consider{background:var(--amber-bg);color:var(--amber)}
 .conv-fade{background:var(--red-bg);color:var(--red)}
 
@@ -84,7 +95,7 @@ td{padding:7px;vertical-align:middle;white-space:nowrap}
 .fit-strong{color:var(--teal);font-weight:700;font-size:11px}
 .fit-mid{color:var(--sub);font-size:11px}
 .fit-weak{color:var(--muted);font-size:11px}
-.cut-g{color:var(--teal);font-weight:700}
+.cut-g{color:var(--teal-bright);font-weight:700}
 .cut-a{color:var(--amber);font-weight:700}
 .cut-r{color:var(--red);font-weight:700}
 
@@ -94,7 +105,7 @@ td{padding:7px;vertical-align:middle;white-space:nowrap}
 .card-body{padding:14px}
 
 .lu-card{background:linear-gradient(145deg,var(--surface2) 0%,var(--surface) 100%);border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin:0 12px 10px}
-.lu-slot{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(30,54,77,.4);gap:8px}
+.lu-slot{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(42, 58, 76, 0.4);gap:8px}
 .lu-slot:last-child{border:none}
 .lu-slot-num{font-size:10px;color:var(--muted);font-weight:700;width:20px;flex-shrink:0}
 .lu-slot-name{font-weight:700;font-size:13px}
@@ -105,33 +116,33 @@ td{padding:7px;vertical-align:middle;white-space:nowrap}
 .lu-total-lbl{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
 
 textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px;font-family:var(--mono);outline:none;resize:vertical;white-space:pre}
-textarea:focus{border-color:var(--teal);box-shadow:0 0 0 2px rgba(42,157,143,.15)}
+textarea:focus{border-color:var(--teal);box-shadow:0 0 0 2px rgba(125, 154, 59, 0.15)}
 textarea::placeholder{color:var(--muted)}
 
-.btn{width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:900;font-family:var(--disp);cursor:pointer;border:none;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-bright) 100%);color:#081118;letter-spacing:.3px;transition:all .2s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(42,157,143,.3)}
+.btn{width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:900;font-family:var(--disp);cursor:pointer;border:none;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-bright) 100%);color:#0B131E;letter-spacing:.3px;transition:all .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(125, 154, 59, 0.3)}
 .btn-sm{padding:8px 14px;font-size:12px;font-weight:700;font-family:var(--sans);width:auto}
 .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%)}
 .clear-btn{width:100%;background:var(--surface);color:var(--muted);border:1px solid var(--border);padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px}
 
 .mode-row{display:flex;gap:6px;padding:12px;flex-wrap:wrap}
 .mode-btn{flex:1;min-width:70px;padding:10px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);text-align:center;transition:all .12s}
-.mode-btn.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.mode-btn.on{background:var(--teal);color:#0B131E;border-color:var(--teal)}
 .wave-btn{padding:10px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);transition:all .12s}
-.wave-btn.on{background:var(--gold);color:#081118;border-color:var(--gold)}
+.wave-btn.on{background:var(--gold);color:#0B131E;border-color:var(--gold)}
 
 .add-btn{padding:4px 8px;border-radius:4px;border:none;font-size:10px;font-weight:800;cursor:pointer;background:var(--surface3);color:var(--text);transition:all .1s}
-.add-btn.is-locked{background:var(--teal-bright);color:#081118}
+.add-btn.is-locked{background:var(--teal-bright);color:#0B131E}
 .add-btn.is-full{background:var(--muted);cursor:not-allowed;opacity:.4}
 
-.stm-badge{font-size:9px;background:var(--teal);color:#fff;padding:1px 5px;border-radius:3px;font-weight:800;margin-left:4px}
-.wave-badge{font-size:9px;background:rgba(79,195,247,.2);color:var(--blue);padding:1px 5px;border-radius:3px;font-weight:700;margin-left:3px}
+.stm-badge{font-size:9px;background:var(--teal);color:#0B131E;padding:1px 5px;border-radius:3px;font-weight:800;margin-left:4px}
+.wave-badge{font-size:9px;background:rgba(91, 192, 222, 0.2);color:var(--blue);padding:1px 5px;border-radius:3px;font-weight:700;margin-left:3px}
 .pb-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:8px;letter-spacing:.5px}
-.pb-steam{background:rgba(42,157,143,.15);color:var(--teal)}
-.pb-gpp{background:rgba(233,196,106,.15);color:var(--gold)}
-.pb-cash{background:rgba(79,195,247,.15);color:var(--blue)}
+.pb-steam{background:rgba(125, 154, 59, 0.2);color:var(--teal-bright)}
+.pb-gpp{background:rgba(212, 175, 55, 0.15);color:var(--gold)}
+.pb-cash{background:rgba(91, 192, 222, 0.15);color:var(--blue)}
 
-.insight{background:rgba(233,196,106,.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
+.insight{background:rgba(212, 175, 55, 0.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
 .insight strong{color:var(--gold)}
 
 @media(max-width:700px){
@@ -148,7 +159,6 @@ textarea::placeholder{color:var(--muted)}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
 ::-webkit-scrollbar-track{background:transparent}
 </style>
-
 </head>
 <body>
 
@@ -162,8 +172,6 @@ textarea::placeholder{color:var(--muted)}
     <span class="badge badge-teal" id="status-badge">Loading...</span>
   </div>
 </div>
-
-<!-- ═══ ARB ═══ -->
 
 <div class="panel on" id="panel-arb">
   <div class="pods" id="pods"></div>
@@ -196,6 +204,7 @@ textarea::placeholder{color:var(--muted)}
         <th onclick="srt('gir')">GIR%</th>
         <th onclick="srt('scram')">Scram%</th>
         <th onclick="srt('app')">APP</th>
+        <th onclick="srt('putt')">Putt</th>
         <th onclick="srt('convSort')">Conv</th>
         <th onclick="srt('cut')">Cut%</th>
         <th onclick="srt('fitSort')">Fit</th>
@@ -206,8 +215,592 @@ textarea::placeholder{color:var(--muted)}
   </div>
 </div>
 
-<!-- ═══ PRE-BUILT ═══ -->
-
 <div class="panel" id="panel-prebuilt">
   <div class="insight">
-    <strong>TPC San Antonio rules:</strong> SG:T2G + GIR = non-negotiable. Wind exposure makes scrambling critical. Balanced builds outperform — $48,500+ salary floor enforced. 0.003 velocity
+    <strong>TPC San Antonio rules:</strong> SG:T2G + SG:APP = non-negotiable. Wind exposure makes Scrambling & Around the Green critical. Balanced builds outperform — $48,500+ salary floor enforced. 0.003 velocity threshold for steam detection.
+  </div>
+  <div id="pb-steam-card" class="lu-card"></div>
+  <div id="pb-gpp-card" class="lu-card"></div>
+  <div id="pb-cash-card" class="lu-card"></div>
+</div>
+
+<div class="panel" id="panel-build">
+  <div class="mode-row">
+    <button class="mode-btn on" id="m-cash" onclick="setMode('cash')">Cash 50/50</button>
+    <button class="mode-btn" id="m-gpp" onclick="setMode('gpp')">GPP</button>
+    <button class="wave-btn on" id="w-off" onclick="setWave('off')">All</button>
+    <button class="wave-btn" id="w-AM" onclick="setWave('AM')">AM</button>
+    <button class="wave-btn" id="w-PM" onclick="setWave('PM')">PM</button>
+  </div>
+  <div class="lu-card" id="lu-card">
+    <div style="padding:20px;text-align:center">
+      <div style="font-family:var(--disp);font-size:17px;font-weight:900;color:var(--gold);margin-bottom:6px">Lock players in Arb tab</div>
+      <div style="color:var(--muted);font-size:12px">Tap + on any player, then Build.</div>
+    </div>
+  </div>
+  <div style="padding:0 12px">
+    <button class="btn btn-gold" onclick="buildAndRender()">Build Lineup</button>
+    <button class="clear-btn" onclick="clearLocks()">Clear All Locks</button>
+  </div>
+</div>
+
+<div class="panel" id="panel-data">
+  <div class="card" style="margin-top:12px">
+    <div class="card-head"><span class="card-title">Update Data / Load New Field</span></div>
+    <div class="card-body">
+      <p style="font-size:11px;color:var(--muted);margin-bottom:8px">Format: <code style="background:var(--surface2);padding:1px 5px;border-radius:3px;color:var(--sub)">Name, Sal, Open, Live, Fit, T2G, GIR, Scram, APP, Dist, Putt, DA</code></p>
+      <textarea id="csv-input" placeholder="Paste updated player data here..."></textarea>
+      <button class="btn" onclick="parseCSV()">Load & Compute</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-title">Update Live Odds</span></div>
+    <div class="card-body">
+      <p style="font-size:11px;color:var(--muted);margin-bottom:8px">Format: <code style="background:var(--surface2);padding:1px 5px;border-radius:3px;color:var(--sub)">Player Name +3500</code> one per line</p>
+      <textarea id="odds-paste" placeholder="Ludvig Aberg +1000&#10;Tommy Fleetwood +1600&#10;..." style="min-height:100px"></textarea>
+      <button class="btn" onclick="updateOdds()" style="margin-top:8px">Update Odds</button>
+      <span id="odds-result" style="font-size:11px;color:var(--muted);display:block;margin-top:6px"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-title">Paste Wave Assignments</span></div>
+    <div class="card-body">
+      <p style="font-size:11px;color:var(--muted);margin-bottom:8px">Format: <code style="background:var(--surface2);padding:1px 5px;border-radius:3px;color:var(--sub)">Player Name AM</code></p>
+      <textarea id="wave-paste" placeholder="Ludvig Aberg AM&#10;Tommy Fleetwood PM&#10;..." style="min-height:80px"></textarea>
+      <button class="btn" onclick="loadWaves()" style="margin-top:8px">Set Waves</button>
+      <span id="wave-result" style="font-size:11px;color:var(--muted);display:block;margin-top:6px"></span>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-intel">
+  <div style="padding:16px 12px 8px">
+    <div style="font-family:var(--disp);font-size:24px;font-weight:900;color:var(--gold-bright);line-height:1">TPC San Antonio</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--mono)">Oaks Course · Par 72 · 7,438 yds · Greg Norman design · Poa Trivialis greens · 132 players</div>
+  </div>
+
+  <div class="pods" style="grid-template-columns:repeat(2,1fr)">
+    <div class="pod"><div class="pod-val" style="color:var(--teal)">GIR</div><div class="pod-lbl">3/5 winners led GIR that week</div></div>
+    <div class="pod"><div class="pod-val" style="color:var(--gold-bright)">Wind</div><div class="pod-lbl">25 mph gusts — scrambling key</div></div>
+    <div class="pod"><div class="pod-val" style="color:var(--blue)">7th</div><div class="pod-lbl">Hardest course on Tour (2024)</div></div>
+    <div class="pod"><div class="pod-val" style="color:var(--red)">56.5%</div><div class="pod-lbl">Field GIR avg — 5th lowest</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-title">Key Stats to Target</span></div>
+    <div style="padding:4px 0">
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:700">SG: Tee-to-Green</span><span class="conv conv-lock">NON-NEGOTIABLE</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:700">Greens in Regulation</span><span class="conv conv-lock">CRITICAL</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:700">Scrambling</span><span class="conv conv-lock">CRITICAL</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:700">SG: Approach</span><span class="conv conv-strong">HIGH</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:700">Ball Speed / Distance</span><span class="conv conv-strong">HIGH</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border)"><span style="font-size:12px;font-weight:700">SG: Putting</span><span class="conv conv-consider">MEDIUM</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px"><span style="font-size:12px;font-weight:700">Driving Accuracy (wide FW)</span><span class="conv conv-fade">LOW</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-title">Recent Winners</span></div>
+    <div class="tw" style="padding:0">
+      <table>
+        <thead><tr><th>Year</th><th>Winner</th><th>Score</th><th>Key Stat</th></tr></thead>
+        <tbody>
+          <tr><td>2025</td><td style="font-weight:700">Harman</td><td style="color:var(--teal);font-weight:700">−9</td><td style="font-size:10px;color:var(--muted)">Wind mgmt + scrambling</td></tr>
+          <tr><td>2024</td><td style="font-weight:700">Bhatia</td><td style="color:var(--teal);font-weight:700">−20</td><td style="font-size:10px;color:var(--muted)">1st GIR + 1st SG:T2G</td></tr>
+          <tr><td>2023</td><td style="font-weight:700">Conners</td><td style="color:var(--teal);font-weight:700">−20</td><td style="font-size:10px;color:var(--muted)">1st GIR + elite approach</td></tr>
+          <tr><td>2022</td><td style="font-weight:700">Spaun</td><td style="color:var(--teal);font-weight:700">−13</td><td style="font-size:10px;color:var(--muted)">Scrambling + putting</td></tr>
+          <tr><td>2021</td><td style="font-weight:700">Spieth</td><td style="color:var(--teal);font-weight:700">−18</td><td style="font-size:10px;color:var(--muted)">Putting + short game</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>TPC San Antonio pattern:</strong> GIR is king — 3 of last 5 winners ranked 1st in GIR that week. Wind is the great equalizer — scoring avg 72.51 (2024) was 7th hardest on Tour. Charley Hoffman has 17 cuts in 18 starts with 7 top-10s. Corey Conners is a 2× winner. Course history matters more than season-long stats here.
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-title">Course Scoring History</span></div>
+    <div style="padding:4px 0">
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border);font-size:12px"><span>Lowest Avg Score (2018–24)</span><span style="color:var(--teal);font-weight:700;font-family:var(--mono)">Conners 69.75</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border);font-size:12px"><span>2nd Lowest</span><span style="color:var(--teal);font-weight:700;font-family:var(--mono)">Spieth 69.75</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border);font-size:12px"><span>3rd Lowest</span><span style="color:var(--sub);font-weight:700;font-family:var(--mono)">McCarthy 70.11</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;border-bottom:1px solid var(--border);font-size:12px"><span>4th Lowest</span><span style="color:var(--sub);font-weight:700;font-family:var(--mono)">Kuchar 70.18</span></div>
+      <div style="display:flex;justify-content:space-between;padding:9px 14px;font-size:12px"><span>5th Lowest</span><span style="color:var(--sub);font-weight:700;font-family:var(--mono)">Bhatia 70.20</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-tab on" onclick="showTab('arb')">Arb</div>
+  <div class="nav-tab" onclick="showTab('prebuilt')">Pre-Built</div>
+  <div class="nav-tab" onclick="showTab('build')">Build</div>
+  <div class="nav-tab" onclick="showTab('data')">Data</div>
+  <div class="nav-tab" onclick="showTab('intel')">Course</div>
+</div>
+
+<script>
+var SAL_CAP=50000, MIN_PRICE=6800, VEL_THRESHOLD=0.003;
+var SWEET_LO=7500, SWEET_HI=8500; // TPC SA sweet spot
+
+var TPC_FIT={
+  "Corey Conners":"Elite","Jordan Spieth":"Elite","Charley Hoffman":"Elite",
+  "Matt Kuchar":"Elite","Denny McCarthy":"Elite","Si Woo Kim":"Elite",
+  "Akshay Bhatia":"Elite","Brian Harman":"Strong","Chris Kirk":"Strong",
+  "Sam Stevens":"Strong","J.J. Spaun":"Strong","Rickie Fowler":"Strong",
+  "Daniel Berger":"Strong","Russell Henley":"Strong","Tommy Fleetwood":"Strong",
+  "Hideki Matsuyama":"Strong","Maverick McNealy":"Strong","Tony Finau":"Strong",
+  "Collin Morikawa":"Strong","Alex Noren":"Mid","Max Homa":"Mid",
+  "Ludvig Aberg":"Mid","Will Zalatoris":"Mid","Sepp Straka":"Mid",
+  "Robert MacIntyre":"Mid","Justin Rose":"Mid","Billy Horschel":"Mid",
+  "Gary Woodland":"Mid","Beau Hossler":"Mid","Eric Cole":"Mid",
+  "Christiaan Bezuidenhout":"Mid","Mac Meissner":"Mid","Bud Cauley":"Mid",
+};
+
+const DEFAULT_DATA = `Ludvig Aberg, 8000, 10000, 10000, Mid, 1.77, 0, 0, 0.81, 0, 0.24, 0
+Zach Bauchou, 8000, 10000, 10000, Mid, 0.22, 0, 0, 0.40, 0, 0.02, 0
+Daniel Berger, 8000, 10000, 10000, Mid, 0.95, 0, 0, 1.05, 0, -0.01, 0
+Christiaan Bezuidenhout, 8000, 10000, 10000, Mid, 0.23, 0, 0, 0.20, 0, 0.55, 0
+Chandler Blanchet, 8000, 10000, 10000, Mid, 0.02, 0, 0, 0.36, 0, -0.82, 0
+Dan Brown, 8000, 10000, 10000, Mid, 0.30, 0, 0, 0.33, 0, 0.09, 0
+Rafael Campos, 8000, 10000, 10000, Mid, -1.83, 0, 0, -0.51, 0, -0.10, 0
+Ricky Castillo, 8000, 10000, 10000, Mid, 0.28, 0, 0, 0.01, 0, 0.27, 0
+Bud Cauley, 8000, 10000, 10000, Mid, 0.62, 0, 0, 0.39, 0, -0.39, 0
+Davis Chatfield, 8000, 10000, 10000, Mid, -0.00, 0, 0, -0.49, 0, -0.78, 0
+Luke Clanton, 8000, 10000, 10000, Mid, -0.53, 0, 0, -0.36, 0, -1.62, 0
+Eric Cole, 8000, 10000, 10000, Mid, -0.30, 0, 0, 0.15, 0, 0.22, 0
+Pierceson Coody, 8000, 10000, 10000, Mid, 0.73, 0, 0, 0.55, 0, 0.09, 0
+Zecheng Dou, 8000, 10000, 10000, Mid, 0.59, 0, 0, 0.66, 0, -0.01, 0
+Adrien Dumont de Chassart, 8000, 10000, 10000, Mid, 0.59, 0, 0, -0.09, 0, -0.21, 0
+Nick Dunlap, 8000, 10000, 10000, Mid, -1.88, 0, 0, 0.18, 0, 0.29, 0
+Austin Eckroat, 8000, 10000, 10000, Mid, -0.19, 0, 0, 0.57, 0, -0.50, 0
+A.J. Ewart, 8000, 10000, 10000, Mid, 0.03, 0, 0, 0.18, 0, 0.39, 0
+Tony Finau, 8000, 10000, 10000, Mid, 0.39, 0, 0, 0.24, 0, 0.13, 0
+Patrick Fishburn, 8000, 10000, 10000, Mid, -0.63, 0, 0, -0.54, 0, 0.27, 0
+Steven Fisk, 8000, 10000, 10000, Mid, -0.24, 0, 0, -0.10, 0, -0.04, 0
+Tommy Fleetwood, 8000, 10000, 10000, Mid, 2.19, 0, 0, 0.60, 0, -0.15, 0
+David Ford, 8000, 10000, 10000, Mid, 0.73, 0, 0, 0.52, 0, -0.07, 0
+Rickie Fowler, 8000, 10000, 10000, Mid, 0.78, 0, 0, 0.59, 0, 0.90, 0
+Brice Garnett, 8000, 10000, 10000, Mid, -0.78, 0, 0, -0.45, 0, 0.19, 0
+Doug Ghim, 8000, 10000, 10000, Mid, 0.35, 0, 0, -0.44, 0, 0.07, 0
+Lucas Glover, 8000, 10000, 10000, Mid, 0.19, 0, 0, 0.21, 0, -0.53, 0
+Emiliano Grillo, 8000, 10000, 10000, Mid, -0.38, 0, 0, -0.03, 0, -0.40, 0
+Brian Harman, 8000, 10000, 10000, Mid, 0.11, 0, 0, 0.02, 0, -0.27, 0
+Russell Henley, 8000, 10000, 10000, Mid, 1.18, 0, 0, 0.66, 0, 0.78, 0
+Garrick Higgo, 8000, 10000, 10000, Mid, -1.25, 0, 0, -0.74, 0, -0.53, 0
+Joe Highsmith, 8000, 10000, 10000, Mid, -0.52, 0, 0, 0.17, 0, -0.45, 0
+Kensei Hirata, 8000, 10000, 10000, Mid, -0.47, 0, 0, -0.64, 0, 0.18, 0
+Ryo Hisatsune, 8000, 10000, 10000, Mid, 1.68, 0, 0, 0.63, 0, -0.07, 0
+Lee Hodges, 8000, 10000, 10000, Mid, 0.09, 0, 0, 0.04, 0, 0.48, 0
+Rico Hoey, 8000, 10000, 10000, Mid, 0.02, 0, 0, 0.07, 0, -0.47, 0
+Charley Hoffman, 8000, 10000, 10000, Mid, -1.63, 0, 0, -0.82, 0, -0.73, 0
+Tom Hoge, 8000, 10000, 10000, Mid, -0.54, 0, 0, 0.22, 0, 0.29, 0
+Nicolai Hojgaard, 8000, 10000, 10000, Mid, 1.07, 0, 0, 0.69, 0, 0.57, 0
+Max Homa, 8000, 10000, 10000, Mid, 0.32, 0, 0, 0.48, 0, 0.05, 0
+Billy Horschel, 8000, 10000, 10000, Mid, -0.33, 0, 0, 0.11, 0, 0.17, 0
+Beau Hossler, 8000, 10000, 10000, Mid, -0.10, 0, 0, -0.67, 0, 0.41, 0
+Mark Hubbard, 8000, 10000, 10000, Mid, -0.77, 0, 0, -0.26, 0, -0.47, 0
+Mackenzie Hughes, 8000, 10000, 10000, Mid, 0.30, 0, 0, 0.20, 0, 0.14, 0
+Stephan Jaeger, 8000, 10000, 10000, Mid, 0.24, 0, 0, -0.06, 0, 0.37, 0
+Takumi Kanaya, 8000, 10000, 10000, Mid, -0.29, 0, 0, -0.82, 0, 0.39, 0
+Jeffrey Kang, 8000, 10000, 10000, Mid, -1.96, 0, 0, -0.30, 0, -0.73, 0
+Johnny Keefer, 8000, 10000, 10000, Mid, 0.20, 0, 0, 0.19, 0, -0.64, 0
+Michael Kim, 8000, 10000, 10000, Mid, -0.34, 0, 0, -0.09, 0, 0.29, 0
+S.H. Kim, 8000, 10000, 10000, Mid, -0.15, 0, 0, -0.59, 0, 0.56, 0
+Si Woo Kim, 8000, 10000, 10000, Mid, 2.13, 0, 0, 1.12, 0, -0.42, 0
+Tom Kim, 8000, 10000, 10000, Mid, 0.54, 0, 0, 0.33, 0, -0.21, 0
+Chris Kirk, 8000, 10000, 10000, Mid, 0.48, 0, 0, 0.58, 0, -0.36, 0
+Patton Kizzire, 8000, 10000, 10000, Mid, -0.29, 0, 0, 0.42, 0, 0.12, 0
+Matt Kuchar, 8000, 10000, 10000, Mid, -1.62, 0, 0, -1.26, 0, 0.66, 0
+Christo Lamprecht, 8000, 10000, 10000, Mid, -1.21, 0, 0, -0.91, 0, -0.69, 0
+Hank Lebioda, 8000, 10000, 10000, Mid, 0.26, 0, 0, 0.22, 0, -0.43, 0
+K.H. Lee, 8000, 10000, 10000, Mid, 1.59, 0, 0, 0.35, 0, 0.54, 0
+Haotong Li, 8000, 10000, 10000, Mid, 0.91, 0, 0, 0.50, 0, -0.12, 0
+David Lipsky, 8000, 10000, 10000, Mid, 0.86, 0, 0, 0.43, 0, 0.89, 0
+Justin Lower, 8000, 10000, 10000, Mid, -1.04, 0, 0, -1.12, 0, 0.16, 0
+Robert MacIntyre, 8000, 10000, 10000, Mid, 0.73, 0, 0, -0.30, 0, 1.01, 0
+Peter Malnati, 8000, 10000, 10000, Mid, -1.82, 0, 0, -1.12, 0, 0.44, 0
+Hideki Matsuyama, 8000, 10000, 10000, Mid, 1.33, 0, 0, 0.79, 0, 0.42, 0
+Denny McCarthy, 8000, 10000, 10000, Mid, 0.01, 0, 0, 0.19, 0, 0.12, 0
+Matt McCarty, 8000, 10000, 10000, Mid, -0.22, 0, 0, 0.02, 0, 0.42, 0
+Max McGreevy, 8000, 10000, 10000, Mid, 0.96, 0, 0, 0.46, 0, -0.48, 0
+Maverick McNealy, 8000, 10000, 10000, Mid, 1.29, 0, 0, 0.42, 0, 0.20, 0
+Mac Meissner, 8000, 10000, 10000, Mid, 0.45, 0, 0, 0.33, 0, -0.21, 0
+Keith Mitchell, 8000, 10000, 10000, Mid, 1.20, 0, 0, 0.47, 0, -0.32, 0
+Taylor Moore, 8000, 10000, 10000, Mid, 0.27, 0, 0, -0.60, 0, 0.23, 0
+Collin Morikawa, 8000, 10000, 10000, Mid, 2.18, 0, 0, 1.33, 0, 0.01, 0
+William Mouw, 8000, 10000, 10000, Mid, -0.29, 0, 0, 0.13, 0, 0.13, 0
+Alex Noren, 8000, 10000, 10000, Mid, 0.98, 0, 0, 0.41, 0, 0.51, 0
+Andrew Novak, 8000, 10000, 10000, Mid, 0.26, 0, 0, 0.12, 0, -0.25, 0
+Pontus Nyholm, 8000, 10000, 10000, Mid, -1.46, 0, 0, -0.65, 0, -0.04, 0
+Thorbjorn Olesen, 8000, 10000, 10000, Mid, 0.49, 0, 0, 0.35, 0, -0.67, 0
+John Parry, 8000, 10000, 10000, Mid, 0.33, 0, 0, 0.21, 0, -0.07, 0
+Matthieu Pavon, 8000, 10000, 10000, Mid, -0.54, 0, 0, -0.61, 0, 1.00, 0
+Marco Penge, 8000, 10000, 10000, Mid, 0.32, 0, 0, -0.42, 0, -0.06, 0
+Chandler Phillips, 8000, 10000, 10000, Mid, -1.14, 0, 0, -0.89, 0, 0.54, 0
+J.T. Poston, 8000, 10000, 10000, Mid, -0.29, 0, 0, -0.25, 0, 0.25, 0
+Seamus Power, 8000, 10000, 10000, Mid, 0.04, 0, 0, -0.16, 0, 0.44, 0
+Andrew Putnam, 8000, 10000, 10000, Mid, 0.64, 0, 0, 0.34, 0, -0.33, 0
+Chad Ramey, 8000, 10000, 10000, Mid, -0.26, 0, 0, -0.10, 0, 0.65, 0
+Kristoffer Reitan, 8000, 10000, 10000, Mid, -0.29, 0, 0, -0.73, 0, -0.15, 0
+Patrick Rodgers, 8000, 10000, 10000, Mid, 0.83, 0, 0, 0.50, 0, 0.46, 0
+Kevin Roy, 8000, 10000, 10000, Mid, 0.20, 0, 0, -0.27, 0, 0.45, 0
+Marcelo Rozo, 8000, 10000, 10000, Mid, -0.68, 0, 0, 0.09, 0, -1.74, 0
+Adrien Saddier, 8000, 10000, 10000, Mid, -0.15, 0, 0, -0.35, 0, -0.03, 0
+Gordon Sargent, 8000, 10000, 10000, Mid, -1.14, 0, 0, -1.43, 0, -0.69, 0
+Adam Schenk, 8000, 10000, 10000, Mid, -0.55, 0, 0, -0.62, 0, -0.92, 0
+Matti Schmid, 8000, 10000, 10000, Mid, -0.42, 0, 0, -0.54, 0, 0.23, 0
+Neal Shipley, 8000, 10000, 10000, Mid, -0.51, 0, 0, -0.71, 0, -1.10, 0
+Webb Simpson, 8000, 10000, 10000, Mid, -0.56, 0, 0, 0.15, 0, 0.47, 0
+Alex Smalley, 8000, 10000, 10000, Mid, 0.92, 0, 0, 0.41, 0, 0.03, 0
+Jordan Smith, 8000, 10000, 10000, Mid, 0.89, 0, 0, 0.37, 0, -0.11, 0
+Austin Smotherman, 8000, 10000, 10000, Mid, 1.38, 0, 0, 1.14, 0, -0.50, 0
+Brandt Snedeker, 8000, 10000, 10000, Mid, -0.68, 0, 0, -1.03, 0, 0.39, 0
+J.J. Spaun, 8000, 10000, 10000, Mid, 0.85, 0, 0, 0.57, 0, -0.78, 0
+Jordan Spieth, 8000, 10000, 10000, Mid, 0.90, 0, 0, 0.63, 0, 0.62, 0
+Jimmy Stanger, 8000, 10000, 10000, Mid, -0.32, 0, 0, -1.03, 0, 0.33, 0
+Sepp Straka, 8000, 10000, 10000, Mid, 1.69, 0, 0, 1.00, 0, 0.08, 0
+Kevin Streelman, 8000, 10000, 10000, Mid, -0.61, 0, 0, -0.41, 0, 0.47, 0
+Adam Svensson, 8000, 10000, 10000, Mid, 0.01, 0, 0, -0.04, 0, -1.00, 0
+Jesper Svensson, 8000, 10000, 10000, Mid, 0.91, 0, 0, 0.07, 0, -1.01, 0
+Nick Taylor, 8000, 10000, 10000, Mid, 1.00, 0, 0, 0.52, 0, 0.04, 0
+Davis Thompson, 8000, 10000, 10000, Mid, 0.52, 0, 0, 0.41, 0, -0.63, 0
+Michael Thorbjornsen, 8000, 10000, 10000, Mid, 0.66, 0, 0, 0.07, 0, -0.27, 0
+Brendon Todd, 8000, 10000, 10000, Mid, 0, 0, 0, 0, 0, 0, 0
+Alejandro Tosti, 8000, 10000, 10000, Mid, -1.63, 0, 0, -1.16, 0, -1.02, 0
+Sami Valimaki, 8000, 10000, 10000, Mid, -0.35, 0, 0, -0.01, 0, 0.10, 0
+Erik van Rooyen, 8000, 10000, 10000, Mid, -1.63, 0, 0, -1.28, 0, 0.12, 0
+John VanDerLaan, 8000, 10000, 10000, Mid, -0.26, 0, 0, 0.05, 0, -0.02, 0
+Jhonattan Vegas, 8000, 10000, 10000, Mid, -0.61, 0, 0, -0.65, 0, -0.27, 0
+Kris Ventura, 8000, 10000, 10000, Mid, -0.47, 0, 0, -0.90, 0, 0.77, 0
+Karl Vilips, 8000, 10000, 10000, Mid, -1.31, 0, 0, -0.33, 0, 0.88, 0
+Camilo Villegas, 8000, 10000, 10000, Mid, -0.25, 0, 0, 0.20, 0, 0.27, 0
+Danny Walker, 8000, 10000, 10000, Mid, -0.50, 0, 0, -0.17, 0, 0.20, 0
+Jimmy Walker, 8000, 10000, 10000, Mid, -0.50, 0, 0, -0.17, 0, 0.20, 0
+Matt Wallace, 8000, 10000, 10000, Mid, -0.11, 0, 0, -0.23, 0, -0.06, 0
+Paul Waring, 8000, 10000, 10000, Mid, 0, 0, 0, 0, 0, 0, 0
+Vince Whaley, 8000, 10000, 10000, Mid, -1.78, 0, 0, -0.84, 0, 1.17, 0
+Gary Woodland, 8000, 10000, 10000, Mid, -0.11, 0, 0, -0.30, 0, 0.06, 0
+Dylan Wu, 8000, 10000, 10000, Mid, 0.21, 0, 0, 0.10, 0, -0.17, 0
+Austin Wylie, 8000, 10000, 10000, Mid, 0, 0, 0, 0, 0, 0, 0
+Sudarshan Yellamaraju, 8000, 10000, 10000, Mid, 0.72, 0, 0, 0.58, 0, 0.60, 0
+Kevin Yu, 8000, 10000, 10000, Mid, -0.17, 0, 0, -0.26, 0, -0.95, 0
+Will Zalatoris, 8000, 10000, 10000, Mid, 0, 0, 0, 0, 0, 0, 0`;
+
+var players=[], sortCol='dlta', sortDir=-1, filterMode='all', luMode='cash', waveStack='off';
+
+function toImp(o){return o>0?100/(o+100):Math.abs(o)/(Math.abs(o)+100);}
+
+function fuzzyFind(name){
+  var nl=name.trim().toLowerCase();
+  var ex=players.find(function(p){return p.name.toLowerCase()===nl;});
+  if(ex) return ex;
+  var last=nl.split(' ').pop();
+  var m=players.filter(function(p){return p.name.toLowerCase().split(' ').pop()===last;});
+  if(m.length===1) return m[0];
+  return null;
+}
+
+function compute(){
+  if(!players.length) return;
+  players.slice().sort(function(a,b){return b.price-a.price;}).forEach(function(p,i){p.salRank=i+1;});
+  players.slice().sort(function(a,b){return b.implMon-a.implMon;}).forEach(function(p,i){p.oddsRank=i+1;});
+
+  // Strength normalization
+  players.forEach(function(p){p._raw=p.implLive||p.implMon;});
+  var sMin=Math.min.apply(null,players.map(function(p){return p._raw;}));
+  var sMax=Math.max.apply(null,players.map(function(p){return p._raw;}));
+  var sRng=sMax-sMin||1;
+  players.forEach(function(p){p.strengthScore=+((p._raw-sMin)/sRng*100).toFixed(1);});
+
+  players.forEach(function(p){
+    p.delta=p.salRank-p.oddsRank;
+    p.velocity=(p.implLive||p.implMon)-(p.implMon);
+
+    var fm={Elite:1.18,Strong:1.10,Mid:1.0,Weak:0.88}[p.fit]||1;
+    var tier=p.price>=9000?1.0:p.price>=7500?0.9:p.price>=6500?0.8:0.7;
+    var sweetB=(p.price>=SWEET_LO&&p.price<=SWEET_HI)?1.10:1.0;
+    var capE=Math.log(SAL_CAP/p.price+1);
+    var velB=p.velocity>VEL_THRESHOLD?1+(p.velocity*25):1.0;
+    var strMul=0.5+(p.strengthScore/100)*1.5;
+
+    p.dlta=p.delta>0?parseFloat((p.delta*p.implMon*100*capE*tier*strMul*velB*fm*sweetB).toFixed(2)):0;
+    p.cut=Math.min(0.88,Math.max(0.18,(p.implLive||p.implMon)*5.5+0.20));
+    if(p.fit==='Weak') p.cut=Math.min(p.cut,0.52);
+
+    var isSteam=p.velocity>VEL_THRESHOLD&&p.delta>0;
+    if(p.dlta>8&&(p.fit==='Elite'||p.fit==='Strong')&&p.delta>=3){p.conviction='LOCK';p.convSort=4;}
+    else if(p.dlta>5&&p.delta>=2&&(isSteam||p.fit!=='Weak')){p.conviction='STRONG';p.convSort=3;}
+    else if(p.dlta>2&&p.delta>=1){p.conviction='CONSIDER';p.convSort=2;}
+    else if(p.delta<0||(p.fit==='Weak'&&p.dlta<2)){p.conviction='FADE';p.convSort=0;}
+    else{p.conviction='CONSIDER';p.convSort=2;}
+    p.fitSort={Elite:4,Strong:3,Mid:2,Weak:1}[p.fit]||0;
+  });
+}
+
+function loadData(csvString){
+  var raw = csvString.split('\n');
+  players = [];
+  raw.forEach(function(line){
+    var p = line.split(',');
+    if(p.length < 4) return;
+    
+    var name = p[0].trim(), sal = parseInt(p[1]), open = parseInt(p[2]), live = parseInt(p[3]), fit = (p[4]||'').trim()||'Mid';
+    var t2g = p.length > 5 ? parseFloat(p[5]) : 0;
+    var gir = p.length > 6 ? parseFloat(p[6]) : 0;
+    var scram = p.length > 7 ? parseFloat(p[7]) : 0;
+    var app = p.length > 8 ? parseFloat(p[8]) : 0;
+    var dist = p.length > 9 ? parseFloat(p[9]) : 0;
+    var putt = p.length > 10 ? parseFloat(p[10]) : 0;
+    var da = p.length > 11 ? parseFloat(p[11]) : 0;
+
+    if(isNaN(sal)||isNaN(open)||isNaN(live)) return;
+    if(!TPC_FIT[name]&&fit) TPC_FIT[name]=fit;
+    var impO=toImp(open),impL=toImp(live);
+    
+    players.push({
+      name:name,price:sal,monOdds:open,liveOdds:live,implMon:impO,implLive:impL,fit:TPC_FIT[name]||fit,wave:null,
+      t2g:t2g, gir:gir, scram:scram, app:app, dist:dist, putt:putt, da:da,
+      salRank:0,oddsRank:0,delta:0,dlta:0,velocity:0,conviction:'CONSIDER',convSort:2,fitSort:0,strengthScore:0,cut:.50,locked:false,_raw:0
+    });
+  });
+  document.getElementById('status-badge').textContent=players.length+' loaded';
+  renderAll();
+}
+
+function parseCSV(){
+  var rawStr = document.getElementById('csv-input').value;
+  if (rawStr.trim()) {
+    loadData(rawStr);
+    showTab('arb');
+  }
+}
+
+function updateOdds(){
+  var raw=document.getElementById('odds-paste').value.trim();
+  if(!raw||!players.length) return;
+  var lines=raw.split('\n'),matched=0;
+  lines.forEach(function(line){
+    var t=line.trim().split(/\s+/);if(t.length<2)return;
+    var os=t[t.length-1].replace('+',''),odds=parseInt(os);
+    if(isNaN(odds)||Math.abs(odds)<100) return;
+    var nm=t.slice(0,t.length-1).join(' ');
+    var p=fuzzyFind(nm);
+    if(p){p.implLive=toImp(odds);p.liveOdds=odds;matched++;}
+  });
+  document.getElementById('odds-result').textContent=matched>0?'✓ '+matched+' updated':'No matches';
+  document.getElementById('odds-result').style.color=matched>0?'var(--teal-bright)':'var(--red)';
+  renderAll();
+}
+
+function loadWaves(){
+  var raw=document.getElementById('wave-paste').value.trim();
+  if(!raw||!players.length) return;
+  var lines=raw.split('\n'),matched=0;
+  lines.forEach(function(line){
+    var t=line.trim().split(/\s+/);if(t.length<2)return;
+    var w=t[t.length-1].toUpperCase();if(w!=='AM'&&w!=='PM')return;
+    var nm=t.slice(0,t.length-1).join(' ');
+    var p=fuzzyFind(nm);if(p){p.wave=w;matched++;}
+  });
+  document.getElementById('wave-result').textContent=matched>0?'✓ '+matched+' set':'No matches';
+  document.getElementById('wave-result').style.color=matched>0?'var(--teal-bright)':'var(--red)';
+  renderAll();
+}
+
+function showTab(t){
+  ['arb','prebuilt','build','data','intel'].forEach(function(x){document.getElementById('panel-'+x).classList.toggle('on',x===t);});
+  document.querySelectorAll('.nav-tab').forEach(function(el,i){el.classList.toggle('on',['arb','prebuilt','build','data','intel'][i]===t);});
+  if(t==='prebuilt') buildPrebuilt();
+}
+function setFilter(m,el){filterMode=m;document.querySelectorAll('.fchip').forEach(function(c){c.classList.remove('on');});el.classList.add('on');renderArb();}
+function getFiltered(){
+  switch(filterMode){
+    case 'steam':return players.filter(function(p){return p.velocity>VEL_THRESHOLD&&p.delta>0;});
+    case 'lockconv':return players.filter(function(p){return p.conviction==='LOCK';});
+    case 'pos':return players.filter(function(p){return p.delta>0;});
+    case 'elite':return players.filter(function(p){return p.price>=9000;});
+    case 'mid':return players.filter(function(p){return p.price>=7500&&p.price<9000;});
+    case 'value':return players.filter(function(p){return p.price>=6800&&p.price<7500;});
+    case 'fit':return players.filter(function(p){return p.fit==='Elite'||p.fit==='Strong';});
+    default:return players;
+  }
+}
+function srt(col){if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=-1;}renderArb();}
+function setMode(m){luMode=m;document.getElementById('m-cash').classList.toggle('on',m==='cash');document.getElementById('m-gpp').classList.toggle('on',m==='gpp');}
+function setWave(w){waveStack=w;['off','AM','PM'].forEach(function(x){document.getElementById('w-'+x).classList.remove('on');});document.getElementById('w-'+w).classList.add('on');}
+function toggleLock(name){var p=players.find(function(x){return x.name===name;});if(!p)return;var n=players.filter(function(x){return x.locked;}).length;if(!p.locked&&n>=6)return;p.locked=!p.locked;updateBadge();renderArb();}
+function clearLocks(){players.forEach(function(p){p.locked=false;});updateBadge();renderArb();document.getElementById('lu-card').innerHTML='<div style="padding:20px;text-align:center"><div style="font-family:var(--disp);font-size:17px;font-weight:900;color:var(--gold);margin-bottom:6px">Lock players in Arb tab</div><div style="color:var(--muted);font-size:12px">Tap + on any player, then Build.</div></div>';}
+function updateBadge(){document.getElementById('lu-badge').textContent=players.filter(function(p){return p.locked;}).length+'/6';}
+
+function renderAll(){compute();renderPods();renderArb();}
+
+function renderPods(){
+  if(!players.length){document.getElementById('pods').innerHTML='<div class="pod" style="grid-column:1/-1;text-align:center;padding:20px"><div style="color:var(--gold);font-family:var(--disp);font-size:16px;font-weight:900">Go to Data tab to load players</div></div>';return;}
+  var pos=players.filter(function(p){return p.delta>0;}).length;
+  var steam=players.filter(function(p){return p.velocity>VEL_THRESHOLD&&p.delta>0;}).length;
+  var locks=players.filter(function(p){return p.conviction==='LOCK';}).length;
+  var top=players.slice().sort(function(a,b){return b.dlta-a.dlta;})[0];
+  document.getElementById('pods').innerHTML=
+    '<div class="pod"><div class="pod-val" style="color:var(--teal-bright)">'+pos+'</div><div class="pod-lbl">+ Delta</div></div>'+
+    '<div class="pod"><div class="pod-val" style="color:var(--teal)">'+steam+'</div><div class="pod-lbl">Steam</div></div>'+
+    '<div class="pod"><div class="pod-val" style="color:var(--gold-bright)">'+locks+'</div><div class="pod-lbl">Lock Conv</div></div>'+
+    '<div class="pod"><div class="pod-val" style="color:var(--gold);font-size:14px">'+top.name.split(' ').pop()+'</div><div class="pod-lbl">Top $DLTA</div></div>';
+}
+
+function renderArb(){
+  if(!players.length){document.getElementById('arb-tbody').innerHTML='<tr><td colspan="15" style="text-align:center;padding:40px;color:var(--muted)">Load data via Data tab</td></tr>';return;}
+  var fitCls={Elite:'fit-elite',Strong:'fit-strong',Mid:'fit-mid',Weak:'fit-weak'};
+  var convCls={LOCK:'conv-lock',STRONG:'conv-strong',CONSIDER:'conv-consider',FADE:'conv-fade'};
+  var src=getFiltered().slice().sort(function(a,b){var av=a[sortCol],bv=b[sortCol];if(typeof av==='string')return sortDir*(av<bv?-1:av>bv?1:0);return sortDir*(bv-av);});
+  var lc=players.filter(function(p){return p.locked;}).length;
+  var html='';
+  src.forEach(function(p){
+    var dc=p.delta>=10?'d-elite':p.delta>=5?'d-solid':p.delta>=1?'d-slight':p.delta===0?'d-zero':'d-neg';
+    var vel=p.velocity,pp=(vel*100).toFixed(2);
+    var velH=vel>VEL_THRESHOLD?'<span class="vel-up">▲+'+pp+'</span>':vel<-VEL_THRESHOLD?'<span class="vel-dn">▼'+pp+'</span>':'<span class="vel-flat">—</span>';
+    var isSteam=vel>VEL_THRESHOLD&&p.delta>0;
+    var cutC=p.cut>=.70?'cut-g':p.cut>=.55?'cut-a':'cut-r';
+    
+    // Stat Conditional Colors
+    var t2gC = p.t2g >= 1.0 ? 'color:var(--teal-bright)' : p.t2g < 0.0 ? 'color:var(--red)' : 'color:var(--text)';
+    var girC = p.gir >= 69.0 ? 'color:var(--teal-bright)' : p.gir < 64.0 && p.gir > 0 ? 'color:var(--red)' : 'color:var(--text)';
+    var scrC = p.scram >= 64.0 ? 'color:var(--teal-bright)' : p.scram < 59.0 && p.scram > 0 ? 'color:var(--red)' : 'color:var(--text)';
+    var appC = p.app >= 0.7 ? 'color:var(--teal-bright)' : p.app < 0 ? 'color:var(--red)' : 'color:var(--text)';
+    var putC = p.putt >= 0.5 ? 'color:var(--teal-bright)' : p.putt < 0 ? 'color:var(--red)' : 'color:var(--text)';
+
+    var btnC=p.locked?'is-locked':lc>=6?'is-full':'';
+    var btnT=p.locked?'✓':lc>=6?'—':'+';
+    var trC=p.locked?'lock-row':isSteam?'steam-row':p.conviction==='FADE'?'fade-row':'';
+    var stm=isSteam?'<span class="stm-badge">STM</span>':'';
+    var wav=p.wave?'<span class="wave-badge">'+p.wave+'</span>':'';
+    
+    html+='<tr class="'+trC+'"><td style="color:var(--muted);font-size:10px">'+p.salRank+'</td><td><strong>'+p.name+'</strong>'+stm+wav+'</td><td style="font-weight:700;font-family:var(--mono)">$'+(p.price/1000).toFixed(1)+'K</td><td><span class="db '+dc+'">'+(p.delta>0?'+':'')+p.delta+'</span></td><td>'+velH+'</td><td style="font-weight:800;font-family:var(--mono);color:'+(p.dlta>10?'var(--gold-bright)':p.dlta>5?'var(--gold)':'var(--muted)')+'">'+(p.dlta>0?p.dlta.toFixed(1):'—')+'</td><td style="font-weight:700;'+t2gC+'">'+(p.t2g>0?'+':'')+(p.t2g!==0?p.t2g.toFixed(2):'—')+'</td><td style="font-family:var(--mono);'+girC+'">'+(p.gir!==0?p.gir.toFixed(1)+'%':'—')+'</td><td style="font-family:var(--mono);'+scrC+'">'+(p.scram!==0?p.scram.toFixed(1)+'%':'—')+'</td><td style="font-weight:700;'+appC+'">'+(p.app>0?'+':'')+(p.app!==0?p.app.toFixed(2):'—')+'</td><td style="font-weight:700;'+putC+'">'+(p.putt>0?'+':'')+(p.putt!==0?p.putt.toFixed(2):'—')+'</td><td><span class="conv '+(convCls[p.conviction]||'conv-consider')+'">'+p.conviction+'</span></td><td class="'+cutC+'" style="font-family:var(--mono)">'+(p.cut*100).toFixed(0)+'%</td><td class="'+(fitCls[p.fit]||'fit-weak')+'">'+p.fit+'</td><td><button class="add-btn '+btnC+'" onclick="toggleLock(\''+p.name.replace(/'/g,"\\'")+'\')">'+btnT+'</button></td></tr>';
+  });
+  document.getElementById('arb-tbody').innerHTML=html;
+}
+
+function buildLineup(locked, pool, type, wave) {
+  var avail = pool.filter(function(p){ return p.price >= MIN_PRICE; });
+
+  // Apply wave stacking if selected and enough players exist in that wave
+  if (wave && wave !== 'off') {
+    var wp = avail.filter(function(p){ return p.wave === wave; });
+    if (wp.length >= 6 - locked.length) avail = wp; 
+  }
+
+  // Dynamic sorting based on lineup type
+  var sortFn;
+  if (type === 'steam') {
+    sortFn = function(a,b){ return ((b.velocity>VEL_THRESHOLD?10:0)+b.dlta) - ((a.velocity>VEL_THRESHOLD?10:0)+a.dlta); };
+  } else if (type === 'gpp') {
+    sortFn = function(a,b){ return b.dlta - a.dlta; };
+  } else {
+    // Cash: Balanced weighting between Delta, Cut Equity, and Conviction
+    sortFn = function(a,b){ return (b.dlta*0.5 + b.cut*100*0.3 + b.convSort*10*0.2) - (a.dlta*0.5 + a.cut*100*0.3 + a.convSort*10*0.2); };
+  }
+
+  avail.sort(sortFn);
+
+  var bestLineup = [];
+  var bestScore = -1;
+
+  // Helper array to find the absolute minimum cost remaining in the pool
+  var sortedByPrice = avail.slice().sort(function(a,b){ return a.price - b.price; });
+
+  // Multi-pass solver: Tries different starting points to ensure a valid 6-man roster under $50k
+  for (var skip = 0; skip < avail.length; skip++) {
+    var lineup = locked.slice();
+    var ln = {};
+    locked.forEach(function(p){ ln[p.name] = true; });
+    var o10 = lineup.filter(function(p){ return p.price >= 10000; }).length;
+
+    for (var i = 0; i < avail.length && lineup.length < 6; i++) {
+      // Force variations by skipping top heavy players if previous loops failed
+      if (skip > 0 && i < skip && locked.length === 0) continue; 
+      
+      var c = avail[i];
+      if (ln[c.name]) continue;
+
+      var sp = lineup.reduce(function(s,p){ return s + p.price; }, 0);
+      var rem = 5 - lineup.length;
+
+      // Check if picking this player makes it mathematically impossible to finish the lineup
+      var minCostRemaining = 0;
+      var found = 0;
+      for (var j = 0; j < sortedByPrice.length && found < rem; j++) {
+        var cheapP = sortedByPrice[j];
+        if (!ln[cheapP.name] && cheapP.name !== c.name) {
+          minCostRemaining += cheapP.price;
+          found++;
+        }
+      }
+
+      // If we don't have enough players to fill the roster, or adding them busts the $50k cap, skip
+      if (found < rem || c.price + sp + minCostRemaining > SAL_CAP) continue;
+      
+      // Cash game constraint: Max one $10k+ player for safer floor builds
+      if (type === 'cash' && c.price >= 10000 && o10 >= 1) continue;
+
+      // Player fits all constraints, add to roster
+      lineup.push(c);
+      ln[c.name] = true;
+      if (c.price >= 10000) o10++;
+    }
+
+    // Evaluate valid 6-man builds and keep the highest scoring one
+    if (lineup.length === 6) {
+      var score = lineup.reduce(function(s,p){ return s + p.dlta; }, 0);
+      if (score > bestScore) {
+        bestScore = score;
+        bestLineup = lineup.slice();
+      }
+      // If the absolute greedy best worked on the first try, exit the loop early
+      if (skip === 0) break;
+    }
+  }
+
+  return bestLineup;
+}
+
+function buildPrebuilt(){
+  if(!players.length){['pb-steam-card','pb-gpp-card','pb-cash-card'].forEach(function(id){document.getElementById(id).innerHTML='<div style="padding:30px;text-align:center;color:var(--muted)">Load data first</div>';});return;}
+  compute();
+  renderLUCard('pb-steam-card',buildLineup([],players,'steam','off'),'steam');
+  renderLUCard('pb-gpp-card',buildLineup([],players,'gpp','off'),'gpp');
+  renderLUCard('pb-cash-card',buildLineup([],players,'cash','off'),'cash');
+}
+
+function renderLUCard(elId,lineup,type){
+  var el=document.getElementById(elId);
+  if(!lineup||!lineup.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted)">Not enough data</div>';return;}
+  var total=lineup.reduce(function(s,p){return s+p.price;},0),left=SAL_CAP-total;
+  var tagC=type==='steam'?'pb-steam':type==='gpp'?'pb-gpp':'pb-cash';
+  var tagL=type==='steam'?'Steam Line':type==='gpp'?'GPP · Wave':'Cash · Balanced';
+  var titleC=type==='steam'?'var(--teal-bright)':type==='gpp'?'var(--gold)':'var(--blue)';
+  var wc={AM:0,PM:0};lineup.forEach(function(p){if(p.wave)wc[p.wave]++;});
+  var stackL=wc.AM===0&&wc.PM===0?'No waves':wc.AM===wc.PM?'Mixed':wc.AM>wc.PM?'AM ×'+wc.AM:'PM ×'+wc.PM;
+  var convCls={LOCK:'conv-lock',STRONG:'conv-strong',CONSIDER:'conv-consider',FADE:'conv-fade'};
+  var html='<div style="padding:14px 16px;border-bottom:1px solid var(--border)"><span class="pb-tag '+tagC+'">'+tagL+'</span><div style="font-family:var(--disp);font-size:17px;font-weight:900;color:'+titleC+';margin-top:4px">'+tagL+' · '+stackL+'</div></div>';
+  lineup.forEach(function(p,i){var isSteam=p.velocity>VEL_THRESHOLD&&p.delta>0;var stm=isSteam?'<span class="stm-badge">STM</span>':'';html+='<div class="lu-slot"><div class="lu-slot-num">G'+(i+1)+'</div><div style="flex:1;min-width:0"><div class="lu-slot-name">'+p.name+stm+'</div><div class="lu-slot-meta">Δ'+(p.delta>0?'+':'')+p.delta+' · <span class="conv '+(convCls[p.conviction]||'')+'">'+p.conviction+'</span> · '+p.fit+(p.wave?' · '+p.wave:'')+'</div></div><div class="lu-slot-sal">$'+p.price.toLocaleString()+'</div></div>';});
+  var totalC=total>=48500?'var(--teal-bright)':total>=46000?'var(--amber)':'var(--red)';
+  var avgD=lineup.reduce(function(s,p){return s+p.dlta;},0)/lineup.length;
+  var stCt=lineup.filter(function(p){return p.velocity>VEL_THRESHOLD&&p.delta>0;}).length;
+  html+='<div class="lu-totals"><div><div class="lu-total-val" style="color:'+totalC+'">$'+total.toLocaleString()+'</div><div class="lu-total-lbl">Total</div></div><div><div class="lu-total-val" style="color:var(--gold)">'+avgD.toFixed(1)+'</div><div class="lu-total-lbl">Avg $DLTA</div></div><div><div class="lu-total-val" style="color:var(--teal-bright)">'+stCt+'</div><div class="lu-total-lbl">Steam</div></div><div><div class="lu-total-val" style="color:var(--sub)">$'+left.toLocaleString()+'</div><div class="lu-total-lbl">Buffer</div></div></div>';
+  el.innerHTML=html;
+}
+
+function buildAndRender(){
+  if(!players.length){showTab('data');return;}
+  compute();var locked=players.filter(function(p){return p.locked;}),pool=players.filter(function(p){return !p.locked;});
+  renderLUCard('lu-card',buildLineup(locked,pool,luMode,waveStack),luMode);
+}
+
+// Initialize the engine with the default data instantly
+loadData(DEFAULT_DATA.trim());
+
+</script>
+</body>
+</html>
