@@ -122,7 +122,7 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 .btn-gold:hover{box-shadow:0 4px 20px rgba(244, 162, 97, 0.3)}
 .clear-btn{width:100%;background:var(--surface);color:var(--muted);border:1px solid var(--border);padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px}
 
-.add-btn{padding:4px 8px;border-radius:4px;border:none;font-size:10px;font-weight:800;cursor:pointer;background:var(--surface3);color:var(--text);transition:all .1s}
+.add-btn{padding:2px 6px;border-radius:4px;border:none;font-size:12px;font-weight:900;cursor:pointer;background:var(--surface3);color:var(--text);transition:all .1s; width: 26px; text-align: center;}
 .add-btn.is-locked{background:var(--teal-bright);color:#0B131E}
 
 .stm-badge{font-size:9px;background:var(--teal);color:#0B131E;padding:1px 5px;border-radius:3px;font-weight:800;margin-left:6px}
@@ -233,7 +233,6 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
           <th onclick="srt('convSort')">Conv<span class="sort-icon"></span></th>
           <th onclick="srt('cut')">Cut%<span class="sort-icon"></span></th>
           <th onclick="srt('fitSort')">Fit<span class="sort-icon"></span></th>
-          <th>+</th>
         </tr>
       </thead>
       <tbody id="arb-tbody"></tbody>
@@ -314,7 +313,6 @@ const MASTER_DB = [
     {name: "C. Morikawa", sal: 9400, monOdds: 1750, sg: 2.19, fit: 'Elite'},
     {name: "H. Matsuyama", sal: 9300, monOdds: 2250, sg: 1.87, fit: 'Strong'},
     {name: "S. Straka", sal: 9200, monOdds: 3000, sg: 1.15, fit: 'Strong'},
-    {name: "N. Hojgaard", sal: 9100, monOdds: 50000, sg: 1.92, fit: 'Strong'},
     {name: "M. McNealy", sal: 9000, monOdds: 2300, sg: 1.59, fit: 'Strong'},
     {name: "M. Thorbjornsen", sal: 8900, monOdds: 2400, sg: 0.80, fit: 'Mid'},
     {name: "R. Fowler", sal: 8800, monOdds: 2600, sg: 1.57, fit: 'Mid'},
@@ -451,13 +449,13 @@ function loadInitialData() {
 }
 
 function saveToLocal() {
-  localStorage.setItem('tve_players_v10', JSON.stringify(players.map(p => ({
+  localStorage.setItem('tve_players_v11', JSON.stringify(players.map(p => ({
     name: p.name, liveOdds: p.liveOdds, locked: p.locked
   }))));
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v10');
+  const stored = localStorage.getItem('tve_players_v11');
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
     
@@ -466,7 +464,7 @@ function loadFromLocal() {
       const liveOdds = savedP.liveOdds || masterP.monOdds;
       return {
         name: masterP.name, price: masterP.sal, monOdds: masterP.monOdds, liveOdds: liveOdds, sg: masterP.sg,
-        fit: masterP.fit, locked: savedP.locked || false, 
+        fit: masterP.fit || 'Mid', locked: savedP.locked || false, 
         implMon: toImp(masterP.monOdds), implLive: toImp(liveOdds),
         salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, conviction:'CONSIDER', convSort:2, fitSort:0, strengthScore:0, cut:.50
       };
@@ -519,7 +517,6 @@ function compute() {
     const fm = {Elite:1.15, Strong:1.05, Mid:1.0, Weak:0.85}[p.fit] || 1.0;
     const velB = p.velocity > VEL_THRESHOLD ? 1 + (p.velocity * 30) : 1.0;
     
-    // UI Display $DLTA keeps its standard format
     p.dlta = p.delta > 0 ? (p.delta * p.implMon * 100 * velB * fm) : 0;
     p.cut = Math.min(0.9, Math.max(0.15, (p.implLive || p.implMon) * 6 + 0.20));
 
@@ -530,18 +527,13 @@ function compute() {
 
     p.fitSort = {Elite:4, Strong:3, Mid:2, Weak:1}[p.fit] || 0;
 
-    // --- NEW QUANTITATIVE SCORING MODEL ---
     const equityPts = p.implLive * 500; 
-    
-    // Heavy mathematical penalty for negative delta (overpriced traps)
     const valuePts = p.delta > 0 ? (p.dlta * 1.5) : (p.delta * 2.5); 
-    
     const sgPts = p.sg * 8;
     const salaryBase = (p.price / 100) * 0.5; 
 
     let baseProj = (salaryBase + equityPts + valuePts + sgPts) * fm;
     
-    // Velocity multiplier for raw point boost
     if (p.velocity > VEL_THRESHOLD) baseProj += (p.velocity * 1000); 
 
     const volatility = 8 + ((1 - p.cut) * 35);
@@ -577,7 +569,6 @@ function buildQuantLineup(locked, type) {
     let lineup = [...locked];
     let spent = lineup.reduce((s, p) => s + p.price, 0);
     
-    // Constructive Phase seeded purely by multi-factor score value
     let cands = [...avail].sort((a,b) => (getPlayerScore(b, type)/b.price) - (getPlayerScore(a, type)/a.price));
     cands.sort(() => Math.random() - 0.2); 
     
@@ -672,15 +663,20 @@ function renderArb() {
   tbody.innerHTML = filtered.map(p => `
     <tr class="${p.locked ? 'lock-row' : (p.velocity > VEL_THRESHOLD && p.delta > 0 ? 'steam-row' : '')}">
       <td style="color:var(--muted)">${p.salRank}</td>
-      <td><strong>${p.name}</strong>${p.velocity > VEL_THRESHOLD && p.delta > 0 ? '<span class="stm-badge">STM</span>' : ''}</td>
+      <td>
+        <div style="display:flex; align-items:center;">
+          <button class="add-btn ${p.locked ? 'is-locked' : ''}" onclick="toggleLock('${p.name.replace(/'/g, "\\'")}')" style="margin-right:8px;">${p.locked ? '✓' : '+'}</button>
+          <strong>${p.name}</strong>${p.velocity > VEL_THRESHOLD && p.delta > 0 ? '<span class="stm-badge">STM</span>' : ''}
+        </div>
+      </td>
       <td style="font-family:var(--mono)">$${(p.price/1000).toFixed(1)}K</td>
       <td style="color:var(--muted); font-weight:700; font-family:var(--mono)">+${p.monOdds}</td>
       <td><span class="db ${p.delta > 5 ? 'd-elite' : p.delta > 0 ? 'd-slight' : 'd-neg'}">${p.delta > 0 ? '+' : ''}${p.delta}</span></td>
       <td class="${p.velocity > 0 ? 'vel-up' : 'vel-dn'}">${p.velocity > 0 ? '▲' : '▼'}${(Math.abs(p.velocity)*100).toFixed(2)}%</td>
       <td style="font-weight:800; color:var(--gold)">${p.dlta.toFixed(1)}</td>
       <td><span class="conv conv-${p.conviction.toLowerCase()}">${p.conviction}</span></td>
+      <td>${(p.cut*100).toFixed(0)}%</td>
       <td class="fit-${p.fit.toLowerCase()}">${p.fit}</td>
-      <td><button class="add-btn ${p.locked ? 'is-locked' : ''}" onclick="toggleLock('${p.name.replace(/'/g, "\\'")}')">${p.locked ? '✓' : '+'}</button></td>
     </tr>
   `).join('');
 
