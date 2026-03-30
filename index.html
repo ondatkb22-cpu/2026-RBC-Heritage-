@@ -152,11 +152,6 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 
 .insight{background:rgba(244, 162, 97, 0.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
 
-.fit-elite{color:var(--gold-bright);font-weight:800;}
-.fit-strong{color:var(--teal-bright);font-weight:700;}
-.fit-mid{color:var(--sub);}
-.fit-weak{color:var(--red);font-weight:700;}
-
 @media(max-width:700px){
   .pods{grid-template-columns:repeat(4,1fr);gap:5px;padding:10px 8px}
   .pod-val{font-size:16px}
@@ -169,23 +164,6 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 <div class="hdr">
   <div>
     <div class="logo">
-      <svg width="40" height="32" viewBox="0 0 100 80" style="margin-right:8px; margin-bottom:2px;">
-        <defs>
-          <linearGradient id="flag-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#E11D2D" />
-            <stop offset="25%" stop-color="white" />
-            <stop offset="75%" stop-color="white" />
-            <stop offset="100%" stop-color="#005697" />
-          </linearGradient>
-        </defs>
-        <rect x="10" y="5" width="2" height="70" fill="#7D93A8" rx="1" />
-        <rect x="13" y="5" width="82" height="60" rx="4" fill="url(#flag-gradient)" stroke="#2A3A4C" stroke-width="0.5"/>
-        <g transform="translate(13, 15)">
-          <path d="M25,15 C35,5 45,15" fill="none" stroke="#005697" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M35,25 C37,23 39,25 35,31" fill="#E11D2D" />
-          <text x="36" y="45" text-anchor="middle" font-family="'DM Sans', sans-serif" font-weight="700" font-size="8px" fill="#005697">VALERO TEXAS OPEN</text>
-        </g>
-      </svg>
       Riverwalk Roller
     </div>
     <div class="logo-sub">⛳ VALERO TEXAS OPEN 2026 · TPC SAN ANTONIO 🌵</div>
@@ -222,7 +200,7 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
     <div class="card-body">
       <p style="font-size:11px;color:var(--sub);margin-bottom:8px">This tool uses Deterministic Z-Score Probability Modeling to build mathematically optimal lineups.</p>
       <ol style="padding-left:14px;font-size:12px;line-height:1.8;color:var(--sub)">
-        <li><strong>Simulate:</strong> The engine scores players using an Expected Value baseline multiplied by True SG, producing exact statistical percentiles for Floor and Ceiling.</li>
+        <li><strong>Simulate:</strong> The engine scores players using an Expected Value baseline multiplied by True SG, producing exact statistical percentiles for Floor and Ceiling. <em>Note: FADE players are completely blacklisted from optimization.</em></li>
         <li><strong>Lock:</strong> Browse the <strong>Arb</strong> tab for top $DLTA plays and tap <strong style="color:#fff">+</strong> to lock your favorites.</li>
         <li><strong>Pre:</strong> Instantly view 3 dynamically pre-built optimal lineups perfectly tailored to the latest live odds data.</li>
         <li><strong>Optimize:</strong> Tap the floating <strong>AUTO</strong> button to execute a Search Procedure and return the highest-scoring lineup strictly between $48,500 and $50,000.</li>
@@ -315,7 +293,6 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 // --- CONFIG & STATE ---
 const SAL_CAP = 50000;
 const MIN_PRICE = 6000; 
-const VEL_THRESHOLD = 0.003;
 
 let players = [];
 let sortCol = 'dlta';
@@ -334,7 +311,6 @@ const randomNormal = (mean, stdDev) => {
 };
 
 // --- IMMUTABLE MASTER DATABASE ---
-// Live Odds synced from latest odds dump
 const MASTER_DB = [
     {name: "T. Fleetwood", sal: 10500, monOdds: 1400, liveOdds: 1400, sg: 2.04, fit: 'Elite'},
     {name: "L. Aberg", sal: 10100, monOdds: 1550, liveOdds: 1600, sg: 1.61, fit: 'Elite'},
@@ -480,13 +456,13 @@ function loadInitialData() {
 }
 
 function saveToLocal() {
-  localStorage.setItem('tve_players_v19', JSON.stringify(players.map(p => ({
+  localStorage.setItem('tve_players_v20', JSON.stringify(players.map(p => ({
     name: p.name, liveOdds: p.liveOdds, locked: p.locked
   }))));
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v19');
+  const stored = localStorage.getItem('tve_players_v20');
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
     
@@ -552,10 +528,12 @@ function compute() {
     p.delta = p.salRank - p.oddsRank;
     
     // Odds movement logic
-    p.isSteam = p.liveOdds < p.monOdds; // Odds got shorter (better)
-    p.isDrift = p.liveOdds > p.monOdds; // Odds got longer (worse)
+    p.isDrift = p.liveOdds > p.monOdds; 
 
     p.cut = Math.min(0.9, Math.max(0.15, (p.implLive || p.implMon) * 6 + 0.20));
+
+    // Pro DFS Refinement: Must be improving AND have a legitimate chance to make the cut to be "Steam"
+    p.isSteam = (p.liveOdds < p.monOdds) && (p.cut >= 0.50); 
 
     // --- TRUE EXPECTED VALUE (EV) ALGORITHM ---
     const expectedPoints = (p.price / 1000) * 6.5; 
@@ -563,14 +541,15 @@ function compute() {
     const sgPts = p.sg * 3.5;
     
     let baseProj = 30 + winEquity + sgPts;
-    if (p.isSteam) baseProj += 2.5; // Sharp line movement bonus
+    if (p.isSteam) baseProj += 2.5; 
     
     p.dlta = baseProj - expectedPoints;
 
     // --- COMPOSITE ALPHA GRADE ---
-    if (p.dlta > 5 && (p.fit === 'Elite' || p.fit === 'Strong')) {
+    // Added safety net: Core plays must also have >= 50% cut equity
+    if (p.dlta > 5 && (p.fit === 'Elite' || p.fit === 'Strong') && p.cut >= 0.50) {
         p.grade = 'CORE'; p.gradeSort = 4;
-    } else if (p.dlta > 2) {
+    } else if (p.dlta > 2 && p.cut >= 0.40) {
         p.grade = 'PLAY'; p.gradeSort = 3;
     } else if (p.dlta < -3) {
         p.grade = 'FADE'; p.gradeSort = 1;
@@ -579,7 +558,7 @@ function compute() {
     }
 
     // --- DETERMINISTIC Z-SCORE MODELING ---
-    const volatility = 12 + ((1 - p.cut) * 30);
+    const volatility = 12 + ((1 - p.cut) * 30); 
     
     p.simMean = baseProj;
     p.simFloor = baseProj - (volatility * 0.84); 
@@ -588,10 +567,15 @@ function compute() {
 }
 
 const getPlayerScore = (p, buildType) => {
-    if (buildType === 'cash') return p.simFloor;
-    if (buildType === 'gpp') return p.simCeil;
-    if (buildType === 'steam') return p.simMean + (p.isSteam ? 25 : 0); 
-    return p.simMean;
+    let score = p.simMean;
+    if (buildType === 'cash') score = p.simFloor;
+    if (buildType === 'gpp') score = p.simCeil;
+    if (buildType === 'steam') score = p.simMean + (p.isSteam ? 25 : 0); 
+
+    // PRO DFS AUDIT FIX: Apply massive mathematical penalty to completely blacklist FADEs from optimal generation
+    if (p.grade === 'FADE') score -= 5000; 
+    
+    return score;
 };
 
 // --- GRASP MILP METAHEURISTIC OPTIMIZER ---
@@ -714,7 +698,7 @@ function renderArb() {
       <td>
         <div style="display:flex; align-items:center;">
           <button class="add-btn ${p.locked ? 'is-locked' : ''}" onclick="toggleLock('${p.name.replace(/'/g, "\\'")}')" style="margin-right:8px;">${p.locked ? '✓' : '+'}</button>
-          <strong>${p.name}</strong>${p.isSteam ? '<span class="stm-badge">👢</span>' : ''}
+          <strong>${p.name}</strong>${p.isSteam ? '<span class="stm-badge">🌮</span>' : ''}
         </div>
       </td>
       <td style="font-family:var(--mono)">$${(p.price/1000).toFixed(1)}K</td>
