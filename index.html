@@ -7,41 +7,53 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0B131E; 
-  --surface:#16202B; 
-  --surface2:#1E2B3A;
-  --surface3:#2C3D51;
+  /* San Antonio / Texas Theme Palette */
+  --bg:#0B1116; /* Deep Texas Night */
+  --surface:#151F28; 
+  --surface2:#1E2D3A;
+  --surface3:#2A3F52;
   --border:#2A3A4C;
   --border2:#3D5065;
-  --text:#F4F1EA; 
-  --sub:#B9C3CE;
-  --muted:#7A8D9F;
-  --teal:#7D9A3B; 
-  --teal-bright:#A6CD4F; 
-  --gold:#D4AF37; 
-  --gold-bright:#FFD700;
-  --red:#D9534F; 
-  --red-bg:rgba(217, 83, 79, 0.12);
-  --amber:#E5A823;
-  --amber-bg:rgba(229, 168, 35, 0.12);
-  --blue:#5BC0DE;
-  --steam-bg:rgba(125, 154, 59, 0.08); 
-  --lock-bg:rgba(212, 175, 55, 0.06);
+  --text:#FDFBF7; /* Limestone White */
+  --sub:#B8C5D1;
+  --muted:#7D93A8;
+  --teal:#00B4D8; /* Riverwalk Turquoise */
+  --teal-bright:#48CAE4; 
+  --gold:#F4A261; /* Fiesta Sunset */
+  --gold-bright:#E76F51; /* Alamo Terracotta */
+  --red:#EF476F; /* Fiesta Pink/Red */
+  --red-bg:rgba(239, 71, 111, 0.12);
+  --amber:#FFD166; /* Bright Texas Sun */
+  --amber-bg:rgba(255, 209, 102, 0.12);
+  --blue:#118AB2;
+  --steam-bg:rgba(0, 180, 216, 0.08); 
+  --lock-bg:rgba(244, 162, 97, 0.08);
   --mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;--disp:'Playfair Display',serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5;min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden;padding-bottom:100px}
 body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
 
-.hdr{background:linear-gradient(135deg,#0B131E 0%,#0E1925 40%,#132230 100%);border-bottom:1px solid var(--border);padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
+.hdr{
+  background:linear-gradient(135deg,#0B1116 0%,#151F28 60%,#242021 100%);
+  border-bottom:2px solid transparent;
+  border-image:linear-gradient(to right, var(--teal), var(--gold), var(--gold-bright)) 1;
+  padding:14px 16px;
+  position:sticky;
+  top:0;
+  z-index:100;
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
 .logo{font-family:var(--disp);font-size:22px;font-weight:900;color:var(--gold-bright);line-height:1;letter-spacing:-.5px}
 .logo-sub{font-size:10px;color:var(--teal-bright);font-family:var(--mono);margin-top:2px;letter-spacing:.5px}
 .badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;font-family:var(--mono);letter-spacing:.3px}
-.badge-teal{background:rgba(125, 154, 59, 0.15);color:var(--teal-bright);border:1px solid rgba(125, 154, 59, 0.3)}
+.badge-teal{background:rgba(0, 180, 216, 0.15);color:var(--teal-bright);border:1px solid rgba(0, 180, 216, 0.3)}
 
-.nav{display:flex;background:var(--surface);border-top:1px solid var(--border);position:fixed;bottom:0;width:100%;z-index:1000}
+.nav{display:flex;background:var(--surface);border-top:1px solid var(--border);position:fixed;bottom:0;width:100%;z-index:1000;box-shadow:0 -4px 20px rgba(0,0,0,0.4);}
 .nav-tab{flex:1;padding:14px 2px;text-align:center;font-size:10px;font-weight:700;color:var(--muted);cursor:pointer;border-top:3px solid transparent;text-transform:uppercase;letter-spacing:.5px;transition:all .15s}
-.nav-tab.on{color:var(--gold);border-color:var(--gold);background:rgba(212, 175, 55, 0.04)}
+.nav-tab.on{color:var(--gold);border-color:var(--gold);background:rgba(244, 162, 97, 0.05)}
 
 .roster-strip {position:fixed;bottom:44px;left:0;width:100%;background:var(--surface2);border-top:1px solid var(--border2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;padding:10px 16px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted);z-index:990;box-shadow:0 -4px 15px rgba(0,0,0,0.3);}
 .rs-val {color:var(--text);font-size:14px;margin-left:6px;}
@@ -71,15 +83,15 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
 .sort-icon { display:inline-block; margin-left:4px; font-size:8px; opacity:0.6; }
 
 .db{display:inline-flex;align-items:center;justify-content:center;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:800;min-width:32px;font-family:var(--mono)}
-.d-elite{background:var(--gold);color:#0B131E}
-.d-solid{background:rgba(125, 154, 59, 0.25);color:var(--teal-bright)}
-.d-slight{background:rgba(125, 154, 59, 0.12);color:var(--teal)}
+.d-elite{background:var(--gold-bright);color:#0B131E}
+.d-solid{background:rgba(0, 180, 216, 0.25);color:var(--teal-bright)}
+.d-slight{background:rgba(0, 180, 216, 0.12);color:var(--teal)}
 .d-zero{background:rgba(122, 141, 159, 0.15);color:var(--muted)}
 .d-neg{background:var(--red-bg);color:var(--red)}
 
 .conv{font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:.3px;font-family:var(--mono);white-space:nowrap}
-.conv-lock{background:var(--gold);color:#0B131E}
-.conv-strong{background:rgba(125, 154, 59, 0.2);color:var(--teal-bright)}
+.conv-lock{background:var(--gold-bright);color:#0B131E}
+.conv-strong{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
 .conv-consider{background:var(--amber-bg);color:var(--amber)}
 .conv-fade{background:var(--red-bg);color:var(--red)}
 
@@ -102,14 +114,15 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
 .lu-total-val{font-family:var(--disp);font-weight:900;font-size:17px}
 .lu-total-lbl{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
 
-.del-btn{background:var(--red-bg);color:var(--red);border:1px solid rgba(217, 83, 79, 0.3);width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;font-weight:900;margin-right:10px;transition:all 0.1s;}
+.del-btn{background:var(--red-bg);color:var(--red);border:1px solid rgba(239, 71, 111, 0.3);width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:4px;cursor:pointer;font-weight:900;margin-right:10px;transition:all 0.1s;}
 .del-btn:hover{background:var(--red);color:#fff;}
 
 textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px;font-family:var(--mono);outline:none;resize:vertical;white-space:pre}
 
 .btn{width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:900;font-family:var(--disp);cursor:pointer;border:none;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-bright) 100%);color:#0B131E;letter-spacing:.3px;transition:all .2s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(125, 154, 59, 0.3)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0, 180, 216, 0.3)}
 .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%)}
+.btn-gold:hover{box-shadow:0 4px 20px rgba(244, 162, 97, 0.3)}
 .clear-btn{width:100%;background:var(--surface);color:var(--muted);border:1px solid var(--border);padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px}
 
 .add-btn{padding:4px 8px;border-radius:4px;border:none;font-size:10px;font-weight:800;cursor:pointer;background:var(--surface3);color:var(--text);transition:all .1s}
@@ -117,11 +130,11 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 
 .stm-badge{font-size:9px;background:var(--teal);color:#0B131E;padding:1px 5px;border-radius:3px;font-weight:800;margin-left:6px}
 .pb-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:8px;letter-spacing:.5px}
-.pb-steam{background:rgba(125, 154, 59, 0.2);color:var(--teal-bright)}
-.pb-gpp{background:rgba(212, 175, 55, 0.15);color:var(--gold)}
-.pb-cash{background:rgba(91, 192, 222, 0.15);color:var(--blue)}
+.pb-steam{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
+.pb-gpp{background:rgba(244, 162, 97, 0.15);color:var(--gold)}
+.pb-cash{background:rgba(17, 138, 178, 0.15);color:var(--blue)}
 
-.insight{background:rgba(212, 175, 55, 0.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
+.insight{background:rgba(244, 162, 97, 0.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
 
 @media(max-width:700px){
   .pods{grid-template-columns:repeat(4,1fr);gap:5px;padding:10px 8px}
@@ -134,7 +147,7 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 
 <div class="hdr">
   <div>
-    <div class="logo">Texas Value Engine</div>
+    <div class="logo">★ Texas Value Engine</div>
     <div class="logo-sub">VALERO TEXAS OPEN 2026 · TPC SAN ANTONIO</div>
   </div>
   <div style="display:flex;gap:6px;align-items:center">
@@ -146,6 +159,25 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
   <div style="padding:16px 12px 8px">
     <div style="font-family:var(--disp);font-size:24px;font-weight:900;color:var(--gold-bright);line-height:1">User Guide</div>
   </div>
+  
+  <!-- Responsible Gambling Disclaimer -->
+  <div class="card" style="border-color: var(--red); background: rgba(239, 71, 111, 0.03);">
+    <div class="card-head" style="border-bottom-color: rgba(239, 71, 111, 0.2);">
+      <span class="card-title" style="color: var(--red);">⚠️ Responsible Gambling</span>
+    </div>
+    <div class="card-body">
+      <p style="font-size:12px; color:var(--text); font-weight: 600; margin-bottom: 8px;">Bankroll Management is Key</p>
+      <ul style="padding-left:14px; font-size:11px; line-height:1.6; color:var(--sub); margin-bottom: 12px;">
+        <li>Never wager more than you can afford to lose.</li>
+        <li>Standard bankroll management suggests risking only <strong>1% to 5%</strong> of your total bankroll per slate.</li>
+        <li>Variance in golf DFS is extremely high. Stick to your process and do not chase losses.</li>
+      </ul>
+      <p style="font-size:10px; color:var(--muted); font-style: italic; border-top: 1px solid rgba(239,71,111,0.2); padding-top: 8px;">
+        If you or someone you know has a gambling problem, crisis counseling and referral services can be accessed by calling <strong>1-800-GAMBLER</strong> (1-800-426-2537).
+      </p>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-head"><span class="card-title">Framework Overview</span></div>
     <div class="card-body">
@@ -234,7 +266,7 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 <script>
 // --- CONFIG & STATE ---
 const SAL_CAP = 50000;
-const MIN_PRICE = 6800;
+const MIN_PRICE = 6000; 
 const VEL_THRESHOLD = 0.003;
 
 let players = [];
@@ -253,17 +285,76 @@ const randomNormal = (mean, stdDev) => {
   return mean + stdDev * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 };
 
-// --- DATA PERSISTENCE ---
+// --- DATA PERSISTENCE & INITIALIZATION ---
+function loadInitialData() {
+  const extractedData = [
+    {name: "T. Fleetwood", sal: 10500}, {name: "L. Aberg", sal: 10100}, {name: "R. MacIntyre", sal: 9900},
+    {name: "R. Henley", sal: 9800}, {name: "Si. Kim", sal: 9600}, {name: "J. Spieth", sal: 9500},
+    {name: "C. Morikawa", sal: 9400}, {name: "H. Matsuyama", sal: 9300}, {name: "S. Straka", sal: 9200},
+    {name: "N. Hojgaard", sal: 9100}, {name: "M. McNealy", sal: 9000}, {name: "M. Thorbjornsen", sal: 8900},
+    {name: "R. Fowler", sal: 8800}, {name: "A. Noren", sal: 8700}, {name: "J. Spaun", sal: 8600},
+    {name: "K. Mitchell", sal: 8500}, {name: "D. Berger", sal: 8400}, {name: "R. Hisatsune", sal: 8300},
+    {name: "D. McCarthy", sal: 8200}, {name: "S. Yellamaraju", sal: 8100}, {name: "J. Keefer", sal: 8000},
+    {name: "N. Taylor", sal: 8000}, {name: "G. Woodland", sal: 7900}, {name: "B. Harman", sal: 7900},
+    {name: "T. Olesen", sal: 7800}, {name: "M. Penge", sal: 7800}, {name: "J. Smith", sal: 7700},
+    {name: "R. Castillo", sal: 7700}, {name: "W. Zalatoris", sal: 7600}, {name: "P. Coody", sal: 7600},
+    {name: "A. Smalley", sal: 7600}, {name: "D. Thompson", sal: 7500}, {name: "R. Hoey", sal: 7500},
+    {name: "P. Rodgers", sal: 7500}, {name: "J. Poston", sal: 7400}, {name: "S. Jaeger", sal: 7400},
+    {name: "T. Finau", sal: 7400}, {name: "M. McGreevy", sal: 7400}, {name: "M. McCarty", sal: 7400},
+    {name: "C. Bezuidenhout", sal: 7300}, {name: "M. Meissner", sal: 7300}, {name: "M. Wallace", sal: 7300},
+    {name: "A. Novak", sal: 7300}, {name: "C. Kirk", sal: 7200}, {name: "B. Cauley", sal: 7200},
+    {name: "T. Kim", sal: 7200}, {name: "J. Parry", sal: 7200}, {name: "H. Li", sal: 7100},
+    {name: "K. Reitan", sal: 7100}, {name: "A. Dumont De Chassart", sal: 7100}, {name: "Z. Dou", sal: 7100},
+    {name: "M. Hughes", sal: 7100}, {name: "A. Smotherman", sal: 7000}, {name: "M. Homa", sal: 7000},
+    {name: "W. Mouw", sal: 7000}, {name: "D. Ghim", sal: 7000}, {name: "C. Ramey", sal: 7000},
+    {name: "M. Schmid", sal: 7000}, {name: "E. Cole", sal: 6900}, {name: "M. Kim", sal: 6900},
+    {name: "L. Hodges", sal: 6900}, {name: "Se. Kim", sal: 6900}, {name: "S. Power", sal: 6900},
+    {name: "K. Roy", sal: 6900}, {name: "A. Eckroat", sal: 6800}, {name: "B. Hossler", sal: 6800},
+    {name: "M. Kuchar", sal: 6800}, {name: "J. Svensson", sal: 6800}, {name: "B. Horschel", sal: 6800},
+    {name: "A. Putnam", sal: 6800}, {name: "V. Whaley", sal: 6700}, {name: "K. Yu", sal: 6700},
+    {name: "D. Brown", sal: 6700}, {name: "S. Fisk", sal: 6700}, {name: "A. Ewart", sal: 6700},
+    {name: "E. Grillo", sal: 6700}, {name: "D. Ford", sal: 6700}, {name: "S. Valimaki", sal: 6600},
+    {name: "C. Blanchet", sal: 6600}, {name: "K. Ventura", sal: 6600}, {name: "J. Vegas", sal: 6600},
+    {name: "A. Saddier", sal: 6600}, {name: "B. Burgoon", sal: 6600}, {name: "D. Lipsky", sal: 6600},
+    {name: "W. Simpson", sal: 6500}, {name: "L. Glover", sal: 6500}, {name: "G. Higgo", sal: 6500},
+    {name: "K. Vilips", sal: 6500}, {name: "T. Hoge", sal: 6500}, {name: "M. Pavon", sal: 6500},
+    {name: "J. Stanger", sal: 6500}, {name: "T. Kanaya", sal: 6400}, {name: "P. Fishburn", sal: 6400},
+    {name: "D. Wu", sal: 6400}, {name: "Z. Bauchou", sal: 6400}, {name: "B. Snedeker", sal: 6400},
+    {name: "M. Hubbard", sal: 6400}, {name: "H. Lebioda", sal: 6400}, {name: "A. Svensson", sal: 6300},
+    {name: "D. Chatfield", sal: 6300}, {name: "P. Nyholm", sal: 6300}, {name: "N. Shipley", sal: 6300},
+    {name: "K. Streelman", sal: 6300}, {name: "J. VanDerLaan", sal: 6300}, {name: "D. Walker", sal: 6300},
+    {name: "J. Highsmith", sal: 6300}, {name: "L. Clanton", sal: 6200}, {name: "E. Van Rooyen", sal: 6200},
+    {name: "A. Tosti", sal: 6200}, {name: "J. Lower", sal: 6200}, {name: "C. Hoffman", sal: 6200},
+    {name: "C. Lamprecht", sal: 6200}, {name: "C. Phillips", sal: 6200}, {name: "P. Waring", sal: 6200},
+    {name: "A. Schenk", sal: 6100}, {name: "K. Hirata", sal: 6100}, {name: "P. Malnati", sal: 6100},
+    {name: "N. Dunlap", sal: 6100}, {name: "P. Kizzire", sal: 6100}, {name: "B. Garnett", sal: 6100},
+    {name: "C. Villegas", sal: 6100}, {name: "J. Kang", sal: 6100}, {name: "B. Todd", sal: 6000},
+    {name: "K. Lee", sal: 6000}, {name: "R. Campos", sal: 6000}, {name: "G. Sargent", sal: 6000},
+    {name: "M. Rozo", sal: 6000}, {name: "R. Palmer", sal: 6000}, {name: "J. Walker", sal: 6000},
+    {name: "A. Wylie", sal: 6000}
+  ];
+
+  players = extractedData.map(p => ({
+    name: p.name, price: p.sal, monOdds: 5000, liveOdds: 5000, 
+    fit: 'Mid', locked: false, implMon: toImp(5000), implLive: toImp(5000),
+    salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, conviction:'CONSIDER', convSort:2, fitSort:0, strengthScore:0, cut:.50
+  }));
+
+  compute();
+  saveToLocal();
+  renderAll();
+}
+
 function saveToLocal() {
-  localStorage.setItem('tve_players', JSON.stringify(players.map(p => ({
+  localStorage.setItem('tve_players_v2', JSON.stringify(players.map(p => ({
     name: p.name, price: p.price, monOdds: p.monOdds, liveOdds: p.liveOdds, 
     fit: p.fit, locked: p.locked, implMon: p.implMon, implLive: p.implLive
   }))));
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players');
-  if (stored) {
+  const stored = localStorage.getItem('tve_players_v2');
+  if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
     players = parsed.map(p => ({
       ...p,
