@@ -69,6 +69,9 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .fchip{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .12s}
 .fchip.on{background:var(--teal);color:#0B131E;border-color:var(--teal)}
 
+.key-strip{display:flex;flex-wrap:wrap;gap:4px 14px;padding:10px 12px;background:var(--surface2);border-radius:6px;border:1px solid var(--border);margin:0 12px 10px;font-size:10px;color:var(--sub)}
+.key-strip span strong{color:var(--text);font-family:var(--mono);margin-right:2px}
+
 .tw{overflow-x:auto;padding:0 12px 12px}
 table{width:100%;border-collapse:collapse;font-size:12px;background:var(--surface);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
 thead th{background:var(--surface2);color:var(--muted);padding:10px 7px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;cursor:pointer;border-bottom:1px solid var(--border);transition: background 0.2s;}
@@ -201,6 +204,16 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
     <button class="fchip" data-filter="elite" onclick="setFilter('elite',this)">$9K+</button>
     <button class="fchip" data-filter="fit" onclick="setFilter('fit',this)">Fit</button>
   </div>
+  
+  <div class="key-strip">
+    <span><strong>Mon:</strong> Opening Odds</span>
+    <span><strong style="color:var(--teal)">Δ:</strong> Sal vs Odds Rank</span>
+    <span><strong style="color:var(--teal-bright)">Vel:</strong> Line Move (Live vs Mon)</span>
+    <span><strong style="color:var(--gold)">$DLTA:</strong> Raw Value Rating</span>
+    <span><strong>Conv:</strong> Algo Grade</span>
+    <span><strong>Fit:</strong> Course SG Match</span>
+  </div>
+
   <div class="tw">
     <table>
       <thead>
@@ -511,9 +524,8 @@ function compute() {
     p.fitSort = {Elite:4, Strong:3, Mid:2, Weak:1}[p.fit] || 0;
 
     // --- SALARY-ANCHORED PROJECTION MATH ---
-    // Forces the optimizer to value $10k players highly over $6k values, fixing the 'money left on table' issue.
     const sgBoost = p.sg * 8; 
-    const salaryBase = (p.price / 100) * 0.75; // $10k salary = 75 base points
+    const salaryBase = (p.price / 100) * 0.75; 
     const dltaBoost = p.dlta * 1.2;
     
     const baseProj = salaryBase + dltaBoost + sgBoost; 
@@ -550,9 +562,8 @@ function buildQuantLineup(locked, type) {
     let lineup = [...locked];
     let spent = lineup.reduce((s, p) => s + p.price, 0);
     
-    // Constructive Phase: Prioritize high-value guys to seed the initial generation
     let cands = [...avail].sort((a,b) => (getPlayerScore(b, type)/b.price) - (getPlayerScore(a, type)/a.price));
-    cands.sort(() => Math.random() - 0.2); // Light stochastic shuffle to keep variance high
+    cands.sort(() => Math.random() - 0.2); 
     
     for (let p of cands) {
       if (lineup.length >= 6) break;
@@ -585,7 +596,6 @@ function buildQuantLineup(locked, type) {
             let currentlyValid = (spent >= targetMinSal);
             let newlyValid = (newSpent >= targetMinSal);
 
-            // Accept swap if it hits validity OR improves score
             if ((!currentlyValid && newSpent > spent) || (newlyValid && newScore > currentScore)) {
               spent = newSpent;
               lineup[k] = candidate;
@@ -607,7 +617,6 @@ function buildQuantLineup(locked, type) {
     }
   }
 
-  // Safety fallback if manual locks make it mathematically impossible to reach constraints
   if (bestLineup.length !== 6) {
       bestScore = -Infinity;
       for (let i = 0; i < 2000; i++) {
@@ -654,6 +663,7 @@ function renderArb() {
       <td class="${p.velocity > 0 ? 'vel-up' : 'vel-dn'}">${p.velocity > 0 ? '▲' : '▼'}${(Math.abs(p.velocity)*100).toFixed(2)}%</td>
       <td style="font-weight:800; color:var(--gold)">${p.dlta.toFixed(1)}</td>
       <td><span class="conv conv-${p.conviction.toLowerCase()}">${p.conviction}</span></td>
+      <td>${(p.cut*100).toFixed(0)}%</td>
       <td class="fit-${p.fit.toLowerCase()}">${p.fit}</td>
       <td><button class="add-btn ${p.locked ? 'is-locked' : ''}" onclick="toggleLock('${p.name.replace(/'/g, "\\'")}')">${p.locked ? '✓' : '+'}</button></td>
     </tr>
