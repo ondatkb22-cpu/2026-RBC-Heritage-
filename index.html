@@ -111,6 +111,8 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
 .lu-total-val{font-family:var(--disp);font-weight:900;font-size:17px}
 .lu-total-lbl{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
 
+textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px;font-family:var(--mono);outline:none;resize:vertical;white-space:pre}
+
 .btn{width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:900;font-family:var(--disp);cursor:pointer;border:none;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-bright) 100%);color:#0B131E;letter-spacing:.3px;transition:all .2s}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0, 180, 216, 0.3)}
 .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%)}
@@ -174,14 +176,14 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
     <div class="card-body">
       <p style="font-size:11px;color:var(--sub);margin-bottom:8px">This tool utilizes a quantitative Hybrid MILP Metaheuristic architecture fueled by True SG Data.</p>
       <ol style="padding-left:14px;font-size:12px;line-height:1.8;color:var(--sub)">
-        <li><strong>Monte Carlo Sims:</strong> 1,000 iterations per player calculate true percentiles using live odds amplified by SG Total data.</li>
+        <li><strong>Monte Carlo Sims:</strong> 1,000 iterations per player calculate true percentiles using live odds amplified by hidden static SG Total data.</li>
         <li><strong>Lock & Build:</strong> Use the <strong>Arb</strong> tab to find value, tap <strong style="color:#fff">+</strong> to lock players.</li>
         <li><strong>Auto-Optimize (GRASP):</strong> The <strong>Build</strong> tab executes a Greedy Randomized Adaptive Search Procedure combined with Local Search Hill Climbing to return the globally optimal lineup strictly between $48,500 and $50,000.</li>
       </ol>
     </div>
   </div>
   <div class="insight">
-    <strong>Note:</strong> Your locks and data are now <strong>saved automatically</strong> to your browser's local storage.
+    <strong>Note:</strong> Your locks and data are now <strong>saved automatically</strong> to your browser's local storage. Monday Odds and SG are statically locked to prevent accidental deletion.
   </div>
 </div>
 
@@ -201,7 +203,7 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
           <th onclick="srt('salRank')">#<span class="sort-icon"></span></th>
           <th onclick="srt('name')">Player<span class="sort-icon"></span></th>
           <th onclick="srt('price')">Sal<span class="sort-icon"></span></th>
-          <th onclick="srt('sg')" style="color:var(--teal)">SG<span class="sort-icon"></span></th>
+          <th onclick="srt('monOdds')" style="color:var(--muted)">Mon<span class="sort-icon"></span></th>
           <th onclick="srt('delta')" style="color:var(--teal)">Δ<span class="sort-icon"></span></th>
           <th onclick="srt('velocity')" style="color:var(--teal-bright)">Vel<span class="sort-icon"></span></th>
           <th onclick="srt('dlta')" style="color:var(--gold)">$DLTA<span class="sort-icon"></span></th>
@@ -231,6 +233,17 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
   </div>
 </div>
 
+<div class="panel" id="panel-data">
+  <div class="card" style="margin-top:12px">
+    <div class="card-head"><span class="card-title">Update Live Odds</span></div>
+    <div class="card-body">
+      <p style="font-size:11px; color:var(--sub); margin-bottom:8px;">Monday Odds and SG are statically locked. To inject live line movement, paste "<strong>Name, LiveOdds</strong>" below.</p>
+      <textarea id="csv-input" placeholder="T. Fleetwood, 1200&#10;L. Aberg, 1400&#10;R. Henley, 1800..."></textarea>
+      <button class="btn" onclick="handleLiveOddsUpload()">Update Velocity & Compute</button>
+    </div>
+  </div>
+</div>
+
 <div class="roster-strip" id="roster-strip">
   <div>PLYRS: <span class="rs-val" id="rs-count">0/6</span></div>
   <div>REM: <span class="rs-val" id="rs-rem">$50,000</span></div>
@@ -242,6 +255,7 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
   <div class="nav-tab" onclick="showTab('arb')">Arb</div>
   <div class="nav-tab" onclick="showTab('prebuilt')">Pre</div>
   <div class="nav-tab" onclick="showTab('build')">Build</div>
+  <div class="nav-tab" onclick="showTab('data')">Data</div>
 </div>
 
 <script>
@@ -266,144 +280,146 @@ const randomNormal = (mean, stdDev) => {
   return mean + stdDev * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
 };
 
+// --- IMMUTABLE MASTER DATABASE ---
+// This guarantees Monday Odds and SG are permanently static and cannot be erased.
+const MASTER_DB = [
+    {name: "T. Fleetwood", sal: 10500, monOdds: 1400, sg: 2.04},
+    {name: "L. Aberg", sal: 10100, monOdds: 1550, sg: 1.61},
+    {name: "R. MacIntyre", sal: 9900, monOdds: 1750, sg: 1.82},
+    {name: "R. Henley", sal: 9800, monOdds: 1800, sg: 1.98},
+    {name: "Si. Kim", sal: 9600, monOdds: 1900, sg: 1.86},
+    {name: "J. Spieth", sal: 9500, monOdds: 1850, sg: 1.52},
+    {name: "C. Morikawa", sal: 9400, monOdds: 1750, sg: 2.19},
+    {name: "H. Matsuyama", sal: 9300, monOdds: 2250, sg: 1.87},
+    {name: "S. Straka", sal: 9200, monOdds: 3000, sg: 1.15},
+    {name: "N. Hojgaard", sal: 9100, monOdds: 50000, sg: 1.92},
+    {name: "M. McNealy", sal: 9000, monOdds: 2300, sg: 1.59},
+    {name: "M. Thorbjornsen", sal: 8900, monOdds: 2400, sg: 0.80},
+    {name: "R. Fowler", sal: 8800, monOdds: 2600, sg: 1.57},
+    {name: "A. Noren", sal: 8700, monOdds: 3700, sg: 1.10},
+    {name: "J. Spaun", sal: 8600, monOdds: 3200, sg: 0.10},
+    {name: "K. Mitchell", sal: 8500, monOdds: 3500, sg: 1.07},
+    {name: "D. Berger", sal: 8400, monOdds: 4500, sg: 0.92},
+    {name: "R. Hisatsune", sal: 8300, monOdds: 4500, sg: 1.54},
+    {name: "D. McCarthy", sal: 8200, monOdds: 5800, sg: 0.35},
+    {name: "S. Yellamaraju", sal: 8100, monOdds: 7000, sg: 1.18},
+    {name: "J. Keefer", sal: 8000, monOdds: 6500, sg: 0.27},
+    {name: "N. Taylor", sal: 8000, monOdds: 5000, sg: 1.15},
+    {name: "G. Woodland", sal: 7900, monOdds: 4900, sg: 0.59},
+    {name: "B. Harman", sal: 7900, monOdds: 7000, sg: -0.12},
+    {name: "T. Olesen", sal: 7800, monOdds: 5900, sg: 0.26},
+    {name: "M. Penge", sal: 7800, monOdds: 5100, sg: 0.03},
+    {name: "J. Smith", sal: 7700, monOdds: 5600, sg: 0.71},
+    {name: "R. Castillo", sal: 7700, monOdds: 6300, sg: 0.88},
+    {name: "W. Zalatoris", sal: 7600, monOdds: 6700, sg: 0.00},
+    {name: "P. Coody", sal: 7600, monOdds: 50000, sg: 0.94},
+    {name: "A. Smalley", sal: 7600, monOdds: 6600, sg: 0.84},
+    {name: "D. Thompson", sal: 7500, monOdds: 6500, sg: 0.14},
+    {name: "R. Hoey", sal: 7500, monOdds: 7000, sg: -0.25},
+    {name: "P. Rodgers", sal: 7500, monOdds: 8400, sg: 1.00},
+    {name: "J. Poston", sal: 7400, monOdds: 7400, sg: 0.16},
+    {name: "S. Jaeger", sal: 7400, monOdds: 6600, sg: 0.78},
+    {name: "T. Finau", sal: 7400, monOdds: 7600, sg: 0.58},
+    {name: "M. McGreevy", sal: 7400, monOdds: 9000, sg: 0.69},
+    {name: "M. McCarty", sal: 7400, monOdds: 8400, sg: 0.45},
+    {name: "C. Bezuidenhout", sal: 7300, monOdds: 7800, sg: 0.51},
+    {name: "M. Meissner", sal: 7300, monOdds: 9400, sg: 0.45},
+    {name: "M. Wallace", sal: 7300, monOdds: 8600, sg: -0.44},
+    {name: "A. Novak", sal: 7300, monOdds: 10500, sg: 0.15},
+    {name: "C. Kirk", sal: 7200, monOdds: 8600, sg: 0.01},
+    {name: "B. Cauley", sal: 7200, monOdds: 9200, sg: 0.29},
+    {name: "T. Kim", sal: 7200, monOdds: 10000, sg: 0.38},
+    {name: "J. Parry", sal: 7200, monOdds: 12000, sg: 0.44},
+    {name: "H. Li", sal: 7100, monOdds: 8600, sg: 0.58},
+    {name: "K. Reitan", sal: 7100, monOdds: 8600, sg: -0.53},
+    {name: "A. Dumont De Chassart", sal: 7100, monOdds: 10500, sg: 0.62},
+    {name: "Z. Dou", sal: 7100, monOdds: 10500, sg: 0.28},
+    {name: "M. Hughes", sal: 7100, monOdds: 11000, sg: 0.19},
+    {name: "A. Smotherman", sal: 7000, monOdds: 10000, sg: 0.89},
+    {name: "M. Homa", sal: 7000, monOdds: 11000, sg: 0.30},
+    {name: "W. Mouw", sal: 7000, monOdds: 13000, sg: 0.04},
+    {name: "D. Ghim", sal: 7000, monOdds: 12500, sg: 0.02},
+    {name: "C. Ramey", sal: 7000, monOdds: 11000, sg: 0.45},
+    {name: "M. Schmid", sal: 7000, monOdds: 50000, sg: -0.36},
+    {name: "E. Cole", sal: 6900, monOdds: 12000, sg: 0.21},
+    {name: "M. Kim", sal: 6900, monOdds: 12500, sg: -0.03},
+    {name: "L. Hodges", sal: 6900, monOdds: 13500, sg: 0.26},
+    {name: "Se. Kim", sal: 6900, monOdds: 14500, sg: 0.24},
+    {name: "S. Power", sal: 6900, monOdds: 14500, sg: 0.35},
+    {name: "K. Roy", sal: 6900, monOdds: 16500, sg: 0.40},
+    {name: "A. Eckroat", sal: 6800, monOdds: 13500, sg: -0.08},
+    {name: "B. Hossler", sal: 6800, monOdds: 13500, sg: 0.05},
+    {name: "M. Kuchar", sal: 6800, monOdds: 19500, sg: -0.56},
+    {name: "J. Svensson", sal: 6800, monOdds: 15000, sg: -0.44},
+    {name: "B. Horschel", sal: 6800, monOdds: 15000, sg: -0.37},
+    {name: "A. Putnam", sal: 6800, monOdds: 20000, sg: 0.71},
+    {name: "V. Whaley", sal: 6700, monOdds: 13500, sg: -0.23},
+    {name: "K. Yu", sal: 6700, monOdds: 14000, sg: -0.88},
+    {name: "D. Brown", sal: 6700, monOdds: 16500, sg: -0.01},
+    {name: "S. Fisk", sal: 6700, monOdds: 13500, sg: -0.10},
+    {name: "A. Ewart", sal: 6700, monOdds: 33000, sg: 0.38},
+    {name: "E. Grillo", sal: 6700, monOdds: 15000, sg: -0.71},
+    {name: "D. Ford", sal: 6700, monOdds: 18500, sg: 0.38},
+    {name: "S. Valimaki", sal: 6600, monOdds: 15500, sg: -0.34},
+    {name: "C. Blanchet", sal: 6600, monOdds: 22500, sg: -0.55},
+    {name: "K. Ventura", sal: 6600, monOdds: 16500, sg: -0.10},
+    {name: "J. Vegas", sal: 6600, monOdds: 19000, sg: -0.77},
+    {name: "A. Saddier", sal: 6600, monOdds: 20000, sg: -0.39},
+    {name: "B. Burgoon", sal: 6600, monOdds: 24000, sg: 0.00},
+    {name: "D. Lipsky", sal: 6600, monOdds: 25000, sg: 0.72},
+    {name: "W. Simpson", sal: 6500, monOdds: 19000, sg: -0.09},
+    {name: "L. Glover", sal: 6500, monOdds: 22500, sg: -1.01},
+    {name: "G. Higgo", sal: 6500, monOdds: 21000, sg: -1.62},
+    {name: "K. Vilips", sal: 6500, monOdds: 26000, sg: 0.25},
+    {name: "T. Hoge", sal: 6500, monOdds: 23000, sg: -0.13},
+    {name: "M. Pavon", sal: 6500, monOdds: 23000, sg: 0.44},
+    {name: "J. Stanger", sal: 6500, monOdds: 60000, sg: -0.27},
+    {name: "T. Kanaya", sal: 6400, monOdds: 25000, sg: -0.21},
+    {name: "P. Fishburn", sal: 6400, monOdds: 27500, sg: -1.23},
+    {name: "D. Wu", sal: 6400, monOdds: 23000, sg: -0.09},
+    {name: "Z. Bauchou", sal: 6400, monOdds: 28000, sg: 0.28},
+    {name: "B. Snedeker", sal: 6400, monOdds: 34000, sg: -0.36},
+    {name: "M. Hubbard", sal: 6400, monOdds: 29000, sg: -0.84},
+    {name: "H. Lebioda", sal: 6400, monOdds: 36000, sg: -0.42},
+    {name: "A. Svensson", sal: 6300, monOdds: 34000, sg: -0.42},
+    {name: "D. Chatfield", sal: 6300, monOdds: 67500, sg: -0.72},
+    {name: "P. Nyholm", sal: 6300, monOdds: 42500, sg: -0.81},
+    {name: "N. Shipley", sal: 6300, monOdds: 36000, sg: -1.55},
+    {name: "K. Streelman", sal: 6300, monOdds: 46000, sg: -0.10},
+    {name: "J. VanDerLaan", sal: 6300, monOdds: 40000, sg: -0.26},
+    {name: "D. Walker", sal: 6300, monOdds: 49000, sg: -0.39},
+    {name: "J. Highsmith", sal: 6300, monOdds: 65000, sg: -1.00},
+    {name: "L. Clanton", sal: 6200, monOdds: 36000, sg: -1.39},
+    {name: "E. Van Rooyen", sal: 6200, monOdds: 41000, sg: -1.18},
+    {name: "A. Tosti", sal: 6200, monOdds: 55000, sg: -2.56},
+    {name: "J. Lower", sal: 6200, monOdds: 72500, sg: -1.47},
+    {name: "C. Hoffman", sal: 6200, monOdds: 62500, sg: -2.18},
+    {name: "C. Lamprecht", sal: 6200, monOdds: 57500, sg: -1.76},
+    {name: "C. Phillips", sal: 6200, monOdds: 52500, sg: -0.81},
+    {name: "P. Waring", sal: 6200, monOdds: 90000, sg: -0.61},
+    {name: "A. Schenk", sal: 6100, monOdds: 70000, sg: -1.86},
+    {name: "K. Hirata", sal: 6100, monOdds: 85000, sg: -0.77},
+    {name: "P. Malnati", sal: 6100, monOdds: 90000, sg: -0.79},
+    {name: "N. Dunlap", sal: 6100, monOdds: 72500, sg: -1.78},
+    {name: "P. Kizzire", sal: 6100, monOdds: 70000, sg: -0.56},
+    {name: "B. Garnett", sal: 6100, monOdds: 80000, sg: -1.00},
+    {name: "C. Villegas", sal: 6100, monOdds: 120000, sg: -1.44},
+    {name: "J. Kang", sal: 6100, monOdds: 140000, sg: -1.73},
+    {name: "B. Todd", sal: 6000, monOdds: 275000, sg: 0.00},
+    {name: "K. Lee", sal: 6000, monOdds: 120000, sg: 0.00},
+    {name: "R. Campos", sal: 6000, monOdds: 225000, sg: -1.25},
+    {name: "G. Sargent", sal: 6000, monOdds: 125000, sg: -1.00},
+    {name: "M. Rozo", sal: 6000, monOdds: 275000, sg: -1.88},
+    {name: "R. Palmer", sal: 6000, monOdds: 200000, sg: 0.00},
+    {name: "J. Walker", sal: 6000, monOdds: 300000, sg: 0.00},
+    {name: "A. Wylie", sal: 6000, monOdds: 500000, sg: 0.00}
+];
+
 // --- DATA PERSISTENCE & INITIALIZATION ---
 function loadInitialData() {
-  const extractedData = [
-    {name: "T. Fleetwood", sal: 10500, odds: 1400, sg: 2.04},
-    {name: "L. Aberg", sal: 10100, odds: 1550, sg: 1.61},
-    {name: "R. MacIntyre", sal: 9900, odds: 1750, sg: 1.82},
-    {name: "R. Henley", sal: 9800, odds: 1800, sg: 1.98},
-    {name: "Si. Kim", sal: 9600, odds: 1900, sg: 1.86},
-    {name: "J. Spieth", sal: 9500, odds: 1850, sg: 1.52},
-    {name: "C. Morikawa", sal: 9400, odds: 1750, sg: 2.19},
-    {name: "H. Matsuyama", sal: 9300, odds: 2250, sg: 1.87},
-    {name: "S. Straka", sal: 9200, odds: 3000, sg: 1.15},
-    {name: "N. Hojgaard", sal: 9100, odds: 50000, sg: 1.92},
-    {name: "M. McNealy", sal: 9000, odds: 2300, sg: 1.59},
-    {name: "M. Thorbjornsen", sal: 8900, odds: 2400, sg: 0.80},
-    {name: "R. Fowler", sal: 8800, odds: 2600, sg: 1.57},
-    {name: "A. Noren", sal: 8700, odds: 3700, sg: 1.10},
-    {name: "J. Spaun", sal: 8600, odds: 3200, sg: 0.10},
-    {name: "K. Mitchell", sal: 8500, odds: 3500, sg: 1.07},
-    {name: "D. Berger", sal: 8400, odds: 4500, sg: 0.92},
-    {name: "R. Hisatsune", sal: 8300, odds: 4500, sg: 1.54},
-    {name: "D. McCarthy", sal: 8200, odds: 5800, sg: 0.35},
-    {name: "S. Yellamaraju", sal: 8100, odds: 7000, sg: 1.18},
-    {name: "J. Keefer", sal: 8000, odds: 6500, sg: 0.27},
-    {name: "N. Taylor", sal: 8000, odds: 5000, sg: 1.15},
-    {name: "G. Woodland", sal: 7900, odds: 4900, sg: 0.59},
-    {name: "B. Harman", sal: 7900, odds: 7000, sg: -0.12},
-    {name: "T. Olesen", sal: 7800, odds: 5900, sg: 0.26},
-    {name: "M. Penge", sal: 7800, odds: 5100, sg: 0.03},
-    {name: "J. Smith", sal: 7700, odds: 5600, sg: 0.71},
-    {name: "R. Castillo", sal: 7700, odds: 6300, sg: 0.88},
-    {name: "W. Zalatoris", sal: 7600, odds: 6700, sg: 0.00},
-    {name: "P. Coody", sal: 7600, odds: 50000, sg: 0.94},
-    {name: "A. Smalley", sal: 7600, odds: 6600, sg: 0.84},
-    {name: "D. Thompson", sal: 7500, odds: 6500, sg: 0.14},
-    {name: "R. Hoey", sal: 7500, odds: 7000, sg: -0.25},
-    {name: "P. Rodgers", sal: 7500, odds: 8400, sg: 1.00},
-    {name: "J. Poston", sal: 7400, odds: 7400, sg: 0.16},
-    {name: "S. Jaeger", sal: 7400, odds: 6600, sg: 0.78},
-    {name: "T. Finau", sal: 7400, odds: 7600, sg: 0.58},
-    {name: "M. McGreevy", sal: 7400, odds: 9000, sg: 0.69},
-    {name: "M. McCarty", sal: 7400, odds: 8400, sg: 0.45},
-    {name: "C. Bezuidenhout", sal: 7300, odds: 7800, sg: 0.51},
-    {name: "M. Meissner", sal: 7300, odds: 9400, sg: 0.45},
-    {name: "M. Wallace", sal: 7300, odds: 8600, sg: -0.44},
-    {name: "A. Novak", sal: 7300, odds: 10500, sg: 0.15},
-    {name: "C. Kirk", sal: 7200, odds: 8600, sg: 0.01},
-    {name: "B. Cauley", sal: 7200, odds: 9200, sg: 0.29},
-    {name: "T. Kim", sal: 7200, odds: 10000, sg: 0.38},
-    {name: "J. Parry", sal: 7200, odds: 12000, sg: 0.44},
-    {name: "H. Li", sal: 7100, odds: 8600, sg: 0.58},
-    {name: "K. Reitan", sal: 7100, odds: 8600, sg: -0.53},
-    {name: "A. Dumont De Chassart", sal: 7100, odds: 10500, sg: 0.62},
-    {name: "Z. Dou", sal: 7100, odds: 10500, sg: 0.28},
-    {name: "M. Hughes", sal: 7100, odds: 11000, sg: 0.19},
-    {name: "A. Smotherman", sal: 7000, odds: 10000, sg: 0.89},
-    {name: "M. Homa", sal: 7000, odds: 11000, sg: 0.30},
-    {name: "W. Mouw", sal: 7000, odds: 13000, sg: 0.04},
-    {name: "D. Ghim", sal: 7000, odds: 12500, sg: 0.02},
-    {name: "C. Ramey", sal: 7000, odds: 11000, sg: 0.45},
-    {name: "M. Schmid", sal: 7000, odds: 50000, sg: -0.36},
-    {name: "E. Cole", sal: 6900, odds: 12000, sg: 0.21},
-    {name: "M. Kim", sal: 6900, odds: 12500, sg: -0.03},
-    {name: "L. Hodges", sal: 6900, odds: 13500, sg: 0.26},
-    {name: "Se. Kim", sal: 6900, odds: 14500, sg: 0.24},
-    {name: "S. Power", sal: 6900, odds: 14500, sg: 0.35},
-    {name: "K. Roy", sal: 6900, odds: 16500, sg: 0.40},
-    {name: "A. Eckroat", sal: 6800, odds: 13500, sg: -0.08},
-    {name: "B. Hossler", sal: 6800, odds: 13500, sg: 0.05},
-    {name: "M. Kuchar", sal: 6800, odds: 19500, sg: -0.56},
-    {name: "J. Svensson", sal: 6800, odds: 15000, sg: -0.44},
-    {name: "B. Horschel", sal: 6800, odds: 15000, sg: -0.37},
-    {name: "A. Putnam", sal: 6800, odds: 20000, sg: 0.71},
-    {name: "V. Whaley", sal: 6700, odds: 13500, sg: -0.23},
-    {name: "K. Yu", sal: 6700, odds: 14000, sg: -0.88},
-    {name: "D. Brown", sal: 6700, odds: 16500, sg: -0.01},
-    {name: "S. Fisk", sal: 6700, odds: 13500, sg: -0.10},
-    {name: "A. Ewart", sal: 6700, odds: 33000, sg: 0.38},
-    {name: "E. Grillo", sal: 6700, odds: 15000, sg: -0.71},
-    {name: "D. Ford", sal: 6700, odds: 18500, sg: 0.38},
-    {name: "S. Valimaki", sal: 6600, odds: 15500, sg: -0.34},
-    {name: "C. Blanchet", sal: 6600, odds: 22500, sg: -0.55},
-    {name: "K. Ventura", sal: 6600, odds: 16500, sg: -0.10},
-    {name: "J. Vegas", sal: 6600, odds: 19000, sg: -0.77},
-    {name: "A. Saddier", sal: 6600, odds: 20000, sg: -0.39},
-    {name: "B. Burgoon", sal: 6600, odds: 24000, sg: 0.00},
-    {name: "D. Lipsky", sal: 6600, odds: 25000, sg: 0.72},
-    {name: "W. Simpson", sal: 6500, odds: 19000, sg: -0.09},
-    {name: "L. Glover", sal: 6500, odds: 22500, sg: -1.01},
-    {name: "G. Higgo", sal: 6500, odds: 21000, sg: -1.62},
-    {name: "K. Vilips", sal: 6500, odds: 26000, sg: 0.25},
-    {name: "T. Hoge", sal: 6500, odds: 23000, sg: -0.13},
-    {name: "M. Pavon", sal: 6500, odds: 23000, sg: 0.44},
-    {name: "J. Stanger", sal: 6500, odds: 60000, sg: -0.27},
-    {name: "T. Kanaya", sal: 6400, odds: 25000, sg: -0.21},
-    {name: "P. Fishburn", sal: 6400, odds: 27500, sg: -1.23},
-    {name: "D. Wu", sal: 6400, odds: 23000, sg: -0.09},
-    {name: "Z. Bauchou", sal: 6400, odds: 28000, sg: 0.28},
-    {name: "B. Snedeker", sal: 6400, odds: 34000, sg: -0.36},
-    {name: "M. Hubbard", sal: 6400, odds: 29000, sg: -0.84},
-    {name: "H. Lebioda", sal: 6400, odds: 36000, sg: -0.42},
-    {name: "A. Svensson", sal: 6300, odds: 34000, sg: -0.42},
-    {name: "D. Chatfield", sal: 6300, odds: 67500, sg: -0.72},
-    {name: "P. Nyholm", sal: 6300, odds: 42500, sg: -0.81},
-    {name: "N. Shipley", sal: 6300, odds: 36000, sg: -1.55},
-    {name: "K. Streelman", sal: 6300, odds: 46000, sg: -0.10},
-    {name: "J. VanDerLaan", sal: 6300, odds: 40000, sg: -0.26},
-    {name: "D. Walker", sal: 6300, odds: 49000, sg: -0.39},
-    {name: "J. Highsmith", sal: 6300, odds: 65000, sg: -1.00},
-    {name: "L. Clanton", sal: 6200, odds: 36000, sg: -1.39},
-    {name: "E. Van Rooyen", sal: 6200, odds: 41000, sg: -1.18},
-    {name: "A. Tosti", sal: 6200, odds: 55000, sg: -2.56},
-    {name: "J. Lower", sal: 6200, odds: 72500, sg: -1.47},
-    {name: "C. Hoffman", sal: 6200, odds: 62500, sg: -2.18},
-    {name: "C. Lamprecht", sal: 6200, odds: 57500, sg: -1.76},
-    {name: "C. Phillips", sal: 6200, odds: 52500, sg: -0.81},
-    {name: "P. Waring", sal: 6200, odds: 90000, sg: -0.61},
-    {name: "A. Schenk", sal: 6100, odds: 70000, sg: -1.86},
-    {name: "K. Hirata", sal: 6100, odds: 85000, sg: -0.77},
-    {name: "P. Malnati", sal: 6100, odds: 90000, sg: -0.79},
-    {name: "N. Dunlap", sal: 6100, odds: 72500, sg: -1.78},
-    {name: "P. Kizzire", sal: 6100, odds: 70000, sg: -0.56},
-    {name: "B. Garnett", sal: 6100, odds: 80000, sg: -1.00},
-    {name: "C. Villegas", sal: 6100, odds: 120000, sg: -1.44},
-    {name: "J. Kang", sal: 6100, odds: 140000, sg: -1.73},
-    {name: "B. Todd", sal: 6000, odds: 275000, sg: 0.00},
-    {name: "K. Lee", sal: 6000, odds: 120000, sg: 0.00},
-    {name: "R. Campos", sal: 6000, odds: 225000, sg: -1.25},
-    {name: "G. Sargent", sal: 6000, odds: 125000, sg: -1.00},
-    {name: "M. Rozo", sal: 6000, odds: 275000, sg: -1.88},
-    {name: "R. Palmer", sal: 6000, odds: 200000, sg: 0.00},
-    {name: "J. Walker", sal: 6000, odds: 300000, sg: 0.00},
-    {name: "A. Wylie", sal: 6000, odds: 500000, sg: 0.00}
-  ];
-
-  players = extractedData.map(p => ({
-    name: p.name, price: p.sal, monOdds: p.odds, liveOdds: p.odds, sg: p.sg,
-    fit: 'Mid', locked: false, implMon: toImp(p.odds), implLive: toImp(p.odds),
+  players = MASTER_DB.map(p => ({
+    name: p.name, price: p.sal, monOdds: p.monOdds, liveOdds: p.monOdds, sg: p.sg,
+    fit: 'Mid', locked: false, implMon: toImp(p.monOdds), implLive: toImp(p.monOdds),
     salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, conviction:'CONSIDER', convSort:2, fitSort:0, strengthScore:0, cut:.50
   }));
 
@@ -413,25 +429,59 @@ function loadInitialData() {
 }
 
 function saveToLocal() {
-  localStorage.setItem('tve_players_v5', JSON.stringify(players.map(p => ({
-    name: p.name, price: p.price, monOdds: p.monOdds, liveOdds: p.liveOdds, sg: p.sg,
-    fit: p.fit, locked: p.locked, implMon: p.implMon, implLive: p.implLive
+  localStorage.setItem('tve_players_v7', JSON.stringify(players.map(p => ({
+    name: p.name, liveOdds: p.liveOdds, fit: p.fit, locked: p.locked
   }))));
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v5');
+  const stored = localStorage.getItem('tve_players_v7');
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
-    players = parsed.map(p => ({
-      ...p,
-      salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, conviction:'CONSIDER', convSort:2, fitSort:0, strengthScore:0, cut:.50
-    }));
+    
+    // Always map from immutable MASTER_DB to prevent data loss, injecting saved live data over top
+    players = MASTER_DB.map(masterP => {
+      const savedP = parsed.find(x => x.name === masterP.name) || {};
+      const liveOdds = savedP.liveOdds || masterP.monOdds;
+      return {
+        name: masterP.name, price: masterP.sal, monOdds: masterP.monOdds, liveOdds: liveOdds, sg: masterP.sg,
+        fit: savedP.fit || 'Mid', locked: savedP.locked || false, 
+        implMon: toImp(masterP.monOdds), implLive: toImp(liveOdds),
+        salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, conviction:'CONSIDER', convSort:2, fitSort:0, strengthScore:0, cut:.50
+      };
+    });
+
     compute();
     renderAll();
   } else {
     loadInitialData();
   }
+}
+
+// --- LIVE ODDS UPLOAD LOGIC ---
+function handleLiveOddsUpload() {
+  const csv = document.getElementById('csv-input').value;
+  if (!csv) return;
+  const lines = csv.trim().split('\n');
+  
+  lines.forEach(line => {
+    const parts = line.split(',').map(s => s.trim());
+    if (parts.length >= 2) {
+      const name = parts[0];
+      const live = parseInt(parts[1].replace(/[^0-9-]/g, '')); // Strip any text/pluses
+      
+      let p = players.find(x => x.name === name);
+      if (p && !isNaN(live)) {
+         p.liveOdds = live;
+         p.implLive = toImp(live);
+      }
+    }
+  });
+  
+  compute();
+  saveToLocal();
+  renderAll();
+  showTab('arb');
 }
 
 // --- ENGINE LOGIC ---
@@ -457,11 +507,14 @@ function compute() {
 
     p.fitSort = {Elite:4, Strong:3, Mid:2, Weak:1}[p.fit] || 0;
 
-    // Advanced Quantitative Model: Merge Market Value ($DLTA) with Course Performance (SG Total)
-    const sgBoost = p.sg * 10; 
+    // Advanced Volatility Model: Merge Market Value ($DLTA) with Course Performance (SG Total)
+    const sgBoost = p.sg * 12; 
+    const baseProj = (p.dlta * 3) + sgBoost + 50; 
+    const volatility = 10 + ((1 - p.cut) * 45); 
+
     const sims = [];
     for(let i=0; i<1000; i++) {
-        sims.push(randomNormal((p.dlta * 5) + sgBoost, 15 + (1-p.cut)*20));
+        sims.push(randomNormal(baseProj, volatility));
     }
     sims.sort((a,b) => a - b);
     p.simFloor = sims[200];
@@ -469,6 +522,13 @@ function compute() {
     p.simCeil = sims[850];
   });
 }
+
+const getPlayerScore = (p, buildType) => {
+    if (buildType === 'cash') return p.simFloor;
+    if (buildType === 'gpp') return p.simCeil;
+    if (buildType === 'steam') return p.simMean + (p.velocity > VEL_THRESHOLD ? 500 : 0); 
+    return p.simMean;
+};
 
 // --- GRASP MILP METAHEURISTIC OPTIMIZER ---
 function buildQuantLineup(locked, type) {
@@ -510,8 +570,8 @@ function buildQuantLineup(locked, type) {
           let newSpent = spent - lineup[k].price + candidate.price;
           
           if(newSpent <= targetMaxSal) {
-            let currentScore = lineup.reduce((s, p) => s + (type === 'gpp' ? p.simCeil : p.simFloor), 0);
-            let newScore = currentScore - (type === 'gpp' ? lineup[k].simCeil : lineup[k].simFloor) + (type === 'gpp' ? candidate.simCeil : candidate.simFloor);
+            let currentScore = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
+            let newScore = currentScore - getPlayerScore(lineup[k], type) + getPlayerScore(candidate, type);
             
             let currentlyValid = (spent >= targetMinSal);
             let newlyValid = (newSpent >= targetMinSal);
@@ -529,7 +589,7 @@ function buildQuantLineup(locked, type) {
     }
 
     if (spent >= targetMinSal && spent <= targetMaxSal) {
-      const score = lineup.reduce((s, p) => s + (type === 'gpp' ? p.simCeil : p.simFloor), 0);
+      const score = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
       if (score > bestScore) {
         bestScore = score;
         bestLineup = [...lineup];
@@ -548,7 +608,7 @@ function buildQuantLineup(locked, type) {
           if (spent + p.price <= SAL_CAP) { lineup.push(p); spent += p.price; }
         }
         if (lineup.length === 6) {
-          const score = lineup.reduce((s, p) => s + (type === 'gpp' ? p.simCeil : p.simFloor), 0);
+          const score = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
           if (score > bestScore) { bestScore = score; bestLineup = [...lineup]; }
         }
       }
@@ -578,7 +638,7 @@ function renderArb() {
       <td style="color:var(--muted)">${p.salRank}</td>
       <td><strong>${p.name}</strong>${p.velocity > VEL_THRESHOLD && p.delta > 0 ? '<span class="stm-badge">STM</span>' : ''}</td>
       <td style="font-family:var(--mono)">$${(p.price/1000).toFixed(1)}K</td>
-      <td style="color:${p.sg > 0 ? 'var(--teal-bright)' : p.sg < 0 ? 'var(--red)' : 'var(--muted)'}; font-weight: 700;">${p.sg > 0 ? '+' : ''}${p.sg.toFixed(2)}</td>
+      <td style="color:var(--muted); font-weight:700; font-family:var(--mono)">+${p.monOdds}</td>
       <td><span class="db ${p.delta > 5 ? 'd-elite' : p.delta > 0 ? 'd-slight' : 'd-neg'}">${p.delta > 0 ? '+' : ''}${p.delta}</span></td>
       <td class="${p.velocity > 0 ? 'vel-up' : 'vel-dn'}">${p.velocity > 0 ? '▲' : '▼'}${(Math.abs(p.velocity)*100).toFixed(2)}%</td>
       <td style="font-weight:800; color:var(--gold)">${p.dlta.toFixed(1)}</td>
@@ -616,7 +676,7 @@ function renderLUCard(elId, lineup, type) {
         <div class="lu-slot-num">G${i+1}</div>
         <div style="flex:1">
           <div class="lu-slot-name">${p.name}</div>
-          <div class="lu-slot-meta">${p.fit} · Δ${p.delta} · SG ${p.sg > 0 ? '+' : ''}${p.sg.toFixed(2)}</div>
+          <div class="lu-slot-meta">${p.fit} · Δ${p.delta}</div>
         </div>
         <div class="lu-slot-sal">$${p.price.toLocaleString()}</div>
       </div>
@@ -633,7 +693,14 @@ function showTab(t) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
   const targetPanel = document.getElementById('panel-' + t);
   if (targetPanel) targetPanel.classList.add('on');
-  document.querySelectorAll('.nav-tab').forEach(n => n.classList.toggle('on', n.textContent.toLowerCase() === t));
+  
+  document.querySelectorAll('.nav-tab').forEach(n => {
+    n.classList.remove('on');
+    if (n.getAttribute('onclick').includes(`'${t}'`)) {
+      n.classList.add('on');
+    }
+  });
+
   if (t === 'prebuilt') buildPrebuilt();
   if (t === 'build') renderCurrentCore();
 }
@@ -667,7 +734,7 @@ function clearLocks() {
 }
 
 function buildPrebuilt() {
-  renderLUCard('pb-steam-card', buildQuantLineup([], 'gpp'), 'steam');
+  renderLUCard('pb-steam-card', buildQuantLineup([], 'steam'), 'steam');
   renderLUCard('pb-gpp-card', buildQuantLineup([], 'gpp'), 'gpp');
   renderLUCard('pb-cash-card', buildQuantLineup([], 'cash'), 'cash');
 }
