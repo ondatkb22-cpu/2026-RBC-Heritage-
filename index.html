@@ -111,11 +111,11 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
 .d-slight{background:rgba(0, 180, 216, 0.12);color:var(--teal)}
 .d-neg{background:var(--red-bg);color:var(--red)}
 
-.conv{font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:.3px;font-family:var(--mono);white-space:nowrap}
-.conv-lock{background:var(--gold-bright);color:#0B131E}
-.conv-strong{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
-.conv-consider{background:var(--amber-bg);color:var(--amber)}
-.conv-fade{background:var(--red-bg);color:var(--red)}
+.grade{font-size:9px;font-weight:800;padding:3px 8px;border-radius:4px;letter-spacing:.5px;font-family:var(--mono);white-space:nowrap; display:inline-block; text-align:center;}
+.grade-core{background:var(--gold-bright);color:#0B131E}
+.grade-play{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
+.grade-pool{background:var(--surface3);color:var(--sub)}
+.grade-fade{background:var(--red-bg);color:var(--red)}
 
 .vel-up{font-weight:700;font-size:11px;color:var(--teal-bright);font-family:var(--mono)}
 .vel-dn{font-weight:700;font-size:11px;color:var(--red);font-family:var(--mono)}
@@ -147,18 +147,13 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 .add-btn{padding:2px 6px;border-radius:4px;border:none;font-size:12px;font-weight:900;cursor:pointer;background:var(--surface3);color:var(--text);transition:all .1s; width: 26px; text-align: center;}
 .add-btn.is-locked{background:var(--teal-bright);color:#0B131E}
 
-.stm-badge{font-size:9px;background:var(--teal);color:#0B131E;padding:1px 5px;border-radius:3px;font-weight:800;margin-left:6px}
+.stm-badge{font-size:9px;background:var(--teal);color:#0B131E;padding:2px 6px;border-radius:4px;font-weight:800;margin-left:6px; font-family:var(--sans);}
 .pb-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:8px;letter-spacing:.5px}
 .pb-steam{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
 .pb-gpp{background:rgba(244, 162, 97, 0.15);color:var(--gold)}
 .pb-cash{background:rgba(17, 138, 178, 0.15);color:var(--blue)}
 
 .insight{background:rgba(244, 162, 97, 0.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
-
-.fit-elite{color:var(--gold-bright);font-weight:800;}
-.fit-strong{color:var(--teal-bright);font-weight:700;}
-.fit-mid{color:var(--sub);}
-.fit-weak{color:var(--red);font-weight:700;}
 
 @media(max-width:700px){
   .pods{grid-template-columns:repeat(4,1fr);gap:5px;padding:10px 8px}
@@ -213,6 +208,7 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
       <ol style="padding-left:14px;font-size:12px;line-height:1.8;color:var(--sub)">
         <li><strong>Simulate:</strong> The engine scores players using a Composite Alpha: Win Equity, Value ($DLTA), Course Fit (SG), and Velocity.</li>
         <li><strong>Lock:</strong> Browse the <strong>Arb</strong> tab for <strong>CORE</strong> grade players and tap <strong style="color:#fff">+</strong> to lock your favorites.</li>
+        <li><strong>Pre:</strong> Instantly view 3 dynamically pre-built optimal lineups (Steam, GPP, Cash) perfectly tailored to the latest live odds.</li>
         <li><strong>Optimize:</strong> Tap the floating <strong>AUTO</strong> button to execute a Search Procedure and return the highest-scoring lineup strictly between $48,500 and $50,000.</li>
       </ol>
     </div>
@@ -324,532 +320,132 @@ const randomNormal = (mean, stdDev) => {
 
 // --- IMMUTABLE MASTER DATABASE ---
 const MASTER_DB = [
-    {name: "T. Fleetwood", sal: 10500, monOdds: 1400, sg: 2.04, fit: 'Elite'},
-    {name: "L. Aberg", sal: 10100, monOdds: 1550, sg: 1.61, fit: 'Elite'},
-    {name: "R. MacIntyre", sal: 9900, monOdds: 1750, sg: 1.82, fit: 'Mid'},
-    {name: "R. Henley", sal: 9800, monOdds: 1800, sg: 1.98, fit: 'Strong'},
-    {name: "Si. Kim", sal: 9600, monOdds: 1900, sg: 1.86, fit: 'Elite'},
-    {name: "J. Spieth", sal: 9500, monOdds: 1850, sg: 1.52, fit: 'Strong'},
-    {name: "C. Morikawa", sal: 9400, monOdds: 1750, sg: 2.19, fit: 'Elite'},
-    {name: "H. Matsuyama", sal: 9300, monOdds: 2250, sg: 1.87, fit: 'Strong'},
-    {name: "S. Straka", sal: 9200, monOdds: 3000, sg: 1.15, fit: 'Strong'},
-    {name: "M. McNealy", sal: 9000, monOdds: 2300, sg: 1.59, fit: 'Strong'},
-    {name: "M. Thorbjornsen", sal: 8900, monOdds: 2400, sg: 0.80, fit: 'Mid'},
-    {name: "R. Fowler", sal: 8800, monOdds: 2600, sg: 1.57, fit: 'Mid'},
-    {name: "A. Noren", sal: 8700, monOdds: 3700, sg: 1.10, fit: 'Strong'},
-    {name: "J. Spaun", sal: 8600, monOdds: 3200, sg: 0.10, fit: 'Mid'},
-    {name: "K. Mitchell", sal: 8500, monOdds: 3500, sg: 1.07, fit: 'Elite'},
-    {name: "D. Berger", sal: 8400, monOdds: 4500, sg: 0.92, fit: 'Strong'},
-    {name: "R. Hisatsune", sal: 8300, monOdds: 4500, sg: 1.54, fit: 'Strong'},
-    {name: "D. McCarthy", sal: 8200, monOdds: 5800, sg: 0.35, fit: 'Mid'},
-    {name: "S. Yellamaraju", sal: 8100, monOdds: 7000, sg: 1.18, fit: 'Strong'},
-    {name: "J. Keefer", sal: 8000, monOdds: 6500, sg: 0.27, fit: 'Mid'},
-    {name: "N. Taylor", sal: 8000, monOdds: 5000, sg: 1.15, fit: 'Mid'},
-    {name: "G. Woodland", sal: 7900, monOdds: 4900, sg: 0.59, fit: 'Strong'},
-    {name: "B. Harman", sal: 7900, monOdds: 7000, sg: -0.12, fit: 'Mid'},
-    {name: "T. Olesen", sal: 7800, monOdds: 5900, sg: 0.26, fit: 'Mid'},
-    {name: "M. Penge", sal: 7800, monOdds: 5100, sg: 0.03, fit: 'Mid'},
-    {name: "J. Smith", sal: 7700, monOdds: 5600, sg: 0.71, fit: 'Strong'},
-    {name: "R. Castillo", sal: 7700, monOdds: 6300, sg: 0.88, fit: 'Mid'},
-    {name: "W. Zalatoris", sal: 7600, monOdds: 6700, sg: 0.00, fit: 'Elite'},
-    {name: "P. Coody", sal: 7600, monOdds: 50000, sg: 0.94, fit: 'Mid'},
-    {name: "A. Smalley", sal: 7600, monOdds: 6600, sg: 0.84, fit: 'Strong'},
-    {name: "D. Thompson", sal: 7500, monOdds: 6500, sg: 0.14, fit: 'Elite'},
-    {name: "R. Hoey", sal: 7500, monOdds: 7000, sg: -0.25, fit: 'Strong'},
-    {name: "P. Rodgers", sal: 7500, monOdds: 8400, sg: 1.00, fit: 'Mid'},
-    {name: "J. Poston", sal: 7400, monOdds: 7400, sg: 0.16, fit: 'Mid'},
-    {name: "S. Jaeger", sal: 7400, monOdds: 6600, sg: 0.78, fit: 'Elite'},
-    {name: "T. Finau", sal: 7400, monOdds: 7600, sg: 0.58, fit: 'Elite'},
-    {name: "M. McGreevy", sal: 7400, monOdds: 9000, sg: 0.69, fit: 'Mid'},
-    {name: "M. McCarty", sal: 7400, monOdds: 8400, sg: 0.45, fit: 'Mid'},
-    {name: "C. Bezuidenhout", sal: 7300, monOdds: 7800, sg: 0.51, fit: 'Mid'},
-    {name: "M. Meissner", sal: 7300, monOdds: 9400, sg: 0.45, fit: 'Strong'},
-    {name: "M. Wallace", sal: 7300, monOdds: 8600, sg: -0.44, fit: 'Mid'},
-    {name: "A. Novak", sal: 7300, monOdds: 10500, sg: 0.15, fit: 'Strong'},
-    {name: "C. Kirk", sal: 7200, monOdds: 8600, sg: 0.01, fit: 'Strong'},
-    {name: "B. Cauley", sal: 7200, monOdds: 9200, sg: 0.29, fit: 'Mid'},
-    {name: "T. Kim", sal: 7200, monOdds: 10000, sg: 0.38, fit: 'Strong'},
-    {name: "J. Parry", sal: 7200, monOdds: 12000, sg: 0.44, fit: 'Mid'},
-    {name: "H. Li", sal: 7100, monOdds: 8600, sg: 0.58, fit: 'Mid'},
-    {name: "K. Reitan", sal: 7100, monOdds: 8600, sg: -0.53, fit: 'Mid'},
-    {name: "A. Dumont De Chassart", sal: 7100, monOdds: 10500, sg: 0.62, fit: 'Mid'},
-    {name: "Z. Dou", sal: 7100, monOdds: 10500, sg: 0.28, fit: 'Mid'},
-    {name: "M. Hughes", sal: 7100, monOdds: 11000, sg: 0.19, fit: 'Mid'},
-    {name: "A. Smotherman", sal: 7000, monOdds: 10000, sg: 0.89, fit: 'Strong'},
-    {name: "M. Homa", sal: 7000, monOdds: 11000, sg: 0.30, fit: 'Strong'},
-    {name: "W. Mouw", sal: 7000, monOdds: 13000, sg: 0.04, fit: 'Mid'},
-    {name: "D. Ghim", sal: 7000, monOdds: 12500, sg: 0.02, fit: 'Elite'},
-    {name: "C. Ramey", sal: 7000, monOdds: 11000, sg: 0.45, fit: 'Mid'},
-    {name: "M. Schmid", sal: 7000, monOdds: 50000, sg: -0.36, fit: 'Mid'},
-    {name: "E. Cole", sal: 6900, monOdds: 12000, sg: 0.21, fit: 'Mid'},
-    {name: "M. Kim", sal: 6900, monOdds: 12500, sg: -0.03, fit: 'Mid'},
-    {name: "L. Hodges", sal: 6900, monOdds: 13500, sg: 0.26, fit: 'Mid'},
-    {name: "Se. Kim", sal: 6900, monOdds: 14500, sg: 0.24, fit: 'Mid'},
-    {name: "S. Power", sal: 6900, monOdds: 14500, sg: 0.35, fit: 'Mid'},
-    {name: "K. Roy", sal: 6900, monOdds: 16500, sg: 0.40, fit: 'Mid'},
-    {name: "A. Eckroat", sal: 6800, monOdds: 13500, sg: -0.08, fit: 'Elite'},
-    {name: "B. Hossler", sal: 6800, monOdds: 13500, sg: 0.05, fit: 'Mid'},
-    {name: "M. Kuchar", sal: 6800, monOdds: 19500, sg: -0.56, fit: 'Weak'},
-    {name: "J. Svensson", sal: 6800, monOdds: 15000, sg: -0.44, fit: 'Mid'},
-    {name: "B. Horschel", sal: 6800, monOdds: 15000, sg: -0.37, fit: 'Strong'},
-    {name: "A. Putnam", sal: 6800, monOdds: 20000, sg: 0.71, fit: 'Mid'},
-    {name: "V. Whaley", sal: 6700, monOdds: 13500, sg: -0.23, fit: 'Mid'},
-    {name: "K. Yu", sal: 6700, monOdds: 14000, sg: -0.88, fit: 'Elite'},
-    {name: "D. Brown", sal: 6700, monOdds: 16500, sg: -0.01, fit: 'Mid'},
-    {name: "S. Fisk", sal: 6700, monOdds: 13500, sg: -0.10, fit: 'Mid'},
-    {name: "A. Ewart", sal: 6700, monOdds: 33000, sg: 0.38, fit: 'Mid'},
-    {name: "E. Grillo", sal: 6700, monOdds: 15000, sg: -0.71, fit: 'Strong'},
-    {name: "D. Ford", sal: 6700, monOdds: 18500, sg: 0.38, fit: 'Mid'},
-    {name: "S. Valimaki", sal: 6600, monOdds: 15500, sg: -0.34, fit: 'Mid'},
-    {name: "C. Blanchet", sal: 6600, monOdds: 22500, sg: -0.55, fit: 'Mid'},
-    {name: "K. Ventura", sal: 6600, monOdds: 16500, sg: -0.10, fit: 'Mid'},
-    {name: "J. Vegas", sal: 6600, monOdds: 19000, sg: -0.77, fit: 'Strong'},
-    {name: "A. Saddier", sal: 6600, monOdds: 20000, sg: -0.39, fit: 'Mid'},
-    {name: "B. Burgoon", sal: 6600, monOdds: 24000, sg: 0.00, fit: 'Mid'},
-    {name: "D. Lipsky", sal: 6600, monOdds: 25000, sg: 0.72, fit: 'Mid'},
-    {name: "W. Simpson", sal: 6500, monOdds: 19000, sg: -0.09, fit: 'Weak'},
-    {name: "L. Glover", sal: 6500, monOdds: 22500, sg: -1.01, fit: 'Strong'},
-    {name: "G. Higgo", sal: 6500, monOdds: 21000, sg: -1.62, fit: 'Weak'},
-    {name: "K. Vilips", sal: 6500, monOdds: 26000, sg: 0.25, fit: 'Mid'},
-    {name: "T. Hoge", sal: 6500, monOdds: 23000, sg: -0.13, fit: 'Elite'},
-    {name: "M. Pavon", sal: 6500, monOdds: 23000, sg: 0.44, fit: 'Mid'},
-    {name: "J. Stanger", sal: 6500, monOdds: 60000, sg: -0.27, fit: 'Mid'},
-    {name: "T. Kanaya", sal: 6400, monOdds: 25000, sg: -0.21, fit: 'Mid'},
-    {name: "P. Fishburn", sal: 6400, monOdds: 27500, sg: -1.23, fit: 'Strong'},
-    {name: "D. Wu", sal: 6400, monOdds: 23000, sg: -0.09, fit: 'Mid'},
-    {name: "Z. Bauchou", sal: 6400, monOdds: 28000, sg: 0.28, fit: 'Mid'},
-    {name: "B. Snedeker", sal: 6400, monOdds: 34000, sg: -0.36, fit: 'Weak'},
-    {name: "M. Hubbard", sal: 6400, monOdds: 29000, sg: -0.84, fit: 'Mid'},
-    {name: "H. Lebioda", sal: 6400, monOdds: 36000, sg: -0.42, fit: 'Mid'},
-    {name: "A. Svensson", sal: 6300, monOdds: 34000, sg: -0.42, fit: 'Strong'},
-    {name: "D. Chatfield", sal: 6300, monOdds: 67500, sg: -0.72, fit: 'Mid'},
-    {name: "P. Nyholm", sal: 6300, monOdds: 42500, sg: -0.81, fit: 'Mid'},
-    {name: "N. Shipley", sal: 6300, monOdds: 36000, sg: -1.55, fit: 'Mid'},
-    {name: "K. Streelman", sal: 6300, monOdds: 46000, sg: -0.10, fit: 'Mid'},
-    {name: "J. VanDerLaan", sal: 6300, monOdds: 40000, sg: -0.26, fit: 'Mid'},
-    {name: "D. Walker", sal: 6300, monOdds: 49000, sg: -0.39, fit: 'Mid'},
-    {name: "J. Highsmith", sal: 6300, monOdds: 65000, sg: -1.00, fit: 'Mid'},
-    {name: "L. Clanton", sal: 6200, monOdds: 36000, sg: -1.39, fit: 'Strong'},
-    {name: "E. Van Rooyen", sal: 6200, monOdds: 41000, sg: -1.18, fit: 'Strong'},
-    {name: "A. Tosti", sal: 6200, monOdds: 55000, sg: -2.56, fit: 'Mid'},
-    {name: "J. Lower", sal: 6200, monOdds: 72500, sg: -1.47, fit: 'Mid'},
-    {name: "C. Hoffman", sal: 6200, monOdds: 62500, sg: -2.18, fit: 'Mid'},
-    {name: "C. Lamprecht", sal: 6200, monOdds: 57500, sg: -1.76, fit: 'Mid'},
-    {name: "C. Phillips", sal: 6200, monOdds: 52500, sg: -0.81, fit: 'Mid'},
-    {name: "P. Waring", sal: 6200, monOdds: 90000, sg: -0.61, fit: 'Mid'},
-    {name: "A. Schenk", sal: 6100, monOdds: 70000, sg: -1.86, fit: 'Mid'},
-    {name: "K. Hirata", sal: 6100, monOdds: 85000, sg: -0.77, fit: 'Mid'},
-    {name: "P. Malnati", sal: 6100, monOdds: 90000, sg: -0.79, fit: 'Weak'},
-    {name: "N. Dunlap", sal: 6100, monOdds: 72500, sg: -1.78, fit: 'Strong'},
-    {name: "P. Kizzire", sal: 6100, monOdds: 70000, sg: -0.56, fit: 'Mid'},
-    {name: "B. Garnett", sal: 6100, monOdds: 80000, sg: -1.00, fit: 'Mid'},
-    {name: "C. Villegas", sal: 6100, monOdds: 120000, sg: -1.44, fit: 'Weak'},
-    {name: "J. Kang", sal: 6100, monOdds: 140000, sg: -1.73, fit: 'Weak'},
-    {name: "B. Todd", sal: 6000, monOdds: 275000, sg: 0.00, fit: 'Weak'},
-    {name: "K. Lee", sal: 6000, monOdds: 120000, sg: 0.00, fit: 'Mid'},
-    {name: "R. Campos", sal: 6000, monOdds: 225000, sg: -1.25, fit: 'Weak'},
-    {name: "G. Sargent", sal: 6000, monOdds: 125000, sg: -1.00, fit: 'Strong'},
-    {name: "M. Rozo", sal: 6000, monOdds: 275000, sg: -1.88, fit: 'Weak'},
-    {name: "R. Palmer", sal: 6000, monOdds: 200000, sg: 0.00, fit: 'Weak'},
-    {name: "J. Walker", sal: 6000, monOdds: 300000, sg: 0.00, fit: 'Weak'},
-    {name: "A. Wylie", sal: 6000, monOdds: 500000, sg: 0.00, fit: 'Weak'}
+    {name: "T. Fleetwood", sal: 10500, monOdds: 1400, liveOdds: 1400, sg: 2.04, fit: 'Elite'},
+    {name: "L. Aberg", sal: 10100, monOdds: 1550, liveOdds: 1600, sg: 1.61, fit: 'Elite'},
+    {name: "R. MacIntyre", sal: 9900, monOdds: 1750, liveOdds: 1800, sg: 1.82, fit: 'Mid'},
+    {name: "R. Henley", sal: 9800, monOdds: 1800, liveOdds: 1800, sg: 1.98, fit: 'Strong'},
+    {name: "Si. Kim", sal: 9600, monOdds: 1900, liveOdds: 2000, sg: 1.86, fit: 'Elite'},
+    {name: "J. Spieth", sal: 9500, monOdds: 1850, liveOdds: 1950, sg: 1.52, fit: 'Strong'},
+    {name: "C. Morikawa", sal: 9400, monOdds: 1750, liveOdds: 2000, sg: 2.19, fit: 'Elite'},
+    {name: "H. Matsuyama", sal: 9300, monOdds: 2250, liveOdds: 2150, sg: 1.87, fit: 'Strong'},
+    {name: "S. Straka", sal: 9200, monOdds: 3000, liveOdds: 2900, sg: 1.15, fit: 'Strong'},
+    {name: "M. McNealy", sal: 9000, monOdds: 2300, liveOdds: 2300, sg: 1.59, fit: 'Strong'},
+    {name: "M. Thorbjornsen", sal: 8900, monOdds: 2400, liveOdds: 2700, sg: 0.80, fit: 'Mid'},
+    {name: "R. Fowler", sal: 8800, monOdds: 2600, liveOdds: 2700, sg: 1.57, fit: 'Mid'},
+    {name: "A. Noren", sal: 8700, monOdds: 3700, liveOdds: 4000, sg: 1.10, fit: 'Strong'},
+    {name: "J. Spaun", sal: 8600, monOdds: 3200, liveOdds: 3800, sg: 0.10, fit: 'Mid'},
+    {name: "K. Mitchell", sal: 8500, monOdds: 3500, liveOdds: 3700, sg: 1.07, fit: 'Elite'},
+    {name: "D. Berger", sal: 8400, monOdds: 4500, liveOdds: 4600, sg: 0.92, fit: 'Strong'},
+    {name: "R. Hisatsune", sal: 8300, monOdds: 4500, liveOdds: 3900, sg: 1.54, fit: 'Strong'},
+    {name: "D. McCarthy", sal: 8200, monOdds: 5800, liveOdds: 4900, sg: 0.35, fit: 'Mid'},
+    {name: "S. Yellamaraju", sal: 8100, monOdds: 7000, liveOdds: 6600, sg: 1.18, fit: 'Strong'},
+    {name: "J. Keefer", sal: 8000, monOdds: 6500, liveOdds: 6400, sg: 0.27, fit: 'Mid'},
+    {name: "N. Taylor", sal: 8000, monOdds: 5000, liveOdds: 5800, sg: 1.15, fit: 'Mid'},
+    {name: "B. Harman", sal: 7900, monOdds: 7000, liveOdds: 7000, sg: -0.12, fit: 'Mid'},
+    {name: "T. Olesen", sal: 7800, monOdds: 5900, liveOdds: 6300, sg: 0.26, fit: 'Mid'},
+    {name: "M. Penge", sal: 7800, monOdds: 5100, liveOdds: 5400, sg: 0.03, fit: 'Mid'},
+    {name: "J. Smith", sal: 7700, monOdds: 5600, liveOdds: 5800, sg: 0.71, fit: 'Strong'},
+    {name: "R. Castillo", sal: 7700, monOdds: 6300, liveOdds: 6100, sg: 0.88, fit: 'Mid'},
+    {name: "W. Zalatoris", sal: 7600, monOdds: 6700, liveOdds: 6800, sg: 0.00, fit: 'Elite'},
+    {name: "A. Smalley", sal: 7600, monOdds: 6600, liveOdds: 6000, sg: 0.84, fit: 'Strong'},
+    {name: "D. Thompson", sal: 7500, monOdds: 6500, liveOdds: 6900, sg: 0.14, fit: 'Elite'},
+    {name: "R. Hoey", sal: 7500, monOdds: 7000, liveOdds: 7200, sg: -0.25, fit: 'Strong'},
+    {name: "P. Rodgers", sal: 7500, monOdds: 8400, liveOdds: 8400, sg: 1.00, fit: 'Mid'},
+    {name: "J. Poston", sal: 7400, monOdds: 7400, liveOdds: 7200, sg: 0.16, fit: 'Mid'},
+    {name: "S. Jaeger", sal: 7400, monOdds: 6600, liveOdds: 6400, sg: 0.78, fit: 'Elite'},
+    {name: "T. Finau", sal: 7400, monOdds: 7600, liveOdds: 6500, sg: 0.58, fit: 'Elite'},
+    {name: "M. McGreevy", sal: 7400, monOdds: 9000, liveOdds: 9000, sg: 0.69, fit: 'Mid'},
+    {name: "M. McCarty", sal: 7400, monOdds: 8400, liveOdds: 8800, sg: 0.45, fit: 'Mid'},
+    {name: "C. Bezuidenhout", sal: 7300, monOdds: 7800, liveOdds: 7400, sg: 0.51, fit: 'Mid'},
+    {name: "M. Meissner", sal: 7300, monOdds: 9400, liveOdds: 8200, sg: 0.45, fit: 'Strong'},
+    {name: "M. Wallace", sal: 7300, monOdds: 8600, liveOdds: 8000, sg: -0.44, fit: 'Mid'},
+    {name: "A. Novak", sal: 7300, monOdds: 10500, liveOdds: 10000, sg: 0.15, fit: 'Strong'},
+    {name: "C. Kirk", sal: 7200, monOdds: 8600, liveOdds: 9000, sg: 0.01, fit: 'Strong'},
+    {name: "B. Cauley", sal: 7200, monOdds: 9200, liveOdds: 9000, sg: 0.29, fit: 'Mid'},
+    {name: "T. Kim", sal: 7200, monOdds: 10000, liveOdds: 9400, sg: 0.38, fit: 'Strong'},
+    {name: "J. Parry", sal: 7200, monOdds: 12000, liveOdds: 12500, sg: 0.44, fit: 'Mid'},
+    {name: "H. Li", sal: 7100, monOdds: 8600, liveOdds: 9200, sg: 0.58, fit: 'Mid'},
+    {name: "K. Reitan", sal: 7100, monOdds: 8600, liveOdds: 8600, sg: -0.53, fit: 'Mid'},
+    {name: "A. Dumont De Chassart", sal: 7100, monOdds: 10500, liveOdds: 9400, sg: 0.62, fit: 'Mid'},
+    {name: "Z. Dou", sal: 7100, monOdds: 10500, liveOdds: 10000, sg: 0.28, fit: 'Mid'},
+    {name: "M. Hughes", sal: 7100, monOdds: 11000, liveOdds: 8400, sg: 0.19, fit: 'Mid'},
+    {name: "A. Smotherman", sal: 7000, monOdds: 10000, liveOdds: 8800, sg: 0.89, fit: 'Strong'},
+    {name: "M. Homa", sal: 7000, monOdds: 11000, liveOdds: 11000, sg: 0.30, fit: 'Strong'},
+    {name: "W. Mouw", sal: 7000, monOdds: 13000, liveOdds: 11500, sg: 0.04, fit: 'Mid'},
+    {name: "D. Ghim", sal: 7000, monOdds: 12500, liveOdds: 12500, sg: 0.02, fit: 'Elite'},
+    {name: "C. Ramey", sal: 7000, monOdds: 11000, liveOdds: 11000, sg: 0.45, fit: 'Mid'},
+    {name: "M. Schmid", sal: 7000, monOdds: 50000, liveOdds: 50000, sg: -0.36, fit: 'Mid'},
+    {name: "E. Cole", sal: 6900, monOdds: 12000, liveOdds: 10500, sg: 0.21, fit: 'Mid'},
+    {name: "M. Kim", sal: 6900, monOdds: 12500, liveOdds: 12500, sg: -0.03, fit: 'Mid'},
+    {name: "L. Hodges", sal: 6900, monOdds: 13500, liveOdds: 13500, sg: 0.26, fit: 'Mid'},
+    {name: "Se. Kim", sal: 6900, monOdds: 14500, liveOdds: 11500, sg: 0.24, fit: 'Mid'},
+    {name: "S. Power", sal: 6900, monOdds: 14500, liveOdds: 13000, sg: 0.35, fit: 'Mid'},
+    {name: "K. Roy", sal: 6900, monOdds: 16500, liveOdds: 15000, sg: 0.40, fit: 'Mid'},
+    {name: "A. Eckroat", sal: 6800, monOdds: 13500, liveOdds: 14500, sg: -0.08, fit: 'Elite'},
+    {name: "B. Hossler", sal: 6800, monOdds: 13500, liveOdds: 12000, sg: 0.05, fit: 'Mid'},
+    {name: "M. Kuchar", sal: 6800, monOdds: 19500, liveOdds: 17000, sg: -0.56, fit: 'Weak'},
+    {name: "J. Svensson", sal: 6800, monOdds: 15000, liveOdds: 17000, sg: -0.44, fit: 'Mid'},
+    {name: "B. Horschel", sal: 6800, monOdds: 15000, liveOdds: 12000, sg: -0.37, fit: 'Strong'},
+    {name: "A. Putnam", sal: 6800, monOdds: 20000, liveOdds: 17000, sg: 0.71, fit: 'Mid'},
+    {name: "V. Whaley", sal: 6700, monOdds: 13500, liveOdds: 12500, sg: -0.23, fit: 'Mid'},
+    {name: "K. Yu", sal: 6700, monOdds: 14000, liveOdds: 16000, sg: -0.88, fit: 'Elite'},
+    {name: "D. Brown", sal: 6700, monOdds: 16500, liveOdds: 17000, sg: -0.01, fit: 'Mid'},
+    {name: "S. Fisk", sal: 6700, monOdds: 13500, liveOdds: 13000, sg: -0.10, fit: 'Mid'},
+    {name: "A. Ewart", sal: 6700, monOdds: 33000, liveOdds: 24000, sg: 0.38, fit: 'Mid'},
+    {name: "E. Grillo", sal: 6700, monOdds: 15000, liveOdds: 15000, sg: -0.71, fit: 'Strong'},
+    {name: "D. Ford", sal: 6700, monOdds: 18500, liveOdds: 18500, sg: 0.38, fit: 'Mid'},
+    {name: "S. Valimaki", sal: 6600, monOdds: 15500, liveOdds: 15000, sg: -0.34, fit: 'Mid'},
+    {name: "C. Blanchet", sal: 6600, monOdds: 22500, liveOdds: 20000, sg: -0.55, fit: 'Mid'},
+    {name: "K. Ventura", sal: 6600, monOdds: 16500, liveOdds: 15000, sg: -0.10, fit: 'Mid'},
+    {name: "J. Vegas", sal: 6600, monOdds: 19000, liveOdds: 17500, sg: -0.77, fit: 'Strong'},
+    {name: "A. Saddier", sal: 6600, monOdds: 20000, liveOdds: 18000, sg: -0.39, fit: 'Mid'},
+    {name: "B. Burgoon", sal: 6600, monOdds: 24000, liveOdds: 14500, sg: 0.00, fit: 'Mid'},
+    {name: "D. Lipsky", sal: 6600, monOdds: 25000, liveOdds: 19000, sg: 0.72, fit: 'Mid'},
+    {name: "W. Simpson", sal: 6500, monOdds: 19000, liveOdds: 18500, sg: -0.09, fit: 'Weak'},
+    {name: "L. Glover", sal: 6500, monOdds: 22500, liveOdds: 22500, sg: -1.01, fit: 'Strong'},
+    {name: "G. Higgo", sal: 6500, monOdds: 21000, liveOdds: 18000, sg: -1.62, fit: 'Weak'},
+    {name: "K. Vilips", sal: 6500, monOdds: 26000, liveOdds: 19500, sg: 0.25, fit: 'Mid'},
+    {name: "T. Hoge", sal: 6500, monOdds: 23000, liveOdds: 22000, sg: -0.13, fit: 'Elite'},
+    {name: "M. Pavon", sal: 6500, monOdds: 23000, liveOdds: 22000, sg: 0.44, fit: 'Mid'},
+    {name: "J. Stanger", sal: 6500, monOdds: 60000, liveOdds: 33000, sg: -0.27, fit: 'Mid'},
+    {name: "T. Kanaya", sal: 6400, monOdds: 25000, liveOdds: 26000, sg: -0.21, fit: 'Mid'},
+    {name: "P. Fishburn", sal: 6400, monOdds: 27500, liveOdds: 28000, sg: -1.23, fit: 'Strong'},
+    {name: "D. Wu", sal: 6400, monOdds: 23000, liveOdds: 25000, sg: -0.09, fit: 'Mid'},
+    {name: "Z. Bauchou", sal: 6400, monOdds: 28000, liveOdds: 30000, sg: 0.28, fit: 'Mid'},
+    {name: "B. Snedeker", sal: 6400, monOdds: 34000, liveOdds: 28000, sg: -0.36, fit: 'Weak'},
+    {name: "M. Hubbard", sal: 6400, monOdds: 29000, liveOdds: 24000, sg: -0.84, fit: 'Mid'},
+    {name: "H. Lebioda", sal: 6400, monOdds: 36000, liveOdds: 35000, sg: -0.42, fit: 'Mid'},
+    {name: "A. Svensson", sal: 6300, monOdds: 34000, liveOdds: 32500, sg: -0.42, fit: 'Strong'},
+    {name: "D. Chatfield", sal: 6300, monOdds: 67500, liveOdds: 72500, sg: -0.72, fit: 'Mid'},
+    {name: "P. Nyholm", sal: 6300, monOdds: 42500, liveOdds: 32000, sg: -0.81, fit: 'Mid'},
+    {name: "N. Shipley", sal: 6300, monOdds: 36000, liveOdds: 36000, sg: -1.55, fit: 'Mid'},
+    {name: "K. Streelman", sal: 6300, monOdds: 46000, liveOdds: 35000, sg: -0.10, fit: 'Mid'},
+    {name: "J. VanDerLaan", sal: 6300, monOdds: 40000, liveOdds: 37500, sg: -0.26, fit: 'Mid'},
+    {name: "D. Walker", sal: 6300, monOdds: 49000, liveOdds: 39000, sg: -0.39, fit: 'Mid'},
+    {name: "J. Highsmith", sal: 6300, monOdds: 65000, liveOdds: 57500, sg: -1.00, fit: 'Mid'},
+    {name: "L. Clanton", sal: 6200, monOdds: 36000, liveOdds: 31000, sg: -1.39, fit: 'Strong'},
+    {name: "E. Van Rooyen", sal: 6200, monOdds: 41000, liveOdds: 41000, sg: -1.18, fit: 'Strong'},
+    {name: "A. Tosti", sal: 6200, monOdds: 55000, liveOdds: 55000, sg: -2.56, fit: 'Mid'},
+    {name: "J. Lower", sal: 6200, monOdds: 72500, liveOdds: 65000, sg: -1.47, fit: 'Mid'},
+    {name: "C. Hoffman", sal: 6200, monOdds: 62500, liveOdds: 55000, sg: -2.18, fit: 'Mid'},
+    {name: "C. Lamprecht", sal: 6200, monOdds: 57500, liveOdds: 47000, sg: -1.76, fit: 'Mid'},
+    {name: "C. Phillips", sal: 6200, monOdds: 52500, liveOdds: 45000, sg: -0.81, fit: 'Mid'},
+    {name: "P. Waring", sal: 6200, monOdds: 90000, liveOdds: 65000, sg: -0.61, fit: 'Mid'},
+    {name: "A. Schenk", sal: 6100, monOdds: 70000, liveOdds: 52500, sg: -1.86, fit: 'Mid'},
+    {name: "K. Hirata", sal: 6100, monOdds: 85000, liveOdds: 60000, sg: -0.77, fit: 'Mid'},
+    {name: "P. Malnati", sal: 6100, monOdds: 90000, liveOdds: 49000, sg: -0.79, fit: 'Weak'},
+    {name: "N. Dunlap", sal: 6100, monOdds: 72500, liveOdds: 50000, sg: -1.78, fit: 'Strong'},
+    {name: "P. Kizzire", sal: 6100, monOdds: 70000, liveOdds: 47000, sg: -0.56, fit: 'Mid'},
+    {name: "B. Garnett", sal: 6100, monOdds: 80000, liveOdds: 62500, sg: -1.00, fit: 'Mid'},
+    {name: "C. Villegas", sal: 6100, monOdds: 120000, liveOdds: 90000, sg: -1.44, fit: 'Weak'},
+    {name: "J. Kang", sal: 6100, monOdds: 140000, liveOdds: 120000, sg: -1.73, fit: 'Weak'},
+    {name: "B. Todd", sal: 6000, monOdds: 275000, liveOdds: 225000, sg: 0.00, fit: 'Weak'},
+    {name: "K. Lee", sal: 6000, monOdds: 120000, liveOdds: 92500, sg: 0.00, fit: 'Mid'},
+    {name: "R. Campos", sal: 6000, monOdds: 225000, liveOdds: 180000, sg: -1.25, fit: 'Weak'},
+    {name: "G. Sargent", sal: 6000, monOdds: 125000, liveOdds: 65000, sg: -1.00, fit: 'Strong'},
+    {name: "M. Rozo", sal: 6000, monOdds: 275000, liveOdds: 200000, sg: -1.88, fit: 'Weak'},
+    {name: "R. Palmer", sal: 6000, monOdds: 200000, liveOdds: 275000, sg: 0.00, fit: 'Weak'},
+    {name: "J. Walker", sal: 6000, monOdds: 300000, liveOdds: 150000, sg: 0.00, fit: 'Weak'},
+    {name: "A. Wylie", sal: 6000, monOdds: 500000, liveOdds: 500000, sg: 0.00, fit: 'Weak'}
 ];
-
-// --- DATA PERSISTENCE & INITIALIZATION ---
-function loadInitialData() {
-  players = MASTER_DB.map(p => ({
-    name: p.name, price: p.sal, monOdds: p.monOdds, liveOdds: p.monOdds, sg: p.sg,
-    fit: p.fit, locked: false, implMon: toImp(p.monOdds), implLive: toImp(p.monOdds),
-    salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, grade:'POOL', gradeSort:2, strengthScore:0, cut:.50
-  }));
-
-  compute();
-  saveToLocal();
-  renderAll();
-}
-
-function saveToLocal() {
-  localStorage.setItem('tve_players_v14', JSON.stringify(players.map(p => ({
-    name: p.name, liveOdds: p.liveOdds, locked: p.locked
-  }))));
-}
-
-function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v14');
-  if (stored && stored !== '[]') {
-    const parsed = JSON.parse(stored);
-    
-    players = MASTER_DB.map(masterP => {
-      const savedP = parsed.find(x => x.name === masterP.name) || {};
-      const liveOdds = savedP.liveOdds || masterP.monOdds;
-      return {
-        name: masterP.name, price: masterP.sal, monOdds: masterP.monOdds, liveOdds: liveOdds, sg: masterP.sg,
-        fit: masterP.fit || 'Mid', locked: savedP.locked || false, 
-        implMon: toImp(masterP.monOdds), implLive: toImp(liveOdds),
-        salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, grade:'POOL', gradeSort:2, strengthScore:0, cut:.50
-      };
-    });
-
-    compute();
-    renderAll();
-  } else {
-    loadInitialData();
-  }
-}
-
-// --- LIVE ODDS UPLOAD LOGIC ---
-function handleLiveOddsUpload() {
-  const csv = document.getElementById('csv-input').value;
-  if (!csv) return;
-  const lines = csv.trim().split('\n');
-  
-  lines.forEach(line => {
-    const parts = line.split(',').map(s => s.trim());
-    if (parts.length >= 2) {
-      const name = parts[0];
-      const live = parseInt(parts[1].replace(/[^0-9-]/g, ''));
-      
-      let p = players.find(x => x.name === name);
-      if (p && !isNaN(live)) {
-         p.liveOdds = live;
-         p.implLive = toImp(live);
-      }
-    }
-  });
-  
-  compute();
-  saveToLocal();
-  renderAll();
-  showTab('arb');
-}
-
-// --- SEARCH HANDLING ---
-function handleSearch(val) {
-  searchQuery = val.toLowerCase();
-  renderArb();
-}
-
-// --- ENGINE LOGIC ---
-function compute() {
-  if (!players.length) return;
-
-  players.slice().sort((a,b) => b.price - a.price).forEach((p,i) => p.salRank = i+1);
-  players.slice().sort((a,b) => b.implMon - a.implMon).forEach((p,i) => p.oddsRank = i+1);
-
-  players.forEach(p => {
-    p.delta = p.salRank - p.oddsRank;
-    p.velocity = (p.implLive || p.implMon) - p.implMon;
-    
-    const fm = {Elite:1.15, Strong:1.05, Mid:1.0, Weak:0.85}[p.fit] || 1.0;
-    const velB = p.velocity > VEL_THRESHOLD ? 1 + (p.velocity * 30) : 1.0;
-    
-    p.dlta = p.delta > 0 ? (p.delta * p.implMon * 100 * velB * fm) : 0;
-    p.cut = Math.min(0.9, Math.max(0.15, (p.implLive || p.implMon) * 6 + 0.20));
-
-    // --- COMPOSITE ALPHA GRADE (Merges Conviction and Fit) ---
-    let composite = p.dlta + (p.sg * 2.5);
-    if (p.velocity > VEL_THRESHOLD) composite += 5; 
-    
-    if (composite > 10 && p.delta >= 0) {
-        p.grade = 'CORE'; p.gradeSort = 4;
-    } else if (composite > 4 && p.delta >= 0) {
-        p.grade = 'PLAY'; p.gradeSort = 3;
-    } else if (p.delta < 0 && p.sg < 0.5) {
-        p.grade = 'FADE'; p.gradeSort = 1;
-    } else {
-        p.grade = 'POOL'; p.gradeSort = 2;
-    }
-
-    const equityPts = p.implLive * 500; 
-    const valuePts = p.delta > 0 ? (p.dlta * 1.5) : (p.delta * 2.5); 
-    const sgPts = p.sg * 8;
-    const salaryBase = (p.price / 100) * 0.5; 
-
-    let baseProj = (salaryBase + equityPts + valuePts + sgPts) * fm;
-    if (p.velocity > VEL_THRESHOLD) baseProj += (p.velocity * 1000); 
-
-    const volatility = 8 + ((1 - p.cut) * 35);
-
-    const sims = [];
-    for(let i=0; i<1000; i++) {
-        sims.push(randomNormal(baseProj, volatility));
-    }
-    sims.sort((a,b) => a - b);
-    p.simFloor = sims[200];
-    p.simMean = sims[500];
-    p.simCeil = sims[850];
-  });
-}
-
-const getPlayerScore = (p, buildType) => {
-    if (buildType === 'cash') return p.simFloor;
-    if (buildType === 'gpp') return p.simCeil;
-    if (buildType === 'steam') return p.simMean + (p.velocity > VEL_THRESHOLD ? 500 : 0); 
-    return p.simMean;
-};
-
-// --- GRASP MILP METAHEURISTIC OPTIMIZER ---
-function buildQuantLineup(locked, type) {
-  const avail = players.filter(p => !p.locked && p.price >= MIN_PRICE);
-  const targetMinSal = 48500;
-  const targetMaxSal = SAL_CAP;
-
-  let bestLineup = [];
-  let bestScore = -Infinity;
-
-  for (let i = 0; i < 5000; i++) {
-    let lineup = [...locked];
-    let spent = lineup.reduce((s, p) => s + p.price, 0);
-    
-    let cands = [...avail].sort((a,b) => (getPlayerScore(b, type)/b.price) - (getPlayerScore(a, type)/a.price));
-    cands.sort(() => Math.random() - 0.2); 
-    
-    for (let p of cands) {
-      if (lineup.length >= 6) break;
-      if (spent + p.price <= targetMaxSal) {
-        lineup.push(p);
-        spent += p.price;
-      }
-    }
-
-    if (lineup.length !== 6) continue;
-
-    let improved = true;
-    let attempts = 0;
-    
-    while(improved && attempts < 20) {
-      improved = false;
-      attempts++;
-      
-      for(let k = locked.length; k < 6; k++) {
-        for(let j = 0; j < avail.length; j++) {
-          let candidate = avail[j];
-          if(lineup.includes(candidate)) continue;
-          
-          let newSpent = spent - lineup[k].price + candidate.price;
-          
-          if(newSpent <= targetMaxSal) {
-            let currentScore = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
-            let newScore = currentScore - getPlayerScore(lineup[k], type) + getPlayerScore(candidate, type);
-            
-            let currentlyValid = (spent >= targetMinSal);
-            let newlyValid = (newSpent >= targetMinSal);
-
-            if ((!currentlyValid && newSpent > spent) || (newlyValid && newScore > currentScore)) {
-              spent = newSpent;
-              lineup[k] = candidate;
-              improved = true;
-              break; 
-            }
-          }
-        }
-        if(improved) break;
-      }
-    }
-
-    if (spent >= targetMinSal && spent <= targetMaxSal) {
-      const score = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
-      if (score > bestScore) {
-        bestScore = score;
-        bestLineup = [...lineup];
-      }
-    }
-  }
-
-  if (bestLineup.length !== 6) {
-      bestScore = -Infinity;
-      for (let i = 0; i < 2000; i++) {
-        let lineup = [...locked];
-        let spent = lineup.reduce((s, p) => s + p.price, 0);
-        let cands = [...avail].sort(() => Math.random() - 0.5); 
-        for (let p of cands) {
-          if (lineup.length >= 6) break;
-          if (spent + p.price <= SAL_CAP) { lineup.push(p); spent += p.price; }
-        }
-        if (lineup.length === 6) {
-          const score = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
-          if (score > bestScore) { bestScore = score; bestLineup = [...lineup]; }
-        }
-      }
-  }
-
-  return bestLineup;
-}
-
-// --- UI RENDERING ---
-function renderArb() {
-  const tbody = document.getElementById('arb-tbody');
-  const filtered = players.filter(p => {
-    if (searchQuery && !p.name.toLowerCase().includes(searchQuery)) return false;
-    if (filterMode === 'steam') return p.velocity > VEL_THRESHOLD && p.delta > 0;
-    if (filterMode === 'lockconv') return p.locked;
-    if (filterMode === 'grade') return p.grade === 'CORE';
-    return true;
-  });
-
-  filtered.sort((a, b) => {
-    let valA = a[sortCol], valB = b[sortCol];
-    return sortDir * (valA < valB ? -1 : valA > valB ? 1 : 0);
-  });
-
-  tbody.innerHTML = filtered.map(p => {
-    let oddsDisplay = `+${p.liveOdds}`;
-    if (p.velocity > VEL_THRESHOLD) oddsDisplay = `<span style="color:var(--teal-bright)">▲ +${p.liveOdds}</span>`;
-    else if (p.velocity < -VEL_THRESHOLD) oddsDisplay = `<span style="color:var(--red)">▼ +${p.liveOdds}</span>`;
-
-    return `
-    <tr class="${p.locked ? 'lock-row' : (p.velocity > VEL_THRESHOLD && p.delta > 0 ? 'steam-row' : '')}">
-      <td style="color:var(--muted)">${p.salRank}</td>
-      <td>
-        <div style="display:flex; align-items:center;">
-          <button class="add-btn ${p.locked ? 'is-locked' : ''}" onclick="toggleLock('${p.name.replace(/'/g, "\\'")}')" style="margin-right:8px;">${p.locked ? '✓' : '+'}</button>
-          <strong>${p.name}</strong>${p.velocity > VEL_THRESHOLD && p.delta > 0 ? '<span class="stm-badge">STM</span>' : ''}
-        </div>
-      </td>
-      <td style="font-family:var(--mono)">$${(p.price/1000).toFixed(1)}K</td>
-      <td style="color:var(--muted); font-weight:700; font-family:var(--mono)">${oddsDisplay}</td>
-      <td><span class="db ${p.delta > 5 ? 'd-elite' : p.delta > 0 ? 'd-slight' : 'd-neg'}">${p.delta > 0 ? '+' : ''}${p.delta}</span></td>
-      <td style="font-weight:800; color:var(--gold)">${p.dlta.toFixed(1)}</td>
-      <td><span class="grade grade-${p.grade.toLowerCase()}">${p.grade}</span></td>
-    </tr>
-  `}).join('');
-
-  updateSortIcons();
-}
-
-function updateSortIcons() {
-  const headers = document.querySelectorAll('#arb-thead th');
-  headers.forEach(th => {
-    const icon = th.querySelector('.sort-icon');
-    if (!icon) return;
-    const col = th.getAttribute('onclick').match(/'([^']+)'/)[1];
-    icon.textContent = col === sortCol ? (sortDir === 1 ? '▲' : '▼') : '';
-  });
-}
-
-function renderLUCard(elId, lineup, type) {
-  const el = document.getElementById(elId);
-  if (!lineup.length) { el.innerHTML = '<div style="padding:20px; text-align:center">No Lineup Generated</div>'; return; }
-  
-  const total = lineup.reduce((s,p) => s + p.price, 0);
-  el.innerHTML = `
-    <div style="padding:14px 16px; border-bottom:1px solid var(--border)">
-      <span class="pb-tag pb-${type}">${type.toUpperCase()} OPTIMAL</span>
-    </div>
-    ${lineup.map((p,i) => `
-      <div class="lu-slot">
-        <div class="lu-slot-num">G${i+1}</div>
-        <div style="flex:1">
-          <div class="lu-slot-name">${p.name}</div>
-          <div class="lu-slot-meta">${p.grade} · Δ${p.delta}</div>
-        </div>
-        <div class="lu-slot-sal">$${p.price.toLocaleString()}</div>
-      </div>
-    `).join('')}
-    <div class="lu-totals">
-      <div><div class="lu-total-val">$${total.toLocaleString()}</div><div class="lu-total-lbl">Spent</div></div>
-      <div><div class="lu-total-val" style="color:var(--gold)">$${(SAL_CAP-total).toLocaleString()}</div><div class="lu-total-lbl">Rem.</div></div>
-    </div>
-  `;
-}
-
-// --- INTERACTION ---
-function showTab(t) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-  const targetPanel = document.getElementById('panel-' + t);
-  if (targetPanel) targetPanel.classList.add('on');
-  
-  document.querySelectorAll('.nav-tab').forEach(n => {
-    n.classList.remove('on');
-    if (n.getAttribute('onclick').includes(`'${t}'`)) {
-      n.classList.add('on');
-    }
-  });
-
-  if (t === 'prebuilt') buildPrebuilt();
-  if (t === 'build') renderCurrentCore();
-}
-
-function srt(col) {
-  if (sortCol === col) sortDir *= -1;
-  else { sortCol = col; sortDir = -1; }
-  renderArb();
-}
-
-function setFilter(f, btn) {
-  filterMode = f;
-  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('on'));
-  if(btn) btn.classList.add('on');
-  renderArb();
-}
-
-function toggleLock(name) {
-  const p = players.find(x => x.name === name);
-  if (!p) return;
-  if (!p.locked && players.filter(x => x.locked).length >= 6) return;
-  p.locked = !p.locked;
-  saveToLocal();
-  renderAll();
-}
-
-function clearLocks() {
-  players.forEach(p => p.locked = false);
-  saveToLocal();
-  renderAll();
-}
-
-function buildPrebuilt() {
-  renderLUCard('pb-steam-card', buildQuantLineup([], 'steam'), 'steam');
-  renderLUCard('pb-gpp-card', buildQuantLineup([], 'gpp'), 'gpp');
-  renderLUCard('pb-cash-card', buildQuantLineup([], 'cash'), 'cash');
-}
-
-function buildAndRender() {
-  const locked = players.filter(p => p.locked);
-  currentLineup = buildQuantLineup(locked, 'gpp');
-  renderLUCard('lu-card', currentLineup, 'gpp');
-}
-
-function renderCurrentCore() {
-  const locked = players.filter(p => p.locked);
-  renderLUCard('lu-card', locked, 'steam');
-}
-
-function updateBadge() {
-  const locked = players.filter(p => p.locked);
-  const spent = locked.reduce((s,p) => s + p.price, 0);
-  const rem = SAL_CAP - spent;
-  const count = locked.length;
-  document.getElementById('rs-count').textContent = count + '/6';
-  document.getElementById('rs-rem').textContent = '$' + rem.toLocaleString();
-}
-
-function renderPods() {
-  const pods = document.getElementById('pods');
-  const pos = players.filter(p => p.delta > 0).length;
-  const steam = players.filter(p => p.velocity > VEL_THRESHOLD).length;
-  pods.innerHTML = `
-    <div class="pod"><div class="pod-val" style="color:var(--teal-bright)">${pos}</div><div class="pod-lbl">+ Delta</div></div>
-    <div class="pod"><div class="pod-val" style="color:var(--teal)">${steam}</div><div class="pod-lbl">Steam</div></div>
-    <div class="pod"><div class="pod-val" style="color:var(--gold-bright)">${players.filter(p => p.locked).length}</div><div class="pod-lbl">Locks</div></div>
-    <div class="pod"><div class="pod-val" style="color:var(--gold)">$${(players.reduce((a,b) => a + b.dlta, 0)/players.length).toFixed(1)}</div><div class="pod-lbl">Avg $DLTA</div></div>
-  `;
-}
-
-function copyLineupToClipboard() {
-  if (!currentLineup.length) return alert("Build a lineup first!");
-  const text = currentLineup.map(p => `${p.name} ($${p.price})`).join(', ');
-  navigator.clipboard.writeText(text).then(() => alert("Lineup copied!"));
-}
-
-function renderAll() {
-  renderPods();
-  renderArb();
-  updateBadge();
-}
-
-// Start
-loadFromLocal();
-</script>
-</body>
-</html>
+    ```
