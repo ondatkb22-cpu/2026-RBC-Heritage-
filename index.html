@@ -65,9 +65,31 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .pod-val{font-family:var(--disp);font-size:18px;font-weight:900;line-height:1}
 .pod-lbl{font-size:9px;color:var(--muted);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 
-.filters{padding:8px 12px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}
+.filters{padding:8px 12px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none; align-items:center;}
 .fchip{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .12s}
 .fchip.on{background:var(--teal);color:#0B131E;border-color:var(--teal)}
+
+.search-box {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  color: var(--text);
+  font-size: 11px;
+  font-family: var(--sans);
+  outline: none;
+  width: 90px;
+  transition: all 0.2s;
+}
+.search-box:focus {
+  border-color: var(--teal);
+  width: 140px;
+  background: var(--surface2);
+}
+.search-box::placeholder {
+  color: var(--muted);
+  font-weight: 700;
+}
 
 .key-strip{display:flex;flex-wrap:wrap;gap:4px 14px;padding:10px 12px;background:var(--surface2);border-radius:6px;border:1px solid var(--border);margin:0 12px 10px;font-size:10px;color:var(--sub)}
 .key-strip span strong{color:var(--text);font-family:var(--mono);margin-right:2px}
@@ -206,8 +228,8 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
     <button class="fchip on" data-filter="all" onclick="setFilter('all',this)">All</button>
     <button class="fchip" data-filter="steam" onclick="setFilter('steam',this)">Steam</button>
     <button class="fchip" data-filter="lockconv" onclick="setFilter('lockconv',this)">Locks</button>
-    <button class="fchip" data-filter="elite" onclick="setFilter('elite',this)">$9K+</button>
     <button class="fchip" data-filter="fit" onclick="setFilter('fit',this)">Fit</button>
+    <input type="text" id="player-search" class="search-box" placeholder="🔍 Search" onkeyup="handleSearch(this.value)">
   </div>
   
   <div class="key-strip">
@@ -290,6 +312,7 @@ let players = [];
 let sortCol = 'dlta';
 let sortDir = -1;
 let filterMode = 'all';
+let searchQuery = '';
 let currentLineup = [];
 
 // --- UTILS ---
@@ -449,13 +472,13 @@ function loadInitialData() {
 }
 
 function saveToLocal() {
-  localStorage.setItem('tve_players_v11', JSON.stringify(players.map(p => ({
+  localStorage.setItem('tve_players_v12', JSON.stringify(players.map(p => ({
     name: p.name, liveOdds: p.liveOdds, locked: p.locked
   }))));
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v11');
+  const stored = localStorage.getItem('tve_players_v12');
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
     
@@ -501,6 +524,12 @@ function handleLiveOddsUpload() {
   saveToLocal();
   renderAll();
   showTab('arb');
+}
+
+// --- SEARCH HANDLING ---
+function handleSearch(val) {
+  searchQuery = val.toLowerCase();
+  renderArb();
 }
 
 // --- ENGINE LOGIC ---
@@ -648,9 +677,12 @@ function buildQuantLineup(locked, type) {
 function renderArb() {
   const tbody = document.getElementById('arb-tbody');
   const filtered = players.filter(p => {
+    // Text search constraint
+    if (searchQuery && !p.name.toLowerCase().includes(searchQuery)) return false;
+
+    // Filter constraints
     if (filterMode === 'steam') return p.velocity > VEL_THRESHOLD && p.delta > 0;
     if (filterMode === 'lockconv') return p.conviction === 'LOCK';
-    if (filterMode === 'elite') return p.price >= 9000;
     if (filterMode === 'fit') return p.fit === 'Elite' || p.fit === 'Strong';
     return true;
   });
@@ -675,7 +707,6 @@ function renderArb() {
       <td class="${p.velocity > 0 ? 'vel-up' : 'vel-dn'}">${p.velocity > 0 ? '▲' : '▼'}${(Math.abs(p.velocity)*100).toFixed(2)}%</td>
       <td style="font-weight:800; color:var(--gold)">${p.dlta.toFixed(1)}</td>
       <td><span class="conv conv-${p.conviction.toLowerCase()}">${p.conviction}</span></td>
-      <td>${(p.cut*100).toFixed(0)}%</td>
       <td class="fit-${p.fit.toLowerCase()}">${p.fit}</td>
     </tr>
   `).join('');
