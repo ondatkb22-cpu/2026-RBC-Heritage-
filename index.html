@@ -111,14 +111,11 @@ td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
 .d-slight{background:rgba(0, 180, 216, 0.12);color:var(--teal)}
 .d-neg{background:var(--red-bg);color:var(--red)}
 
-.conv{font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:.3px;font-family:var(--mono);white-space:nowrap}
-.conv-lock{background:var(--gold-bright);color:#0B131E}
-.conv-strong{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
-.conv-consider{background:var(--amber-bg);color:var(--amber)}
-.conv-fade{background:var(--red-bg);color:var(--red)}
-
-.vel-up{font-weight:700;font-size:11px;color:var(--teal-bright);font-family:var(--mono)}
-.vel-dn{font-weight:700;font-size:11px;color:var(--red);font-family:var(--mono)}
+.grade{font-size:9px;font-weight:800;padding:3px 8px;border-radius:4px;letter-spacing:.5px;font-family:var(--mono);white-space:nowrap; display:inline-block; text-align:center;}
+.grade-core{background:var(--gold-bright);color:#0B131E}
+.grade-play{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
+.grade-pool{background:var(--surface3);color:var(--sub)}
+.grade-fade{background:var(--red-bg);color:var(--red)}
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:0 12px 10px}
 .card-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
@@ -154,11 +151,6 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
 .pb-cash{background:rgba(17, 138, 178, 0.15);color:var(--blue)}
 
 .insight{background:rgba(244, 162, 97, 0.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
-
-.fit-elite{color:var(--gold-bright);font-weight:800;}
-.fit-strong{color:var(--teal-bright);font-weight:700;}
-.fit-mid{color:var(--sub);}
-.fit-weak{color:var(--red);font-weight:700;}
 
 @media(max-width:700px){
   .pods{grid-template-columns:repeat(4,1fr);gap:5px;padding:10px 8px}
@@ -209,16 +201,16 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
   <div class="card">
     <div class="card-head"><span class="card-title">Framework Overview</span></div>
     <div class="card-body">
-      <p style="font-size:11px;color:var(--sub);margin-bottom:8px">This tool uses a multi-factor quantitative model to build mathematically optimal lineups.</p>
+      <p style="font-size:11px;color:var(--sub);margin-bottom:8px">This tool uses a multi-factor composite algorithm to build mathematically optimal lineups.</p>
       <ol style="padding-left:14px;font-size:12px;line-height:1.8;color:var(--sub)">
-        <li><strong>Simulate:</strong> The engine scores players using 4 pillars: Win Equity, Value ($DLTA), Course Fit (SG), and Velocity. Overpriced traps are mathematically eliminated.</li>
-        <li><strong>Lock:</strong> Browse the <strong>Arb</strong> tab for top $DLTA plays and tap <strong style="color:#fff">+</strong> to lock your favorites.</li>
-        <li><strong>Optimize:</strong> The <strong>Build</strong> tab executes a Greedy Randomized Adaptive Search Procedure to return the highest-scoring lineup strictly between $48,500 and $50,000.</li>
+        <li><strong>Simulate:</strong> The engine scores players using a Composite Alpha: Win Equity, Value ($DLTA), Course Fit (SG), and Velocity.</li>
+        <li><strong>Lock:</strong> Browse the <strong>Arb</strong> tab for <strong>CORE</strong> grade players and tap <strong style="color:#fff">+</strong> to lock your favorites.</li>
+        <li><strong>Optimize:</strong> The <strong>Build</strong> tab executes a Search Procedure to return the highest-scoring lineup strictly between $48,500 and $50,000.</li>
       </ol>
     </div>
   </div>
   <div class="insight">
-    <strong>Note:</strong> Your locks and data are now <strong>saved automatically</strong> to your browser's local storage. Monday Odds, Fit, and SG are statically locked.
+    <strong>Note:</strong> Your locks and data are now <strong>saved automatically</strong> to your browser's local storage.
   </div>
 </div>
 
@@ -228,17 +220,15 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
     <button class="fchip on" data-filter="all" onclick="setFilter('all',this)">All</button>
     <button class="fchip" data-filter="steam" onclick="setFilter('steam',this)">Steam</button>
     <button class="fchip" data-filter="lockconv" onclick="setFilter('lockconv',this)">Locks</button>
-    <button class="fchip" data-filter="fit" onclick="setFilter('fit',this)">Fit</button>
+    <button class="fchip" data-filter="grade" onclick="setFilter('grade',this)">Core Plays</button>
     <input type="text" id="player-search" class="search-box" placeholder="🔍 Search" onkeyup="handleSearch(this.value)">
   </div>
   
   <div class="key-strip">
-    <span><strong>Mon:</strong> Opening Odds</span>
+    <span><strong>Odds:</strong> Current Implied Line</span>
     <span><strong style="color:var(--teal)">Δ:</strong> Sal vs Odds Rank</span>
-    <span><strong style="color:var(--teal-bright)">Vel:</strong> Line Move (Live vs Mon)</span>
-    <span><strong style="color:var(--gold)">$DLTA:</strong> Raw Value Rating</span>
-    <span><strong>Conv:</strong> Algo Grade</span>
-    <span><strong>Fit:</strong> Course SG Match</span>
+    <span><strong style="color:var(--gold)">$DLTA:</strong> Raw Value</span>
+    <span><strong>Grade:</strong> SG Fit + $DLTA Composite</span>
   </div>
 
   <div class="tw">
@@ -248,13 +238,10 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
           <th onclick="srt('salRank')">#<span class="sort-icon"></span></th>
           <th onclick="srt('name')">Player<span class="sort-icon"></span></th>
           <th onclick="srt('price')">Sal<span class="sort-icon"></span></th>
-          <th onclick="srt('monOdds')" style="color:var(--muted)">Mon<span class="sort-icon"></span></th>
+          <th onclick="srt('implLive')">Odds<span class="sort-icon"></span></th>
           <th onclick="srt('delta')" style="color:var(--teal)">Δ<span class="sort-icon"></span></th>
-          <th onclick="srt('velocity')" style="color:var(--teal-bright)">Vel<span class="sort-icon"></span></th>
           <th onclick="srt('dlta')" style="color:var(--gold)">$DLTA<span class="sort-icon"></span></th>
-          <th onclick="srt('convSort')">Conv<span class="sort-icon"></span></th>
-          <th onclick="srt('cut')">Cut%<span class="sort-icon"></span></th>
-          <th onclick="srt('fitSort')">Fit<span class="sort-icon"></span></th>
+          <th onclick="srt('gradeSort')">Grade<span class="sort-icon"></span></th>
         </tr>
       </thead>
       <tbody id="arb-tbody"></tbody>
@@ -463,7 +450,7 @@ function loadInitialData() {
   players = MASTER_DB.map(p => ({
     name: p.name, price: p.sal, monOdds: p.monOdds, liveOdds: p.monOdds, sg: p.sg,
     fit: p.fit, locked: false, implMon: toImp(p.monOdds), implLive: toImp(p.monOdds),
-    salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, conviction:'CONSIDER', convSort:2, fitSort:0, strengthScore:0, cut:.50
+    salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, grade:'POOL', gradeSort:2, strengthScore:0, cut:.50
   }));
 
   compute();
@@ -472,13 +459,13 @@ function loadInitialData() {
 }
 
 function saveToLocal() {
-  localStorage.setItem('tve_players_v12', JSON.stringify(players.map(p => ({
+  localStorage.setItem('tve_players_v13', JSON.stringify(players.map(p => ({
     name: p.name, liveOdds: p.liveOdds, locked: p.locked
   }))));
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v12');
+  const stored = localStorage.getItem('tve_players_v13');
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
     
@@ -489,7 +476,7 @@ function loadFromLocal() {
         name: masterP.name, price: masterP.sal, monOdds: masterP.monOdds, liveOdds: liveOdds, sg: masterP.sg,
         fit: masterP.fit || 'Mid', locked: savedP.locked || false, 
         implMon: toImp(masterP.monOdds), implLive: toImp(liveOdds),
-        salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, conviction:'CONSIDER', convSort:2, fitSort:0, strengthScore:0, cut:.50
+        salRank:0, oddsRank:0, delta:0, dlta:0, velocity:0, grade:'POOL', gradeSort:2, strengthScore:0, cut:.50
       };
     });
 
@@ -549,12 +536,19 @@ function compute() {
     p.dlta = p.delta > 0 ? (p.delta * p.implMon * 100 * velB * fm) : 0;
     p.cut = Math.min(0.9, Math.max(0.15, (p.implLive || p.implMon) * 6 + 0.20));
 
-    if(p.dlta > 8 && (p.fit === 'Elite' || p.fit === 'Strong')) { p.conviction = 'LOCK'; p.convSort = 4; }
-    else if(p.dlta > 4) { p.conviction = 'STRONG'; p.convSort = 3; }
-    else if(p.delta < 0) { p.conviction = 'FADE'; p.convSort = 0; }
-    else { p.conviction = 'CONSIDER'; p.convSort = 2; }
-
-    p.fitSort = {Elite:4, Strong:3, Mid:2, Weak:1}[p.fit] || 0;
+    // --- COMPOSITE ALPHA GRADE (Merges Conviction and Fit) ---
+    let composite = p.dlta + (p.sg * 2.5);
+    if (p.velocity > VEL_THRESHOLD) composite += 5; // Reward line movement
+    
+    if (composite > 10 && p.delta >= 0) {
+        p.grade = 'CORE'; p.gradeSort = 4;
+    } else if (composite > 4 && p.delta >= 0) {
+        p.grade = 'PLAY'; p.gradeSort = 3;
+    } else if (p.delta < 0 && p.sg < 0.5) {
+        p.grade = 'FADE'; p.gradeSort = 1;
+    } else {
+        p.grade = 'POOL'; p.gradeSort = 2;
+    }
 
     const equityPts = p.implLive * 500; 
     const valuePts = p.delta > 0 ? (p.dlta * 1.5) : (p.delta * 2.5); 
@@ -562,7 +556,6 @@ function compute() {
     const salaryBase = (p.price / 100) * 0.5; 
 
     let baseProj = (salaryBase + equityPts + valuePts + sgPts) * fm;
-    
     if (p.velocity > VEL_THRESHOLD) baseProj += (p.velocity * 1000); 
 
     const volatility = 8 + ((1 - p.cut) * 35);
@@ -677,13 +670,10 @@ function buildQuantLineup(locked, type) {
 function renderArb() {
   const tbody = document.getElementById('arb-tbody');
   const filtered = players.filter(p => {
-    // Text search constraint
     if (searchQuery && !p.name.toLowerCase().includes(searchQuery)) return false;
-
-    // Filter constraints
     if (filterMode === 'steam') return p.velocity > VEL_THRESHOLD && p.delta > 0;
-    if (filterMode === 'lockconv') return p.conviction === 'LOCK';
-    if (filterMode === 'fit') return p.fit === 'Elite' || p.fit === 'Strong';
+    if (filterMode === 'lockconv') return p.locked;
+    if (filterMode === 'grade') return p.grade === 'CORE';
     return true;
   });
 
@@ -692,7 +682,12 @@ function renderArb() {
     return sortDir * (valA < valB ? -1 : valA > valB ? 1 : 0);
   });
 
-  tbody.innerHTML = filtered.map(p => `
+  tbody.innerHTML = filtered.map(p => {
+    let oddsDisplay = `+${p.liveOdds}`;
+    if (p.velocity > VEL_THRESHOLD) oddsDisplay = `<span style="color:var(--teal-bright)">▲ +${p.liveOdds}</span>`;
+    else if (p.velocity < -VEL_THRESHOLD) oddsDisplay = `<span style="color:var(--red)">▼ +${p.liveOdds}</span>`;
+
+    return `
     <tr class="${p.locked ? 'lock-row' : (p.velocity > VEL_THRESHOLD && p.delta > 0 ? 'steam-row' : '')}">
       <td style="color:var(--muted)">${p.salRank}</td>
       <td>
@@ -702,14 +697,12 @@ function renderArb() {
         </div>
       </td>
       <td style="font-family:var(--mono)">$${(p.price/1000).toFixed(1)}K</td>
-      <td style="color:var(--muted); font-weight:700; font-family:var(--mono)">+${p.monOdds}</td>
+      <td style="color:var(--muted); font-weight:700; font-family:var(--mono)">${oddsDisplay}</td>
       <td><span class="db ${p.delta > 5 ? 'd-elite' : p.delta > 0 ? 'd-slight' : 'd-neg'}">${p.delta > 0 ? '+' : ''}${p.delta}</span></td>
-      <td class="${p.velocity > 0 ? 'vel-up' : 'vel-dn'}">${p.velocity > 0 ? '▲' : '▼'}${(Math.abs(p.velocity)*100).toFixed(2)}%</td>
       <td style="font-weight:800; color:var(--gold)">${p.dlta.toFixed(1)}</td>
-      <td><span class="conv conv-${p.conviction.toLowerCase()}">${p.conviction}</span></td>
-      <td class="fit-${p.fit.toLowerCase()}">${p.fit}</td>
+      <td><span class="grade grade-${p.grade.toLowerCase()}">${p.grade}</span></td>
     </tr>
-  `).join('');
+  `}).join('');
 
   updateSortIcons();
 }
@@ -738,7 +731,7 @@ function renderLUCard(elId, lineup, type) {
         <div class="lu-slot-num">G${i+1}</div>
         <div style="flex:1">
           <div class="lu-slot-name">${p.name}</div>
-          <div class="lu-slot-meta">${p.fit} · Δ${p.delta}</div>
+          <div class="lu-slot-meta">${p.grade} · Δ${p.delta}</div>
         </div>
         <div class="lu-slot-sal">$${p.price.toLocaleString()}</div>
       </div>
@@ -829,7 +822,7 @@ function renderPods() {
   pods.innerHTML = `
     <div class="pod"><div class="pod-val" style="color:var(--teal-bright)">${pos}</div><div class="pod-lbl">+ Delta</div></div>
     <div class="pod"><div class="pod-val" style="color:var(--teal)">${steam}</div><div class="pod-lbl">Steam</div></div>
-    <div class="pod"><div class="pod-val" style="color:var(--gold-bright)">${players.filter(p => p.conviction === 'LOCK').length}</div><div class="pod-lbl">Locks</div></div>
+    <div class="pod"><div class="pod-val" style="color:var(--gold-bright)">${players.filter(p => p.locked).length}</div><div class="pod-lbl">Locks</div></div>
     <div class="pod"><div class="pod-val" style="color:var(--gold)">$${(players.reduce((a,b) => a + b.dlta, 0)/players.length).toFixed(1)}</div><div class="pod-lbl">Avg $DLTA</div></div>
   `;
 }
