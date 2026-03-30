@@ -179,11 +179,11 @@ textarea{width:100%;min-height:160px;font-size:11px;line-height:1.5;background:v
   <div class="card">
     <div class="card-head"><span class="card-title">Framework Overview</span></div>
     <div class="card-body">
-      <p style="font-size:11px;color:var(--sub);margin-bottom:8px">This tool utilizes a quantitative Hybrid MILP Metaheuristic architecture fueled by True SG Data.</p>
+      <p style="font-size:11px;color:var(--sub);margin-bottom:8px">This tool utilizes a Salary-Anchored Hybrid MILP Metaheuristic architecture fueled by True SG Data.</p>
       <ol style="padding-left:14px;font-size:12px;line-height:1.8;color:var(--sub)">
-        <li><strong>Monte Carlo Sims:</strong> 1,000 iterations per player calculate true percentiles using live odds amplified by hidden static SG Total data.</li>
+        <li><strong>Salary-Anchored Projections:</strong> 1,000 iterations per player calculate true percentiles using a salary base, amplified by live odds and SG Total.</li>
         <li><strong>Lock & Build:</strong> Use the <strong>Arb</strong> tab to find value, tap <strong style="color:#fff">+</strong> to lock players.</li>
-        <li><strong>Auto-Optimize (GRASP):</strong> The <strong>Build</strong> tab executes a Greedy Randomized Adaptive Search Procedure combined with Local Search Hill Climbing to return the globally optimal lineup strictly between $48,500 and $50,000.</li>
+        <li><strong>Auto-Optimize (GRASP):</strong> The <strong>Build</strong> tab executes a Greedy Randomized Adaptive Search Procedure to return the highest-scoring lineup strictly between $48,500 and $50,000.</li>
       </ol>
     </div>
   </div>
@@ -286,7 +286,6 @@ const randomNormal = (mean, stdDev) => {
 };
 
 // --- IMMUTABLE MASTER DATABASE ---
-// Fit parsed from extracted SG: Approach and SG: OTT data relative to TPC San Antonio course history.
 const MASTER_DB = [
     {name: "T. Fleetwood", sal: 10500, monOdds: 1400, sg: 2.04, fit: 'Elite'},
     {name: "L. Aberg", sal: 10100, monOdds: 1550, sg: 1.61, fit: 'Elite'},
@@ -434,17 +433,16 @@ function loadInitialData() {
 }
 
 function saveToLocal() {
-  localStorage.setItem('tve_players_v8', JSON.stringify(players.map(p => ({
+  localStorage.setItem('tve_players_v9', JSON.stringify(players.map(p => ({
     name: p.name, liveOdds: p.liveOdds, locked: p.locked
   }))));
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v8');
+  const stored = localStorage.getItem('tve_players_v9');
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
     
-    // Always map from immutable MASTER_DB to prevent data loss, injecting saved live data over top
     players = MASTER_DB.map(masterP => {
       const savedP = parsed.find(x => x.name === masterP.name) || {};
       const liveOdds = savedP.liveOdds || masterP.monOdds;
@@ -473,7 +471,7 @@ function handleLiveOddsUpload() {
     const parts = line.split(',').map(s => s.trim());
     if (parts.length >= 2) {
       const name = parts[0];
-      const live = parseInt(parts[1].replace(/[^0-9-]/g, '')); // Strip any text/pluses
+      const live = parseInt(parts[1].replace(/[^0-9-]/g, ''));
       
       let p = players.find(x => x.name === name);
       if (p && !isNaN(live)) {
@@ -512,10 +510,14 @@ function compute() {
 
     p.fitSort = {Elite:4, Strong:3, Mid:2, Weak:1}[p.fit] || 0;
 
-    // Advanced Volatility Model: Merge Market Value ($DLTA) with Course Performance (SG Total)
-    const sgBoost = p.sg * 12; 
-    const baseProj = (p.dlta * 3) + sgBoost + 50; 
-    const volatility = 10 + ((1 - p.cut) * 45); 
+    // --- SALARY-ANCHORED PROJECTION MATH ---
+    // Forces the optimizer to value $10k players highly over $6k values, fixing the 'money left on table' issue.
+    const sgBoost = p.sg * 8; 
+    const salaryBase = (p.price / 100) * 0.75; // $10k salary = 75 base points
+    const dltaBoost = p.dlta * 1.2;
+    
+    const baseProj = salaryBase + dltaBoost + sgBoost; 
+    const volatility = 10 + ((1 - p.cut) * 35); 
 
     const sims = [];
     for(let i=0; i<1000; i++) {
@@ -548,7 +550,9 @@ function buildQuantLineup(locked, type) {
     let lineup = [...locked];
     let spent = lineup.reduce((s, p) => s + p.price, 0);
     
-    let cands = [...avail].sort(() => Math.random() - 0.5); 
+    // Constructive Phase: Prioritize high-value guys to seed the initial generation
+    let cands = [...avail].sort((a,b) => (getPlayerScore(b, type)/b.price) - (getPlayerScore(a, type)/a.price));
+    cands.sort(() => Math.random() - 0.2); // Light stochastic shuffle to keep variance high
     
     for (let p of cands) {
       if (lineup.length >= 6) break;
@@ -581,6 +585,7 @@ function buildQuantLineup(locked, type) {
             let currentlyValid = (spent >= targetMinSal);
             let newlyValid = (newSpent >= targetMinSal);
 
+            // Accept swap if it hits validity OR improves score
             if ((!currentlyValid && newSpent > spent) || (newlyValid && newScore > currentScore)) {
               spent = newSpent;
               lineup[k] = candidate;
@@ -602,6 +607,7 @@ function buildQuantLineup(locked, type) {
     }
   }
 
+  // Safety fallback if manual locks make it mathematically impossible to reach constraints
   if (bestLineup.length !== 6) {
       bestScore = -Infinity;
       for (let i = 0; i < 2000; i++) {
