@@ -468,7 +468,8 @@ const MASTER_DB = [
     {name: "J. Walker", sal: 6000, monOdds: 300000, tueOdds: 140000, wedOdds: 150000, liveOdds: 150000, liveT5: 13500, liveT10: 4900, sg: 0.00, fit: 'Weak', ch: 0.85},
     {name: "A. Wylie", sal: 6000, monOdds: 500000, tueOdds: 500000, wedOdds: 500000, liveOdds: 500000, liveT5: 49000, liveT10: 18000, sg: 0.00, fit: 'Weak', ch: 1.0},
     {name: "C. Crockett", sal: 6000, monOdds: 400000, tueOdds: 350000, wedOdds: 400000, liveOdds: 400000, liveT5: 30000, liveT10: 9600, sg: 0.00, fit: 'Mid', ch: 1.0},
-    {name: "C. Young", sal: 6100, monOdds: 16500, tueOdds: 16500, wedOdds: 16500, liveOdds: 16500, liveT5: 2150, liveT10: 930, sg: 0.00, fit: 'Mid', ch: 1.0}
+    {name: "C. Young", sal: 6100, monOdds: 16500, tueOdds: 16500, wedOdds: 16500, liveOdds: 16500, liveT5: 2150, liveT10: 930, sg: 0.00, fit: 'Mid', ch: 1.0},
+    {name: "F. Capan III", sal: 6000, monOdds: 120000, tueOdds: 120000, wedOdds: 135000, liveOdds: 135000, liveT5: 12500, liveT10: 4600, sg: 0.00, fit: 'Mid', ch: 1.0}
 ];
 
 // --- DATA PERSISTENCE & INITIALIZATION ---
@@ -487,13 +488,13 @@ function loadInitialData() {
 }
 
 function saveToLocal() {
-  localStorage.setItem('tve_players_v35', JSON.stringify(players.map(p => ({
+  localStorage.setItem('tve_players_v36', JSON.stringify(players.map(p => ({
     name: p.name, tueOdds: p.tueOdds, wedOdds: p.wedOdds, liveOdds: p.liveOdds, liveT5: p.liveT5, liveT10: p.liveT10, locked: p.locked
   }))));
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v35');
+  const stored = localStorage.getItem('tve_players_v36');
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
     
@@ -604,8 +605,8 @@ function compute() {
     // --- TRUE EXPECTED VALUE (EV) ALGORITHM W/ COURSE HISTORY & PLACEMENT BLEND ---
     const expectedPoints = (p.price / 1000) * 6.5; 
     
-    // 15% Outright, 35% Top 5, 50% Top 10
-    const trueProb = (iLiv * 0.15) + (iT5 * 0.35) + (iT10 * 0.50);
+    // DFS CALIBRATION: 10% Outright, 30% Top 5, 60% Top 10 (Highest correlation to DK points)
+    const trueProb = (iLiv * 0.10) + (iT5 * 0.30) + (iT10 * 0.60);
     const winEquity = trueProb * 130; 
     
     const sgPts = p.sg * 3.5;
@@ -647,14 +648,14 @@ const getPlayerScore = (p, buildType) => {
     let score = p.simMean;
     
     if (buildType === 'cash') {
-        // MAX CUT MAKING: Floor + massive premium on cut equity
-        score = p.simFloor + (p.cut * 100);
+        // MAX CUT MAKING: Floor + massive premium on cut equity (120x)
+        score = p.simFloor + (p.cut * 120);
     } else if (buildType === 'gpp') {
-        // GPP: Ceiling + slight bump for sharp money
-        score = p.simCeil + (p.isSteam ? 15 : 0);
+        // GPP: Ceiling + reward raw velocity (wVel) to capture sharp drift
+        score = p.simCeil + (p.wVel > 0 ? p.wVel * 1000 : 0) + (p.isSteam ? 10 : 0);
     } else if (buildType === 'steam') {
-        // MAX STEAM: Strict blacklist for non-steam. Ranks Tacos by Velocity + Cut Equity
-        score = p.isSteam ? p.simMean + (p.wVel * 2000) + (p.cut * 50) : -10000; 
+        // MAX STEAM: Strict blacklist for non-steam. Ranks Tacos by Extreme Velocity (2500x)
+        score = p.isSteam ? p.simMean + (p.wVel * 2500) + (p.cut * 50) : -10000; 
     }
 
     // Complete algorithmic blacklist for true FADEs
@@ -773,8 +774,9 @@ function renderArb() {
     if (p.tueOdds) breadcrumb += ` | Tue: ${p.tueOdds > 0 ? '+' : ''}${p.tueOdds}`;
     if (p.wedOdds) breadcrumb += ` | Wed: ${p.wedOdds > 0 ? '+' : ''}${p.wedOdds}`;
 
+    // Highlight any positive velocity in teal, strict drift in red
     let oddsDisplay = `<span style="color:var(--text); font-weight: 800;">+${p.liveOdds}</span>`;
-    if (p.isSteam) oddsDisplay = `<span style="color:var(--teal-bright); font-weight: 800;">+${p.liveOdds}</span>`;
+    if (p.wVelDisp > 0) oddsDisplay = `<span style="color:var(--teal-bright); font-weight: 800;">+${p.liveOdds}</span>`;
     else if (p.isDrift) oddsDisplay = `<span style="color:var(--red); font-weight: 800;">+${p.liveOdds}</span>`;
 
     let wVelColor = 'var(--muted)';
