@@ -277,7 +277,6 @@ textarea{width:100%;min-height:100px;font-size:10px;line-height:1.5;background:v
   </div>
 </div>
 
-<!-- FIX #1: Added id="nav-auto-btn" to the AUTO button -->
 <div class="nav">
   <div class="nav-tab on" data-tab="guide" onclick="showTab('guide')">Guide</div>
   <div class="nav-tab" data-tab="arb" onclick="showTab('arb')">Arb</div>
@@ -293,7 +292,7 @@ textarea{width:100%;min-height:100px;font-size:10px;line-height:1.5;background:v
 
 <script>
 // ============================================================
-//  CONFIG & STATE (v72 - BUILD TAB & ROSTER UI FIX)
+//  CONFIG & STATE (v73 - FINAL ODDS + TEE TIMES)
 // ============================================================
 const SAL_CAP = 50000;
 const MIN_PRICE = 6900;
@@ -305,7 +304,7 @@ let searchQuery = '';
 let currentLineup = [];
 let draftedLineup = [];
 let currentStrategy = 'gpp';
-let clearConfirmPending = false; // FIX: confirm-before-clear state
+let clearConfirmPending = false; 
 
 const toImp = (o) => {
     let v = parseFloat(o);
@@ -562,7 +561,7 @@ function loadInitialData() {
 
 function saveToLocal() {
   try {
-    localStorage.setItem('tve_players_v71',JSON.stringify(players.map(p=>({
+    localStorage.setItem('tve_players_v73',JSON.stringify(players.map(p=>({
       name:p.name,
       tueOdds:p.tueOdds,wedOdds:p.wedOdds,liveOdds:p.liveOdds,
       tueT5:p.tueT5,wedT5:p.wedT5,liveT5:p.liveT5,
@@ -574,7 +573,7 @@ function saveToLocal() {
 
 function loadFromLocal() {
   let stored;
-  try { stored = localStorage.getItem('tve_players_v71'); } catch(e) {}
+  try { stored = localStorage.getItem('tve_players_v73'); } catch(e) {}
   
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
@@ -683,6 +682,7 @@ function compute() {
     p.isDrift = parseInt(p.liveOdds) > parseInt(p.monOdds); 
     p.cut = p.trueCut; 
 
+    // STORM WEATHER MATRIX
     if(p.wave === "AM1") p.waveAdj = -1.0;
     else if(p.wave === "AM2") p.waveAdj = 1.5;
     else if(p.wave === "PM1") p.waveAdj = -3.5;
@@ -962,10 +962,8 @@ function executeBuild() {
   renderBuildTab();
 }
 
-// FIX #3: Completely rewritten renderBuildTab with improved roster UI
 function renderBuildTab() {
   const container = document.getElementById('build-roster-container');
-  // Determine what to show: drafted lineup first, then just locked players
   let baseLineup = draftedLineup.length > 0 ? draftedLineup : players.filter(p => p.locked);
   let slotsHTML = '', spent = 0, totalDlta = 0;
 
@@ -1033,7 +1031,6 @@ function renderBuildTab() {
     ${filledCount > 0 ? `<div style="padding:0 12px 6px;font-size:9px;color:var(--muted);font-family:var(--mono)">${filledCount}/6 filled · ${lockedCount} locked</div>` : ''}
     ${slotsHTML}`;
 
-  // FIX: Reset clear button confirm state whenever build tab re-renders
   resetClearButton();
 }
 
@@ -1071,24 +1068,20 @@ function toggleLock(name) {
   renderAll();
 }
 
-// FIX #2: Two-tap clear with visual confirm state
 function handleClearClick() {
   const hasContent = draftedLineup.length > 0 || players.some(p => p.locked);
-  if (!hasContent) return; // Nothing to clear
+  if (!hasContent) return;
 
   if (clearConfirmPending) {
-    // Second tap: actually clear
     clearLocks();
     clearConfirmPending = false;
   } else {
-    // First tap: show confirm state
     clearConfirmPending = true;
     const btn = document.getElementById('clear-roster-btn');
     if (btn) {
       btn.textContent = 'Tap Again to Confirm';
       btn.classList.add('clear-btn-confirm');
     }
-    // Auto-reset after 3 seconds if they don't confirm
     setTimeout(() => {
       if (clearConfirmPending) {
         clearConfirmPending = false;
@@ -1122,7 +1115,6 @@ function buildPrebuilt() {
   renderLUCard('pb-cash-card',buildQuantLineup([],'cash'),'cash');
 }
 
-// FIX #1: updateBadge no longer crashes — safely references nav-auto-btn
 function updateBadge() {
   const locked = players.filter(p => p.locked);
   const lineupToShow = draftedLineup.length === 6 ? draftedLineup : locked;
@@ -1161,12 +1153,10 @@ function copyLineupToClipboard() {
   navigator.clipboard.writeText(text).then(()=>alert("Lineup copied!"));
 }
 
-// FIX #4: renderAll now always updates the build tab when it's visible
 function renderAll() {
   renderPods();
   renderArb();
   updateBadge();
-  // Always re-render build tab if it's currently showing
   const buildPanel = document.getElementById('panel-build');
   if (buildPanel && buildPanel.classList.contains('on')) {
     renderBuildTab();
