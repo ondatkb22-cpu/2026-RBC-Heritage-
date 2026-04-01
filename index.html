@@ -218,9 +218,6 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
         <span class="wave-tag w-pm1">💨 PM1 (Wind) <span style="color:#FAF5EE; margin-left:2px;">-1.5 pts</span></span>
         <span class="wave-tag w-pm2">⛈️ PM2 (Storms) <span style="color:#FAF5EE; margin-left:2px;">-3.0 pts</span></span>
       </div>
-      <p style="font-size:10px;color:var(--sub);margin-top:8px; line-height: 1.4;">
-        The engine automatically applies these penalties and bonuses to a player's baseline projection based on Thursday/Friday weather splits.
-      </p>
     </div>
   </div>
 
@@ -330,7 +327,7 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
 
 <script>
 // ============================================================
-//  CONFIG & MASTER DATA (v57 - FINAL WEDNESDAY ODDS)
+//  CONFIG & STATE (v58 - STRICT MATH PURGE)
 // ============================================================
 const SAL_CAP = 50000;
 const MIN_PRICE = 6900;
@@ -343,7 +340,12 @@ let currentLineup = [];
 let draftedLineup = [];
 let currentStrategy = 'gpp';
 
-const toImp = (o) => o > 0 ? 100 / (o + 100) : Math.abs(o) / (Math.abs(o) + 100);
+// STRICT MATH CASTING to prevent string hallucination
+const toImp = (o) => {
+    let v = parseFloat(o);
+    if (isNaN(v) || v === 0) return 0.0001; 
+    return v > 0 ? 100 / (v + 100) : Math.abs(v) / (Math.abs(v) + 100);
+};
 
 function extractLastName(nameStr) {
     if(!nameStr) return "";
@@ -356,21 +358,15 @@ function extractLastName(nameStr) {
 function showTab(id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('on'));
-
   const panel = document.getElementById('panel-' + id);
   if (panel) panel.classList.add('on');
-
   document.querySelectorAll('.nav-tab').forEach(t => {
     if (t.getAttribute('data-tab') === id) t.classList.add('on');
   });
-
   if (id === 'prebuilt') buildPrebuilt();
   if (id === 'build') renderBuildTab();
 }
 
-// ============================================================
-//  MASTER DATABASE (UPDATED WITH FINAL ODDS)
-// ============================================================
 const MASTER_DB = [
     {name: "Tommy Fleetwood", sal: 10500, monOdds: 1400, tueOdds: 1425, wedOdds: 1425, liveOdds: 1425, liveT5: 285, liveT10: 146, sg: 1.87, trueCut: 0.95, fit: 'Elite', ch: 1.05},
     {name: "Ludvig Aberg", sal: 10100, monOdds: 1550, tueOdds: 1600, wedOdds: 1500, liveOdds: 1450, liveT5: 300, liveT10: 154, sg: 1.03, trueCut: 0.78, fit: 'Elite', ch: 1.00},
@@ -422,7 +418,7 @@ const MASTER_DB = [
     {name: "Adrien Dumont De Chassart", sal: 7100, monOdds: 10500, tueOdds: 9400, wedOdds: 10000, liveOdds: 10500, liveT5: 1475, liveT10: 670, sg: -0.13, trueCut: 0.60, fit: 'Mid', ch: 1.00},
     {name: "Zecheng Dou", sal: 7100, monOdds: 10500, tueOdds: 10000, wedOdds: 10500, liveOdds: 11000, liveT5: 1600, liveT10: 720, sg: 0.07, trueCut: 0.80, fit: 'Mid', ch: 1.00},
     {name: "William Mouw", sal: 7000, monOdds: 13000, tueOdds: 11500, wedOdds: 11500, liveOdds: 11000, liveT5: 1550, liveT10: 690, sg: -0.06, trueCut: 0.65, fit: 'Mid', ch: 1.00},
-    {name: "Taylor Moore", sal: 6900, monOdds: 11000, tueOdds: 11000, wedOdds: 11500, liveOdds: 11500, liveT5: 1600, liveT10: 720, sg: -0.12, trueCut: 0.52, fit: 'Mid', ch: 1.00},
+    {name: "Taylor Moore", sal: 6900, monOdds: 11500, tueOdds: 11000, wedOdds: 11500, liveOdds: 11500, liveT5: 1600, liveT10: 720, sg: -0.12, trueCut: 0.52, fit: 'Mid', ch: 1.00},
     {name: "Billy Horschel", sal: 6800, monOdds: 15000, tueOdds: 11500, wedOdds: 11000, liveOdds: 11500, liveT5: 1600, liveT10: 720, sg: -0.72, trueCut: 0.66, fit: 'Strong', ch: 0.95},
     {name: "Beau Hossler", sal: 6800, monOdds: 13500, tueOdds: 11500, wedOdds: 11000, liveOdds: 11500, liveT5: 1600, liveT10: 720, sg: -0.09, trueCut: 0.62, fit: 'Mid', ch: 1.00},
     {name: "S.H. Kim", sal: 6900, monOdds: 14500, tueOdds: 11500, wedOdds: 12000, liveOdds: 12000, liveT5: 1650, liveT10: 730, sg: -0.15, trueCut: 0.70, fit: 'Mid', ch: 1.00},
@@ -436,7 +432,7 @@ const MASTER_DB = [
     {name: "Sami Valimaki", sal: 6600, monOdds: 15500, tueOdds: 15000, wedOdds: 15000, liveOdds: 14000, liveT5: 1850, liveT10: 820, sg: 0.43, trueCut: 0.57, fit: 'Mid', ch: 1.00},
     {name: "Emiliano Grillo", sal: 6700, monOdds: 15000, tueOdds: 15000, wedOdds: 15500, liveOdds: 14500, liveT5: 1900, liveT10: 830, sg: 0.04, trueCut: 0.71, fit: 'Strong', ch: 1.05},
     {name: "Kevin Roy", sal: 6900, monOdds: 16500, tueOdds: 15000, wedOdds: 14000, liveOdds: 14500, liveT5: 1900, liveT10: 840, sg: 0.14, trueCut: 0.71, fit: 'Mid', ch: 0.95},
-    {name: "Austin Eckroat", sal: 6800, monOdds: 13500, tueOdds: 14000, wedOdds: 14500, liveOdds: 15000, liveT5: 2000, liveT10: 880, sg: 0.00, trueCut: 0.68, fit: 'Elite', ch: 1.00},
+    {name: "Austin Eckroat", sal: 6800, monOdds: 15000, tueOdds: 14000, wedOdds: 14500, liveOdds: 15000, liveT5: 2000, liveT10: 880, sg: 0.00, trueCut: 0.68, fit: 'Elite', ch: 1.00},
     {name: "Andrew Putnam", sal: 6800, monOdds: 20000, tueOdds: 17000, wedOdds: 16000, liveOdds: 15000, liveT5: 1850, liveT10: 800, sg: 0.28, trueCut: 0.59, fit: 'Mid', ch: 1.05},
     {name: "Bronson Burgoon", sal: 6600, monOdds: 24000, tueOdds: 14500, wedOdds: 15500, liveOdds: 15500, liveT5: 2050, liveT10: 910, sg: 0.29, trueCut: 0.50, fit: 'Mid', ch: 0.95},
     {name: "Kris Ventura", sal: 6600, monOdds: 16500, tueOdds: 14500, wedOdds: 15000, liveOdds: 16000, liveT5: 2050, liveT10: 890, sg: 0.05, trueCut: 0.52, fit: 'Mid', ch: 0.95},
@@ -581,7 +577,7 @@ function loadInitialData() {
       return {
         name:p.name,price:p.sal,monOdds:p.monOdds,tueOdds:p.tueOdds,wedOdds:p.wedOdds,liveOdds:p.liveOdds,
         liveT5:p.liveT5,liveT10:p.liveT10,sg:p.sg,trueCut:p.trueCut,ch:p.ch,
-        fit:p.fit,locked:false,implMon:toImp(p.monOdds),implLive:toImp(p.liveOdds),
+        fit:p.fit,locked:false,
         salRank:0,oddsRank:0,delta:0,dlta:0,wVel:0,wVelDisp:0,grade:'POOL',gradeSort:2,cut:p.trueCut,
         isSteam:false,isDrift:false, wave: assignedWave, waveAdj: 0, estOwn: 0
       };
@@ -593,7 +589,7 @@ function loadInitialData() {
 
 function saveToLocal() {
   try {
-    localStorage.setItem('tve_players_v57',JSON.stringify(players.map(p=>({
+    localStorage.setItem('tve_players_v58',JSON.stringify(players.map(p=>({
       name:p.name,tueOdds:p.tueOdds,wedOdds:p.wedOdds,liveOdds:p.liveOdds,liveT5:p.liveT5,liveT10:p.liveT10,locked:p.locked
     }))));
   } catch(e) {}
@@ -601,7 +597,7 @@ function saveToLocal() {
 
 function loadFromLocal() {
   let stored;
-  try { stored = localStorage.getItem('tve_players_v57'); } catch(e) {}
+  try { stored = localStorage.getItem('tve_players_v58'); } catch(e) {}
   
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
@@ -621,7 +617,6 @@ function loadFromLocal() {
           name:masterP.name,price:masterP.sal,monOdds:masterP.monOdds,tueOdds,wedOdds,
           liveOdds,liveT5,liveT10,sg:masterP.sg,trueCut:masterP.trueCut,ch:masterP.ch,
           fit:masterP.fit||'Mid',locked:savedP.locked||false,
-          implMon:toImp(masterP.monOdds),implLive:toImp(liveOdds),
           salRank:0,oddsRank:0,delta:0,dlta:0,wVel:0,wVelDisp:0,grade:'POOL',gradeSort:2,cut:masterP.trueCut,
           isSteam:false,isDrift:false, wave: assignedWave, waveAdj: 0, estOwn: 0
         };
@@ -659,7 +654,6 @@ function handleLiveOddsUpload() {
             p.liveT5 = t5; 
             p.liveT10 = t10; 
          }
-         p.implLive = toImp(p.liveOdds);
       }
   });
   
@@ -688,11 +682,11 @@ function compute() {
   if (!players.length) return;
 
   players.slice().sort((a,b) => b.price - a.price).forEach((p,i) => p.salRank = i+1);
-  players.slice().sort((a,b) => b.implMon - a.implMon).forEach((p,i) => p.oddsRank = i+1);
+  players.slice().sort((a,b) => toImp(b.monOdds) - toImp(a.monOdds)).forEach((p,i) => p.oddsRank = i+1);
 
   players.forEach(p => {
     p.delta = p.salRank - p.oddsRank;
-    p.isDrift = p.liveOdds > p.monOdds; 
+    p.isDrift = parseInt(p.liveOdds) > parseInt(p.monOdds); 
     p.cut = p.trueCut; 
 
     if(p.wave === "AM1") p.waveAdj = 1.2;
@@ -811,7 +805,6 @@ function buildQuantLineup(locked, type) {
 
     let improved = true, attempts = 0;
     
-    // Shuffled search array to prevent local optima trap
     let searchAvail = [...avail].sort(() => Math.random() - 0.5);
 
     while (improved && attempts < 25) {
