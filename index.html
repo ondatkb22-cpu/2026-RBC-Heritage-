@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* San Antonio Palette */
   --bg:#110E0A;--surface:#1C1610;--surface2:#261E16;--surface3:#352A1E;
   --border:#3D2E1F;--border2:#5A4432;--text:#FAF5EE;--sub:#C4B49E;--muted:#8C7A66;
   --teal:#2EC4B6;--teal-bright:#3DD6C8;--gold:#E8A838;--gold-bright:#D35F2A;
@@ -69,10 +68,10 @@ td{padding:6px 5px;vertical-align:middle;white-space:nowrap}
 .grade-fade{background:var(--red-bg);color:var(--red)}
 
 .wave-tag { font-size:9px; font-weight:800; padding:2px 6px; border-radius:4px; font-family:var(--mono); display:inline-flex; align-items:center; gap:3px; }
-.w-am1 { background:var(--amber-bg); color:var(--amber); } 
-.w-am2 { background:rgba(46,196,182,0.15); color:var(--teal-bright); } 
-.w-pm1 { background:var(--red-bg); color:var(--red); } 
-.w-pm2 { background:var(--surface3); color:var(--sub); } 
+.w-am1 { background:rgba(46,196,182,0.15); color:var(--teal-bright); } 
+.w-am2 { background:var(--surface3); color:var(--sub); } 
+.w-pm1 { background:var(--amber-bg); color:var(--amber); } 
+.w-pm2 { background:var(--red-bg); color:var(--red); } 
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:0 10px 8px}
 .card-head{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
@@ -271,7 +270,7 @@ textarea{width:100%;min-height:100px;font-size:10px;line-height:1.5;background:v
 
 <script>
 // ============================================================
-//  CONFIG & STATE (v69 - COMPLETE WITH TEE TIMES)
+//  CONFIG & STATE (v69 - FULL BUILD WITH TEE TIMES)
 // ============================================================
 const SAL_CAP = 50000;
 const MIN_PRICE = 6900;
@@ -443,6 +442,51 @@ const MASTER_DB = [
     {name: "Charlie Crockett", sal: 6000, monOdds: 400000, tueOdds: 350000, wedOdds: 400000, liveOdds: 350000, liveT5: 28000, liveT10: 9200, sg: 0.00, trueCut: 0.50, fit: 'Mid', ch: 1.00},
     {name: "Austin Wylie", sal: 6000, monOdds: 500000, tueOdds: 500000, wedOdds: 500000, liveOdds: 350000, liveT5: 29000, liveT10: 9800, sg: 0.00, trueCut: 0.50, fit: 'Weak', ch: 1.00}
 ];
+
+const TEE_TIMES = `7:30 AM,1,"Lanto Griffin, Kevin Streelman, Max McGreevy"
+7:30 AM,10,"Ryan Palmer, Dylan Wu, Mac Meissner"
+7:42 AM,1,"Nick Hardy, Christiaan Bezuidenhout, Austin Smotherman"
+7:42 AM,10,"Joel Dahmen, Bud Cauley, Chandler Phillips"
+7:54 AM,1,"Taylor Moore, Sam Ryder, Bronson Burgoon"
+7:54 AM,10,"Will Zalatoris, Patrick Rodgers, S.H. Kim"
+8:06 AM,1,"William Mouw, J.T. Poston, Lucas Glover"
+8:06 AM,10,"Tommy Fleetwood, Hideki Matsuyama, Rickie Fowler"
+8:18 AM,1,"Sami Valimaki, Webb Simpson, Charley Hoffman"
+8:18 AM,10,"Maverick McNealy, Tony Finau, Max Homa"
+8:30 AM,1,"Adam Schenk, Matt Kuchar, Alex Noren"
+8:30 AM,10,"Si Woo Kim, Michael Thorbjornsen, Marco Penge"
+8:42 AM,1,"Joe Highsmith, Davis Thompson, Ryo Hisatsune"
+8:42 AM,10,"Andrew Novak, Garrick Higgo, Sudarshan Yellamaraju"
+8:54 AM,1,"Rafael Campos, Emiliano Grillo, Rico Hoey"
+8:54 AM,10,"Brice Garnett, Adam Svensson, Thorbjorn Olesen"
+9:06 AM,1,"Austin Eckroat, Peter Malnati, Doug Ghim"
+9:06 AM,10,"Seamus Power, Michael Kim, Vince Whaley"
+9:18 AM,1,"David Ford, Neal Shipley, Davis Chatfield"
+9:18 AM,10,"Kris Ventura, Chandler Blanchet, Zach Bauchou"
+9:30 AM,1,"Frankie Capan III, Luke Clanton, Austin Wylie"
+9:30 AM,10,"Adrien Dumont de Chassart, Dan Brown, Christo Lamprecht"
+12:30 PM,1,"Tom Kim, Lee Hodges, Alex Smalley"
+12:30 PM,10,"Brendon Todd, Jimmy Walker, Hank Lebioda"
+12:42 PM,1,"Matt Wallace, Tom Hoge, Carson Young"
+12:42 PM,10,"Camilo Villegas, Takumi Kanaya, Kristoffer Reitan"
+12:54 PM,1,"Erik van Rooyen, K.H. Lee, Eric Cole"
+12:54 PM,10,"Nick Dunlap, Andrew Putnam, Justin Lower"
+1:06 PM,1,"Ludvig Aberg, Robert MacIntyre, Jordan Spieth"
+1:06 PM,10,"Jhonattan Vegas, Brandt Snedeker"
+1:18 PM,1,"Sepp Straka, Brian Harman, Billy Horschel"
+1:18 PM,10,"Nick Taylor, Matt McCarty, Kevin Yu"
+1:30 PM,1,"J.J. Spaun, Russell Henley, Stephan Jaeger"
+1:30 PM,10,"Steven Fisk, Karl Vilips, Chris Kirk"
+1:42 PM,1,"Mark Hubbard, Kevin Roy, Danny Walker"
+1:42 PM,10,"Mackenzie Hughes, Chad Ramey, Beau Hossler"
+1:54 PM,1,"Matthieu Pavon, Denny McCarthy, Johnny Keefer"
+1:54 PM,10,"Patton Kizzire, Keith Mitchell, Jordan Smith"
+2:06 PM,1,"Kensei Hirata, Adrien Saddier, Paul Waring"
+2:06 PM,10,"Zecheng Dou, Jackson Suber, Gordon Sargent"
+2:18 PM,1,"Pontus Nyholm, Marcelo Rozo, Charlie Crockett"
+2:18 PM,10,"Patrick Fishburn, Alejandro Tosti, Jesper Svensson"
+2:30 PM,1,"Jimmy Stanger, A.J. Ewart, John VanDerLaan"
+2:30 PM,10,"Haotong Li, John Parry, Jeffrey Kang"`;
 
 let waveMap = {};
 TEE_TIMES.split('\n').forEach(line => {
