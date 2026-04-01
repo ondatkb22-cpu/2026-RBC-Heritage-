@@ -4,39 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Riverwalk Roller — Valero 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0B1116; 
-  --surface:#151F28; 
-  --surface2:#1E2D3A;
-  --surface3:#2A3F52;
-  --border:#2A3A4C;
-  --border2:#3D5065;
-  --text:#FDFBF7; 
-  --sub:#B8C5D1;
-  --muted:#7D93A8;
-  --teal:#00B4D8; 
-  --teal-bright:#48CAE4; 
-  --gold:#F4A261; 
-  --gold-bright:#E76F51; 
-  --red:#EF476F; 
-  --red-bg:rgba(239, 71, 111, 0.12);
-  --amber:#FFD166; 
-  --amber-bg:rgba(255, 209, 102, 0.12);
-  --blue:#118AB2;
-  --steam-bg:rgba(0, 180, 216, 0.08); 
-  --lock-bg:rgba(244, 162, 97, 0.08);
-  --mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif;--disp:'Playfair Display',serif;
+  /* San Antonio Palette: warm terracotta, river teal, limestone, mission gold */
+  --bg:#110E0A;
+  --surface:#1C1610;
+  --surface2:#261E16;
+  --surface3:#352A1E;
+  --border:#3D2E1F;
+  --border2:#5A4432;
+  --text:#FAF5EE;
+  --sub:#C4B49E;
+  --muted:#8C7A66;
+  --teal:#2EC4B6;
+  --teal-bright:#3DD6C8;
+  --gold:#E8A838;
+  --gold-bright:#D35F2A;
+  --terracotta:#C4553A;
+  --red:#E04B5A;
+  --red-bg:rgba(224,75,90,0.12);
+  --amber:#F0C040;
+  --amber-bg:rgba(240,192,64,0.12);
+  --river:#1A8A7A;
+  --steam-bg:rgba(46,196,182,0.08);
+  --lock-bg:rgba(232,168,56,0.08);
+  --mono:'JetBrains Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --disp:'Abril Fatface',serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5;min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden;padding-bottom:100px}
-body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5;min-height:100dvh;display:flex;flex-direction:column;overflow-x:hidden;padding-bottom:56px}
 
+/* Subtle warm grain overlay */
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
+
+/* Header — mission-inspired warm gradient */
 .hdr{
-  background:linear-gradient(135deg,#0B1116 0%,#151F28 60%,#242021 100%);
-  border-bottom:2px solid transparent;
-  border-image:linear-gradient(to right, var(--teal), var(--gold), var(--gold-bright)) 1;
+  background:linear-gradient(135deg,#110E0A 0%,#1C1610 40%,#2A1F14 100%);
+  border-bottom:3px solid transparent;
+  border-image:linear-gradient(to right, var(--terracotta), var(--gold), var(--teal)) 1;
   padding:14px 16px;
   position:sticky;
   top:0;
@@ -45,116 +52,116 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
   justify-content:space-between;
   align-items:center
 }
-.logo{font-family:var(--disp);font-size:22px;font-weight:900;color:var(--gold-bright);line-height:1;letter-spacing:-.5px; display:flex; align-items:center;}
-.logo-sub{font-size:10px;color:var(--teal-bright);font-family:var(--mono);margin-top:4px;letter-spacing:.5px; font-weight:600;}
+.logo{font-family:var(--disp);font-size:24px;color:var(--gold);line-height:1;letter-spacing:.5px;display:flex;align-items:center}
+.logo-sub{font-size:10px;color:var(--teal-bright);font-family:var(--mono);margin-top:4px;letter-spacing:.5px;font-weight:600}
 .badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;font-family:var(--mono);letter-spacing:.3px}
-.badge-teal{background:rgba(0, 180, 216, 0.15);color:var(--teal-bright);border:1px solid rgba(0, 180, 216, 0.3)}
+.badge-teal{background:rgba(46,196,182,0.15);color:var(--teal-bright);border:1px solid rgba(46,196,182,0.3)}
 
-.nav{display:flex;background:var(--surface);border-top:1px solid var(--border);position:fixed;bottom:0;width:100%;z-index:1000;box-shadow:0 -4px 20px rgba(0,0,0,0.4);}
-.nav-tab{flex:1;padding:14px 2px;text-align:center;font-size:10px;font-weight:700;color:var(--muted);cursor:pointer;border-top:3px solid transparent;text-transform:uppercase;letter-spacing:.5px;transition:all .15s}
-.nav-tab.on{color:var(--gold);border-color:var(--gold);background:rgba(244, 162, 97, 0.05)}
-
-.roster-strip {position:fixed;bottom:44px;left:0;width:100%;background:var(--surface2);border-top:1px solid var(--border2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:10px 16px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted);z-index:990;box-shadow:0 -4px 15px rgba(0,0,0,0.3);}
-.rs-val {color:var(--text);font-size:14px;margin-left:6px;}
+/* Bottom nav — unified with roster info */
+.nav{display:flex;background:var(--surface);border-top:1px solid var(--border);position:fixed;bottom:0;width:100%;z-index:1000;box-shadow:0 -4px 24px rgba(0,0,0,0.5);align-items:stretch}
+.nav-tab{flex:0 1 auto;padding:12px 10px;text-align:center;font-size:10px;font-weight:700;color:var(--muted);cursor:pointer;border-top:3px solid transparent;text-transform:uppercase;letter-spacing:.6px;transition:all .2s;min-width:44px}
+.nav-tab.on{color:var(--gold);border-color:var(--gold);background:rgba(232,168,56,0.06)}
+.nav-tab:active{transform:scale(0.97)}
+.nav-roster{margin-left:auto;display:flex;align-items:center;gap:4px;padding:0 10px;font-family:var(--mono);font-size:11px;white-space:nowrap}
+.nav-auto{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%);color:#110E0A;border:none;border-radius:4px;font-weight:900;font-family:var(--mono);padding:4px 10px;font-size:10px;cursor:pointer;margin-left:6px;letter-spacing:.3px;transition:all .15s}
+.nav-auto:active{transform:scale(0.95)}
 
 .panel{display:none;flex:1;overflow-y:auto}
 .panel.on{display:block}
 
+/* Pods */
 .pods{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:12px}
 .pod{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px}
-.pod-val{font-family:var(--disp);font-size:18px;font-weight:900;line-height:1}
+.pod-val{font-family:var(--disp);font-size:18px;line-height:1}
 .pod-lbl{font-size:9px;color:var(--muted);margin-top:3px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 
-.filters{padding:8px 12px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none; align-items:center;}
-.fchip{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .12s}
-.fchip.on{background:var(--teal);color:#0B131E;border-color:var(--teal)}
+/* Filters */
+.filters{padding:8px 12px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;align-items:center}
+.fchip{padding:5px 11px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);font-size:11px;font-weight:700;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .15s}
+.fchip.on{background:var(--terracotta);color:#FAF5EE;border-color:var(--terracotta)}
+.fchip:active{transform:scale(0.96)}
 
-.search-box {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 20px;
-  padding: 5px 12px;
-  color: var(--text);
-  font-size: 11px;
-  font-family: var(--sans);
-  outline: none;
-  width: 90px;
-  transition: all 0.2s;
-}
-.search-box:focus {
-  border-color: var(--teal);
-  width: 140px;
-  background: var(--surface2);
-}
-.search-box::placeholder {
-  color: var(--muted);
-  font-weight: 700;
-}
+.search-box{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;color:var(--text);font-size:11px;font-family:var(--sans);outline:none;width:90px;transition:all .2s}
+.search-box:focus{border-color:var(--teal);width:140px;background:var(--surface2)}
+.search-box::placeholder{color:var(--muted);font-weight:700}
 
+/* Key strip */
 .key-strip{display:flex;flex-wrap:wrap;gap:4px 14px;padding:10px 12px;background:var(--surface2);border-radius:6px;border:1px solid var(--border);margin:0 12px 10px;font-size:10px;color:var(--sub)}
 .key-strip span strong{color:var(--text);font-family:var(--mono);margin-right:2px}
 
+/* Table */
 .tw{overflow-x:auto;padding:0 12px 12px}
 table{width:100%;border-collapse:collapse;font-size:12px;background:var(--surface);border-radius:10px;overflow:hidden;border:1px solid var(--border)}
-thead th{background:var(--surface2);color:var(--muted);padding:10px 7px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;cursor:pointer;border-bottom:1px solid var(--border);transition: background 0.2s;}
+thead th{background:var(--surface2);color:var(--muted);padding:10px 7px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;cursor:pointer;border-bottom:1px solid var(--border);transition:background .2s}
 thead th:hover{background:var(--surface3);color:var(--text)}
-tbody tr{border-bottom:1px solid rgba(42, 58, 76, 0.6)}
+tbody tr{border-bottom:1px solid rgba(61,46,31,0.6)}
 tbody tr.lock-row td{background:var(--lock-bg)}
 tbody tr.steam-row td{background:var(--steam-bg)}
 td{padding:8px 7px;vertical-align:middle;white-space:nowrap}
+.sort-icon{display:inline-block;margin-left:4px;font-size:8px;opacity:.6}
 
-.sort-icon { display:inline-block; margin-left:4px; font-size:8px; opacity:0.6; }
-
+/* Delta badges */
 .db{display:inline-flex;align-items:center;justify-content:center;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:800;min-width:32px;font-family:var(--mono)}
-.d-elite{background:var(--gold-bright);color:#0B131E}
-.d-solid{background:rgba(0, 180, 216, 0.25);color:var(--teal-bright)}
-.d-slight{background:rgba(0, 180, 216, 0.12);color:var(--teal)}
+.d-elite{background:var(--gold-bright);color:#110E0A}
+.d-solid{background:rgba(46,196,182,0.25);color:var(--teal-bright)}
+.d-slight{background:rgba(46,196,182,0.12);color:var(--teal)}
 .d-neg{background:var(--red-bg);color:var(--red)}
 
-.grade{font-size:9px;font-weight:800;padding:3px 8px;border-radius:4px;letter-spacing:.5px;font-family:var(--mono);white-space:nowrap; display:inline-block; text-align:center;}
-.grade-core{background:var(--gold-bright);color:#0B131E}
-.grade-play{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
+/* Grade badges */
+.grade{font-size:9px;font-weight:800;padding:3px 8px;border-radius:4px;letter-spacing:.5px;font-family:var(--mono);white-space:nowrap;display:inline-block;text-align:center}
+.grade-core{background:var(--gold-bright);color:#FAF5EE}
+.grade-play{background:rgba(46,196,182,0.2);color:var(--teal-bright)}
 .grade-pool{background:var(--surface3);color:var(--sub)}
 .grade-fade{background:var(--red-bg);color:var(--red)}
 
+/* Cards */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin:0 12px 10px}
 .card-head{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .card-title{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.6px;text-transform:uppercase}
 .card-body{padding:14px}
 
+/* Lineup cards */
 .lu-card{background:linear-gradient(145deg,var(--surface2) 0%,var(--surface) 100%);border:1px solid var(--border2);border-radius:14px;overflow:hidden;margin:0 12px 10px}
-.lu-slot{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(42, 58, 76, 0.4);gap:8px}
+.lu-slot{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(61,46,31,0.4);gap:8px}
 .lu-slot:last-child{border:none}
 .lu-slot-num{font-size:10px;color:var(--muted);font-weight:700;width:20px;flex-shrink:0}
 .lu-slot-name{font-weight:700;font-size:13px;display:flex;align-items:center}
 .lu-slot-meta{font-size:10px;color:var(--muted);margin-top:2px}
 .lu-slot-sal{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--gold);white-space:nowrap}
 .lu-totals{display:grid;grid-template-columns:repeat(4,1fr);padding:12px 16px;background:var(--surface2);border-top:1px solid var(--border);gap:4px}
-.lu-total-val{font-family:var(--disp);font-weight:900;font-size:17px}
+.lu-total-val{font-family:var(--disp);font-size:17px}
 .lu-total-lbl{font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
 
 textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px;font-family:var(--mono);outline:none;resize:vertical;white-space:pre}
 
-.btn{width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:900;font-family:var(--disp);cursor:pointer;border:none;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-bright) 100%);color:#0B131E;letter-spacing:.3px;transition:all .2s}
-.btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(0, 180, 216, 0.3)}
-.btn-gold{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%)}
-.btn-gold:hover{box-shadow:0 4px 20px rgba(244, 162, 97, 0.3)}
-.clear-btn{width:100%;background:var(--surface);color:var(--muted);border:1px solid var(--border);padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px; transition: all 0.15s;}
-.clear-btn:hover{background:var(--surface2); color:var(--text);}
+/* Buttons — warm terracotta and teal */
+.btn{width:100%;padding:14px;border-radius:8px;font-size:15px;font-weight:900;font-family:var(--disp);cursor:pointer;border:none;background:linear-gradient(135deg,var(--teal) 0%,var(--river) 100%);color:#FAF5EE;letter-spacing:.3px;transition:all .2s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(46,196,182,0.3)}
+.btn:active{transform:scale(0.98)}
+.btn-gold{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%);color:#110E0A}
+.btn-gold:hover{box-shadow:0 4px 20px rgba(232,168,56,0.3)}
+.clear-btn{width:100%;background:var(--surface);color:var(--muted);border:1px solid var(--border);padding:10px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;margin-top:6px;transition:all .15s}
+.clear-btn:hover{background:var(--surface2);color:var(--text)}
 
-.add-btn{padding:2px 6px;border-radius:4px;border:none;font-size:12px;font-weight:900;cursor:pointer;background:var(--surface3);color:var(--text);transition:all .1s; width: 26px; text-align: center;}
-.add-btn.is-locked{background:var(--teal-bright);color:#0B131E}
+.add-btn{padding:2px 6px;border-radius:4px;border:none;font-size:12px;font-weight:900;cursor:pointer;background:var(--surface3);color:var(--text);transition:all .1s;width:26px;text-align:center}
+.add-btn.is-locked{background:var(--teal-bright);color:#110E0A}
 
-.stm-badge{font-size:12px;background:transparent;padding:0;margin-left:4px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));}
+.stm-badge{font-size:12px;background:transparent;padding:0;margin-left:4px;filter:drop-shadow(0px 2px 4px rgba(0,0,0,0.5))}
 .pb-tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:8px;letter-spacing:.5px}
-.pb-steam{background:rgba(0, 180, 216, 0.2);color:var(--teal-bright)}
-.pb-gpp{background:rgba(244, 162, 97, 0.15);color:var(--gold)}
-.pb-cash{background:rgba(17, 138, 178, 0.15);color:var(--blue)}
+.pb-steam{background:rgba(46,196,182,0.2);color:var(--teal-bright)}
+.pb-gpp{background:rgba(232,168,56,0.15);color:var(--gold)}
+.pb-cash{background:rgba(26,138,122,0.15);color:var(--river)}
 
-.insight{background:rgba(244, 162, 97, 0.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
+.insight{background:rgba(232,168,56,0.06);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:11px 14px;font-size:11px;color:var(--sub);line-height:1.7;margin:0 12px 10px}
 
-.radio-group { display: flex; gap: 10px; margin-bottom: 12px; }
-.radio-label { font-size: 11px; color: var(--sub); display: flex; align-items: center; gap: 4px; cursor:pointer;}
+.radio-group{display:flex;gap:10px;margin-bottom:12px}
+.radio-label{font-size:11px;color:var(--sub);display:flex;align-items:center;gap:4px;cursor:pointer}
+
+/* San Antonio decorative divider */
+.sa-divider{height:3px;margin:16px 12px;border-radius:2px;background:linear-gradient(to right, var(--terracotta), var(--gold) 40%, var(--teal) 70%, var(--river))}
+
+/* Alamo star decorations */
+.alamo-star{display:inline-block;color:var(--gold);font-size:10px;margin:0 3px;opacity:.7}
 
 @media(max-width:700px){
   .pods{grid-template-columns:repeat(4,1fr);gap:5px;padding:10px 8px}
@@ -168,10 +175,10 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
 <div class="hdr">
   <div>
     <div class="logo">
-      <span style="font-size:24px; margin-right:8px; margin-bottom:2px;">🌮</span>
+      <span style="font-size:26px;margin-right:8px;margin-bottom:2px;">🌮</span>
       Riverwalk Roller
     </div>
-    <div class="logo-sub">⛳ VALERO TEXAS OPEN 2026 · TPC SAN ANTONIO 🌵</div>
+    <div class="logo-sub">⛳ VALERO TEXAS OPEN 2026 · TPC SAN ANTONIO <span class="alamo-star">★</span> OAKS COURSE 🌵</div>
   </div>
   <div style="display:flex;gap:6px;align-items:center">
     <span class="badge badge-teal" id="status-badge">Roller Ready</span>
@@ -180,48 +187,74 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
 
 <div class="panel on" id="panel-guide">
   <div style="padding:16px 12px 8px">
-    <div style="font-family:var(--disp);font-size:24px;font-weight:900;color:var(--gold-bright);line-height:1">User Guide</div>
+    <div style="font-family:var(--disp);font-size:28px;color:var(--gold);line-height:1">User Guide</div>
+    <p style="font-size:11px;color:var(--muted);margin-top:4px;font-style:italic">Built for the Riverwalk. Fueled by tacos.</p>
   </div>
+
+  <div class="sa-divider"></div>
   
-  <div class="card" style="border-color: var(--teal); background: rgba(0, 180, 216, 0.03);">
-    <div class="card-head" style="border-bottom-color: rgba(0, 180, 216, 0.2);">
-      <span class="card-title" style="color: var(--teal-bright);">How to Use This Tool</span>
+  <div class="card" style="border-color:var(--teal);background:rgba(46,196,182,0.03)">
+    <div class="card-head" style="border-bottom-color:rgba(46,196,182,0.2)">
+      <span class="card-title" style="color:var(--teal-bright)"><span class="alamo-star">★</span> How to Use This Tool</span>
     </div>
     <div class="card-body">
-      <p style="font-size:12px; color:var(--text); font-weight: 600; margin-bottom: 8px;">The math is already done for you.</p>
-      <ol style="padding-left:14px; font-size:11px; line-height:1.7; color:var(--sub); margin-bottom: 0;">
-        <li style="margin-bottom:6px;"><strong>Grab an Optimal:</strong> Tap the <strong>PRE</strong> tab. The engine automatically builds 3 mathematically perfect lineups (Cash, GPP, Steam) using live odds and true cut probabilities.</li>
-        <li style="margin-bottom:6px;"><strong>Hunt for Tacos:</strong> Check the <strong>ARB</strong> tab to see who is taking sharp money (🌮) and outperforming their DraftKings salary.</li>
-        <li><strong>Build Your Own:</strong> Lock your favorite core plays on the ARB tab (+), then go to the <strong>BUILD</strong> tab, pick your strategy, and hit "Auto-Fill Optimal Lineup".</li>
+      <p style="font-size:12px;color:var(--text);font-weight:600;margin-bottom:8px">The math is already done for you.</p>
+      <ol style="padding-left:14px;font-size:11px;line-height:1.8;color:var(--sub);margin-bottom:0">
+        <li style="margin-bottom:6px"><strong style="color:var(--text)">Grab an Optimal:</strong> Tap the <strong>PRE</strong> tab. The engine automatically builds 3 mathematically perfect lineups (Cash, GPP, Steam) using live odds and true cut probabilities.</li>
+        <li style="margin-bottom:6px"><strong style="color:var(--text)">Hunt for Tacos:</strong> Check the <strong>ARB</strong> tab to see who is taking sharp money (🌮) and outperforming their DraftKings salary.</li>
+        <li><strong style="color:var(--text)">Build Your Own:</strong> Lock your favorite core plays on the ARB tab (+), then go to the <strong>BUILD</strong> tab, pick your strategy, and hit "Auto-Fill Optimal Lineup".</li>
       </ol>
     </div>
   </div>
 
-  <div class="card" style="border-color: var(--gold); background: rgba(244, 162, 97, 0.03);">
-    <div class="card-head" style="border-bottom-color: rgba(244, 162, 97, 0.2);">
-      <span class="card-title" style="color: var(--gold);">Quant Glossary</span>
+  <div class="card" style="border-color:var(--gold);background:rgba(232,168,56,0.03)">
+    <div class="card-head" style="border-bottom-color:rgba(232,168,56,0.2)">
+      <span class="card-title" style="color:var(--gold)"><span class="alamo-star">★</span> Quant Glossary</span>
     </div>
     <div class="card-body">
-      <ul style="padding-left:14px; font-size:11px; line-height:1.7; color:var(--sub); margin-bottom: 0;">
-        <li style="margin-bottom:6px;"><strong>Tracker:</strong> Shows a player's Monday, Tuesday, and Wednesday odds progression.</li>
-        <li style="margin-bottom:6px;"><strong style="color:var(--teal)">Δ (Delta):</strong> Salary Rank vs. Odds Rank. A positive number means DraftKings mispriced them to your advantage.</li>
-        <li style="margin-bottom:6px;"><strong>wVEL:</strong> Weighted Time-Decay Velocity. Identifies the fastest-dropping odds (sharp syndicate movement) over the week.</li>
-        <li style="margin-bottom:6px;"><strong style="color:var(--gold)">$DLTA:</strong> The master Expected Value (EV) score. It perfectly blends Win, Top 5, and Top 10 odds with Course History, Strokes Gained, and Line Movement.</li>
-        <li><strong>Grade:</strong> The overall algorithmic rating (CORE, PLAY, POOL, FADE).</li>
+      <ul style="padding-left:14px;font-size:11px;line-height:1.8;color:var(--sub);margin-bottom:0">
+        <li style="margin-bottom:6px"><strong style="color:var(--text)">Tracker:</strong> Shows a player's Monday → Tuesday → Wednesday odds progression.</li>
+        <li style="margin-bottom:6px"><strong style="color:var(--teal)">Δ (Delta):</strong> Salary Rank vs. Odds Rank. A positive number means DraftKings mispriced them to your advantage.</li>
+        <li style="margin-bottom:6px"><strong style="color:var(--text)">wVEL:</strong> Weighted Time-Decay Velocity. Identifies the fastest-dropping odds (sharp syndicate movement) over the week.</li>
+        <li style="margin-bottom:6px"><strong style="color:var(--gold)">$DLTA:</strong> How many DraftKings points this player is projected ABOVE (or below) what their salary expects. Positive = value, negative = overpriced.</li>
+        <li style="margin-bottom:6px"><strong style="color:var(--river)">pOWN:</strong> Projected Ownership. Dynamically tracks leverage based on mathematical value and sharp steam.</li>
+        <li style="margin-bottom:10px"><strong style="color:var(--text)">Grade:</strong> The bottom-line verdict on every player:</li>
       </ul>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:2px">
+        <div style="background:var(--surface2);border-radius:6px;padding:8px 10px;border-left:3px solid var(--gold-bright)">
+          <span class="grade grade-core" style="font-size:9px;padding:2px 6px">CORE</span>
+          <div style="font-size:10px;color:var(--sub);margin-top:4px;line-height:1.4"><strong style="color:var(--text)">Build around him.</strong> High projected pts, safe cut, good price.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:8px 10px;border-left:3px solid var(--teal)">
+          <span class="grade grade-play" style="font-size:9px;padding:2px 6px">PLAY</span>
+          <div style="font-size:10px;color:var(--sub);margin-top:4px;line-height:1.4"><strong style="color:var(--text)">In the mix.</strong> Solid value, one small question mark.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:8px 10px;border-left:3px solid var(--muted)">
+          <span class="grade grade-pool" style="font-size:9px;padding:2px 6px">POOL</span>
+          <div style="font-size:10px;color:var(--sub);margin-top:4px;line-height:1.4"><strong style="color:var(--text)">Filler.</strong> Not broken, not exciting. Salary plug only.</div>
+        </div>
+        <div style="background:var(--surface2);border-radius:6px;padding:8px 10px;border-left:3px solid var(--red)">
+          <span class="grade grade-fade" style="font-size:9px;padding:2px 6px">FADE</span>
+          <div style="font-size:10px;color:var(--sub);margin-top:4px;line-height:1.4"><strong style="color:var(--text)">Stay away.</strong> Overpriced, likely missed cut, or drifting.</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card" style="border-color: var(--border); background: var(--surface);">
-    <div class="card-body" style="padding:12px; text-align:center;">
-      <p style="font-size:10px; color:var(--muted); line-height:1.4;">
+  <div class="card" style="border-color:var(--border);background:var(--surface)">
+    <div class="card-body" style="padding:12px;text-align:center">
+      <p style="font-size:10px;color:var(--muted);line-height:1.4">
         <strong>Disclaimer:</strong> This tool is for informational and entertainment purposes only. Golf DFS has extreme variance. Never wager more than you can afford to lose. If you or someone you know has a gambling problem, call <strong>1-800-GAMBLER</strong>.
       </p>
     </div>
   </div>
 
-  <div style="text-align:center; padding: 10px 20px 30px;">
-      <p style="font-size:14px; font-weight:900; color:var(--gold-bright); font-family:var(--disp); letter-spacing:0.5px;">Good luck out there! Let's go win some tournaments. 🌮💰</p>
+  <div style="text-align:center;padding:10px 20px 30px">
+    <p style="font-size:15px;font-family:var(--disp);color:var(--gold);letter-spacing:.5px">
+      <span class="alamo-star" style="font-size:14px">★</span> 
+      Good luck out there. Let's eat some tacos. 🌮💰
+      <span class="alamo-star" style="font-size:14px">★</span>
+    </p>
   </div>
 </div>
 
@@ -229,17 +262,16 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
   <div class="pods" id="pods"></div>
   <div class="filters">
     <button class="fchip on" data-filter="all" onclick="setFilter('all',this)">All</button>
-    <button class="fchip" data-filter="steam" onclick="setFilter('steam',this)">Steam</button>
+    <button class="fchip" data-filter="steam" onclick="setFilter('steam',this)">Steam 🌮</button>
     <button class="fchip" data-filter="lockconv" onclick="setFilter('lockconv',this)">Locks</button>
-    <button class="fchip" data-filter="grade" onclick="setFilter('grade',this)">Core Plays</button>
+    <button class="fchip" data-filter="grade" onclick="setFilter('grade',this)">Core</button>
     <input type="text" id="player-search" class="search-box" placeholder="🔍 Search" onkeyup="handleSearch(this.value)">
   </div>
   
   <div class="key-strip">
-    <span><strong>Odds:</strong> Current (vs Mon Baseline)</span>
-    <span><strong style="color:var(--teal)">wVEL:</strong> Weighted Time-Decay Velocity</span>
-    <span><strong style="color:var(--gold)">$DLTA:</strong> Blended Placement Equity</span>
-    <span><strong>Grade:</strong> Composite Algorithm</span>
+    <span><strong style="color:var(--teal)">wVEL:</strong> Sharp money velocity</span>
+    <span><strong style="color:var(--gold)">$DLTA:</strong> Projected pts vs salary expects</span>
+    <span><strong>Grade:</strong> CORE=start · PLAY=solid · POOL=filler · FADE=avoid</span>
   </div>
 
   <div class="tw">
@@ -253,6 +285,7 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
           <th onclick="srt('delta')">Δ<span class="sort-icon"></span></th>
           <th onclick="srt('wVelDisp')" style="color:var(--teal)">wVEL<span class="sort-icon"></span></th>
           <th onclick="srt('dlta')" style="color:var(--gold)">$DLTA<span class="sort-icon"></span></th>
+          <th onclick="srt('estOwn')" style="color:var(--river)">pOWN<span class="sort-icon"></span></th>
           <th onclick="srt('gradeSort')">Grade<span class="sort-icon"></span></th>
         </tr>
       </thead>
@@ -262,21 +295,28 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
 </div>
 
 <div class="panel" id="panel-prebuilt">
+  <div style="padding:16px 12px 8px">
+    <div style="font-family:var(--disp);font-size:24px;color:var(--gold);line-height:1">Pre-Built Optimals</div>
+    <p style="font-size:11px;color:var(--muted);margin-top:4px">Three strategies. One tap. Mathematically optimized.</p>
+  </div>
+  <div class="sa-divider"></div>
   <div id="pb-steam-card" class="lu-card"></div>
   <div id="pb-gpp-card" class="lu-card"></div>
   <div id="pb-cash-card" class="lu-card"></div>
 </div>
 
 <div class="panel" id="panel-build">
-  <div style="padding: 16px 12px 8px;">
-    <div style="font-family:var(--disp);font-size:24px;font-weight:900;color:var(--gold-bright);line-height:1">Lineup Studio</div>
-    <p style="font-size:11px; color:var(--sub); margin-top:4px;">Lock your core plays on the Arb board, then auto-fill the rest.</p>
+  <div style="padding:16px 12px 8px">
+    <div style="font-family:var(--disp);font-size:24px;color:var(--gold);line-height:1">Lineup Studio</div>
+    <p style="font-size:11px;color:var(--sub);margin-top:4px">Lock your core plays on the Arb board, then auto-fill the rest.</p>
   </div>
 
+  <div class="sa-divider"></div>
+
   <div class="card">
-    <div class="card-head" style="padding:10px 14px;"><span class="card-title">Optimization Strategy</span></div>
-    <div class="card-body" style="padding:10px;">
-      <div class="filters" style="padding:0;">
+    <div class="card-head" style="padding:10px 14px"><span class="card-title">Optimization Strategy</span></div>
+    <div class="card-body" style="padding:10px">
+      <div class="filters" style="padding:0">
         <button class="fchip on" id="strat-gpp" onclick="setStrategy('gpp')">GPP (Ceiling)</button>
         <button class="fchip" id="strat-cash" onclick="setStrategy('cash')">Cash (Floor)</button>
         <button class="fchip" id="strat-steam" onclick="setStrategy('steam')">Steam (Sharp)</button>
@@ -286,20 +326,20 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
 
   <div id="build-roster-container"></div>
 
-  <div style="padding:12px; display:flex; flex-direction:column; gap:8px; margin-bottom:20px;">
+  <div style="padding:12px;display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
     <button class="btn btn-gold" onclick="executeBuild()">⚡ Auto-Fill Optimal Lineup</button>
-    <div style="display:flex; gap:8px;">
-        <button class="clear-btn" style="flex:1; margin-top:0;" onclick="copyLineupToClipboard()">Copy Text</button>
-        <button class="clear-btn" style="flex:1; margin-top:0; color:var(--red); border-color:rgba(239,71,111,0.3);" onclick="clearLocks()">Clear Roster</button>
+    <div style="display:flex;gap:8px">
+      <button class="clear-btn" style="flex:1;margin-top:0" onclick="copyLineupToClipboard()">Copy Text</button>
+      <button class="clear-btn" style="flex:1;margin-top:0;color:var(--red);border-color:rgba(224,75,90,0.3)" onclick="clearLocks()">Clear Roster</button>
     </div>
   </div>
 </div>
 
 <div class="panel" id="panel-data">
   <div class="card" style="margin-top:12px">
-    <div class="card-head"><span class="card-title">Daily Odds Tracker</span></div>
+    <div class="card-head"><span class="card-title"><span class="alamo-star">★</span> Daily Odds Tracker</span></div>
     <div class="card-body">
-      <p style="font-size:11px; color:var(--sub); margin-bottom:12px;">Select the day, then paste the full DraftKings layout (Name, Win, T5, T10). The algorithm will parse all 3 odds to build Blended Placement Equity.</p>
+      <p style="font-size:11px;color:var(--sub);margin-bottom:12px">Select the day, then paste the full DraftKings layout (Name, Win, T5, T10). The algorithm will parse all 3 odds to build Blended Placement Equity.</p>
       
       <div class="radio-group">
         <label class="radio-label"><input type="radio" name="oddsDay" value="tue"> Tuesday</label>
@@ -313,26 +353,26 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
   </div>
 </div>
 
-<div class="roster-strip" id="roster-strip">
-  <div style="display:flex; gap:14px; align-items:center;">
-    <div><span style="color:var(--muted)">PLYRS:</span> <span class="rs-val" id="rs-count">0/6</span></div>
-    <div><span style="color:var(--muted)">REM:</span> <span class="rs-val" id="rs-rem">$50,000</span></div>
-  </div>
-  <button onclick="showTab('build'); executeBuild();" style="background:linear-gradient(135deg,var(--gold) 0%,var(--gold-bright) 100%); color:#0B131E; border:none; border-radius:4px; font-weight:900; font-family:var(--mono); padding:5px 12px; font-size:11px; cursor:pointer; box-shadow:0 2px 10px rgba(244, 162, 97, 0.2);">AUTO</button>
-</div>
-
 <div class="nav">
-  <div class="nav-tab on" onclick="showTab('guide')">Guide</div>
-  <div class="nav-tab" onclick="showTab('arb')">Arb</div>
-  <div class="nav-tab" onclick="showTab('build')">Build</div>
-  <div class="nav-tab" onclick="showTab('prebuilt')">Pre</div>
-  <div class="nav-tab" onclick="showTab('data')">Data</div>
+  <div class="nav-tab on" data-tab="guide" onclick="showTab('guide')">Guide</div>
+  <div class="nav-tab" data-tab="arb" onclick="showTab('arb')">Arb</div>
+  <div class="nav-tab" data-tab="build" onclick="showTab('build')">Build</div>
+  <div class="nav-tab" data-tab="prebuilt" onclick="showTab('prebuilt')">Pre</div>
+  <div class="nav-tab" data-tab="data" onclick="showTab('data')">Data</div>
+  <div class="nav-roster" id="nav-roster">
+    <span id="rs-count" style="color:var(--text);font-weight:800">0</span><span style="color:var(--muted)">/6</span>
+    <span style="color:var(--border2);margin:0 3px">·</span>
+    <span id="rs-rem" style="color:var(--gold);font-weight:800">$50K</span>
+    <button id="nav-auto-btn" onclick="showTab('build');executeBuild();" class="nav-auto">AUTO</button>
+  </div>
 </div>
 
 <script>
-// --- CONFIG & STATE ---
+// ============================================================
+//  CONFIG & STATE
+// ============================================================
 const SAL_CAP = 50000;
-const MIN_PRICE = 6900; 
+const MIN_PRICE = 6900;
 
 let players = [];
 let sortCol = 'dlta';
@@ -340,19 +380,32 @@ let sortDir = -1;
 let filterMode = 'all';
 let searchQuery = '';
 let currentLineup = [];
-let draftedLineup = []; 
+let draftedLineup = [];
 let currentStrategy = 'gpp';
 
 const toImp = (o) => o > 0 ? 100 / (o + 100) : Math.abs(o) / (Math.abs(o) + 100);
 
-const randomNormal = (mean, stdDev) => {
-  let u = 0, v = 0;
-  while(u === 0) u = Math.random();
-  while(v === 0) v = Math.random();
-  return mean + stdDev * Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-};
+// ============================================================
+//  TAB NAVIGATION
+// ============================================================
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('on'));
 
-// --- IMMUTABLE MASTER DATABASE W/ EXACT DK EVENT CENTER CUT & SG DATA ---
+  const panel = document.getElementById('panel-' + id);
+  if (panel) panel.classList.add('on');
+
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.getAttribute('data-tab') === id) t.classList.add('on');
+  });
+
+  if (id === 'prebuilt') buildPrebuilt();
+  if (id === 'build') renderBuildTab();
+}
+
+// ============================================================
+//  MASTER DATABASE
+// ============================================================
 const MASTER_DB = [
     {name: "T. Fleetwood", sal: 10500, monOdds: 1400, tueOdds: 1425, wedOdds: 1425, liveOdds: 1425, liveT5: 285, liveT10: 146, sg: 1.87, trueCut: 0.95, fit: 'Elite', ch: 1.05},
     {name: "L. Aberg", sal: 10100, monOdds: 1550, tueOdds: 1600, wedOdds: 1500, liveOdds: 1500, liveT5: 310, liveT10: 162, sg: 1.03, trueCut: 0.78, fit: 'Elite', ch: 1.00},
@@ -460,7 +513,7 @@ const MASTER_DB = [
     {name: "E. Rooyen", sal: 6200, monOdds: 39000, tueOdds: 39000, wedOdds: 39000, liveOdds: 39000, liveT5: 4500, liveT10: 1800, sg: 0.00, trueCut: 0.50, fit: 'Mid', ch: 0.95},
     {name: "A. Tosti", sal: 6200, monOdds: 55000, tueOdds: 55000, wedOdds: 49000, liveOdds: 49000, liveT5: 5600, liveT10: 2250, sg: -1.37, trueCut: 0.26, fit: 'Mid', ch: 0.95},
     {name: "J. Lower", sal: 6200, monOdds: 72500, tueOdds: 65000, wedOdds: 60000, liveOdds: 60000, liveT5: 6200, liveT10: 2400, sg: -1.23, trueCut: 0.42, fit: 'Mid', ch: 1.00},
-    {name: "C. Hoffman", sal: 6200, monOdds: 62500, tueOdds: 55000, wedOdds: 50000, liveOdds: 50000, liveT5: 5500, liveT10: 2200, sg: -1.64, trueCut: 0.14, fit: 'Mid', ch: 1.00},
+    {name: "C. Hoffman", sal: 6200, monOdds: 62500, tueOdds: 55000, wedOdds: 50000, liveOdds: 50000, liveT5: 5500, liveT10: 2200, sg: -1.64, trueCut: 0.14, fit: 'Mid', ch: 0.85},
     {name: "C. Lamprecht", sal: 6200, monOdds: 57500, tueOdds: 46000, wedOdds: 52500, liveOdds: 52500, liveT5: 5900, liveT10: 2300, sg: -1.72, trueCut: 0.40, fit: 'Mid', ch: 1.00},
     {name: "C. Phillips", sal: 6200, monOdds: 52500, tueOdds: 44000, wedOdds: 45000, liveOdds: 45000, liveT5: 4800, liveT10: 1900, sg: -0.43, trueCut: 0.51, fit: 'Mid', ch: 1.00},
     {name: "P. Waring", sal: 6200, monOdds: 90000, tueOdds: 65000, wedOdds: 62500, liveOdds: 62500, liveT5: 6500, liveT10: 2500, sg: -1.10, trueCut: 0.31, fit: 'Mid', ch: 1.00},
@@ -475,7 +528,7 @@ const MASTER_DB = [
     {name: "J. Kang", sal: 6100, monOdds: 140000, tueOdds: 115000, wedOdds: 110000, liveOdds: 110000, liveT5: 10500, liveT10: 3900, sg: -2.06, trueCut: 0.12, fit: 'Weak', ch: 0.95},
     {name: "N. Hardy", sal: 6100, monOdds: 55000, tueOdds: 55000, wedOdds: 70000, liveOdds: 70000, liveT5: 7000, liveT10: 2700, sg: -0.48, trueCut: 0.31, fit: 'Mid', ch: 1.05},
     {name: "B. Todd", sal: 6000, monOdds: 275000, tueOdds: 225000, wedOdds: 200000, liveOdds: 200000, liveT5: 18000, liveT10: 6100, sg: 0.00, trueCut: 0.50, fit: 'Weak', ch: 1.00},
-    {name: "K. Lee", sal: 6000, monOdds: 120000, tueOdds: 90000, wedOdds: 13000, liveOdds: 13000, liveT5: 1700, liveT10: 750, sg: 0.00, trueCut: 0.50, fit: 'Mid', ch: 0.95},
+    {name: "K. Lee", sal: 6000, monOdds: 120000, tueOdds: 90000, wedOdds: 135000, liveOdds: 135000, liveT5: 12000, liveT10: 4300, sg: 0.00, trueCut: 0.50, fit: 'Mid', ch: 0.95},
     {name: "R. Campos", sal: 6000, monOdds: 225000, tueOdds: 180000, wedOdds: 200000, liveOdds: 200000, liveT5: 17000, liveT10: 5900, sg: -1.29, trueCut: 0.31, fit: 'Weak', ch: 1.00},
     {name: "G. Sargent", sal: 6000, monOdds: 125000, tueOdds: 65000, wedOdds: 60000, liveOdds: 60000, liveT5: 6700, liveT10: 2600, sg: -1.08, trueCut: 0.33, fit: 'Strong', ch: 1.00},
     {name: "M. Rozo", sal: 6000, monOdds: 275000, tueOdds: 200000, wedOdds: 250000, liveOdds: 250000, liveT5: 20000, liveT10: 6700, sg: -2.10, trueCut: 0.28, fit: 'Weak', ch: 1.00},
@@ -485,32 +538,36 @@ const MASTER_DB = [
     {name: "C. Crockett", sal: 6000, monOdds: 400000, tueOdds: 350000, wedOdds: 400000, liveOdds: 400000, liveT5: 30000, liveT10: 9800, sg: 0.00, trueCut: 0.50, fit: 'Mid', ch: 1.00}
 ];
 
-// --- DATA PERSISTENCE & INITIALIZATION ---
+// ============================================================
+//  DATA PERSISTENCE & INITIALIZATION
+// ============================================================
 function loadInitialData() {
   players = MASTER_DB.map(p => ({
-    name: p.name, price: p.sal, monOdds: p.monOdds, tueOdds: p.tueOdds, wedOdds: p.wedOdds, liveOdds: p.liveOdds, 
-    liveT5: p.liveT5, liveT10: p.liveT10, sg: p.sg, trueCut: p.trueCut, ch: p.ch,
-    fit: p.fit, locked: false, implMon: toImp(p.monOdds), implLive: toImp(p.liveOdds),
-    salRank:0, oddsRank:0, delta:0, dlta:0, wVel: 0, wVelDisp: 0, grade:'POOL', gradeSort:2, cut: p.trueCut,
-    isSteam: false, isDrift: false
+    name:p.name,price:p.sal,monOdds:p.monOdds,tueOdds:p.tueOdds,wedOdds:p.wedOdds,liveOdds:p.liveOdds,
+    liveT5:p.liveT5,liveT10:p.liveT10,sg:p.sg,trueCut:p.trueCut,ch:p.ch,
+    fit:p.fit,locked:false,implMon:toImp(p.monOdds),implLive:toImp(p.liveOdds),
+    salRank:0,oddsRank:0,delta:0,dlta:0,wVel:0,wVelDisp:0,grade:'POOL',gradeSort:2,cut:p.trueCut,
+    isSteam:false,isDrift:false, estOwn:0
   }));
-
   compute();
   saveToLocal();
   renderAll();
 }
 
 function saveToLocal() {
-  localStorage.setItem('tve_players_v45', JSON.stringify(players.map(p => ({
-    name: p.name, tueOdds: p.tueOdds, wedOdds: p.wedOdds, liveOdds: p.liveOdds, liveT5: p.liveT5, liveT10: p.liveT10, locked: p.locked
-  }))));
+  try {
+    localStorage.setItem('tve_players_v47',JSON.stringify(players.map(p=>({
+      name:p.name,tueOdds:p.tueOdds,wedOdds:p.wedOdds,liveOdds:p.liveOdds,liveT5:p.liveT5,liveT10:p.liveT10,locked:p.locked
+    }))));
+  } catch(e) {}
 }
 
 function loadFromLocal() {
-  const stored = localStorage.getItem('tve_players_v45');
+  let stored;
+  try { stored = localStorage.getItem('tve_players_v47'); } catch(e) {}
+  
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
-    
     players = MASTER_DB.map(masterP => {
       const savedP = parsed.find(x => x.name === masterP.name) || {};
       const tueOdds = savedP.tueOdds || masterP.tueOdds;
@@ -518,17 +575,15 @@ function loadFromLocal() {
       const liveOdds = savedP.liveOdds || masterP.liveOdds;
       const liveT5 = savedP.liveT5 || masterP.liveT5;
       const liveT10 = savedP.liveT10 || masterP.liveT10;
-      
       return {
-        name: masterP.name, price: masterP.sal, monOdds: masterP.monOdds, tueOdds: tueOdds, wedOdds: wedOdds, 
-        liveOdds: liveOdds, liveT5: liveT5, liveT10: liveT10, sg: masterP.sg, trueCut: masterP.trueCut, ch: masterP.ch,
-        fit: masterP.fit || 'Mid', locked: savedP.locked || false, 
-        implMon: toImp(masterP.monOdds), implLive: toImp(liveOdds),
-        salRank:0, oddsRank:0, delta:0, dlta:0, wVel: 0, wVelDisp: 0, grade:'POOL', gradeSort:2, cut: masterP.trueCut,
-        isSteam: false, isDrift: false
+        name:masterP.name,price:masterP.sal,monOdds:masterP.monOdds,tueOdds,wedOdds,
+        liveOdds,liveT5,liveT10,sg:masterP.sg,trueCut:masterP.trueCut,ch:masterP.ch,
+        fit:masterP.fit||'Mid',locked:savedP.locked||false,
+        implMon:toImp(masterP.monOdds),implLive:toImp(liveOdds),
+        salRank:0,oddsRank:0,delta:0,dlta:0,wVel:0,wVelDisp:0,grade:'POOL',gradeSort:2,cut:masterP.trueCut,
+        isSteam:false,isDrift:false, estOwn:0
       };
     });
-
     compute();
     renderAll();
   } else {
@@ -536,16 +591,25 @@ function loadFromLocal() {
   }
 }
 
-// --- LIVE ODDS UPLOAD LOGIC (3-LINE PARSER) ---
+// ============================================================
+//  UPGRADED LIVE ODDS UPLOAD LOGIC (Bulletproof Parser)
+// ============================================================
 function handleLiveOddsUpload() {
   const csv = document.getElementById('csv-input').value;
   const daySelect = document.querySelector('input[name="oddsDay"]:checked').value;
   if (!csv) return;
   
+  // Normalize text to make matching easier
+  const normalizedCsv = csv.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  
   players.forEach(p => {
-     const lastName = p.name.split(' ').pop();
-     const regex = new RegExp(lastName + "[^\\d]*\\+?(\\d+)[^\\d]+\\+?(\\d+)[^\\d]+\\+?(\\d+)", "i");
-     const match = csv.match(regex);
+     let nameParts = p.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().split(' ');
+     let searchName = nameParts.pop();
+     if (['jr', 'iii', 'ii', 'jr.'].includes(searchName)) searchName = nameParts.pop(); 
+     if (searchName.length < 3) searchName = nameParts.join(' '); 
+     
+     const regex = new RegExp(searchName + "[^\\d]*\\+?(\\d+)[^\\d]+\\+?(\\d+)[^\\d]+\\+?(\\d+)", "i");
+     const match = normalizedCsv.match(regex);
      
      if(match) {
          const win = parseInt(match[1]);
@@ -559,7 +623,6 @@ function handleLiveOddsUpload() {
             p.liveT5 = t5; 
             p.liveT10 = t10; 
          }
-         
          p.implLive = toImp(p.liveOdds);
       }
   });
@@ -570,13 +633,27 @@ function handleLiveOddsUpload() {
   showTab('arb');
 }
 
-// --- SEARCH HANDLING ---
-function handleSearch(val) {
-  searchQuery = val.toLowerCase();
+// ============================================================
+//  SEARCH & FILTER
+// ============================================================
+function handleSearch(val) { searchQuery = val.toLowerCase(); renderArb(); }
+
+function setFilter(mode, el) {
+  filterMode = mode;
+  document.querySelectorAll('.filters .fchip[data-filter]').forEach(c => c.classList.remove('on'));
+  if (el) el.classList.add('on');
   renderArb();
 }
 
-// --- TIME-DECAY VELOCITY & ENGINE LOGIC ---
+function srt(col) {
+  if (sortCol === col) sortDir *= -1;
+  else { sortCol = col; sortDir = (col === 'name') ? 1 : -1; }
+  renderArb();
+}
+
+// ============================================================
+//  UPGRADED QUANT ENGINE
+// ============================================================
 function compute() {
   if (!players.length) return;
 
@@ -596,428 +673,398 @@ function compute() {
     let iT5 = p.liveT5 ? toImp(p.liveT5) : iLiv * 4; 
     let iT10 = p.liveT10 ? toImp(p.liveT10) : iLiv * 8; 
 
-    let earlyVel = iTue - iMon;
-    let midVel = iWed - iTue;
-    let lateVel = iLiv - iWed;
-
-    p.wVel = (earlyVel * 0.75) + (midVel * 1.0) + (lateVel * 1.5);
+    p.wVel = (iTue - iMon)*0.75 + (iWed - iTue)*1.0 + (iLiv - iWed)*1.5;
     p.wVelDisp = p.wVel * 1000;
 
-    const expectedPoints = (p.price / 1000) * 6.5; 
-    const trueProb = (iLiv * 0.10) + (iT5 * 0.30) + (iT10 * 0.60);
-    const winEquity = trueProb * 130; 
-    const sgPts = p.sg * 3.5;
+    const winProb = iLiv;
+    const t5Prob = iT5 - winProb;       
+    const t10Prob = iT10 - iT5;         
+    const t20Prob = Math.min(iT10 * 0.9, 0.30); 
+    const t30Prob = Math.min(iT10 * 0.6, 0.20); 
+
+    const expPlacement = (winProb * 30) + (t5Prob * 15.5) + (t10Prob * 8.8) + (t20Prob * 5.0) + (t30Prob * 2.5);
+    const sgDKPts = p.sg * 18;
+    const chAdj = Math.max(-8, Math.min(8, (p.ch - 1.0) * 35));
+
+    const MADE_CUT_HOLE_BASE = 60;  
+    const MISS_CUT_PTS = 28;        
+
+    const madeCtPts = MADE_CUT_HOLE_BASE + 5 + expPlacement + sgDKPts + chAdj;
     
-    p.baseProj = (30 + winEquity + sgPts) * p.ch;
-    p.expPts = expectedPoints;
+    p.baseProj = (p.cut * madeCtPts) + ((1 - p.cut) * MISS_CUT_PTS);
+    p.expPts = (p.price / 1000) * 6.8;
   });
 
   const sharpCandidates = players.filter(p => p.wVel > 0 && p.cut >= 0.45).sort((a,b) => b.wVel - a.wVel);
-  const eliteSteamers = sharpCandidates.slice(0, 9).map(p => p.name); 
+  const eliteSteamers = sharpCandidates.slice(0, 9).map(p => p.name);
 
   players.forEach(p => {
     p.isSteam = eliteSteamers.includes(p.name);
-    
-    if (p.isSteam) {
-        p.baseProj += 2.5 + (p.wVel * 1000); 
-    }
-    
+    if(p.isSteam) p.baseProj += 2.0 + (p.wVelDisp * 0.15);
+
     p.dlta = p.baseProj - p.expPts;
 
-    let composite = p.dlta + (p.sg * 2.5);
-    if (p.ch > 1.0) composite += (p.ch - 1.0) * 20; 
-    if (p.isSteam) composite += 4; 
-    
-    if (composite > 10 && p.cut >= 0.60) {
-        p.grade = 'CORE'; p.gradeSort = 4;
-    } else if (composite > 3 && p.cut >= 0.50) {
-        p.grade = 'PLAY'; p.gradeSort = 3;
-    } else if (composite < -5 && p.cut < 0.40) {
-        p.grade = 'FADE'; p.gradeSort = 1;
-    } else {
-        p.grade = 'POOL'; p.gradeSort = 2;
-    }
+    let composite = p.dlta + (p.sg * 4) + chAdjForGrade(p);
+    if(p.isSteam) composite += 3;
 
-    const volatility = 12 + ((1 - p.cut) * 30); 
+    if(composite > 8 && p.cut >= 0.65)      { p.grade='CORE'; p.gradeSort=4; }
+    else if(composite > 2 && p.cut >= 0.50) { p.grade='PLAY'; p.gradeSort=3; }
+    else if(composite < -6 || p.cut < 0.35) { p.grade='FADE'; p.gradeSort=1; }
+    else                                    { p.grade='POOL'; p.gradeSort=2; }
+
+    const volatility = 8 + ((1 - p.cut) * 22) + (Math.abs(p.sg) * 3);
     p.simMean = p.baseProj;
-    p.simFloor = p.baseProj - (volatility * 0.84); 
-    p.simCeil = p.baseProj + (volatility * 1.04); 
+    p.simFloor = p.baseProj - (volatility * 1.0);
+    p.simCeil = p.baseProj + (volatility * 1.3);
+
+    // ==========================================================
+    //  UPGRADE: VALUE-BASED OWNERSHIP PROXY
+    //  Chalk follows Value ($DLTA) and Sharp Movement (Steam), not just salary.
+    // ==========================================================
+    let projectedOwn = 5 + (p.dlta * 2.5); // Base ownership driven by math value
+    if (p.isSteam) projectedOwn += 12;     // The DFS community chases line movement
+    if (p.price < 7500 && p.dlta > 2) projectedOwn += 8; // Cheap value is the chalkiest
+    
+    p.estOwn = Math.max(1, Math.min(35, projectedOwn)); // Cap between 1% and 35%
   });
 }
 
-const getPlayerScore = (p, buildType) => {
-    let score = p.simMean;
-    
-    if (buildType === 'cash') {
-        score = p.simFloor + (p.cut * 60) + (p.dlta * 4);
-        if (p.dlta < 0) score -= 50; 
-    } else if (buildType === 'gpp') {
-        score = p.simCeil + (p.wVel > 0 ? p.wVel * 1500 : 0) + (p.dlta * 2) + (p.isSteam ? 15 : 0);
-    } else if (buildType === 'steam') {
-        score = p.isSteam ? p.simMean + (p.wVel * 3000) + (p.dlta * 2) : -10000; 
-    }
+// Helper for grade computation
+function chAdjForGrade(p) { return Math.max(-6, Math.min(6, (p.ch - 1.0) * 25)); }
 
-    if (p.grade === 'FADE') score -= 5000; 
-    
-    return score;
+// ==========================================================
+//  LINEUP SCORING BY BUILD TYPE
+// ==========================================================
+const getPlayerScore = (p, buildType) => {
+  let score = p.simMean;
+
+  if (buildType === 'cash') {
+    score = p.simFloor + (p.cut * 40) + (p.dlta * 3);
+    if (p.cut < 0.55) score -= 30;
+    if (p.dlta < -3) score -= 40;
+  }
+  else if (buildType === 'gpp') {
+    score = p.simCeil + (p.dlta * 1.5) + (p.isSteam ? 10 : 0);
+    if (p.wVel > 0) score += p.wVelDisp * 0.8;
+    // Ownership leverage: Only penalize extreme chalk in GPPs
+    if (p.estOwn > 25) score -= (p.estOwn - 25) * 0.8;
+  }
+  else if (buildType === 'steam') {
+    if (p.isSteam) {
+      score = p.simMean + (p.wVelDisp * 2.0) + (p.dlta * 1.5) + 25;
+    } else {
+      score = p.simMean + (p.dlta * 0.8) - 10;
+    }
+  }
+
+  if (p.grade === 'FADE') score -= 5000;
+  return score;
 };
 
-// --- GRASP MILP METAHEURISTIC OPTIMIZER ---
+// ============================================================
+//  RANDOMIZED GREEDY + LOCAL SEARCH OPTIMIZER
+// ============================================================
 function buildQuantLineup(locked, type) {
   const avail = players.filter(p => !p.locked && p.price >= MIN_PRICE);
-  const targetMinSal = 48500;
+  const targetMinSal = 49200;
   const targetMaxSal = SAL_CAP;
-
-  let bestLineup = [];
-  let bestScore = -Infinity;
+  let bestLineup = [], bestScore = -Infinity;
 
   for (let i = 0; i < 5000; i++) {
-    let lineup = [...locked];
-    let spent = lineup.reduce((s, p) => s + p.price, 0);
-    
-    let cands = [...avail].sort((a,b) => (getPlayerScore(b, type)/b.price) - (getPlayerScore(a, type)/a.price));
-    cands.sort(() => Math.random() - 0.2); 
-    
+    let lineup = [...locked], spent = lineup.reduce((s,p) => s+p.price, 0);
+
+    const perturbation = i < 2000 ? 0.5 : 0.25;
+    let cands = [...avail].sort((a,b) =>
+      (getPlayerScore(b,type)/b.price) - (getPlayerScore(a,type)/a.price)
+    );
+    cands.sort(() => Math.random() - perturbation);
+
     for (let p of cands) {
       if (lineup.length >= 6) break;
-      if (spent + p.price <= targetMaxSal) {
-        lineup.push(p);
-        spent += p.price;
-      }
+      if (spent + p.price <= targetMaxSal) { lineup.push(p); spent += p.price; }
     }
-
     if (lineup.length !== 6) continue;
 
-    let improved = true;
-    let attempts = 0;
-    
-    while(improved && attempts < 20) {
-      improved = false;
-      attempts++;
-      
-      for(let k = locked.length; k < 6; k++) {
-        for(let j = 0; j < avail.length; j++) {
+    let improved = true, attempts = 0;
+    while (improved && attempts < 25) {
+      improved = false; attempts++;
+      for (let k = locked.length; k < 6; k++) {
+        for (let j = 0; j < avail.length; j++) {
           let candidate = avail[j];
-          if(lineup.includes(candidate)) continue;
-          
+          if (lineup.includes(candidate)) continue;
           let newSpent = spent - lineup[k].price + candidate.price;
-          
-          if(newSpent <= targetMaxSal) {
-            let currentScore = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
-            let newScore = currentScore - getPlayerScore(lineup[k], type) + getPlayerScore(candidate, type);
-            
-            let currentlyValid = (spent >= targetMinSal);
-            let newlyValid = (newSpent >= targetMinSal);
-
+          if (newSpent <= targetMaxSal) {
+            let currentScore = lineup.reduce((s,p) => s + getPlayerScore(p,type), 0);
+            let newScore = currentScore - getPlayerScore(lineup[k],type) + getPlayerScore(candidate,type);
+            let currentlyValid = (spent >= targetMinSal), newlyValid = (newSpent >= targetMinSal);
             if ((!currentlyValid && newSpent > spent) || (newlyValid && newScore > currentScore)) {
-              spent = newSpent;
-              lineup[k] = candidate;
-              improved = true;
-              break; 
+              spent = newSpent; lineup[k] = candidate; improved = true; break;
             }
           }
         }
-        if(improved) break;
+        if (improved) break;
       }
     }
-
     if (spent >= targetMinSal && spent <= targetMaxSal) {
-      const score = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
-      if (score > bestScore) {
-        bestScore = score;
-        bestLineup = [...lineup];
-      }
+      const score = lineup.reduce((s,p) => s + getPlayerScore(p,type), 0);
+      if (score > bestScore) { bestScore = score; bestLineup = [...lineup]; }
     }
   }
 
   if (bestLineup.length !== 6) {
-      bestScore = -Infinity;
-      for (let i = 0; i < 2000; i++) {
-        let lineup = [...locked];
-        let spent = lineup.reduce((s, p) => s + p.price, 0);
-        let cands = [...avail].sort(() => Math.random() - 0.5); 
-        for (let p of cands) {
-          if (lineup.length >= 6) break;
-          if (spent + p.price <= SAL_CAP) { lineup.push(p); spent += p.price; }
-        }
-        if (lineup.length === 6) {
-          const score = lineup.reduce((s, p) => s + getPlayerScore(p, type), 0);
-          if (score > bestScore) { bestScore = score; bestLineup = [...lineup]; }
-        }
+    bestScore = -Infinity;
+    for (let i = 0; i < 3000; i++) {
+      let lineup = [...locked], spent = lineup.reduce((s,p) => s+p.price, 0);
+      let cands = [...avail].sort(() => Math.random() - 0.5);
+      for (let p of cands) {
+        if (lineup.length >= 6) break;
+        if (spent + p.price <= SAL_CAP) { lineup.push(p); spent += p.price; }
       }
+      if (lineup.length === 6) {
+        const score = lineup.reduce((s,p) => s + getPlayerScore(p,type), 0);
+        if (score > bestScore) { bestScore = score; bestLineup = [...lineup]; }
+      }
+    }
   }
-
   return bestLineup;
 }
 
-// --- UI RENDERING ---
+// ============================================================
+//  UI RENDERING
+// ============================================================
 function renderArb() {
-  const tbody = document.getElementById('arb-tbody');
-  const filtered = players.filter(p => {
-    if (searchQuery && !p.name.toLowerCase().includes(searchQuery)) return false;
-    if (filterMode === 'steam') return p.isSteam;
-    if (filterMode === 'lockconv') return p.locked;
-    if (filterMode === 'grade') return p.grade === 'CORE';
+  const tbody=document.getElementById('arb-tbody');
+  const filtered=players.filter(p=>{
+    if(searchQuery&&!p.name.toLowerCase().includes(searchQuery))return false;
+    if(filterMode==='steam')return p.isSteam;
+    if(filterMode==='lockconv')return p.locked;
+    if(filterMode==='grade')return p.grade==='CORE';
     return true;
   });
 
-  filtered.sort((a, b) => {
-    let valA = a[sortCol], valB = b[sortCol];
-    return sortDir * (valA < valB ? -1 : valA > valB ? 1 : 0);
-  });
+  filtered.sort((a,b)=>{let valA=a[sortCol],valB=b[sortCol];return sortDir*(valA<valB?-1:valA>valB?1:0);});
 
-  tbody.innerHTML = filtered.map(p => {
-    let breadcrumb = `Mon: ${p.monOdds > 0 ? '+' : ''}${p.monOdds}`;
-    if (p.tueOdds) breadcrumb += ` | Tue: ${p.tueOdds > 0 ? '+' : ''}${p.tueOdds}`;
-    if (p.wedOdds) breadcrumb += ` | Wed: ${p.wedOdds > 0 ? '+' : ''}${p.wedOdds}`;
+  tbody.innerHTML=filtered.map(p=>{
+    let breadcrumb=`Mon:${p.monOdds>0?'+':''}${p.monOdds}`;
+    if(p.tueOdds)breadcrumb+=` | T:${p.tueOdds>0?'+':''}${p.tueOdds}`;
+    if(p.wedOdds)breadcrumb+=` | W:${p.wedOdds>0?'+':''}${p.wedOdds}`;
 
-    let oddsDisplay = `<span style="color:var(--text); font-weight: 800;">+${p.liveOdds}</span>`;
-    if (p.wVelDisp > 0) oddsDisplay = `<span style="color:var(--teal-bright); font-weight: 800;">+${p.liveOdds}</span>`;
-    else if (p.isDrift) oddsDisplay = `<span style="color:var(--red); font-weight: 800;">+${p.liveOdds}</span>`;
+    let oddsDisplay=`<span style="color:var(--text);font-weight:800">+${p.liveOdds}</span>`;
+    if(p.wVelDisp>0)oddsDisplay=`<span style="color:var(--teal-bright);font-weight:800">+${p.liveOdds}</span>`;
+    else if(p.isDrift)oddsDisplay=`<span style="color:var(--red);font-weight:800">+${p.liveOdds}</span>`;
 
-    let wVelColor = 'var(--muted)';
-    if (p.wVelDisp > 0) wVelColor = 'var(--teal)';
-    if (p.wVelDisp < 0) wVelColor = 'var(--red)';
+    let wVelColor='var(--muted)';
+    if(p.wVelDisp>0)wVelColor='var(--teal)';
+    if(p.wVelDisp<0)wVelColor='var(--red)';
 
     return `
-    <tr class="${p.locked ? 'lock-row' : (p.isSteam ? 'steam-row' : '')}">
+    <tr class="${p.locked?'lock-row':(p.isSteam?'steam-row':'')}">
       <td style="color:var(--muted)">${p.salRank}</td>
       <td>
-        <div style="display:flex; align-items:center;">
-          <button class="add-btn ${p.locked ? 'is-locked' : ''}" onclick="toggleLock('${p.name.replace(/'/g, "\\'")}')" style="margin-right:8px;">${p.locked ? '✓' : '+'}</button>
-          <strong>${p.name}</strong>${p.isSteam ? '<span class="stm-badge">🌮</span>' : ''}
+        <div style="display:flex;align-items:center">
+          <button class="add-btn ${p.locked?'is-locked':''}" onclick="toggleLock('${p.name.replace(/'/g,"\\'")}')" style="margin-right:8px">${p.locked?'✓':'+'}</button>
+          <strong>${p.name}</strong>${p.isSteam?'<span class="stm-badge">🌮</span>':''}
         </div>
       </td>
       <td style="font-family:var(--mono)">$${(p.price/1000).toFixed(1)}K</td>
-      <td style="font-family:var(--mono); white-space:nowrap; line-height: 1.2;">
-        ${oddsDisplay} <br><span style="font-size:9px; color:var(--muted)">${breadcrumb}</span>
+      <td style="font-family:var(--mono);white-space:nowrap;line-height:1.2">
+        ${oddsDisplay}<br><span style="font-size:9px;color:var(--muted)">${breadcrumb}</span>
       </td>
-      <td><span class="db ${p.delta > 5 ? 'd-elite' : p.delta > 0 ? 'd-slight' : 'd-neg'}">${p.delta > 0 ? '+' : ''}${p.delta}</span></td>
-      <td style="font-weight:800; font-family:var(--mono); color:${wVelColor}">${p.wVelDisp > 0 ? '+' : ''}${p.wVelDisp.toFixed(2)}</td>
-      <td style="font-weight:800; color:${p.dlta >= 0 ? 'var(--gold)' : 'var(--red)'}">${p.dlta > 0 ? '+' : ''}${p.dlta.toFixed(1)}</td>
+      <td><span class="db ${p.delta>5?'d-elite':p.delta>0?'d-slight':'d-neg'}">${p.delta>0?'+':''}${p.delta}</span></td>
+      <td style="font-weight:800;font-family:var(--mono);color:${wVelColor}">${p.wVelDisp>0?'+':''}${p.wVelDisp.toFixed(2)}</td>
+      <td style="font-weight:800;color:${p.dlta>=0?'var(--gold)':'var(--red)'}">${p.dlta>0?'+':''}${p.dlta.toFixed(1)}</td>
+      <td style="font-weight:800;font-family:var(--mono);color:var(--river)">${p.estOwn.toFixed(1)}%</td>
       <td><span class="grade grade-${p.grade.toLowerCase()}">${p.grade}</span></td>
-    </tr>
-  `}).join('');
-
+    </tr>`;
+  }).join('');
   updateSortIcons();
 }
 
 function updateSortIcons() {
-  const headers = document.querySelectorAll('#arb-thead th');
-  headers.forEach(th => {
-    const icon = th.querySelector('.sort-icon');
-    if (!icon) return;
-    const col = th.getAttribute('onclick').match(/'([^']+)'/)[1];
-    icon.textContent = col === sortCol ? (sortDir === 1 ? '▲' : '▼') : '';
+  document.querySelectorAll('#arb-thead th').forEach(th=>{
+    const icon=th.querySelector('.sort-icon');
+    if(!icon)return;
+    const col=th.getAttribute('onclick').match(/'([^']+)'/)[1];
+    icon.textContent=col===sortCol?(sortDir===1?'▲':'▼'):'';
   });
 }
 
-function renderLUCard(elId, lineup, type) {
-  const el = document.getElementById(elId);
-  if (!lineup.length) { el.innerHTML = '<div style="padding:20px; text-align:center">No Lineup Generated</div>'; return; }
-  
-  const total = lineup.reduce((s,p) => s + p.price, 0);
-  el.innerHTML = `
-    <div style="padding:14px 16px; border-bottom:1px solid var(--border)">
+function renderLUCard(elId,lineup,type) {
+  const el=document.getElementById(elId);
+  if(!lineup.length){el.innerHTML='<div style="padding:20px;text-align:center;color:var(--muted)">No Lineup Generated</div>';return;}
+  const total=lineup.reduce((s,p)=>s+p.price,0);
+  el.innerHTML=`
+    <div style="padding:14px 16px;border-bottom:1px solid var(--border)">
       <span class="pb-tag pb-${type}">${type.toUpperCase()} OPTIMAL</span>
     </div>
-    ${lineup.map((p,i) => `
-      <div class="lu-slot" style="flex-direction:column; align-items:flex-start; gap:6px; padding:12px 16px;">
-        <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
-          <div class="lu-slot-name" style="font-size:14px;">
-            <span class="lu-slot-num" style="margin-right:8px; display:inline-block; width:16px;">G${i+1}</span>
-            ${p.name}${p.isSteam ? '<span class="stm-badge" style="margin-left:4px; font-size:12px;">🌮</span>' : ''}
+    ${lineup.map((p,i)=>`
+      <div class="lu-slot" style="flex-direction:column;align-items:flex-start;gap:6px;padding:12px 16px">
+        <div style="display:flex;justify-content:space-between;width:100%;align-items:center">
+          <div class="lu-slot-name" style="font-size:14px">
+            <span class="lu-slot-num" style="margin-right:8px;display:inline-block;width:16px">G${i+1}</span>
+            ${p.name}${p.isSteam?'<span class="stm-badge" style="margin-left:4px;font-size:12px">🌮</span>':''}
           </div>
-          <div class="lu-slot-sal" style="font-size:14px;">$${p.price.toLocaleString()}</div>
+          <div class="lu-slot-sal" style="font-size:14px">$${p.price.toLocaleString()}</div>
         </div>
-        <div style="display:flex; gap:10px; font-size:10px; color:var(--muted); font-family:var(--mono); margin-left: 24px; flex-wrap:wrap; align-items:center;">
-          <span class="grade grade-${p.grade.toLowerCase()}" style="font-size:8px; padding:2px 5px;">${p.grade}</span>
-          <span>ODDS: <strong style="color:var(--text)">+${p.liveOdds}</strong></span>
-          <span>Δ: <strong style="color:${p.delta > 0 ? 'var(--teal-bright)' : 'var(--red)'}">${p.delta > 0 ? '+'+p.delta : p.delta}</strong></span>
-          <span>wVEL: <strong style="color:${p.wVelDisp > 0 ? 'var(--teal)' : (p.wVelDisp < 0 ? 'var(--red)' : 'var(--muted)')}">${p.wVelDisp > 0 ? '+'+p.wVelDisp.toFixed(2) : p.wVelDisp.toFixed(2)}</strong></span>
-          <span>$DLTA: <strong style="color:${p.dlta >= 0 ? 'var(--gold)' : 'var(--red)'}">${p.dlta > 0 ? '+'+p.dlta.toFixed(1) : p.dlta.toFixed(1)}</strong></span>
+        <div style="display:flex;gap:10px;font-size:10px;color:var(--muted);font-family:var(--mono);margin-left:24px;flex-wrap:wrap;align-items:center">
+          <span class="grade grade-${p.grade.toLowerCase()}" style="font-size:8px;padding:2px 5px">${p.grade}</span>
+          <span>ODDS:<strong style="color:var(--text)">+${p.liveOdds}</strong></span>
+          <span>Δ:<strong style="color:${p.delta>0?'var(--teal-bright)':'var(--red)'}">${p.delta>0?'+'+p.delta:p.delta}</strong></span>
+          <span>wVEL:<strong style="color:${p.wVelDisp>0?'var(--teal)':(p.wVelDisp<0?'var(--red)':'var(--muted)')}">${p.wVelDisp>0?'+'+p.wVelDisp.toFixed(2):p.wVelDisp.toFixed(2)}</strong></span>
+          <span>$DLTA:<strong style="color:${p.dlta>=0?'var(--gold)':'var(--red)'}">${p.dlta>0?'+'+p.dlta.toFixed(1):p.dlta.toFixed(1)}</strong></span>
+          <span>pOWN:<strong style="color:var(--river)">${p.estOwn.toFixed(1)}%</strong></span>
         </div>
       </div>
     `).join('')}
     <div class="lu-totals">
       <div><div class="lu-total-val">$${total.toLocaleString()}</div><div class="lu-total-lbl">Spent</div></div>
       <div><div class="lu-total-val" style="color:var(--gold)">$${(SAL_CAP-total).toLocaleString()}</div><div class="lu-total-lbl">Rem.</div></div>
-    </div>
-  `;
+    </div>`;
 }
 
-// --- NEW BUILD TAB (LINEUP STUDIO) LOGIC ---
+// ============================================================
+//  BUILD TAB (LINEUP STUDIO)
+// ============================================================
 function setStrategy(strat) {
-    currentStrategy = strat;
-    document.getElementById('strat-gpp').classList.remove('on');
-    document.getElementById('strat-cash').classList.remove('on');
-    document.getElementById('strat-steam').classList.remove('on');
-    document.getElementById('strat-' + strat).classList.add('on');
+  currentStrategy=strat;
+  ['gpp','cash','steam'].forEach(s=>document.getElementById('strat-'+s).classList.remove('on'));
+  document.getElementById('strat-'+strat).classList.add('on');
 }
 
 function executeBuild() {
-    const locked = players.filter(p => p.locked);
-    draftedLineup = buildQuantLineup(locked, currentStrategy);
-    currentLineup = [...draftedLineup]; 
-    renderBuildTab();
+  const locked=players.filter(p=>p.locked);
+  draftedLineup=buildQuantLineup(locked,currentStrategy);
+  currentLineup=[...draftedLineup];
+  renderBuildTab();
 }
 
 function renderBuildTab() {
-    const container = document.getElementById('build-roster-container');
-    let baseLineup = draftedLineup.length > 0 ? draftedLineup : players.filter(p => p.locked);
-    
-    let slotsHTML = '';
-    let spent = 0;
-    let totalDlta = 0;
+  const container=document.getElementById('build-roster-container');
+  let baseLineup=draftedLineup.length>0?draftedLineup:players.filter(p=>p.locked);
+  let slotsHTML='',spent=0,totalDlta=0;
 
-    for(let i = 0; i < 6; i++) {
-        let p = baseLineup[i];
-        if(p) {
-            spent += p.price;
-            totalDlta += p.dlta;
-            slotsHTML += `
-              <div class="lu-slot" style="background:var(--surface); margin:0 12px 6px; border:1px solid var(--border); border-radius:8px;">
-                <div style="display:flex; align-items:center; gap:10px; flex:1;">
-                  <div style="color:var(--muted); font-weight:700; font-size:10px; width:14px;">G${i+1}</div>
-                  <div>
-                    <div style="font-weight:700; font-size:13px; display:flex; align-items:center;">
-                      ${p.name} ${p.isSteam ? '<span class="stm-badge" style="font-size:10px;">🌮</span>' : ''}
-                    </div>
-                    <div style="font-size:9px; color:var(--sub); font-family:var(--mono); margin-top:2px; display:flex; gap:6px; align-items:center;">
-                      <span class="grade grade-${p.grade.toLowerCase()}" style="font-size:7px; padding:1px 4px;">${p.grade}</span>
-                      <span>$DLTA: <strong style="color:${p.dlta >= 0 ? 'var(--gold)' : 'var(--red)'}">${p.dlta > 0 ? '+'+p.dlta.toFixed(1) : p.dlta.toFixed(1)}</strong></span>
-                      <span>wVEL: <strong style="color:${p.wVelDisp > 0 ? 'var(--teal)' : (p.wVelDisp < 0 ? 'var(--red)' : 'var(--muted)')}">${p.wVelDisp > 0 ? '+'+p.wVelDisp.toFixed(2) : p.wVelDisp.toFixed(2)}</strong></span>
-                    </div>
-                  </div>
-                </div>
-                <div style="display:flex; align-items:center; gap:12px;">
-                  <div style="font-family:var(--mono); font-weight:700; color:var(--gold);">$${p.price.toLocaleString()}</div>
-                  <button onclick="removePlayerFromBuild('${p.name.replace(/'/g, "\\'")}')" style="background:transparent; border:none; color:var(--muted); font-size:18px; cursor:pointer; padding:0 4px;">&times;</button>
-                </div>
+  for(let i=0;i<6;i++){
+    let p=baseLineup[i];
+    if(p){
+      spent+=p.price;totalDlta+=p.dlta;
+      slotsHTML+=`
+        <div class="lu-slot" style="background:var(--surface);margin:0 12px 6px;border:1px solid var(--border);border-radius:8px">
+          <div style="display:flex;align-items:center;gap:10px;flex:1">
+            <div style="color:var(--muted);font-weight:700;font-size:10px;width:14px">G${i+1}</div>
+            <div>
+              <div style="font-weight:700;font-size:13px;display:flex;align-items:center">
+                ${p.name} ${p.isSteam?'<span class="stm-badge" style="font-size:10px">🌮</span>':''}
               </div>
-            `;
-        } else {
-            slotsHTML += `
-              <div class="lu-slot" style="background:rgba(21, 31, 40, 0.5); margin:0 12px 6px; border:1px dashed var(--border); border-radius:8px; opacity:0.6; min-height:54px;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                  <div style="color:var(--muted); font-weight:700; font-size:10px; width:14px;">G${i+1}</div>
-                  <div style="font-weight:600; font-size:12px; color:var(--muted);">Empty Slot</div>
-                </div>
+              <div style="font-size:9px;color:var(--sub);font-family:var(--mono);margin-top:2px;display:flex;gap:6px;align-items:center">
+                <span class="grade grade-${p.grade.toLowerCase()}" style="font-size:7px;padding:1px 4px">${p.grade}</span>
+                <span>$DLTA:<strong style="color:${p.dlta>=0?'var(--gold)':'var(--red)'}">${p.dlta>0?'+'+p.dlta.toFixed(1):p.dlta.toFixed(1)}</strong></span>
+                <span>wVEL:<strong style="color:${p.wVelDisp>0?'var(--teal)':(p.wVelDisp<0?'var(--red)':'var(--muted)')}">${p.wVelDisp>0?'+'+p.wVelDisp.toFixed(2):p.wVelDisp.toFixed(2)}</strong></span>
+                <span>pOWN:<strong style="color:var(--river)">${p.estOwn.toFixed(1)}%</strong></span>
               </div>
-            `;
-        }
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="font-family:var(--mono);font-weight:700;color:var(--gold)">$${p.price.toLocaleString()}</div>
+            <button onclick="removePlayerFromBuild('${p.name.replace(/'/g,"\\'")}')" style="background:transparent;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:0 4px">&times;</button>
+          </div>
+        </div>`;
+    } else {
+      slotsHTML+=`
+        <div class="lu-slot" style="background:rgba(28,22,16,0.5);margin:0 12px 6px;border:1px dashed var(--border);border-radius:8px;opacity:0.6;min-height:54px">
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="color:var(--muted);font-weight:700;font-size:10px;width:14px">G${i+1}</div>
+            <div style="font-weight:600;font-size:12px;color:var(--muted)">Empty Slot</div>
+          </div>
+        </div>`;
     }
+  }
 
-    let rem = SAL_CAP - spent;
-    let avgRem = baseLineup.length < 6 ? rem / (6 - baseLineup.length) : 0;
-
-    container.innerHTML = `
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin:0 12px 12px;">
-            <div style="background:var(--surface2); padding:10px; border-radius:8px; text-align:center;">
-                <div style="font-size:14px; font-weight:900; font-family:var(--disp); color:var(--gold);">$${rem.toLocaleString()}</div>
-                <div style="font-size:9px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Rem. Salary</div>
-            </div>
-            <div style="background:var(--surface2); padding:10px; border-radius:8px; text-align:center;">
-                <div style="font-size:14px; font-weight:900; font-family:var(--disp); color:var(--text);">$${Math.floor(avgRem).toLocaleString()}</div>
-                <div style="font-size:9px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Rem. / Plyr</div>
-            </div>
-            <div style="background:var(--surface2); padding:10px; border-radius:8px; text-align:center;">
-                <div style="font-size:14px; font-weight:900; font-family:var(--disp); color:${totalDlta >= 0 ? 'var(--teal-bright)' : 'var(--red)'};">${totalDlta > 0 ? '+'+totalDlta.toFixed(1) : totalDlta.toFixed(1)}</div>
-                <div style="font-size:9px; color:var(--muted); text-transform:uppercase; font-weight:700; margin-top:2px;">Total $DLTA</div>
-            </div>
-        </div>
-        ${slotsHTML}
-    `;
+  let rem=SAL_CAP-spent,avgRem=baseLineup.length<6?rem/(6-baseLineup.length):0;
+  container.innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:0 12px 12px">
+      <div style="background:var(--surface2);padding:10px;border-radius:8px;text-align:center">
+        <div style="font-size:14px;font-family:var(--disp);color:var(--gold)">$${rem.toLocaleString()}</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:700;margin-top:2px">Rem. Salary</div>
+      </div>
+      <div style="background:var(--surface2);padding:10px;border-radius:8px;text-align:center">
+        <div style="font-size:14px;font-family:var(--disp);color:var(--text)">$${Math.floor(avgRem).toLocaleString()}</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:700;margin-top:2px">Rem. / Plyr</div>
+      </div>
+      <div style="background:var(--surface2);padding:10px;border-radius:8px;text-align:center">
+        <div style="font-size:14px;font-family:var(--disp);color:${totalDlta>=0?'var(--teal-bright)':'var(--red)'}">${totalDlta>0?'+'+totalDlta.toFixed(1):totalDlta.toFixed(1)}</div>
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:700;margin-top:2px">Total $DLTA</div>
+      </div>
+    </div>
+    ${slotsHTML}`;
 }
 
-// SMART REMOVE FUNCTION FOR BUILD TAB
 function removePlayerFromBuild(name) {
-    let p = players.find(x => x.name === name);
-    if (!p) return;
-    
-    // Unlock the targeted player
-    p.locked = false;
-
-    // If we had a drafted lineup, we want to lock the OTHER 5 guys so they don't get deleted,
-    // drop the draftedLineup array, and let the user auto-fill the 6th spot.
-    if (draftedLineup.length > 0) {
-        draftedLineup.forEach(x => {
-            if(x.name !== name) x.locked = true;
-        });
-        draftedLineup = [];
-        currentLineup = [];
-    }
-
-    saveToLocal();
-    renderAll();
-    renderBuildTab();
+  let p=players.find(x=>x.name===name);
+  if(!p)return;
+  p.locked=false;
+  if(draftedLineup.length>0){
+    draftedLineup.forEach(x=>{if(x.name!==name)x.locked=true;});
+    draftedLineup=[];currentLineup=[];
+  }
+  saveToLocal();renderAll();renderBuildTab();
 }
 
 function toggleLock(name) {
-  const p = players.find(x => x.name === name);
-  if (!p) return;
-  
-  if (!p.locked && players.filter(x => x.locked).length >= 6) return;
-  p.locked = !p.locked;
-  
-  saveToLocal();
-  renderAll();
-  if(document.getElementById('panel-build').classList.contains('on')) {
-      renderBuildTab();
-  }
+  const p=players.find(x=>x.name===name);
+  if(!p)return;
+  if(!p.locked&&players.filter(x=>x.locked).length>=6)return;
+  p.locked=!p.locked;
+  saveToLocal();renderAll();
+  if(document.getElementById('panel-build').classList.contains('on'))renderBuildTab();
 }
 
 function clearLocks() {
-  players.forEach(p => p.locked = false);
-  draftedLineup = [];
-  currentLineup = [];
-  saveToLocal();
-  renderAll();
-  if(document.getElementById('panel-build').classList.contains('on')) {
-      renderBuildTab();
-  }
+  players.forEach(p=>p.locked=false);
+  draftedLineup=[];currentLineup=[];
+  saveToLocal();renderAll();
+  if(document.getElementById('panel-build').classList.contains('on'))renderBuildTab();
 }
 
 function buildPrebuilt() {
-  renderLUCard('pb-steam-card', buildQuantLineup([], 'steam'), 'steam');
-  renderLUCard('pb-gpp-card', buildQuantLineup([], 'gpp'), 'gpp');
-  renderLUCard('pb-cash-card', buildQuantLineup([], 'cash'), 'cash');
+  renderLUCard('pb-steam-card',buildQuantLineup([],'steam'),'steam');
+  renderLUCard('pb-gpp-card',buildQuantLineup([],'gpp'),'gpp');
+  renderLUCard('pb-cash-card',buildQuantLineup([],'cash'),'cash');
 }
 
 function updateBadge() {
-  const locked = players.filter(p => p.locked);
-  const spent = locked.reduce((s,p) => s + p.price, 0);
-  const rem = SAL_CAP - spent;
-  document.getElementById('rs-count').textContent = locked.length + '/6';
-  document.getElementById('rs-rem').textContent = '$' + rem.toLocaleString();
+  const locked=players.filter(p=>p.locked);
+  const spent=locked.reduce((s,p)=>s+p.price,0);
+  const rem=SAL_CAP-spent;
+  document.getElementById('rs-count').textContent=locked.length;
+  document.getElementById('rs-rem').textContent='$'+(rem>=1000?(rem/1000).toFixed(1)+'K':rem);
+  const autoBtn=document.getElementById('nav-auto-btn');
+  if(locked.length>0&&locked.length<6){autoBtn.style.boxShadow='0 0 8px rgba(232,168,56,0.5)';}
+  else{autoBtn.style.boxShadow='none';}
 }
 
 function renderPods() {
-  const pods = document.getElementById('pods');
-  const pos = players.filter(p => p.delta > 0).length;
-  const steam = players.filter(p => p.isSteam).length;
-  pods.innerHTML = `
+  const pods=document.getElementById('pods');
+  const pos=players.filter(p=>p.delta>0).length;
+  const steam=players.filter(p=>p.isSteam).length;
+  pods.innerHTML=`
     <div class="pod"><div class="pod-val" style="color:var(--teal-bright)">${pos}</div><div class="pod-lbl">+ Delta</div></div>
-    <div class="pod"><div class="pod-val" style="color:var(--teal)">${steam}</div><div class="pod-lbl">Steam</div></div>
-    <div class="pod"><div class="pod-val" style="color:var(--gold-bright)">${players.filter(p => p.locked).length}</div><div class="pod-lbl">Locks</div></div>
-    <div class="pod"><div class="pod-val" style="color:var(--gold)">$${(players.reduce((a,b) => a + b.dlta, 0)/players.length).toFixed(1)}</div><div class="pod-lbl">Avg $DLTA</div></div>
-  `;
+    <div class="pod"><div class="pod-val" style="color:var(--teal)">${steam}</div><div class="pod-lbl">Steam 🌮</div></div>
+    <div class="pod"><div class="pod-val" style="color:var(--gold-bright)">${players.filter(p=>p.locked).length}</div><div class="pod-lbl">Locks</div></div>
+    <div class="pod"><div class="pod-val" style="color:var(--gold)">$${(players.reduce((a,b)=>a+b.dlta,0)/players.length).toFixed(1)}</div><div class="pod-lbl">Avg $DLTA</div></div>`;
 }
 
 function copyLineupToClipboard() {
-  const lineupToCopy = currentLineup.length === 6 ? currentLineup : players.filter(p => p.locked);
-  if (!lineupToCopy.length) return alert("Roster is empty!");
-  const text = lineupToCopy.map(p => `${p.name} ($${p.price})`).join(', ');
-  navigator.clipboard.writeText(text).then(() => alert("Lineup copied!"));
+  const lineupToCopy=currentLineup.length===6?currentLineup:players.filter(p=>p.locked);
+  if(!lineupToCopy.length)return alert("Roster is empty!");
+  const text=lineupToCopy.map(p=>`${p.name} ($${p.price})`).join(', ');
+  navigator.clipboard.writeText(text).then(()=>alert("Lineup copied!"));
 }
 
-function renderAll() {
-  renderPods();
-  renderArb();
-  updateBadge();
-}
+function renderAll() { renderPods(); renderArb(); updateBadge(); }
 
-// Start
+// ============================================================
+//  BOOT
+// ============================================================
 loadFromLocal();
 </script>
 </body>
