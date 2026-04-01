@@ -300,7 +300,7 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
     <button class="btn btn-gold" onclick="executeBuild()">⚡ Auto-Fill Optimal Lineup</button>
     <div style="display:flex;gap:8px">
       <button class="clear-btn" style="flex:1" onclick="copyLineupToClipboard()">Copy Text</button>
-      <button class="clear-btn" style="flex:1;color:var(--red);border-color:rgba(224,75,90,0.3)" onclick="clearLocks()">Clear</button>
+      <button class="clear-btn" style="flex:1;color:var(--red);border-color:rgba(224,75,90,0.3)" onclick="clearLocks()">Clear Roster</button>
     </div>
   </div>
 </div>
@@ -330,7 +330,7 @@ textarea{width:100%;min-height:120px;font-size:11px;line-height:1.5;background:v
 
 <script>
 // ============================================================
-//  CONFIG & STATE (v59 - STRICT MATH PURGE & REFINED T5/T10 PROB)
+//  CONFIG & STATE (v60 - SIMPLIFIED UI CONTROLS)
 // ============================================================
 const SAL_CAP = 50000;
 const MIN_PRICE = 6900;
@@ -343,7 +343,6 @@ let currentLineup = [];
 let draftedLineup = [];
 let currentStrategy = 'gpp';
 
-// STRICT MATH CASTING to prevent string hallucination
 const toImp = (o) => {
     let v = parseFloat(o);
     if (isNaN(v) || v === 0) return 0.0001; 
@@ -592,7 +591,7 @@ function loadInitialData() {
 
 function saveToLocal() {
   try {
-    localStorage.setItem('tve_players_v59',JSON.stringify(players.map(p=>({
+    localStorage.setItem('tve_players_v60',JSON.stringify(players.map(p=>({
       name:p.name,tueOdds:p.tueOdds,wedOdds:p.wedOdds,liveOdds:p.liveOdds,liveT5:p.liveT5,liveT10:p.liveT10,locked:p.locked
     }))));
   } catch(e) {}
@@ -600,7 +599,7 @@ function saveToLocal() {
 
 function loadFromLocal() {
   let stored;
-  try { stored = localStorage.getItem('tve_players_v59'); } catch(e) {}
+  try { stored = localStorage.getItem('tve_players_v60'); } catch(e) {}
   
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
@@ -709,15 +708,11 @@ function compute() {
     p.wVel = earlyVel + midVel + lateVel;
     p.wVelDisp = p.wVel * 1000;
 
-    let iT5 = p.liveT5 ? toImp(p.liveT5) : iLiv * 4; 
-    let iT10 = p.liveT10 ? toImp(p.liveT10) : iLiv * 8; 
-
-    // EXACT CONDITIONAL PLACEMENT PROBABILITIES
     const winProb = iLiv;
-    const t5Prob = iT5 - winProb;       
-    const t10Prob = iT10 - iT5;         
-    const t20Prob = Math.min(iT10 * 0.9, 0.30); 
-    const t30Prob = Math.min(iT10 * 0.6, 0.20); 
+    const t5Prob = (toImp(p.liveT5) || (iLiv * 4)) - winProb;       
+    const t10Prob = (toImp(p.liveT10) || (iLiv * 8)) - (toImp(p.liveT5) || (iLiv * 4));         
+    const t20Prob = Math.min((toImp(p.liveT10) || (iLiv * 8)) * 0.9, 0.30); 
+    const t30Prob = Math.min((toImp(p.liveT10) || (iLiv * 8)) * 0.6, 0.20); 
 
     const expPlacement = (winProb * 30) + (t5Prob * 15.5) + (t10Prob * 8.8) + (t20Prob * 5.0) + (t30Prob * 2.5);
     const sgDKPts = p.sg * 18;
@@ -1039,30 +1034,37 @@ function renderBuildTab() {
 }
 
 function removePlayerFromBuild(name) {
-  let p=players.find(x=>x.name===name);
-  if(!p)return;
-  p.locked=false;
-  if(draftedLineup.length>0){
-    draftedLineup.forEach(x=>{if(x.name!==name)x.locked=true;});
-    draftedLineup=[];currentLineup=[];
-  }
-  saveToLocal();renderAll();renderBuildTab();
+  let p = players.find(x => x.name === name);
+  if (p) p.locked = false;
+  draftedLineup = [];
+  currentLineup = [];
+  saveToLocal();
+  renderAll();
+  let buildPanel = document.getElementById('panel-build');
+  if(buildPanel && buildPanel.classList.contains('on')) renderBuildTab();
 }
 
 function toggleLock(name) {
-  const p=players.find(x=>x.name===name);
-  if(!p)return;
-  if(!p.locked&&players.filter(x=>x.locked).length>=6)return;
-  p.locked=!p.locked;
-  saveToLocal();renderAll();
-  if(document.getElementById('panel-build').classList.contains('on'))renderBuildTab();
+  const p = players.find(x => x.name === name);
+  if (!p) return;
+  if (!p.locked && players.filter(x => x.locked).length >= 6) return;
+  p.locked = !p.locked;
+  draftedLineup = [];
+  currentLineup = [];
+  saveToLocal();
+  renderAll();
+  let buildPanel = document.getElementById('panel-build');
+  if(buildPanel && buildPanel.classList.contains('on')) renderBuildTab();
 }
 
 function clearLocks() {
-  players.forEach(p=>p.locked=false);
-  draftedLineup=[];currentLineup=[];
-  saveToLocal();renderAll();
-  if(document.getElementById('panel-build').classList.contains('on'))renderBuildTab();
+  players.forEach(p => p.locked = false);
+  draftedLineup = [];
+  currentLineup = [];
+  saveToLocal();
+  renderAll();
+  let buildPanel = document.getElementById('panel-build');
+  if(buildPanel && buildPanel.classList.contains('on')) renderBuildTab();
 }
 
 function buildPrebuilt() {
