@@ -126,7 +126,7 @@ textarea{width:100%;min-height:100px;font-size:10px;line-height:1.5;background:v
     <div class="logo"><span style="font-size:22px;margin-right:6px">🌮</span>Riverwalk Roller</div>
     <div class="logo-sub">VALERO TEXAS OPEN 2026 · TPC SAN ANTONIO</div>
   </div>
-  <span class="badge badge-teal">v75</span>
+  <span class="badge badge-teal">v76</span>
 </div>
 
 <div class="panel on" id="panel-guide">
@@ -291,7 +291,7 @@ textarea{width:100%;min-height:100px;font-size:10px;line-height:1.5;background:v
 <script>
 
 // ============================================================
-//  CONFIG & STATE (v75 - LIVE ODDS + WEATHER UPDATE)
+//  CONFIG & STATE (v76 - FIXED CACHE OVERRIDE BUG)
 // ============================================================
 const SAL_CAP = 50000;
 const MIN_PRICE = 6000;
@@ -579,7 +579,7 @@ function loadInitialData() {
 
 function saveToLocal() {
   try {
-    localStorage.setItem('tve_players_v75',JSON.stringify(players.map(p=>({
+    localStorage.setItem('tve_players_v76',JSON.stringify(players.map(p=>({
       name:p.name,
       tueOdds:p.tueOdds,wedOdds:p.wedOdds,liveOdds:p.liveOdds,
       tueT5:p.tueT5,wedT5:p.wedT5,liveT5:p.liveT5,
@@ -591,7 +591,7 @@ function saveToLocal() {
 
 function loadFromLocal() {
   let stored;
-  try { stored = localStorage.getItem('tve_players_v75'); } catch(e) {}
+  try { stored = localStorage.getItem('tve_players_v76'); } catch(e) {}
   
   if (stored && stored !== '[]') {
     const parsed = JSON.parse(stored);
@@ -601,10 +601,10 @@ function loadFromLocal() {
         
         const tueOdds = savedP.tueOdds || masterP.tueOdds || masterP.monOdds;
         const wedOdds = savedP.wedOdds || masterP.wedOdds || tueOdds;
-        const liveOdds = savedP.liveOdds || masterP.liveOdds;
-
-        const liveT5 = savedP.liveT5 || masterP.liveT5;
-        const liveT10 = savedP.liveT10 || masterP.liveT10;
+        // MASTER_DB liveOdds ALWAYS wins — it's the hardcoded source of truth
+        const liveOdds = masterP.liveOdds;
+        const liveT5 = masterP.liveT5;
+        const liveT10 = masterP.liveT10;
 
         let ratioT5 = toImp(liveT5) / toImp(liveOdds);
         let ratioT10 = toImp(liveT10) / toImp(liveOdds);
