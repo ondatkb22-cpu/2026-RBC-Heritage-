@@ -183,10 +183,12 @@
       <div class="glossary-title">📊 METRIC KEY</div>
       <div class="glossary-item"><strong>$DLTA:</strong> Salary Rank vs Odds Rank (Positive = Underpriced)</div>
       <div class="glossary-item"><strong>wVEL:</strong> % shift in win probability since Sunday</div>
+      <div class="glossary-item"><strong>COURSE HIST:</strong> Weighted Average (2025: 40%, 2024: 30%, 2022: 20%, Base: 10%). MC/DNP = 75.</div>
       <div class="glossary-item"><strong>SG:APP:</strong> Strokes Gained Approach</div>
       <div class="glossary-item"><strong>PROX 150':</strong> Proximity to hole from 100-150 yds</div>
       <div class="glossary-item"><strong>RGH <150:</strong> Greens in Regulation % from the rough under 150 yds</div>
       <div class="glossary-item"><strong>SG:ARG:</strong> Strokes Gained Around the Green</div>
+      <div class="glossary-item"><strong>ENGINE TIER:</strong> Algorithmic Ranking mapped by top composite scores. Tartan Tier (Top 8), Lighthouse Tier (Ranks 9-25), Field (Rest).</div>
     </div>
 
     <div class="table-wrap">
@@ -232,93 +234,93 @@
 
 <script>
 // ==========================================
-// MASTER DATABASE
+// MASTER DATABASE (Updated Chronological Weighting)
 // ==========================================
 const db = [
-  { name: "Scottie Scheffler", sunWin: 350, monWin: 350, tueWin: null, wedWin: null, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 23.75, sgArg: 0.618, prox150: 18.4, girRough: 58.5 },
-  { name: "Xander Schauffele", sunWin: 1450, monWin: 1450, tueWin: null, wedWin: null, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 28.75, sgArg: 0.009, prox150: 20.9, girRough: 59.1 },
-  { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1700, tueWin: null, wedWin: null, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 20.25, sgArg: 0.712, prox150: 19.5, girRough: 62.2 },
-  { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1950, tueWin: null, wedWin: null, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 35.50, sgArg: 0.309, prox150: 22.9, girRough: 59.4 },
-  { name: "Cameron Young", sunWin: 1700, monWin: 1700, tueWin: null, wedWin: null, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 34.50, sgArg: 0.063, prox150: 21.0, girRough: 58.9 },
-  { name: "Russell Henley", sunWin: 2100, monWin: 2100, tueWin: null, wedWin: null, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 28.50, sgArg: 0.199, prox150: 19.5, girRough: 63.1 },
-  { name: "Ludvig Åberg", sunWin: 2050, monWin: 2050, tueWin: null, wedWin: null, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 32.00, sgArg: 0.420, prox150: 20.7, girRough: 56.0 },
-  { name: "Collin Morikawa", sunWin: 2350, monWin: 2350, tueWin: null, wedWin: null, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 30.00, sgArg: 0.039, prox150: 18.7, girRough: 63.5 },
-  { name: "Patrick Cantlay", sunWin: 2150, monWin: 2150, tueWin: null, wedWin: null, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 5.25, sgArg: 0.247, prox150: 20.0, girRough: 61.4 },
-  { name: "Jake Knapp", sunWin: 3000, monWin: 3000, tueWin: null, wedWin: null, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 62.00, sgArg: 0.111, prox150: 22.4, girRough: 59.5 },
-  { name: "Sam Burns", sunWin: 2500, monWin: 2500, tueWin: null, wedWin: null, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.00, sgArg: -0.350, prox150: 20.5, girRough: 56.8 },
-  { name: "Si Woo Kim", sunWin: 3700, monWin: 3700, tueWin: null, wedWin: null, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 35.75, sgArg: 0.142, prox150: 19.6, girRough: 53.9 },
-  { name: "Jordan Spieth", sunWin: 3700, monWin: 3700, tueWin: null, wedWin: null, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 15.00, sgArg: 0.129, prox150: 22.2, girRough: 61.2 },
-  { name: "Robert MacIntyre", sunWin: 2900, monWin: 2900, tueWin: null, wedWin: null, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 70.00, sgArg: 0.120, prox150: 21.9, girRough: 60.9 },
-  { name: "Viktor Hovland", sunWin: 3900, monWin: 3900, tueWin: null, wedWin: null, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 15.00, sgArg: 0.240, prox150: 19.4, girRough: 63.8 },
-  { name: "Maverick McNealy", sunWin: 3500, monWin: 3500, tueWin: null, wedWin: null, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 26.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7 },
-  { name: "Shane Lowry", sunWin: 3900, monWin: 3900, tueWin: null, wedWin: null, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 38.00, sgArg: -0.085, prox150: 19.6, girRough: 61.2 },
-  { name: "Justin Thomas", sunWin: 3700, monWin: 3700, tueWin: null, wedWin: null, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 16.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9 },
-  { name: "Jacob Bridgeman", sunWin: 4400, monWin: 4400, tueWin: null, wedWin: null, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 61.00, sgArg: -0.152, prox150: 21.0, girRough: 54.4 },
-  { name: "Chris Gotterup", sunWin: 4500, monWin: 4500, tueWin: null, wedWin: null, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 75.00, sgArg: 0.296, prox150: 23.0, girRough: 61.6 },
-  { name: "Jason Day", sunWin: 4100, monWin: 4100, tueWin: null, wedWin: null, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 49.00, sgArg: 0.457, prox150: 20.6, girRough: 56.4 },
-  { name: "Justin Rose", sunWin: 4800, monWin: 4800, tueWin: null, wedWin: null, price: 8000, sgApp: 0.755, birdiePct: 25.44, courseHistory: 46.50, sgArg: -0.090, prox150: 20.0, girRough: 57.6 },
-  { name: "Sepp Straka", sunWin: 5200, monWin: 5200, tueWin: null, wedWin: null, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 24.00, sgArg: 0.128, prox150: 19.1, girRough: 42.0 },
-  { name: "Harris English", sunWin: 5000, monWin: 5000, tueWin: null, wedWin: null, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 66.00, sgArg: -0.146, prox150: 23.8, girRough: 50.5 },
-  { name: "Ben Griffin", sunWin: 4100, monWin: 4100, tueWin: null, wedWin: null, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 31.00, sgArg: 0.454, prox150: 22.2, girRough: 55.3 },
-  { name: "Min Woo Lee", sunWin: 5500, monWin: 5500, tueWin: null, wedWin: null, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 61.00, sgArg: 0.294, prox150: 20.2, girRough: 38.9 },
-  { name: "Akshay Bhatia", sunWin: 5300, monWin: 5300, tueWin: null, wedWin: null, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 30.00, sgArg: 0.168, prox150: 19.9, girRough: 39.3 },
-  { name: "Ryo Hisatsune", sunWin: 8800, monWin: 8800, tueWin: null, wedWin: null, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 18.00, sgArg: 0.181, prox150: 21.9, girRough: 62.5 },
-  { name: "Rickie Fowler", sunWin: 5700, monWin: 5700, tueWin: null, wedWin: null, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 44.00, sgArg: -0.318, prox150: 21.2, girRough: 58.6 },
-  { name: "Sahith Theegala", sunWin: 8200, monWin: 8200, tueWin: null, wedWin: null, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 36.50, sgArg: 0.358, prox150: 21.8, girRough: 55.6 },
-  { name: "J.J. Spaun", sunWin: 5300, monWin: 5300, tueWin: null, wedWin: null, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 42.00, sgArg: 0.013, prox150: 19.9, girRough: 56.7 },
-  { name: "Nicolai Højgaard", sunWin: 6900, monWin: 6900, tueWin: null, wedWin: null, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 75.00, sgArg: 0.113, prox150: 21.0, girRough: 60.7 },
-  { name: "Harry Hall", sunWin: 6400, monWin: 6400, tueWin: null, wedWin: null, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 75.00, sgArg: 0.538, prox150: 21.0, girRough: 54.3 },
-  { name: "Ryan Gerard", sunWin: 7600, monWin: 7600, tueWin: null, wedWin: null, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 27.00, sgArg: -0.276, prox150: 21.1, girRough: 57.4 },
-  { name: "Wyndham Clark", sunWin: 1600, monWin: 1600, tueWin: null, wedWin: null, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 23.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0 },
-  { name: "Daniel Berger", sunWin: 9400, monWin: 9400, tueWin: null, wedWin: null, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 21.00, sgArg: -0.415, prox150: 20.4, girRough: 57.1 },
-  { name: "J.T. Poston", sunWin: 8800, monWin: 8800, tueWin: null, wedWin: null, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 23.50, sgArg: -0.299, prox150: 22.4, girRough: 53.8 },
-  { name: "Sam Stevens", sunWin: 8200, monWin: 8200, tueWin: null, wedWin: null, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 54.00, sgArg: -0.006, prox150: 22.9, girRough: 64.6 },
+  { name: "Scottie Scheffler", sunWin: 350, monWin: 350, tueWin: null, wedWin: null, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 22.08, sgArg: 0.618, prox150: 18.4, girRough: 58.5 },
+  { name: "Xander Schauffele", sunWin: 1450, monWin: 1450, tueWin: null, wedWin: null, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 24.88, sgArg: 0.009, prox150: 20.9, girRough: 59.1 },
+  { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1700, tueWin: null, wedWin: null, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 24.73, sgArg: 0.712, prox150: 19.5, girRough: 62.2 },
+  { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1950, tueWin: null, wedWin: null, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 27.35, sgArg: 0.309, prox150: 22.9, girRough: 59.4 },
+  { name: "Cameron Young", sunWin: 1700, monWin: 1700, tueWin: null, wedWin: null, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 30.25, sgArg: 0.063, prox150: 21.0, girRough: 58.9 },
+  { name: "Russell Henley", sunWin: 2100, monWin: 2100, tueWin: null, wedWin: null, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 29.05, sgArg: 0.199, prox150: 19.5, girRough: 63.1 },
+  { name: "Ludvig Åberg", sunWin: 2050, monWin: 2050, tueWin: null, wedWin: null, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0 },
+  { name: "Collin Morikawa", sunWin: 2350, monWin: 2350, tueWin: null, wedWin: null, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 23.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5 },
+  { name: "Patrick Cantlay", sunWin: 2150, monWin: 2150, tueWin: null, wedWin: null, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.03, sgArg: 0.247, prox150: 20.0, girRough: 61.4 },
+  { name: "Jake Knapp", sunWin: 3000, monWin: 3000, tueWin: null, wedWin: null, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 44.80, sgArg: 0.111, prox150: 22.4, girRough: 59.5 },
+  { name: "Sam Burns", sunWin: 2500, monWin: 2500, tueWin: null, wedWin: null, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.90, sgArg: -0.350, prox150: 20.5, girRough: 56.8 },
+  { name: "Si Woo Kim", sunWin: 3700, monWin: 3700, tueWin: null, wedWin: null, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 21.28, sgArg: 0.142, prox150: 19.6, girRough: 53.9 },
+  { name: "Jordan Spieth", sunWin: 3700, monWin: 3700, tueWin: null, wedWin: null, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 14.20, sgArg: 0.129, prox150: 22.2, girRough: 61.2 },
+  { name: "Robert MacIntyre", sunWin: 2900, monWin: 2900, tueWin: null, wedWin: null, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 58.50, sgArg: 0.120, prox150: 21.9, girRough: 60.9 },
+  { name: "Viktor Hovland", sunWin: 3900, monWin: 3900, tueWin: null, wedWin: null, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8 },
+  { name: "Maverick McNealy", sunWin: 3500, monWin: 3500, tueWin: null, wedWin: null, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7 },
+  { name: "Shane Lowry", sunWin: 3900, monWin: 3900, tueWin: null, wedWin: null, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 50.40, sgArg: -0.085, prox150: 19.6, girRough: 61.2 },
+  { name: "Justin Thomas", sunWin: 3700, monWin: 3700, tueWin: null, wedWin: null, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 20.15, sgArg: 0.259, prox150: 18.9, girRough: 54.9 },
+  { name: "Jacob Bridgeman", sunWin: 4400, monWin: 4400, tueWin: null, wedWin: null, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4 },
+  { name: "Chris Gotterup", sunWin: 4500, monWin: 4500, tueWin: null, wedWin: null, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6 },
+  { name: "Jason Day", sunWin: 4100, monWin: 4100, tueWin: null, wedWin: null, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4 },
+  { name: "Justin Rose", sunWin: 4800, monWin: 4800, tueWin: null, wedWin: null, price: 8000, sgApp: 0.755, birdiePct: 25.44, courseHistory: 30.85, sgArg: -0.090, prox150: 20.0, girRough: 57.6 },
+  { name: "Sepp Straka", sunWin: 5200, monWin: 5200, tueWin: null, wedWin: null, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 34.50, sgArg: 0.128, prox150: 19.1, girRough: 42.0 },
+  { name: "Harris English", sunWin: 5000, monWin: 5000, tueWin: null, wedWin: null, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5 },
+  { name: "Ben Griffin", sunWin: 4100, monWin: 4100, tueWin: null, wedWin: null, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 43.40, sgArg: 0.454, prox150: 22.2, girRough: 55.3 },
+  { name: "Min Woo Lee", sunWin: 5500, monWin: 5500, tueWin: null, wedWin: null, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 64.60, sgArg: 0.294, prox150: 20.2, girRough: 38.9 },
+  { name: "Akshay Bhatia", sunWin: 5300, monWin: 5300, tueWin: null, wedWin: null, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 40.70, sgArg: 0.168, prox150: 19.9, girRough: 39.3 },
+  { name: "Ryo Hisatsune", sunWin: 8800, monWin: 8800, tueWin: null, wedWin: null, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 41.30, sgArg: 0.181, prox150: 21.9, girRough: 62.5 },
+  { name: "Rickie Fowler", sunWin: 5700, monWin: 5700, tueWin: null, wedWin: null, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 30.80, sgArg: -0.318, prox150: 21.2, girRough: 58.6 },
+  { name: "Sahith Theegala", sunWin: 8200, monWin: 8200, tueWin: null, wedWin: null, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 20.25, sgArg: 0.358, prox150: 21.8, girRough: 55.6 },
+  { name: "J.J. Spaun", sunWin: 5300, monWin: 5300, tueWin: null, wedWin: null, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 64.20, sgArg: 0.013, prox150: 19.9, girRough: 56.7 },
+  { name: "Nicolai Højgaard", sunWin: 6900, monWin: 6900, tueWin: null, wedWin: null, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 60.50, sgArg: 0.113, prox150: 21.0, girRough: 60.7 },
+  { name: "Harry Hall", sunWin: 6400, monWin: 6400, tueWin: null, wedWin: null, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3 },
+  { name: "Ryan Gerard", sunWin: 7600, monWin: 7600, tueWin: null, wedWin: null, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4 },
+  { name: "Wyndham Clark", sunWin: 1600, monWin: 1600, tueWin: null, wedWin: null, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 21.85, sgArg: 0.153, prox150: 20.5, girRough: 57.0 },
+  { name: "Daniel Berger", sunWin: 9400, monWin: 9400, tueWin: null, wedWin: null, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1 },
+  { name: "J.T. Poston", sunWin: 8800, monWin: 8800, tueWin: null, wedWin: null, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 34.45, sgArg: -0.299, prox150: 22.4, girRough: 53.8 },
+  { name: "Sam Stevens", sunWin: 8200, monWin: 8200, tueWin: null, wedWin: null, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6 },
   { name: "S. Yellamaraju", sunWin: 11500, monWin: 11500, tueWin: null, wedWin: null, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7 },
-  { name: "Alex Noren", sunWin: 6400, monWin: 6400, tueWin: null, wedWin: null, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.00, sgArg: 0.498, prox150: 22.2, girRough: 56.1 },
-  { name: "Kurt Kitayama", sunWin: 7200, monWin: 7200, tueWin: null, wedWin: null, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 75.00, sgArg: -0.239, prox150: 20.5, girRough: 58.5 },
-  { name: "Nick Taylor", sunWin: 8200, monWin: 8200, tueWin: null, wedWin: null, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 41.00, sgArg: 0.503, prox150: 20.6, girRough: 53.4 },
-  { name: "Brian Harman", sunWin: 12000, monWin: 12000, tueWin: null, wedWin: null, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 14.25, sgArg: 0.132, prox150: 20.5, girRough: 57.8 },
+  { name: "Alex Noren", sunWin: 6400, monWin: 6400, tueWin: null, wedWin: null, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1 },
+  { name: "Kurt Kitayama", sunWin: 7200, monWin: 7200, tueWin: null, wedWin: null, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5 },
+  { name: "Nick Taylor", sunWin: 8200, monWin: 8200, tueWin: null, wedWin: null, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 36.50, sgArg: 0.503, prox150: 20.6, girRough: 53.4 },
+  { name: "Brian Harman", sunWin: 12000, monWin: 12000, tueWin: null, wedWin: null, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 14.83, sgArg: 0.132, prox150: 20.5, girRough: 57.8 },
   { name: "Marco Penge", sunWin: 30000, monWin: 30000, tueWin: null, wedWin: null, price: 7000, sgApp: -0.378, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.246, prox150: 22.5, girRough: 57.0 },
-  { name: "Corey Conners", sunWin: 9000, monWin: 9000, tueWin: null, wedWin: null, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 34.00, sgArg: -0.136, prox150: 19.4, girRough: 50.8 },
-  { name: "Keegan Bradley", sunWin: 10000, monWin: 10000, tueWin: null, wedWin: null, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 48.00, sgArg: 0.272, prox150: 19.4, girRough: 60.2 },
-  { name: "Max Homa", sunWin: 12000, monWin: 12000, tueWin: null, wedWin: null, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 68.75, sgArg: -0.210, prox150: 21.3, girRough: 56.1 },
-  { name: "Taylor Pendrith", sunWin: 12000, monWin: 12000, tueWin: null, wedWin: null, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 42.00, sgArg: 0.183, prox150: 22.3, girRough: 58.9 },
-  { name: "Gary Woodland", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 57.75, sgArg: -0.397, prox150: 23.3, girRough: 57.0 },
+  { name: "Corey Conners", sunWin: 9000, monWin: 9000, tueWin: null, wedWin: null, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 31.40, sgArg: -0.136, prox150: 19.4, girRough: 50.8 },
+  { name: "Keegan Bradley", sunWin: 10000, monWin: 10000, tueWin: null, wedWin: null, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 55.50, sgArg: 0.272, prox150: 19.4, girRough: 60.2 },
+  { name: "Max Homa", sunWin: 12000, monWin: 12000, tueWin: null, wedWin: null, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 68.38, sgArg: -0.210, prox150: 21.3, girRough: 56.1 },
+  { name: "Taylor Pendrith", sunWin: 12000, monWin: 12000, tueWin: null, wedWin: null, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9 },
+  { name: "Gary Woodland", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0 },
   { name: "Matt McCarty", sunWin: 20000, monWin: 20000, tueWin: null, wedWin: null, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0 },
-  { name: "Nico Echavarria", sunWin: 20000, monWin: 20000, tueWin: null, wedWin: null, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.421, prox150: 22.5, girRough: 57.0 },
-  { name: "Sungjae Im", sunWin: 11000, monWin: 11000, tueWin: null, wedWin: null, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 12.75, sgArg: 0.307, prox150: 23.2, girRough: 57.3 },
-  { name: "Andrew Novak", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 2.00, sgArg: 0.139, prox150: 22.5, girRough: 57.0 },
+  { name: "Nico Echavarria", sunWin: 20000, monWin: 20000, tueWin: null, wedWin: null, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0 },
+  { name: "Sungjae Im", sunWin: 11000, monWin: 11000, tueWin: null, wedWin: null, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 11.88, sgArg: 0.307, prox150: 23.2, girRough: 57.3 },
+  { name: "Andrew Novak", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 52.40, sgArg: 0.139, prox150: 22.5, girRough: 57.0 },
   { name: "Ricky Castillo", sunWin: 13500, monWin: 13500, tueWin: null, wedWin: null, price: 6700, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: 0.227, prox150: 23.7, girRough: 65.6 },
-  { name: "Billy Horschel", sunWin: 15000, monWin: 15000, tueWin: null, wedWin: null, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 49.50, sgArg: -0.147, prox150: 20.3, girRough: 57.0 },
-  { name: "Matt Wallace", sunWin: 13000, monWin: 13000, tueWin: null, wedWin: null, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 75.00, sgArg: 0.190, prox150: 22.6, girRough: 62.1 },
-  { name: "Tony Finau", sunWin: 21000, monWin: 21000, tueWin: null, wedWin: null, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 39.00, sgArg: 0.300, prox150: 21.6, girRough: 57.0 },
-  { name: "Pierceson Coody", sunWin: 11500, monWin: 11500, tueWin: null, wedWin: null, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 75.00, sgArg: -0.399, prox150: 22.1, girRough: 56.7 },
+  { name: "Billy Horschel", sunWin: 15000, monWin: 15000, tueWin: null, wedWin: null, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 61.65, sgArg: -0.147, prox150: 20.3, girRough: 57.0 },
+  { name: "Matt Wallace", sunWin: 13000, monWin: 13000, tueWin: null, wedWin: null, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 67.50, sgArg: 0.190, prox150: 22.6, girRough: 62.1 },
+  { name: "Tony Finau", sunWin: 21000, monWin: 21000, tueWin: null, wedWin: null, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 34.90, sgArg: 0.300, prox150: 21.6, girRough: 57.0 },
+  { name: "Pierceson Coody", sunWin: 11500, monWin: 11500, tueWin: null, wedWin: null, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 65.10, sgArg: -0.399, prox150: 22.1, girRough: 56.7 },
   { name: "Jordan Smith", sunWin: 14500, monWin: 14500, tueWin: null, wedWin: null, price: 6500, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: -0.216, prox150: 23.9, girRough: 58.7 },
-  { name: "Bud Cauley", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 64.25, sgArg: 0.196, prox150: 22.5, girRough: 57.0 },
-  { name: "Denny McCarthy", sunWin: 15000, monWin: 15000, tueWin: null, wedWin: null, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 51.25, sgArg: -0.087, prox150: 22.5, girRough: 57.0 },
+  { name: "Bud Cauley", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 58.20, sgArg: 0.196, prox150: 22.5, girRough: 57.0 },
+  { name: "Denny McCarthy", sunWin: 15000, monWin: 15000, tueWin: null, wedWin: null, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 34.73, sgArg: -0.087, prox150: 22.5, girRough: 57.0 },
   { name: "Michael Brennan", sunWin: 22000, monWin: 22000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.150, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.593, prox150: 22.4, girRough: 57.0 },
-  { name: "Michael Kim", sunWin: 22500, monWin: 22500, tueWin: null, wedWin: null, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 69.75, sgArg: 0.121, prox150: 22.5, girRough: 57.0 },
-  { name: "Patrick Rodgers", sunWin: 24000, monWin: 24000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 35.25, sgArg: 0.163, prox150: 22.3, girRough: 57.0 },
-  { name: "Andrew Putnam", sunWin: 30000, monWin: 30000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 67.00, sgArg: 0.515, prox150: 22.5, girRough: 57.0 },
-  { name: "Austin Smotherman", sunWin: 21000, monWin: 21000, tueWin: null, wedWin: null, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 73.00, sgArg: -0.254, prox150: 22.5, girRough: 57.0 },
+  { name: "Michael Kim", sunWin: 22500, monWin: 22500, tueWin: null, wedWin: null, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 68.30, sgArg: 0.121, prox150: 22.5, girRough: 57.0 },
+  { name: "Patrick Rodgers", sunWin: 24000, monWin: 24000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 22.40, sgArg: 0.163, prox150: 22.3, girRough: 57.0 },
+  { name: "Andrew Putnam", sunWin: 30000, monWin: 30000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0 },
+  { name: "Austin Smotherman", sunWin: 21000, monWin: 21000, tueWin: null, wedWin: null, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0 },
   { name: "Ryan Fox", sunWin: 20000, monWin: 20000, tueWin: null, wedWin: null, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0 },
   { name: "John Keefer", sunWin: 28000, monWin: 28000, tueWin: null, wedWin: null, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0 },
-  { name: "Sami Valimaki", sunWin: 34000, monWin: 34000, tueWin: null, wedWin: null, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 60.75, sgArg: -0.121, prox150: 22.3, girRough: 57.0 },
+  { name: "Sami Valimaki", sunWin: 34000, monWin: 34000, tueWin: null, wedWin: null, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0 },
   { name: "Chandler Blanchet", sunWin: 60000, monWin: 60000, tueWin: null, wedWin: null, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0 },
   { name: "William Mouw", sunWin: 35000, monWin: 35000, tueWin: null, wedWin: null, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0 },
-  { name: "Lucas Glover", sunWin: 57500, monWin: 57500, tueWin: null, wedWin: null, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 64.75, sgArg: -0.118, prox150: 19.5, girRough: 57.0 },
-  { name: "Tom Hoge", sunWin: 80000, monWin: 80000, tueWin: null, wedWin: null, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 60.75, sgArg: -0.399, prox150: 18.4, girRough: 57.0 },
+  { name: "Lucas Glover", sunWin: 57500, monWin: 57500, tueWin: null, wedWin: null, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 55.98, sgArg: -0.118, prox150: 19.5, girRough: 57.0 },
+  { name: "Tom Hoge", sunWin: 80000, monWin: 80000, tueWin: null, wedWin: null, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 56.48, sgArg: -0.399, prox150: 18.4, girRough: 57.0 },
   { name: "Steven Fisk", sunWin: 40000, monWin: 40000, tueWin: null, wedWin: null, price: 6100, sgApp: -0.207, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.060, prox150: 22.9, girRough: 57.0 },
-  { name: "Karl Vilips", sunWin: 55000, monWin: 55000, tueWin: null, wedWin: null, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 69.75, sgArg: -0.351, prox150: 22.3, girRough: 57.0 },
-  { name: "Garrick Higgo", sunWin: 57500, monWin: 57500, tueWin: null, wedWin: null, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 68.25, sgArg: -0.248, prox150: 23.6, girRough: 57.0 },
+  { name: "Karl Vilips", sunWin: 55000, monWin: 55000, tueWin: null, wedWin: null, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.351, prox150: 22.3, girRough: 57.0 },
+  { name: "Garrick Higgo", sunWin: 57500, monWin: 57500, tueWin: null, wedWin: null, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 51.80, sgArg: -0.248, prox150: 23.6, girRough: 57.0 },
   { name: "Aldrich Potgieter", sunWin: 67500, monWin: 67500, tueWin: null, wedWin: null, price: 6100, sgApp: -0.304, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.456, prox150: 22.0, girRough: 57.0 },
   { name: "Jhonattan Vegas", sunWin: 57500, monWin: 57500, tueWin: null, wedWin: null, price: 6000, sgApp: -0.455, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.265, prox150: 22.6, girRough: 57.0 },
-  { name: "David Lipsky", sunWin: 62500, monWin: 62500, tueWin: null, wedWin: null, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0 },
+  { name: "David Lipsky", sunWin: 62500, monWin: 62500, tueWin: null, wedWin: null, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 60.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0 },
   { name: "Brian Campbell", sunWin: 170000, monWin: 170000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.753, birdiePct: 22.00, courseHistory: 64.25, sgArg: -0.364, prox150: 23.6, girRough: 57.0 },
-  { name: "Adam Schenk", sunWin: 180000, monWin: 180000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 57.50, sgArg: 0.034, prox150: 22.5, girRough: 57.0 },
+  { name: "Adam Schenk", sunWin: 180000, monWin: 180000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0 },
   { name: "Joe Highsmith", sunWin: 200000, monWin: 200000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.112, birdiePct: 22.00, courseHistory: 74.25, sgArg: -0.338, prox150: 22.5, girRough: 57.0 },
   { name: "Keith Mitchell", sunWin: 8400, monWin: 8400, tueWin: null, wedWin: null, price: null, sgApp: 0.387, birdiePct: 23.83, courseHistory: 75.00, sgArg: -0.132, prox150: 21.9, girRough: 56.5 },
-  { name: "Michael Thorbjornsen", sunWin: 6700, monWin: 6700, tueWin: null, wedWin: null, price: null, sgApp: -0.078, birdiePct: 22.58, courseHistory: 75.00, sgArg: 0.229, prox150: 22.8, girRough: 59.1 }
+  { name: "Michael Thorbjornsen", sunWin: 6700, monWin: 6700, tueWin: null, wedWin: null, price: null, sgApp: -0.078, birdiePct: 22.58, courseHistory: 58.50, sgArg: 0.229, prox150: 22.8, girRough: 59.1 }
 ];
 
 let players = [];
@@ -527,13 +529,11 @@ function runOptimizer() {
   const maxSal = 500 - lockedSal;
   const reqRoster = 6 - lockedPlayers.length;
 
-  // If the user locked exactly 6 valid players, just render them directly
   if (reqRoster === 0) {
       renderLineup({ score: lockedScore, roster: lockedPlayers });
       return;
   }
 
-  // Run the DP Knapsack algorithm on the remaining spots and salary
   let dp = Array(reqRoster + 1).fill(null).map(() => Array(maxSal + 1).fill(null));
   dp[0][0] = { score: 0, roster: [] };
 
@@ -571,7 +571,6 @@ function runOptimizer() {
     return;
   }
 
-  // Combine the locked players with the mathematically optimal remaining pieces
   const finalLineup = {
       score: lockedScore + bestLineup.score,
       roster: [...lockedPlayers, ...bestLineup.roster]
