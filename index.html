@@ -3,577 +3,345 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plaid Genie — RBC Heritage 2026</title>
+<title>Plaid Genie — RBC Heritage</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+  :root {
+    --bg:#F7F3EE; --surface:#FFFFFF; --surface2:#EDE8E0;
+    --text:#1A1A1A; --text2:#5A5349; --border:#D4CFC7;
+    --plaid-red:#C41E3A; --plaid-navy:#1B2A4A; --plaid-green:#2D5A3D;
+    --gold:#B8860B; --lighthouse:#E8E0D4;
+    --shadow:0 2px 8px rgba(0,0,0,0.08);
+  }
+  
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Mono', monospace; font-size:11px; min-height:100vh; padding-bottom:60px; }
+  
+  body::before {
+    content:''; position:fixed; inset:0; z-index:-1; opacity:0.03;
+    background: repeating-linear-gradient(0deg, var(--plaid-red) 0px, var(--plaid-red) 1px, transparent 1px, transparent 28px),
+                repeating-linear-gradient(90deg, var(--plaid-navy) 0px, var(--plaid-navy) 1px, transparent 1px, transparent 56px);
+  }
 
-:root{
-  --bg:#F7F3EE;
-  --surface:#FFFFFF;
-  --surface2:#EDE8E0;
-  --text:#1A1A1A;
-  --text2:#5A5349;
-  --plaid-red:#C41E3A;
-  --plaid-red-light:#F2DEE2;
-  --plaid-navy:#1B2A4A;
-  --plaid-green:#2D5A3D;
-  --plaid-green-light:#D6E8DC;
-  --gold:#B8860B;
-  --gold-light:#FFF8E7;
-  --lighthouse:#E8E0D4;
-  --border:#D4CFC7;
-  --shadow:0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-lg:0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-}
+  .container { max-width:1250px; margin:0 auto; padding:16px; }
 
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'DM Mono', monospace;
-  font-size:12px;
-  min-height:100vh;
-}
+  /* ── HEADER ── */
+  .header { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:16px 20px; margin-bottom:16px; box-shadow:var(--shadow); display:flex; align-items:center; gap:16px; }
+  .header h1 { font-family:'Libre Baskerville', serif; font-size:22px; color:var(--plaid-navy); letter-spacing:-0.5px; }
+  .header h1 em { color:var(--plaid-red); font-style:normal; }
+  .header-sub { font-size:10px; color:var(--text2); margin-top:4px; }
+  
+  /* ── NAVIGATION ── */
+  .nav { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .nav-btn { padding:10px 16px; background:var(--surface); border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:11px; font-weight:500; cursor:pointer; color:var(--text2); transition:0.2s; }
+  .nav-btn:hover { border-color:var(--plaid-navy); color:var(--plaid-navy); }
+  .nav-btn.active { background:var(--plaid-navy); color:#fff; border-color:var(--plaid-navy); }
 
-/* ── PLAID BACKGROUND TEXTURE ── */
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  z-index:0;
-  opacity:0.025;
-  background:
-    repeating-linear-gradient(0deg, var(--plaid-red) 0px, var(--plaid-red) 1px, transparent 1px, transparent 28px),
-    repeating-linear-gradient(90deg, var(--plaid-red) 0px, var(--plaid-red) 1px, transparent 1px, transparent 28px),
-    repeating-linear-gradient(0deg, var(--plaid-navy) 0px, var(--plaid-navy) 1px, transparent 1px, transparent 56px),
-    repeating-linear-gradient(90deg, var(--plaid-navy) 0px, var(--plaid-navy) 1px, transparent 1px, transparent 56px);
-  pointer-events:none;
-}
+  /* ── PANELS ── */
+  .panel { display:none; background:var(--surface); border:1px solid var(--border); border-radius:8px; box-shadow:var(--shadow); overflow:hidden; }
+  .panel.active { display:block; }
 
-.container{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:20px 16px;}
+  /* ── GUIDE UI ── */
+  .guide-wrap { padding:20px; }
+  .guide-card { background:#fafafa; border:1px solid var(--border); border-radius:6px; padding:16px; margin-bottom:16px; }
+  .guide-card h3 { color:var(--plaid-navy); font-family:sans-serif; margin-bottom:10px; font-size:14px; border-bottom:2px solid var(--plaid-red); display:inline-block; padding-bottom:4px; }
+  .guide-text { font-size:11px; color:var(--text2); line-height:1.6; }
+  .guide-text strong { color:var(--text); }
 
-/* ── HEADER ── */
-.header{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:20px 24px;
-  margin-bottom:16px;
-  box-shadow:var(--shadow);
-  display:flex;
-  align-items:flex-start;
-  gap:16px;
-}
+  /* ── IMPORTER UI ── */
+  .import-wrap { padding:20px; }
+  .import-wrap h3 { color:var(--plaid-navy); margin-bottom:8px; font-family:sans-serif; }
+  .col-list { display:flex; gap:6px; flex-wrap:wrap; margin:12px 0; }
+  .col-pill { background:var(--surface2); padding:4px 8px; border-radius:4px; font-size:9px; font-weight:500; }
+  textarea { width:100%; height:180px; padding:12px; font-family:monospace; font-size:10px; border:1px solid var(--border); border-radius:6px; resize:vertical; background:#fafafa; margin-bottom:12px; }
+  textarea:focus { outline:none; border-color:var(--plaid-red); }
+  .btn-submit { background:var(--plaid-red); color:#fff; border:none; padding:12px; border-radius:6px; font-weight:700; cursor:pointer; width:100%; font-family:inherit; letter-spacing:0.5px; transition:0.2s; }
+  .btn-submit:hover { background:#A31930; }
+  #log { margin-top:12px; padding:10px; font-size:10px; border-radius:6px; display:none; border:1px solid var(--border); }
 
-.lighthouse-svg{
-  flex-shrink: 0;
-  filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1));
-}
+  /* ── ARB TABLE UI ── */
+  .toolbar { padding:12px 16px; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; background:#fcfcfc; flex-wrap:wrap; }
+  .search-box { padding:6px 10px; border:1px solid var(--border); border-radius:4px; font-family:inherit; font-size:10px; outline:none; width:180px; }
+  .search-box:focus { border-color:var(--plaid-navy); }
+  .filter-chip { padding:4px 10px; font-size:9px; border-radius:12px; border:1px solid var(--border); cursor:pointer; background:var(--surface); color:var(--text2); transition:0.15s; }
+  .filter-chip.active { background:var(--plaid-navy); color:#fff; border-color:var(--plaid-navy); }
 
-.header-text h1{
-  font-family:'Libre Baskerville', serif;
-  font-size:20px;
-  font-weight:700;
-  color:var(--plaid-navy);
-  line-height:1.1;
-  letter-spacing:-0.3px;
-}
-.header-text h1 em{
-  font-style:normal;
-  color:var(--plaid-red);
-}
-.header-sub{
-  font-size:10px;
-  color:var(--text2);
-  margin-top:6px;
-  line-height:1.4;
-}
-.header-meta{
-  display:flex; gap:12px; margin-top:8px; flex-wrap:wrap;
-}
-.meta-chip{
-  font-size:9px;
-  padding:3px 8px;
-  border-radius:3px;
-  background:var(--surface2);
-  color:var(--text2);
-  border:1px solid var(--border);
-  letter-spacing:0.3px;
-}
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; text-align:left; }
+  th { background:var(--plaid-navy); color:rgba(255,255,255,0.9); padding:10px 12px; font-size:9px; font-weight:500; cursor:pointer; white-space:nowrap; }
+  th:hover { background:#243858; }
+  td { padding:8px 12px; border-bottom:1px solid var(--surface2); white-space:nowrap; }
+  tbody tr:hover { background:rgba(27,42,74,0.03); }
+  
+  .name-cell { font-weight:500; color:var(--text); font-size:12px; }
+  .val-good { color:var(--plaid-green); font-weight:500; }
+  .val-bad { color:var(--plaid-red); }
+  .val-muted { color:var(--border); }
 
-/* ── METHODOLOGY ── */
-.method-bar{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:14px 18px;
-  margin-bottom:16px;
-  box-shadow:var(--shadow);
-}
-.method-bar summary{
-  font-family:'Libre Baskerville', serif;
-  font-size:11px;
-  font-weight:700;
-  color:var(--plaid-navy);
-  cursor:pointer;
-  list-style:none;
-}
-.method-bar summary::before{content:'▸ ';}
-.method-bar[open] summary::before{content:'▾ ';}
-.method-body{
-  margin-top:10px;
-  font-size:10px;
-  color:var(--text2);
-  line-height:1.6;
-}
-.method-body strong{color:var(--text);}
+  .badge { padding:2px 6px; border-radius:3px; font-size:8px; font-weight:500; letter-spacing:0.5px; }
+  .b-tartan { background:var(--plaid-red); color:#fff; }
+  .b-lighthouse { background:var(--plaid-navy); color:#fff; }
+  .b-steam { background:rgba(196,30,58,0.15); color:var(--plaid-red); border:1px solid rgba(196,30,58,0.3); }
+  .b-value { background:rgba(45,90,61,0.15); color:var(--plaid-green); border:1px solid rgba(45,90,61,0.3); }
 
-/* ── FILTER BAR ── */
-.filters{
-  display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; align-items:center;
-}
-.filter-btn{
-  font-family:'DM Mono', monospace;
-  font-size:10px;
-  padding:5px 10px;
-  border-radius:4px;
-  border:1px solid var(--border);
-  background:var(--surface);
-  color:var(--text2);
-  cursor:pointer;
-  transition:all 0.15s;
-}
-.filter-btn:hover{border-color:var(--plaid-navy); color:var(--plaid-navy);}
-.filter-btn.active{
-  background:var(--plaid-navy);
-  color:#fff;
-  border-color:var(--plaid-navy);
-}
-.search-input{
-  font-family:'DM Mono', monospace;
-  font-size:10px;
-  padding:5px 10px;
-  border-radius:4px;
-  border:1px solid var(--border);
-  background:var(--surface);
-  color:var(--text);
-  width:160px;
-  outline:none;
-}
-.search-input:focus{border-color:var(--plaid-navy);}
-.search-input::placeholder{color:var(--border);}
-
-/* ── TABLE ── */
-.table-wrap{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  overflow:hidden;
-  box-shadow:var(--shadow-lg);
-}
-
-.stats-table{width:100%;border-collapse:collapse;font-size:11px;}
-.stats-table thead{position:sticky;top:0;z-index:10;}
-.stats-table th{
-  background:var(--plaid-navy);
-  color:rgba(255,255,255,0.85);
-  padding:10px 12px;
-  text-align:left;
-  font-size:9px;
-  letter-spacing:0.6px;
-  font-weight:500;
-  white-space:nowrap;
-  cursor:pointer;
-  user-select:none;
-  transition:background 0.15s;
-}
-.stats-table th:hover{background:#243858;}
-.stats-table th .sort-arrow{opacity:0.4; font-size:8px; margin-left:3px;}
-.stats-table th.sorted .sort-arrow{opacity:1;}
-.stats-table th:first-child{padding-left:16px;}
-
-.stats-table td{
-  padding:8px 12px;
-  border-bottom:1px solid var(--surface2);
-  white-space:nowrap;
-  transition:background 0.1s;
-}
-.stats-table td:first-child{padding-left:16px;}
-
-.stats-table tbody tr{transition:background 0.1s;}
-.stats-table tbody tr:hover{background:rgba(27,42,74,0.03);}
-
-.player-name{font-weight:500; color:var(--text); font-size:11px;}
-.player-rank{font-size:9px; color:var(--text2); margin-left:6px;}
-
-.val-good{color:var(--plaid-green);}
-.val-avg{color:var(--text2);}
-.val-na{color:var(--border);}
-
-/* COMPOSITE BAR */
-.comp-bar-wrap{width:60px; height:6px; background:var(--surface2); border-radius:3px; display:inline-block; vertical-align:middle; margin-right:6px;}
-.comp-bar{height:100%; border-radius:3px; transition:width 0.4s ease;}
-
-/* TIER BADGES */
-.tier-badge{
-  display:inline-block;
-  padding:2px 7px;
-  border-radius:3px;
-  font-size:9px;
-  font-weight:500;
-  letter-spacing:0.4px;
-  white-space:nowrap;
-}
-.tier-tartan{
-  background:var(--plaid-red);
-  color:#fff;
-}
-.tier-lighthouse{
-  background:var(--plaid-navy);
-  color:rgba(255,255,255,0.9);
-}
-.tier-lowcountry{
-  background:var(--plaid-green-light);
-  color:var(--plaid-green);
-  border:1px solid rgba(45,90,61,0.15);
-}
-.tier-contender{
-  background:var(--gold-light);
-  color:var(--gold);
-  border:1px solid rgba(184,134,11,0.15);
-}
-.tier-field{
-  background:var(--surface2);
-  color:var(--text2);
-}
-
-/* COUNT */
-.count-bar{
-  font-size:10px;
-  color:var(--text2);
-  padding:8px 16px;
-  border-top:1px solid var(--surface2);
-  display:flex;
-  justify-content:space-between;
-}
-
-/* ── RESPONSIVE ── */
-@media(max-width:600px){
-  .header{flex-direction:column; gap:10px;}
-  .stats-table{font-size:10px;}
-  .stats-table th, .stats-table td{padding:6px 8px;}
-  .hide-mobile{display:none;}
-  .search-input{width:100%;}
-}
-
-/* scrollbar */
-::-webkit-scrollbar{height:6px; width:6px;}
-::-webkit-scrollbar-track{background:var(--surface2);}
-::-webkit-scrollbar-thumb{background:var(--border); border-radius:3px;}
 </style>
-
 </head>
 <body>
 
 <div class="container">
 
   <div class="header">
-    <svg class="lighthouse-svg" viewBox="0 0 100 120" width="50" height="60" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="50" cy="115" rx="35" ry="5" fill="var(--border)"/>
-      <polygon points="25,115 75,115 71,90 29,90" fill="var(--plaid-red)"/>
-      <polygon points="29,90 71,90 67,65 33,65" fill="#FFFFFF"/>
-      <polygon points="33,65 67,65 63,40 37,40" fill="var(--plaid-red)"/>
-      <polygon points="37,40 63,40 59,25 41,25" fill="#FFFFFF"/>
-      <rect x="35" y="23" width="30" height="2" fill="var(--plaid-navy)"/>
-      <rect x="36" y="18" width="28" height="5" fill="none" stroke="var(--plaid-navy)" stroke-width="1.5"/>
-      <line x1="43" y1="18" x2="43" y2="23" stroke="var(--plaid-navy)" stroke-width="1.5"/>
-      <line x1="50" y1="18" x2="50" y2="23" stroke="var(--plaid-navy)" stroke-width="1.5"/>
-      <line x1="57" y1="18" x2="57" y2="23" stroke="var(--plaid-navy)" stroke-width="1.5"/>
-      <polygon points="41,23 59,23 58,18 42,18" fill="var(--plaid-red)"/>
-      <rect x="43" y="10" width="14" height="8" fill="var(--lighthouse)"/>
-      <line x1="47.6" y1="10" x2="47.6" y2="18" stroke="var(--plaid-navy)" stroke-width="1"/>
-      <line x1="52.3" y1="10" x2="52.3" y2="18" stroke="var(--plaid-navy)" stroke-width="1"/>
-      <polygon points="40,10 60,10 50,0" fill="var(--plaid-red)"/>
-    </svg>
     <div class="header-text">
-      <h1>Plaid Genie <em>RBC Heritage 2026</em></h1>
-      <div class="header-sub">
-        Harbour Town Golf Links · Hilton Head Island, SC · Apr 16–19
-      </div>
-      <div class="header-meta">
-        <span class="meta-chip">SIGNATURE EVENT</span>
-        <span class="meta-chip">$20M PURSE</span>
-        <span class="meta-chip">PAR 71 · 7,121 YDS</span>
-        <span class="meta-chip">DEFENDING: J. THOMAS</span>
+      <h1>Plaid Genie <em>RBC Heritage</em></h1>
+      <div class="header-sub">Engine v2.3 · 12-Column Iron & Scrambling Logic</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <button class="nav-btn" onclick="switchTab('guide')" id="nav-guide">1. COURSE INTEL</button>
+    <button class="nav-btn active" onclick="switchTab('import')" id="nav-import">2. DATA INGEST</button>
+    <button class="nav-btn" onclick="switchTab('arb')" id="nav-arb">3. MARKET BOARD</button>
+  </div>
+
+  <div class="panel" id="panel-guide">
+    <div class="guide-wrap">
+      <div class="guide-card">
+        <h3>📍 The Harbour Town Profile</h3>
+        <div class="guide-text">
+          <p><strong>100-150 YARD PROXIMITY:</strong> Because of forced layups, players will hold wedges and 9-irons all day. Proximity from 100-150 yards from the fairway is a massive edge indicator here.</p>
+          <br>
+          <p><strong>GIR FROM ROUGH < 150:</strong> The fairways are arguably the tightest on the PGA Tour. Players will miss them. When they hit their approach shots out of the pine straw or rough from under 150 yards, their ability to still hold these tiny 3,700 sq. ft. greens determines their weekend survival.</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <details class="method-bar">
-    <summary>Composite Scoring Methodology</summary>
-    <div class="method-body">
-      Harbour Town demands <strong>precision iron play</strong> into small greens and rewards <strong>birdie-making ability</strong> on a tight, strategic layout.<br><br>
-      <strong>COMPOSITE = (SG:APP Pctl × 0.45) + (Birdie% Pctl × 0.35) + (GIR Pctl × 0.20)</strong><br><br>
-      Each stat is converted to a percentile rank within this field. Approach play is weighted heaviest because Harbour Town's tiny, Pete Dye–designed greens punish imprecise iron shots more than almost any course on tour. Birdie percentage reflects finishing ability — converting GIR into scoring. GIR rank provides a secondary accuracy signal.<br><br>
-      <strong>Tiers:</strong> TARTAN JACKET (top 8) — elite fit. LIGHTHOUSE (9–20) — strong contenders. LOWCOUNTRY (21–35) — solid plays. CONTENDER (36–50) — value range. FIELD — remaining.
+  <div class="panel active" id="panel-import">
+    <div class="import-wrap">
+      <h3>Raw Data Pipeline</h3>
+      <div style="font-size:10px; color:var(--text2);">Paste your spreadsheet rows below. The engine requires exactly 12 columns in exact order.</div>
+      <div class="col-list">
+        <span class="col-pill">1. Name</span><span class="col-pill">2. DK_ID</span><span class="col-pill">3. Salary</span>
+        <span class="col-pill">4. Sun Odds</span><span class="col-pill">5. Tue Odds</span><span class="col-pill">6. Wed Odds</span>
+        <span class="col-pill">7. SG:APP</span><span class="col-pill">8. Birdie %</span><span class="col-pill">9. History</span>
+        <span class="col-pill">10. SG:ARG</span><span class="col-pill">11. Prox 100-150</span><span class="col-pill" style="background:#F4D35E;">12. GIR RGH <150</span>
+      </div>
+      <textarea id="pasteBox" placeholder="Scottie Scheffler	12345	12500	+350	+320	+300	1.06	30.79	6.6	0.85	18.4	58.5..."></textarea>
+      <button class="btn-submit" onclick="parseData()">PROCESS & LAUNCH ARB BOARD</button>
+      <div id="log"></div>
     </div>
-  </details>
-
-  <div class="filters">
-    <button class="filter-btn active" data-filter="all">ALL</button>
-    <button class="filter-btn" data-filter="tartan">TARTAN</button>
-    <button class="filter-btn" data-filter="lighthouse">LIGHTHOUSE</button>
-    <button class="filter-btn" data-filter="lowcountry">LOWCOUNTRY</button>
-    <button class="filter-btn" data-filter="contender">CONTENDER</button>
-    <input type="text" class="search-input" placeholder="Search player..." id="search">
   </div>
 
-  <div class="table-wrap">
-    <table class="stats-table">
-      <thead>
-        <tr>
-          <th data-sort="rank"># <span class="sort-arrow">▼</span></th>
-          <th data-sort="name">PLAYER <span class="sort-arrow">▼</span></th>
-          <th data-sort="composite">COMPOSITE <span class="sort-arrow">▼</span></th>
-          <th data-sort="app">SG:APP <span class="sort-arrow">▼</span></th>
-          <th data-sort="birdie" class="hide-mobile">BIRDIE% <span class="sort-arrow">▼</span></th>
-          <th data-sort="gir" class="hide-mobile">GIR RK <span class="sort-arrow">▼</span></th>
-          <th>TIER</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
-    <div class="count-bar">
-      <span id="count-text">Showing 0 players</span>
-      <span style="font-style:italic;font-size:9px;color:var(--border);">Engine v2.0</span>
+  <div class="panel" id="panel-arb">
+    <div class="toolbar">
+      <input type="text" class="search-box" id="search" placeholder="Search player..." oninput="renderTable()">
+      <button class="filter-chip active" onclick="setFilter('all', this)">ALL</button>
+      <button class="filter-chip" onclick="setFilter('tartan', this)">TARTAN TIER</button>
+      <button class="filter-chip" onclick="setFilter('steam', this)">🔥 STEAM</button>
+      <button class="filter-chip" onclick="setFilter('value', this)">💰 $DLTA+</button>
+    </div>
+    <div class="table-wrap">
+      <table id="arbTable">
+        <thead>
+          <tr>
+            <th onclick="sortData('name')">PLAYER</th>
+            <th onclick="sortData('price')">SAL</th>
+            <th onclick="sortData('sunWin')">ODDS (S/T/W)</th>
+            <th onclick="sortData('dlta')">$DLTA</th>
+            <th onclick="sortData('velTotal')">wVEL</th>
+            <th onclick="sortData('sgApp')">APP</th>
+            <th onclick="sortData('prox150')">PROX 150</th>
+            <th onclick="sortData('girRough')">RGH <150</th>
+            <th onclick="sortData('birdiePct')">BIRD%</th>
+            <th onclick="sortData('courseHistory')">HIST</th>
+            <th onclick="sortData('sgArg')">ARG</th>
+            <th onclick="sortData('composite')">TIER</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="12" style="text-align:center; padding:30px; color:var(--border);">No data loaded. Please import via the Data Ingest tab.</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
 </div>
 
 <script>
-// ── RAW DATA ──
-const birdieData = [
-  {n:"Scottie Scheffler",p:30.79,g:9},{n:"Min Woo Lee",p:28.97,g:47},{n:"Jacob Bridgeman",p:28.30,g:25},
-  {n:"Akshay Bhatia",p:28.22,g:26},{n:"Collin Morikawa",p:27.47,g:3},{n:"Ludvig Åberg",p:27.31,g:29},
-  {n:"Rory McIlroy",p:26.98,g:11},{n:"Matt Fitzpatrick",p:26.79,g:4},{n:"Robert MacIntyre",p:26.19,g:69},
-  {n:"S. Yellamaraju",p:26.19,g:48},{n:"Cameron Young",p:26.16,g:15},{n:"David Lipsky",p:26.11,g:110},
-  {n:"Si Woo Kim",p:26.08,g:19},{n:"Jake Knapp",p:26.07,g:71},{n:"Pierceson Coody",p:25.93,g:21},
-  {n:"Ryo Hisatsune",p:25.88,g:2},{n:"Ryan Gerard",p:25.87,g:8},{n:"Blades Brown",p:25.79,g:35},
-  {n:"Harris English",p:25.74,g:63},{n:"Justin Rose",p:25.44,g:5},{n:"Russell Henley",p:25.23,g:60},
-  {n:"Wyndham Clark",p:25.20,g:91},{n:"Chris Gotterup",p:25.19,g:34},{n:"Maverick McNealy",p:25.19,g:96},
-  {n:"Sam Burns",p:25.00,g:52},{n:"Harry Hall",p:24.79,g:79},{n:"Max Greyserman",p:24.77,g:134},
-  {n:"Sepp Straka",p:24.67,g:80},{n:"Ricky Castillo",p:24.48,g:105},{n:"Tommy Fleetwood",p:24.44,g:44},
-  {n:"Alex Noren",p:24.44,g:115},{n:"Ryan Fox",p:24.38,g:117},{n:"Austin Smotherman",p:24.36,g:28},
-  {n:"Gary Woodland",p:24.31,g:72},{n:"Rickie Fowler",p:24.21,g:51},{n:"Shane Lowry",p:24.17,g:44},
-  {n:"Daniel Berger",p:24.07,g:6},{n:"Keith Mitchell",p:23.83,g:27},{n:"Adam Scott",p:23.81,g:22},
-  {n:"Hideki Matsuyama",p:23.78,g:58},{n:"Stephan Jaeger",p:23.74,g:138},{n:"Sam Stevens",p:23.69,g:10},
-  {n:"Michael Brennan",p:23.56,g:90},{n:"Kevin Yu",p:23.56,g:72},{n:"Xander Schauffele",p:23.50,g:61},
-  {n:"Nico Echavarria",p:23.46,g:42},{n:"Nicolai Højgaard",p:23.41,g:55},{n:"Alex Smalley",p:23.39,g:24},
-  {n:"Sahith Theegala",p:23.39,g:57},{n:"Tony Finau",p:23.33,g:147},{n:"Brooks Koepka",p:23.33,g:30},
-  {n:"Johnny Keefer",p:23.21,g:1},{n:"Matt McCarty",p:23.20,g:125},{n:"Ben Griffin",p:23.15,g:36},
-  {n:"Michael Kim",p:23.12,g:142},{n:"Max Homa",p:23.08,g:94},{n:"Davis Riley",p:23.08,g:148},
-  {n:"Patrick Rodgers",p:23.06,g:59},{n:"Jimmy Stanger",p:23.02,g:133},{n:"Carson Young",p:23.02,g:77},
-  {n:"Austin Eckroat",p:22.99,g:103},{n:"Keegan Bradley",p:22.98,g:145},{n:"Jason Day",p:22.92,g:23},
-  {n:"Karl Vilips",p:22.92,g:120},{n:"A. Dumont de Chassart",p:22.74,g:105},{n:"Rasmus Højgaard",p:22.62,g:32},
-  {n:"Michael Thorbjornsen",p:22.58,g:38},{n:"Eric Cole",p:22.57,g:149},{n:"Danny Walker",p:22.54,g:155},
-  {n:"Patrick Cantlay",p:22.45,g:19},{n:"J.J. Spaun",p:22.45,g:53},{n:"Haotong Li",p:22.44,g:17},
-  {n:"Marco Penge",p:22.22,g:81},{n:"J.T. Poston",p:22.22,g:43},{n:"Kevin Roy",p:22.22,g:132},
-  {n:"Jordan Smith",p:22.22,g:12},{n:"Jordan Spieth",p:22.22,g:98},{n:"Dylan Wu",p:22.22,g:14},
-  {n:"Zach Bauchou",p:22.07,g:87},{n:"John Parry",p:22.07,g:16},{n:"Billy Horschel",p:22.06,g:107},
-  {n:"Tom Hoge",p:22.04,g:110},{n:"Andrew Novak",p:22.04,g:130},{n:"Andrew Putnam",p:22.02,g:109},
-  {n:"Aldrich Potgieter",p:21.98,g:74}
-];
+let players = [];
+let currentFilter = 'all';
+let sortCol = 'price';
+let sortAsc = false;
 
-const appData = [
-  {n:"Collin Morikawa",s:1.066,r:1},{n:"Brooks Koepka",s:0.913,r:2},{n:"Si Woo Kim",s:0.912,r:3},
-  {n:"Adam Scott",s:0.912,r:3},{n:"Austin Smotherman",s:0.874,r:5},{n:"Daniel Berger",s:0.849,r:6},
-  {n:"Matt Fitzpatrick",s:0.810,r:7},{n:"Akshay Bhatia",s:0.792,r:8},{n:"Justin Rose",s:0.755,r:9},
-  {n:"Rory McIlroy",s:0.748,r:10},{n:"Kurt Kitayama",s:0.728,r:11},{n:"Ryan Gerard",s:0.712,r:12},
-  {n:"Nicolai Højgaard",s:0.712,r:12},{n:"Xander Schauffele",s:0.662,r:14},{n:"Hideki Matsuyama",s:0.635,r:15},
-  {n:"Corey Conners",s:0.622,r:16},{n:"J.J. Spaun",s:0.587,r:17},{n:"Ryo Hisatsune",s:0.576,r:18},
-  {n:"Viktor Hovland",s:0.575,r:19},{n:"Sepp Straka",s:0.568,r:20},{n:"Wyndham Clark",s:0.542,r:21},
-  {n:"Jacob Bridgeman",s:0.501,r:22},{n:"Cameron Young",s:0.499,r:23},{n:"Sam Ryder",s:0.497,r:24},
-  {n:"Zecheng Dou",s:0.480,r:25},{n:"Shane Lowry",s:0.474,r:26},{n:"S. Yellamaraju",s:0.474,r:26},
-  {n:"Tommy Fleetwood",s:0.459,r:28},{n:"Jordan Smith",s:0.454,r:29},{n:"Chris Gotterup",s:0.436,r:30},
-  {n:"Austin Eckroat",s:0.428,r:31},{n:"Max McGreevy",s:0.424,r:32},{n:"Jordan Spieth",s:0.412,r:33},
-  {n:"Nick Taylor",s:0.408,r:34},{n:"Joel Dahmen",s:0.398,r:35},{n:"Ludvig Åberg",s:0.397,r:36},
-  {n:"Alex Smalley",s:0.397,r:36},{n:"Davis Thompson",s:0.389,r:38},{n:"Keith Mitchell",s:0.387,r:39},
-  {n:"Keita Nakajima",s:0.382,r:40}
-];
-
-// ── BUILD COMPOSITE ──
-// Step 1: Merge datasets
-const merged = birdieData.map(b => {
-  const a = appData.find(x => x.n === b.n);
-  return {
-    name: b.n,
-    birdie: b.p,
-    gir: b.g,
-    appSG: a ? a.s : null,
-    appRank: a ? a.r : null
-  };
-});
-
-// Step 2: Compute percentiles within field
-// For birdie%: higher = better → percentile = rank ascending
-// For GIR rank: lower = better → percentile = rank descending (invert)
-// For SG:APP: higher = better → percentile = rank ascending
-const n = merged.length;
-
-// Sort helpers — return percentile 0–100
-function percentileRank(arr, key, higherIsBetter) {
-  const sorted = [...arr].filter(x => x[key] != null);
-  sorted.sort((a,b) => higherIsBetter ? a[key] - b[key] : b[key] - a[key]);
-  const rankMap = {};
-  sorted.forEach((item, i) => {
-    rankMap[item.name] = ((i) / (sorted.length - 1)) * 100;
-  });
-  return rankMap;
+function switchTab(tab) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  document.getElementById(`nav-${tab}`).classList.add('active');
+  if(tab === 'arb') renderTable();
 }
 
-const bPctl = percentileRank(merged, 'birdie', true);
-const gPctl = percentileRank(merged, 'gir', false); // lower GIR rank = better
-const aPctl = percentileRank(merged, 'appSG', true);
+const toImp = v => { if (!v || isNaN(v)) return 0; return v > 0 ? 100/(v+100) : Math.abs(v)/(Math.abs(v)+100); };
+const fmtOdds = v => v ? (v > 0 ? '+'+v : v) : '—';
+const fmtNum = v => v != null && !isNaN(v) ? v.toFixed(2) : '—';
 
-// Step 3: Compute composite
-// Weights: SG:APP 45%, Birdie% 35%, GIR 20%
-merged.forEach(p => {
-  const bp = bPctl[p.name] ?? 0;
-  const gp = gPctl[p.name] ?? 0;
-  const ap = aPctl[p.name] ?? null;
-
-  if (ap !== null) {
-    p.composite = (ap * 0.45) + (bp * 0.35) + (gp * 0.20);
-  } else {
-    // No APP data: use birdie% 60% + GIR 40% with a penalty
-    p.composite = ((bp * 0.60) + (gp * 0.40)) * 0.72; // 28% penalty for missing key stat
+function parseData() {
+  const rawText = document.getElementById('pasteBox').value.trim();
+  const logDiv = document.getElementById('log');
+  
+  if (!rawText) {
+    logDiv.style.display = 'block';
+    logDiv.innerHTML = '<span style="color:var(--plaid-red)">Error: Paste box is empty.</span>';
+    return;
   }
-  p.bPctl = bp;
-  p.gPctl = gp;
-  p.aPctl = ap;
-});
 
-// Step 4: Sort and assign tiers
-merged.sort((a,b) => b.composite - a.composite);
-merged.forEach((p, i) => {
-  p.rank = i + 1;
-  if (i < 8) p.tier = 'tartan';
-  else if (i < 20) p.tier = 'lighthouse';
-  else if (i < 35) p.tier = 'lowcountry';
-  else if (i < 50) p.tier = 'contender';
-  else p.tier = 'field';
-});
+  players = [];
+  const rows = rawText.split('\n');
+  let errorCount = 0;
+  
+  rows.forEach(row => {
+    const cols = row.split('\t').map(c => c.trim().replace(/['",%]/g, ''));
+    if(cols.length < 2) return; 
 
-const maxComposite = merged[0].composite;
+    if (cols.length < 12) {
+      errorCount++;
+      return; 
+    }
 
-// ── RENDER ──
-const tbody = document.getElementById('tbody');
-const countText = document.getElementById('count-text');
+    let p = {
+      name: cols[0],
+      id: cols[1],
+      price: parseFloat(cols[2]) || null,
+      sunWin: parseFloat(cols[3]) || null,
+      tueWin: parseFloat(cols[4]) || null,
+      wedWin: parseFloat(cols[5]) || null,
+      sgApp: parseFloat(cols[6]) || null,
+      birdiePct: parseFloat(cols[7]) || null,
+      courseHistory: parseFloat(cols[8]) || null,
+      sgArg: parseFloat(cols[9]) || null,
+      prox150: parseFloat(cols[10]) || null,
+      girRough: parseFloat(cols[11]) || null
+    };
 
-function tierLabel(tier) {
-  const map = {
-    tartan: ['TARTAN JACKET', 'tier-tartan'],
-    lighthouse: ['LIGHTHOUSE', 'tier-lighthouse'],
-    lowcountry: ['LOWCOUNTRY', 'tier-lowcountry'],
-    contender: ['CONTENDER', 'tier-contender'],
-    field: ['FIELD', 'tier-field']
-  };
-  const [label, cls] = map[tier];
-  return `<span class="tier-badge ${cls}">${label}</span>`;
+    p.sunImp = toImp(p.sunWin);
+    p.tueImp = toImp(p.tueWin);
+    p.wedImp = toImp(p.wedWin);
+    p.liveImp = p.wedImp || p.tueImp || p.sunImp || 0;
+
+    p.velSunTue = p.sunImp > 0.001 ? (p.tueImp - p.sunImp) / p.sunImp : 0;
+    p.velTueWed = p.tueImp > 0.001 ? (p.wedImp - p.tueImp) / p.tueImp : 0;
+    p.velTotal  = p.sunImp > 0.001 ? (p.liveImp - p.sunImp) / p.sunImp : 0;
+
+    p.isSteam = p.velTotal > 0.02;
+    players.push(p);
+  });
+
+  if(errorCount > 0) {
+      alert(`Warning: ${errorCount} rows skipped. Ensure exactly 12 columns are pasted.`);
+  }
+
+  const priced = players.filter(p => p.price);
+  priced.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
+  priced.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
+  players.forEach(p => p.dlta = p.price ? (p.salRank - p.oddsRank) : null);
+
+  players.forEach(p => {
+    let appScore = p.sgApp ? p.sgApp * 20 : 0;
+    let birdScore = p.birdiePct ? p.birdiePct : 0;
+    let histScore = p.courseHistory ? (80 - p.courseHistory) * 0.5 : 0; 
+    let argScore = p.sgArg ? p.sgArg * 15 : 0;
+    let proxScore = p.prox150 ? (30 - p.prox150) * 2 : 0; // Lower is better
+    let girRoughScore = p.girRough ? p.girRough * 0.5 : 0; // Higher is better
+
+    p.composite = appScore + birdScore + histScore + argScore + proxScore + girRoughScore;
+  });
+
+  players.sort((a,b) => b.composite - a.composite);
+  players.forEach((p, i) => {
+    if (i < 8) p.tier = 'Tartan';
+    else if (i < 25) p.tier = 'Lighthouse';
+    else p.tier = 'Field';
+  });
+
+  switchTab('arb');
 }
 
-function barColor(composite) {
-  const pct = composite / maxComposite;
-  if (pct > 0.85) return 'var(--plaid-red)';
-  if (pct > 0.7) return 'var(--plaid-navy)';
-  if (pct > 0.5) return 'var(--plaid-green)';
-  return 'var(--border)';
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
 }
 
-function render(data) {
+function sortData(col) {
+  if (sortCol === col) sortAsc = !sortAsc;
+  else { 
+      sortCol = col; 
+      sortAsc = (col === 'name' || col === 'courseHistory' || col === 'prox150'); 
+  }
+  renderTable();
+}
+
+function renderTable() {
+  const tbody = document.getElementById('tbody');
+  const query = document.getElementById('search').value.toLowerCase();
+  
+  let data = [...players];
+  
+  if(currentFilter === 'tartan') data = data.filter(p => p.tier === 'Tartan');
+  if(currentFilter === 'steam') data = data.filter(p => p.isSteam);
+  if(currentFilter === 'value') data = data.filter(p => p.dlta > 0);
+  if(query) data = data.filter(p => p.name.toLowerCase().includes(query));
+
+  data.sort((a, b) => {
+    let valA = a[sortCol], valB = b[sortCol];
+    if (valA == null) return 1; if (valB == null) return -1;
+    if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+    return sortAsc ? valA - valB : valB - valA;
+  });
+
   tbody.innerHTML = '';
+  
   data.forEach(p => {
-    const barW = Math.max(4, (p.composite / maxComposite) * 100);
-    const appDisplay = p.appSG !== null
-      ? `<span class="${p.appRank <= 10 ? 'val-good' : ''}">${p.appSG.toFixed(3)}</span> <span style="font-size:9px;color:var(--text2)">#${p.appRank}</span>`
-      : `<span class="val-na">—</span>`;
-    const birdieColor = p.birdie >= 25 ? 'val-good' : '';
-    const girColor = p.gir <= 20 ? 'val-good' : '';
-
     const tr = document.createElement('tr');
-    tr.dataset.tier = p.tier;
+    
+    const salStr = p.price ? `$${(p.price/1000).toFixed(1)}k` : '<span class="val-muted">—</span>';
+    const oddsStr = `<span style="font-size:9px;color:var(--text2)">${fmtOdds(p.sunWin)} / ${fmtOdds(p.tueWin)} / </span><span style="font-weight:700">${fmtOdds(p.liveImp > 0 ? (p.wedWin || p.tueWin || p.sunWin) : null)}</span>`;
+    
+    let dltaStr = '<span class="val-muted">—</span>';
+    if(p.dlta != null) {
+      const dColor = p.dlta > 2 ? 'val-good' : (p.dlta < -2 ? 'val-bad' : '');
+      dltaStr = `<span class="${dColor}">${p.dlta > 0 ? '+'+p.dlta : p.dlta}</span>`;
+    }
+
+    const velColor = p.velTotal > 0.02 ? 'val-good' : (p.velTotal < -0.02 ? 'val-bad' : 'val-muted');
+    const velStr = p.sunWin ? `<span class="${velColor}">${(p.velTotal*100).toFixed(1)}%</span>` : '<span class="val-muted">—</span>';
+
+    let tierBadge = '';
+    if(p.tier === 'Tartan') tierBadge = '<span class="badge b-tartan">TARTAN</span>';
+    else if(p.tier === 'Lighthouse') tierBadge = '<span class="badge b-lighthouse">LIGHTHOUSE</span>';
+    else tierBadge = `<span class="badge" style="color:var(--text2)">${p.tier.toUpperCase()}</span>`;
+
+    if(p.dlta > 3) tierBadge += ' <span class="badge b-value">$DLTA+</span>';
+    if(p.isSteam) tierBadge += ' <span class="badge b-steam">STEAM</span>';
+
     tr.innerHTML = `
-      <td style="font-size:10px;color:var(--text2);font-weight:500;">${p.rank}</td>
-      <td><span class="player-name">${p.name}</span></td>
-      <td>
-        <span class="comp-bar-wrap"><span class="comp-bar" style="width:${barW}%;background:${barColor(p.composite)}"></span></span>
-        <span style="font-weight:500">${p.composite.toFixed(1)}</span>
-      </td>
-      <td>${appDisplay}</td>
-      <td class="hide-mobile"><span class="${birdieColor}">${p.birdie.toFixed(1)}%</span></td>
-      <td class="hide-mobile"><span class="${girColor}">#${p.gir}</span></td>
-      <td>${tierLabel(p.tier)}</td>
+      <td class="name-cell">${p.name}</td>
+      <td>${salStr}</td>
+      <td>${oddsStr}</td>
+      <td>${dltaStr}</td>
+      <td>${velStr}</td>
+      <td>${fmtNum(p.sgApp)}</td>
+      <td>${fmtNum(p.prox150)}'</td>
+      <td><strong style="color:var(--plaid-navy)">${fmtNum(p.girRough)}%</strong></td>
+      <td>${fmtNum(p.birdiePct)}</td>
+      <td>${fmtNum(p.courseHistory)}</td>
+      <td>${fmtNum(p.sgArg)}</td>
+      <td>${tierBadge}</td>
     `;
     tbody.appendChild(tr);
   });
-  countText.textContent = `Showing ${data.length} of ${merged.length} players`;
 }
-
-render(merged);
-
-// ── FILTERS ──
-let activeFilter = 'all';
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    activeFilter = btn.dataset.filter;
-    applyFilters();
-  });
-});
-
-document.getElementById('search').addEventListener('input', applyFilters);
-
-function applyFilters() {
-  const query = document.getElementById('search').value.toLowerCase();
-  let data = merged;
-  if (activeFilter !== 'all') data = data.filter(p => p.tier === activeFilter);
-  if (query) data = data.filter(p => p.name.toLowerCase().includes(query));
-  render(data);
-}
-
-// ── SORT ──
-let sortKey = 'rank';
-let sortAsc = true;
-
-document.querySelectorAll('th[data-sort]').forEach(th => {
-  th.addEventListener('click', () => {
-    const key = th.dataset.sort;
-    if (sortKey === key) { sortAsc = !sortAsc; }
-    else { sortKey = key; sortAsc = key === 'name'; }
-
-    document.querySelectorAll('th').forEach(t => t.classList.remove('sorted'));
-    th.classList.add('sorted');
-
-    const sortFn = {
-      rank: (a,b) => a.rank - b.rank,
-      name: (a,b) => a.name.localeCompare(b.name),
-      composite: (a,b) => b.composite - a.composite,
-      app: (a,b) => (b.appSG ?? -1) - (a.appSG ?? -1),
-      birdie: (a,b) => b.birdie - a.birdie,
-      gir: (a,b) => a.gir - b.gir
-    }[key];
-
-    merged.sort((a,b) => sortAsc ? sortFn(a,b) : -sortFn(a,b));
-    // Re-rank only when sorted by composite
-    if (key === 'rank' || key === 'composite') {
-      const compSorted = [...merged].sort((a,b) => b.composite - a.composite);
-      compSorted.forEach((p,i) => p.rank = i+1);
-    }
-    applyFilters();
-  });
-});
 </script>
 
 </body>
