@@ -26,12 +26,16 @@
   .container { max-width:1250px; margin:0 auto; padding:16px; }
 
   /* ── HEADER ── */
-  .header { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:16px; box-shadow:var(--shadow); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .header { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:16px; box-shadow:var(--shadow); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; position:relative; overflow:hidden; }
+  .header-text { display:flex; align-items:center; gap:16px; z-index:2; }
   .header-text h1 { font-family:'Libre Baskerville', serif; font-size:24px; color:var(--plaid-navy); letter-spacing:-0.5px; }
   .header-text h1 em { color:var(--plaid-red); font-style:normal; }
   .header-sub { font-size:11px; color:var(--text2); margin-top:6px; letter-spacing:0.2px; }
-  .status-badge { background:var(--surface2); padding:6px 12px; border-radius:20px; font-size:10px; font-weight:700; color:var(--plaid-green); display:flex; align-items:center; gap:6px; border:1px solid var(--border); }
+  .status-badge { background:var(--surface2); padding:6px 12px; border-radius:20px; font-size:10px; font-weight:700; color:var(--plaid-green); display:flex; align-items:center; gap:6px; border:1px solid var(--border); z-index:2; }
   .status-dot { width:8px; height:8px; background:var(--plaid-green); border-radius:50%; box-shadow:0 0 6px rgba(45,90,61,0.6); }
+  
+  /* Harbour Town Lighthouse SVG styling */
+  .ht-svg { width:24px; height:48px; }
   
   /* ── NAVIGATION ── */
   .nav { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
@@ -52,7 +56,6 @@
   .guide-card h3 { color:var(--plaid-navy); font-family:sans-serif; margin-bottom:12px; font-size:16px; display:flex; align-items:center; gap:10px; }
   .guide-card h3 span { background:var(--plaid-navy); padding:4px 8px; border-radius:4px; font-size:11px; color:#fff; }
   .guide-text { font-size:13px; color:var(--text2); line-height:1.7; }
-  @media(max-width: 800px) { .guide-wrap { grid-template-columns:1fr; padding:20px; } }
 
   /* ── ARB TABLE UI ── */
   .toolbar { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; background:#fcfcfc; flex-wrap:wrap; }
@@ -60,6 +63,11 @@
   .search-box:focus { border-color:var(--plaid-navy); }
   .filter-chip { padding:6px 12px; font-size:10px; border-radius:12px; border:1px solid var(--border); cursor:pointer; background:var(--surface); color:var(--text2); transition:0.15s; font-weight:500; }
   .filter-chip.active { background:var(--plaid-navy); color:#fff; border-color:var(--plaid-navy); }
+
+  /* ── STAT GLOSSARY ── */
+  .glossary-bar { background:rgba(27,42,74,0.03); border-bottom:1px solid var(--border); padding:12px 20px; display:flex; gap:16px; flex-wrap:wrap; font-size:10px; color:var(--text2); align-items:center; }
+  .glossary-title { font-weight:700; color:var(--plaid-navy); background:var(--lighthouse); padding:4px 8px; border-radius:4px; border:1px solid var(--border); }
+  .glossary-item strong { color:var(--text); }
 
   .table-wrap { overflow-x:auto; }
   table { width:100%; border-collapse:collapse; text-align:left; }
@@ -72,11 +80,17 @@
   .val-good { color:var(--plaid-green); font-weight:700; }
   .val-bad { color:var(--plaid-red); }
 
-  .badge { padding:4px 8px; border-radius:4px; font-size:9px; font-weight:700; letter-spacing:0.5px; display:inline-block; margin-right:4px; }
+  .badge { padding:4px 8px; border-radius:4px; font-size:9px; font-weight:700; letter-spacing:0.5px; display:inline-flex; align-items:center; gap:4px; margin-right:4px; }
   .b-tartan { background:var(--plaid-red); color:#fff; }
   .b-lighthouse { background:var(--plaid-navy); color:#fff; }
   .b-steam { background:rgba(196,30,58,0.1); color:var(--plaid-red); border:1px solid rgba(196,30,58,0.2); }
   .b-value { background:rgba(45,90,61,0.1); color:var(--plaid-green); border:1px solid rgba(45,90,61,0.2); }
+
+  /* ── EXCLUDE BUTTON UI ── */
+  .btn-exclude { background:transparent; border:1px solid var(--border); color:var(--text2); border-radius:4px; padding:2px 6px; font-size:9px; cursor:pointer; margin-left:8px; font-family:inherit; font-weight:700; transition:0.2s; }
+  .btn-exclude:hover { border-color:var(--plaid-red); color:var(--plaid-red); }
+  .btn-include { background:rgba(196,30,58,0.1); border:1px solid var(--plaid-red); color:var(--plaid-red); }
+  .player-excluded { text-decoration:line-through; opacity:0.5; }
 
   /* ── OPTIMIZER UI ── */
   .opt-wrap { padding:30px; text-align:center; }
@@ -99,8 +113,18 @@
 
   <div class="header">
     <div class="header-text">
-      <h1>Plaid Genie <em>Optimizer</em></h1>
-      <div class="header-sub">Quantitative PGA DFS Engine · Real-Time Steam & Value Mapping</div>
+      <svg class="ht-svg" viewBox="0 0 40 80" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="10,80 30,80 26,20 14,20" fill="#E8E0D4" />
+        <polygon points="12,65 28,65 27,50 13,50" fill="#C41E3A" />
+        <polygon points="13.5,35 26.5,35 25.5,20 14.5,20" fill="#C41E3A" />
+        <rect x="10" y="18" width="20" height="2" fill="#1A1A1A" />
+        <rect x="15" y="10" width="10" height="8" fill="#E8E0D4" />
+        <polygon points="20,2 12,10 28,10" fill="#C41E3A" />
+      </svg>
+      <div>
+        <h1>Plaid Genie <em>Optimizer</em></h1>
+        <div class="header-sub">Quantitative PGA DFS Engine · Real-Time Steam & Value Mapping</div>
+      </div>
     </div>
     <div class="status-badge">
       <div class="status-dot"></div> ENGINE ACTIVE: 82 PLAYERS LOADED
@@ -146,6 +170,17 @@
       <button class="filter-chip" onclick="setFilter('steam', this)">🔥 STEAM</button>
       <button class="filter-chip" onclick="setFilter('value', this)">💰 VALUE ($DLTA+)</button>
     </div>
+    
+    <div class="glossary-bar">
+      <div class="glossary-title">📊 METRIC KEY</div>
+      <div class="glossary-item"><strong>$DLTA:</strong> Salary Rank vs Odds Rank (Positive = Underpriced)</div>
+      <div class="glossary-item"><strong>wVEL:</strong> % shift in win probability since Sunday</div>
+      <div class="glossary-item"><strong>SG:APP:</strong> Strokes Gained Approach</div>
+      <div class="glossary-item"><strong>PROX 150':</strong> Proximity to hole from 100-150 yds</div>
+      <div class="glossary-item"><strong>RGH <150:</strong> Greens in Regulation % from the rough under 150 yds</div>
+      <div class="glossary-item"><strong>SG:ARG:</strong> Strokes Gained Around the Green</div>
+    </div>
+
     <div class="table-wrap">
       <table id="arbTable">
         <thead>
@@ -284,7 +319,6 @@ let currentFilter = 'all';
 let sortCol = 'composite';
 let sortAsc = false;
 
-// AUTO-LOAD FUNCTION
 window.onload = function() {
   processData();
 };
@@ -301,11 +335,11 @@ function processData() {
   players = [...db];
 
   players.forEach(p => {
-    // Current Active Odds Line
-    p.liveImp = p.wedWin ? (100/(p.wedWin+100)) : p.tueWin ? (100/(p.tueWin+100)) : p.monWin ? (100/(p.monWin+100)) : p.sunWin ? (100/(p.sunWin+100)) : 0;
-    let baselineImp = p.sunWin ? (100/(p.sunWin+100)) : 0;
+    const latestOdds = p.wedWin || p.tueWin || p.monWin || p.sunWin;
+    p.liveImp = latestOdds ? (100 / (latestOdds + 100)) : 0;
+    let baselineImp = p.sunWin ? (100 / (p.sunWin + 100)) : 0;
     
-    p.velTotal = baselineImp > 0.001 ? (p.liveImp - baselineImp) / baselineImp : 0;
+    p.velTotal = (baselineImp > 0) ? (p.liveImp - baselineImp) / baselineImp : 0;
     p.isSteam = p.velTotal > 0.02;
   });
 
@@ -313,10 +347,12 @@ function processData() {
   if (priced.length > 0) {
       priced.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
       priced.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
-      players.forEach(p => p.dlta = p.price ? (p.salRank - p.oddsRank) : null);
+      
+      players.forEach(p => {
+          if (p.price) p.dlta = p.salRank - p.oddsRank;
+      });
   }
 
-  // Composite Algorithm
   players.forEach(p => {
     let appScore = p.sgApp ? p.sgApp * 20 : 0;
     let birdScore = p.birdiePct ? p.birdiePct : 0;
@@ -354,6 +390,14 @@ function sortData(col) {
   renderTable();
 }
 
+function toggleExclude(playerName) {
+  const player = players.find(p => p.name === playerName);
+  if (player) {
+    player.excluded = !player.excluded;
+    renderTable();
+  }
+}
+
 function renderTable() {
   const tbody = document.getElementById('tbody');
   const query = document.getElementById('search').value.toLowerCase();
@@ -377,8 +421,15 @@ function renderTable() {
   const fmtOdds = v => v ? (v > 0 ? '+'+v : v) : '—';
   const fmtNum = v => v != null ? v.toFixed(2) : '—';
 
+  /* Inline SVG for Lighthouse Tier badge */
+  const lighthouseIcon = `<svg viewBox="0 0 40 80" width="8" height="16" xmlns="http://www.w3.org/2000/svg" style="vertical-align:text-bottom"><polygon points="10,80 30,80 26,20 14,20" fill="#E8E0D4" /><polygon points="12,65 28,65 27,50 13,50" fill="#C41E3A" /><polygon points="13.5,35 26.5,35 25.5,20 14.5,20" fill="#C41E3A" /><rect x="10" y="18" width="20" height="2" fill="#1A1A1A" /><rect x="15" y="10" width="10" height="8" fill="#E8E0D4" /><polygon points="20,2 12,10 28,10" fill="#C41E3A" /></svg>`;
+
   data.forEach(p => {
     const tr = document.createElement('tr');
+    
+    const excludedClass = p.excluded ? 'player-excluded' : '';
+    const btnClass = p.excluded ? 'btn-exclude btn-include' : 'btn-exclude';
+    const btnText = p.excluded ? 'RESTORE' : 'EXCLUDE';
     
     const salStr = p.price ? `<span style="color:var(--plaid-green); font-weight:700;">$${(p.price/1000).toFixed(1)}k</span>` : '<span class="val-muted">—</span>';
     const oddsStr = `<span style="font-size:9px;color:var(--text2)">${fmtOdds(p.sunWin)} / ${fmtOdds(p.monWin)} / </span><span style="font-weight:700; color:var(--text);">${fmtOdds(p.wedWin || p.tueWin || p.monWin || p.sunWin)}</span>`;
@@ -393,39 +444,38 @@ function renderTable() {
     const velStr = p.sunWin ? `<span class="${velColor}">${(p.velTotal*100).toFixed(1)}%</span>` : '<span class="val-muted">—</span>';
 
     let tierBadge = p.tier === 'Tartan' ? '<span class="badge b-tartan">TARTAN</span>' : 
-                    p.tier === 'Lighthouse' ? '<span class="badge b-lighthouse">LIGHTHOUSE</span>' : 
+                    p.tier === 'Lighthouse' ? `<span class="badge b-lighthouse">${lighthouseIcon} LIGHTHOUSE</span>` : 
                     `<span class="badge" style="color:var(--text2); border:1px solid var(--border);">FIELD</span>`;
 
     if(p.dlta > 3) tierBadge += '<span class="badge b-value">$DLTA+</span>';
     if(p.isSteam) tierBadge += '<span class="badge b-steam">STEAM</span>';
 
     tr.innerHTML = `
-      <td class="name-cell">${p.name}</td>
-      <td>${salStr}</td>
-      <td>${oddsStr}</td>
-      <td>${dltaStr}</td>
-      <td>${velStr}</td>
-      <td>${fmtNum(p.sgApp)}</td>
-      <td>${fmtNum(p.prox150)}'</td>
-      <td>${fmtNum(p.girRough)}%</td>
-      <td>${fmtNum(p.birdiePct)}%</td>
-      <td>${fmtNum(p.courseHistory)}</td>
-      <td>${fmtNum(p.sgArg)}</td>
-      <td>${tierBadge}</td>
+      <td class="name-cell">
+        <span class="${excludedClass}">${p.name}</span>
+        <button class="${btnClass}" onclick="toggleExclude('${p.name}')">${btnText}</button>
+      </td>
+      <td class="${excludedClass}">${salStr}</td>
+      <td class="${excludedClass}">${oddsStr}</td>
+      <td class="${excludedClass}">${dltaStr}</td>
+      <td class="${excludedClass}">${velStr}</td>
+      <td class="${excludedClass}">${fmtNum(p.sgApp)}</td>
+      <td class="${excludedClass}">${fmtNum(p.prox150)}'</td>
+      <td class="${excludedClass}">${fmtNum(p.girRough)}%</td>
+      <td class="${excludedClass}">${fmtNum(p.birdiePct)}%</td>
+      <td class="${excludedClass}">${fmtNum(p.courseHistory)}</td>
+      <td class="${excludedClass}">${fmtNum(p.sgArg)}</td>
+      <td class="${excludedClass}">${tierBadge}</td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// ==========================================
-// KNAPSACK OPTIMIZER ENGINE (DP)
-// ==========================================
 function runOptimizer() {
-  const pool = players.filter(p => p.price);
-  const maxSal = 500; // Divide by 100 to optimize array size
+  const pool = players.filter(p => p.price && !p.excluded);
+  const maxSal = 500;
   const reqRoster = 6;
 
-  // dp[k][w] stores the best {score, roster} for exactly k players and weight w
   let dp = Array(reqRoster + 1).fill(null).map(() => Array(maxSal + 1).fill(null));
   dp[0][0] = { score: 0, roster: [] };
 
@@ -433,7 +483,6 @@ function runOptimizer() {
     let weight = Math.floor(p.price / 100);
     let val = p.composite;
 
-    // Traverse backwards to avoid duplicate selections
     for (let k = reqRoster - 1; k >= 0; k--) {
       for (let w = maxSal - weight; w >= 0; w--) {
         if (dp[k][w] !== null) {
@@ -450,7 +499,6 @@ function runOptimizer() {
     }
   }
 
-  // Find Best Lineup
   let bestLineup = null;
   for (let w = 0; w <= maxSal; w++) {
     if (dp[reqRoster][w] !== null) {
