@@ -26,10 +26,13 @@
   .container { max-width:1250px; margin:0 auto; padding:16px; }
 
   /* ── HEADER ── */
-  .header { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:16px; box-shadow:var(--shadow); display:flex; align-items:center; gap:16px; }
-  .header h1 { font-family:'Libre Baskerville', serif; font-size:24px; color:var(--plaid-navy); letter-spacing:-0.5px; }
-  .header h1 em { color:var(--plaid-red); font-style:normal; }
+  .header { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:16px; box-shadow:var(--shadow); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .header-text h1 { font-family:'Libre Baskerville', serif; font-size:24px; color:var(--plaid-navy); letter-spacing:-0.5px; }
+  .header-text h1 em { color:var(--plaid-red); font-style:normal; }
   .header-sub { font-size:11px; color:var(--text2); margin-top:6px; letter-spacing:0.2px; }
+  .status-badge { background:var(--surface2); padding:6px 12px; border-radius:20px; font-size:10px; font-weight:700; color:var(--plaid-navy); display:flex; align-items:center; gap:6px; border:1px solid var(--border); }
+  .status-dot { width:8px; height:8px; background:var(--plaid-red); border-radius:50%; animation:pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow:0 0 0 0 rgba(196,30,58,0.4); } 70% { box-shadow:0 0 0 6px rgba(196,30,58,0); } 100% { box-shadow:0 0 0 0 rgba(196,30,58,0); } }
   
   /* ── NAVIGATION ── */
   .nav { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
@@ -42,30 +45,19 @@
   .panel.active { display:block; }
 
   /* ── GUIDE UI (MARKETING) ── */
-  .guide-wrap { padding:30px; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-  .guide-hero { grid-column:1 / -1; text-align:center; padding:20px 0 30px 0; border-bottom:1px solid var(--surface2); margin-bottom:10px; }
-  .guide-hero h2 { font-family:'Libre Baskerville', serif; font-size:26px; color:var(--plaid-navy); margin-bottom:10px; }
-  .guide-hero p { font-size:13px; color:var(--text2); max-width:700px; margin:0 auto; line-height:1.6; }
+  .guide-wrap { padding:40px; display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .guide-hero { grid-column:1 / -1; text-align:center; padding:20px 0 40px 0; border-bottom:1px solid var(--surface2); margin-bottom:16px; }
+  .guide-hero h2 { font-family:'Libre Baskerville', serif; font-size:32px; color:var(--plaid-navy); margin-bottom:16px; }
+  .guide-hero p { font-size:14px; color:var(--text2); max-width:750px; margin:0 auto; line-height:1.6; }
   
-  .guide-card { background:#fafafa; border:1px solid var(--border); border-radius:8px; padding:24px; transition:0.2s; }
-  .guide-card:hover { border-color:var(--plaid-navy); background:#fff; }
-  .guide-card h3 { color:var(--plaid-navy); font-family:sans-serif; margin-bottom:12px; font-size:15px; display:flex; align-items:center; gap:8px; }
-  .guide-card h3 span { background:var(--surface2); padding:4px 8px; border-radius:4px; font-size:10px; color:var(--plaid-red); }
-  .guide-text { font-size:12px; color:var(--text2); line-height:1.7; }
-  .guide-text strong { color:var(--text); font-weight:700; }
+  .guide-card { background:#fafafa; border:1px solid var(--border); border-radius:8px; padding:24px; transition:0.2s; box-shadow:var(--shadow); }
+  .guide-card:hover { border-color:var(--plaid-navy); background:#fff; transform:translateY(-2px); }
+  .guide-card h3 { color:var(--plaid-navy); font-family:sans-serif; margin-bottom:12px; font-size:16px; display:flex; align-items:center; gap:10px; }
+  .guide-card h3 span { background:var(--plaid-navy); padding:4px 8px; border-radius:4px; font-size:11px; color:#fff; }
+  .guide-text { font-size:13px; color:var(--text2); line-height:1.7; }
+  .guide-text strong { color:var(--plaid-navy); font-weight:700; }
 
-  @media(max-width: 800px) { .guide-wrap { grid-template-columns:1fr; } }
-
-  /* ── IMPORTER UI ── */
-  .import-wrap { padding:24px; }
-  .import-wrap h3 { color:var(--plaid-navy); margin-bottom:8px; font-family:sans-serif; font-size:16px; }
-  .col-list { display:flex; gap:6px; flex-wrap:wrap; margin:16px 0; }
-  .col-pill { background:var(--surface2); padding:6px 10px; border-radius:4px; font-size:10px; font-weight:500; color:var(--plaid-navy); }
-  textarea { width:100%; height:250px; padding:16px; font-family:monospace; font-size:10px; border:1px solid var(--border); border-radius:6px; resize:vertical; background:#fafafa; margin-bottom:16px; line-height:1.4; white-space:pre; }
-  textarea:focus { outline:none; border-color:var(--plaid-red); background:#fff; }
-  .btn-submit { background:var(--plaid-red); color:#fff; border:none; padding:14px; border-radius:6px; font-weight:700; cursor:pointer; width:100%; font-family:inherit; letter-spacing:0.5px; transition:0.2s; font-size:12px; }
-  .btn-submit:hover { background:#A31930; }
-  #log { margin-top:16px; padding:12px; font-size:11px; border-radius:6px; display:none; border:1px solid var(--border); }
+  @media(max-width: 800px) { .guide-wrap { grid-template-columns:1fr; padding:20px; } }
 
   /* ── ARB TABLE UI ── */
   .toolbar { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; background:#fcfcfc; flex-wrap:wrap; }
@@ -103,12 +95,14 @@
       <h1>Plaid Genie <em>Optimizer</em></h1>
       <div class="header-sub">Quantitative PGA DFS Engine · Real-Time Steam & Value Mapping</div>
     </div>
+    <div class="status-badge">
+      <div class="status-dot"></div> ENGINE ACTIVE: WAITING ON DK SALARIES
+    </div>
   </div>
 
   <div class="nav">
-    <button class="nav-btn" onclick="switchTab('guide')" id="nav-guide">1. ENGINE GUIDE</button>
-    <button class="nav-btn" onclick="switchTab('import')" id="nav-import">2. DATA INGEST</button>
-    <button class="nav-btn active" onclick="switchTab('arb')" id="nav-arb">3. MARKET BOARD</button>
+    <button class="nav-btn" onclick="switchTab('guide')" id="nav-guide">WHAT IS PLAID GENIE?</button>
+    <button class="nav-btn active" onclick="switchTab('arb')" id="nav-arb">MARKET BOARD</button>
   </div>
 
   <div class="panel" id="panel-guide">
@@ -133,96 +127,28 @@
         <div class="guide-text">
           <p>Books open their lines on Sunday night. By Wednesday, sharp bettors and syndicates have hammered the inefficiencies. Plaid Genie tracks this velocity.</p>
           <br>
-          <p>The <strong>wVEL (Steam) Indicator</strong> flags players whose implied win probability has surged by more than 2% since the open. If the smart money is heavily backing a player, they earn the <span class="badge b-steam">STEAM</span> badge on your board.</p>
+          <p>The <strong>wVEL (Steam) Indicator</strong> flags players whose implied win probability has surged since the open. If the smart money is heavily backing a player, they earn the <span class="badge b-steam">STEAM</span> badge on your board.</p>
         </div>
       </div>
 
       <div class="guide-card">
         <h3><span>3</span> 12-Column Custom Course Logic</h3>
         <div class="guide-text">
-          <p>No two golf courses are the same. Our engine allows you to ingest up to 12 columns of highly specific data. We weigh generalized stats (SG: Approach, Birdie %) against course-critical metrics.</p>
+          <p>No two golf courses are the same. Our engine processes 12 columns of highly specific data. We weigh generalized stats against course-critical metrics.</p>
           <br>
-          <p>For example: On tight, short courses like Harbour Town, the engine heavily weights <strong>Proximity from 100-150 Yards</strong> and <strong>GIR from the Rough</strong> to bubble up the true course horses.</p>
+          <p>For example: On tight, short courses like Harbour Town, the engine heavily weights <strong>Proximity from 100-150 Yards</strong> and <strong>GIR from the Rough</strong> to mathematically surface the true course horses.</p>
         </div>
       </div>
 
       <div class="guide-card">
         <h3><span>4</span> Automated Tiering</h3>
         <div class="guide-text">
-          <p>Stop guessing who to put in your player pool. Plaid Genie processes your imported data through our composite algorithm to automatically assign players to tiers.</p>
+          <p>Stop guessing who to put in your player pool. Plaid Genie processes the field through our composite algorithm to automatically assign players to tiers.</p>
           <br>
           <p>The <span class="badge b-tartan">TARTAN</span> tier highlights the absolute elites for the given course. The <span class="badge b-lighthouse">LIGHTHOUSE</span> tier provides your reliable, high-floor mid-range options to complete your optimizer builds.</p>
         </div>
       </div>
 
-    </div>
-  </div>
-
-  <div class="panel" id="panel-import">
-    <div class="import-wrap">
-      <h3>Data Pipeline</h3>
-      <div style="font-size:11px; color:var(--text2); margin-bottom:16px;">The engine requires data separated by tabs (Standard Excel/Sheets copy-paste). Leave cells blank (empty tabs) if data is unavailable (e.g., waiting for Monday salaries).</div>
-      <div class="col-list">
-        <span class="col-pill">1. Name</span><span class="col-pill">2. DK_ID</span><span class="col-pill">3. Salary</span>
-        <span class="col-pill">4. Sun Odds</span><span class="col-pill">5. Tue Odds</span><span class="col-pill">6. Wed Odds</span>
-        <span class="col-pill">7. SG:APP</span><span class="col-pill">8. Birdie %</span><span class="col-pill">9. History</span>
-        <span class="col-pill">10. SG:ARG</span><span class="col-pill">11. Prox 100-150</span><span class="col-pill">12. GIR RGH <150</span>
-      </div>
-      <textarea id="pasteBox">Scottie Scheffler			+350			0.080	30.79	23.75		18.4	58.5
-Xander Schauffele			+1450			0.662	23.50	28.75		20.9	59.1
-Cameron Young			+1700			0.499	26.16	34.50		21.0	58.9
-Tommy Fleetwood			+1700			0.459	24.44	20.25		19.5	62.2
-Matt Fitzpatrick			+1950			0.810	26.79	35.50		22.9	59.4
-Ludvig Åberg			+2050			0.397	27.31	32.00		20.7	56.0
-Russell Henley			+2100			0.313	25.23	28.50		19.5	63.1
-Patrick Cantlay			+2150			0.146	22.45	5.25		20.0	61.4
-Collin Morikawa			+2350			1.066	27.47	30.00		18.7	63.5
-Sam Burns			+2500			-0.012	25.00	37.00		20.5	56.8
-Robert MacIntyre			+2900			-0.247	26.19	70.00		21.9	60.9
-Jake Knapp			+3000			0.342	26.07	62.00		22.4	59.5
-Maverick McNealy			+3500			0.176	25.19	26.00		21.1	55.7
-Justin Thomas			+3700					16.50		18.9	54.9
-Jordan Spieth			+3700			0.412	22.22	15.00		22.2	61.2
-Si Woo Kim			+3700			0.912	26.08	35.75		19.6	53.9
-Viktor Hovland			+3900			0.575	21.21	15.00		19.4	63.8
-Shane Lowry			+3900			0.474	24.17	38.00		19.6	61.2
-Jason Day			+4100			-0.352	22.92	49.00		20.6	56.4
-Ben Griffin			+4100			-0.115	23.15	31.00		22.2	55.3
-Jacob Bridgeman			+4400			0.501	28.30	61.00		21.0	54.4
-Chris Gotterup			+4500			0.436	25.19	75.00		23.0	61.6
-Justin Rose			+4800			0.755	25.44	46.50		20.0	57.6
-Harris English			+5000			-0.214	25.74	66.00		23.8	50.5
-Sepp Straka			+5200			0.568	24.67	24.00		19.1	42.0
-Akshay Bhatia			+5300			0.792	28.22	30.00		19.9	39.3
-J.J. Spaun			+5300			0.587	22.45	42.00		19.9	56.7
-Min Woo Lee			+5500			0.266	28.97	61.00		20.2	38.9
-Rickie Fowler			+5700			0.111	24.21	44.00		21.2	58.6
-Harry Hall			+6400			-0.152	24.79	75.00		21.0	54.3
-Alex Noren			+6400			-0.073	24.44	42.00		22.2	56.1
-Michael Thorbjornsen			+6700			-0.078	22.58	75.00		22.8	59.1
-Nicolai Højgaard			+6900			0.712	23.41	75.00		21.0	60.7
-Kurt Kitayama			+7200			0.728	21.65	75.00		20.5	58.5
-Ryan Gerard			+7600			0.712	25.87	27.00		21.1	57.4
-Sam Stevens			+8200			0.328	23.69	54.00		22.9	64.6
-Sahith Theegala			+8200			0.258	23.39	36.50		21.8	55.6
-Nick Taylor			+8200			0.408	21.41	41.00		20.6	53.4
-Keith Mitchell			+8400			0.387	23.83	75.00		21.9	56.5
-Ryo Hisatsune			+8800			0.576	25.88	18.00		21.9	62.5
-J.T. Poston			+8800			-0.066	22.22	23.50		22.4	53.8
-Corey Conners			+9000			0.622	20.73	34.00		19.4	50.8
-Daniel Berger			+9400			0.849	24.07	21.00		20.4	57.1
-Keegan Bradley			+10000			-0.469	22.98	48.00		19.4	60.2
-Sungjae Im			+11000			-0.114	23.12	12.75		23.2	57.3
-Pierceson Coody			+11500			0.314	25.93	75.00		22.1	56.7
-S. Yellamaraju			+11500			0.474	26.19	75.00		19.8	56.7
-Max Homa			+12000			0.250	23.08	68.75		21.3	56.1
-Brian Harman			+12000			-0.108	21.26	14.25		20.5	57.8
-Taylor Pendrith			+12000			-0.184	21.65	42.00		22.3	58.9
-Matt Wallace			+13000			0.159	20.29	75.00		22.6	62.1
-Ricky Castillo			+13500			-0.301	24.48	75.00		23.7	65.6
-Jordan Smith			+14500			0.454	22.22	75.00		23.9	58.7</textarea>
-      <button class="btn-submit" onclick="parseData()">PROCESS SPREADSHEET & LAUNCH BOARD</button>
-      <div id="log"></div>
     </div>
   </div>
 
@@ -261,6 +187,65 @@ Jordan Smith			+14500			0.454	22.22	75.00		23.9	58.7</textarea>
 </div>
 
 <script>
+// ==========================================
+// MASTER DATABASE (MANAGED BY AI BACKEND)
+// ==========================================
+const db = [
+  { name: "Scottie Scheffler", sunWin: 350, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.080, birdiePct: 30.79, courseHistory: 23.75, sgArg: null, prox150: 18.4, girRough: 58.5 },
+  { name: "Xander Schauffele", sunWin: 1450, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.662, birdiePct: 23.50, courseHistory: 28.75, sgArg: null, prox150: 20.9, girRough: 59.1 },
+  { name: "Cameron Young", sunWin: 1700, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.499, birdiePct: 26.16, courseHistory: 34.50, sgArg: null, prox150: 21.0, girRough: 58.9 },
+  { name: "Tommy Fleetwood", sunWin: 1700, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.459, birdiePct: 24.44, courseHistory: 20.25, sgArg: null, prox150: 19.5, girRough: 62.2 },
+  { name: "Matt Fitzpatrick", sunWin: 1950, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.810, birdiePct: 26.79, courseHistory: 35.50, sgArg: null, prox150: 22.9, girRough: 59.4 },
+  { name: "Ludvig Åberg", sunWin: 2050, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.397, birdiePct: 27.31, courseHistory: 32.00, sgArg: null, prox150: 20.7, girRough: 56.0 },
+  { name: "Russell Henley", sunWin: 2100, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.313, birdiePct: 25.23, courseHistory: 28.50, sgArg: null, prox150: 19.5, girRough: 63.1 },
+  { name: "Patrick Cantlay", sunWin: 2150, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.146, birdiePct: 22.45, courseHistory: 5.25, sgArg: null, prox150: 20.0, girRough: 61.4 },
+  { name: "Collin Morikawa", sunWin: 2350, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 1.066, birdiePct: 27.47, courseHistory: 30.00, sgArg: null, prox150: 18.7, girRough: 63.5 },
+  { name: "Sam Burns", sunWin: 2500, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.00, sgArg: null, prox150: 20.5, girRough: 56.8 },
+  { name: "Robert MacIntyre", sunWin: 2900, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.247, birdiePct: 26.19, courseHistory: 70.00, sgArg: null, prox150: 21.9, girRough: 60.9 },
+  { name: "Jake Knapp", sunWin: 3000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.342, birdiePct: 26.07, courseHistory: 62.00, sgArg: null, prox150: 22.4, girRough: 59.5 },
+  { name: "Maverick McNealy", sunWin: 3500, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.176, birdiePct: 25.19, courseHistory: 26.00, sgArg: null, prox150: 21.1, girRough: 55.7 },
+  { name: "Justin Thomas", sunWin: 3700, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: null, birdiePct: null, courseHistory: 16.50, sgArg: null, prox150: 18.9, girRough: 54.9 },
+  { name: "Jordan Spieth", sunWin: 3700, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.412, birdiePct: 22.22, courseHistory: 15.00, sgArg: null, prox150: 22.2, girRough: 61.2 },
+  { name: "Si Woo Kim", sunWin: 3700, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.912, birdiePct: 26.08, courseHistory: 35.75, sgArg: null, prox150: 19.6, girRough: 53.9 },
+  { name: "Viktor Hovland", sunWin: 3900, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.575, birdiePct: 21.21, courseHistory: 15.00, sgArg: null, prox150: 19.4, girRough: 63.8 },
+  { name: "Shane Lowry", sunWin: 3900, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.474, birdiePct: 24.17, courseHistory: 38.00, sgArg: null, prox150: 19.6, girRough: 61.2 },
+  { name: "Jason Day", sunWin: 4100, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.352, birdiePct: 22.92, courseHistory: 49.00, sgArg: null, prox150: 20.6, girRough: 56.4 },
+  { name: "Ben Griffin", sunWin: 4100, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.115, birdiePct: 23.15, courseHistory: 31.00, sgArg: null, prox150: 22.2, girRough: 55.3 },
+  { name: "Jacob Bridgeman", sunWin: 4400, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.501, birdiePct: 28.30, courseHistory: 61.00, sgArg: null, prox150: 21.0, girRough: 54.4 },
+  { name: "Chris Gotterup", sunWin: 4500, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.436, birdiePct: 25.19, courseHistory: 75.00, sgArg: null, prox150: 23.0, girRough: 61.6 },
+  { name: "Justin Rose", sunWin: 4800, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.755, birdiePct: 25.44, courseHistory: 46.50, sgArg: null, prox150: 20.0, girRough: 57.6 },
+  { name: "Harris English", sunWin: 5000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.214, birdiePct: 25.74, courseHistory: 66.00, sgArg: null, prox150: 23.8, girRough: 50.5 },
+  { name: "Sepp Straka", sunWin: 5200, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.568, birdiePct: 24.67, courseHistory: 24.00, sgArg: null, prox150: 19.1, girRough: 42.0 },
+  { name: "Akshay Bhatia", sunWin: 5300, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.792, birdiePct: 28.22, courseHistory: 30.00, sgArg: null, prox150: 19.9, girRough: 39.3 },
+  { name: "J.J. Spaun", sunWin: 5300, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.587, birdiePct: 22.45, courseHistory: 42.00, sgArg: null, prox150: 19.9, girRough: 56.7 },
+  { name: "Min Woo Lee", sunWin: 5500, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.266, birdiePct: 28.97, courseHistory: 61.00, sgArg: null, prox150: 20.2, girRough: 38.9 },
+  { name: "Rickie Fowler", sunWin: 5700, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.111, birdiePct: 24.21, courseHistory: 44.00, sgArg: null, prox150: 21.2, girRough: 58.6 },
+  { name: "Harry Hall", sunWin: 6400, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.152, birdiePct: 24.79, courseHistory: 75.00, sgArg: null, prox150: 21.0, girRough: 54.3 },
+  { name: "Alex Noren", sunWin: 6400, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.00, sgArg: null, prox150: 22.2, girRough: 56.1 },
+  { name: "Michael Thorbjornsen", sunWin: 6700, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.078, birdiePct: 22.58, courseHistory: 75.00, sgArg: null, prox150: 22.8, girRough: 59.1 },
+  { name: "Nicolai Højgaard", sunWin: 6900, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.712, birdiePct: 23.41, courseHistory: 75.00, sgArg: null, prox150: 21.0, girRough: 60.7 },
+  { name: "Kurt Kitayama", sunWin: 7200, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.728, birdiePct: 21.65, courseHistory: 75.00, sgArg: null, prox150: 20.5, girRough: 58.5 },
+  { name: "Ryan Gerard", sunWin: 7600, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.712, birdiePct: 25.87, courseHistory: 27.00, sgArg: null, prox150: 21.1, girRough: 57.4 },
+  { name: "Sam Stevens", sunWin: 8200, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.328, birdiePct: 23.69, courseHistory: 54.00, sgArg: null, prox150: 22.9, girRough: 64.6 },
+  { name: "Sahith Theegala", sunWin: 8200, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.258, birdiePct: 23.39, courseHistory: 36.50, sgArg: null, prox150: 21.8, girRough: 55.6 },
+  { name: "Nick Taylor", sunWin: 8200, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.408, birdiePct: 21.41, courseHistory: 41.00, sgArg: null, prox150: 20.6, girRough: 53.4 },
+  { name: "Keith Mitchell", sunWin: 8400, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.387, birdiePct: 23.83, courseHistory: 75.00, sgArg: null, prox150: 21.9, girRough: 56.5 },
+  { name: "Ryo Hisatsune", sunWin: 8800, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.576, birdiePct: 25.88, courseHistory: 18.00, sgArg: null, prox150: 21.9, girRough: 62.5 },
+  { name: "J.T. Poston", sunWin: 8800, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.066, birdiePct: 22.22, courseHistory: 23.50, sgArg: null, prox150: 22.4, girRough: 53.8 },
+  { name: "Corey Conners", sunWin: 9000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.622, birdiePct: 20.73, courseHistory: 34.00, sgArg: null, prox150: 19.4, girRough: 50.8 },
+  { name: "Daniel Berger", sunWin: 9400, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.849, birdiePct: 24.07, courseHistory: 21.00, sgArg: null, prox150: 20.4, girRough: 57.1 },
+  { name: "Keegan Bradley", sunWin: 10000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.469, birdiePct: 22.98, courseHistory: 48.00, sgArg: null, prox150: 19.4, girRough: 60.2 },
+  { name: "Sungjae Im", sunWin: 11000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.114, birdiePct: 23.12, courseHistory: 12.75, sgArg: null, prox150: 23.2, girRough: 57.3 },
+  { name: "Pierceson Coody", sunWin: 11500, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.314, birdiePct: 25.93, courseHistory: 75.00, sgArg: null, prox150: 22.1, girRough: 56.7 },
+  { name: "S. Yellamaraju", sunWin: 11500, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: null, prox150: 19.8, girRough: 56.7 },
+  { name: "Max Homa", sunWin: 12000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.250, birdiePct: 23.08, courseHistory: 68.75, sgArg: null, prox150: 21.3, girRough: 56.1 },
+  { name: "Brian Harman", sunWin: 12000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.108, birdiePct: 21.26, courseHistory: 14.25, sgArg: null, prox150: 20.5, girRough: 57.8 },
+  { name: "Taylor Pendrith", sunWin: 12000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.184, birdiePct: 21.65, courseHistory: 42.00, sgArg: null, prox150: 22.3, girRough: 58.9 },
+  { name: "Matt Wallace", sunWin: 13000, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.159, birdiePct: 20.29, courseHistory: 75.00, sgArg: null, prox150: 22.6, girRough: 62.1 },
+  { name: "Ricky Castillo", sunWin: 13500, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: null, prox150: 23.7, girRough: 65.6 },
+  { name: "Jordan Smith", sunWin: 14500, monWin: null, tueWin: null, wedWin: null, price: null, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: null, prox150: 23.9, girRough: 58.7 }
+];
+
 let players = [];
 let currentFilter = 'all';
 let sortCol = 'composite';
@@ -268,7 +253,7 @@ let sortAsc = false;
 
 // AUTO-LOAD FUNCTION
 window.onload = function() {
-  parseData(false); // Process pre-loaded baseline data silently
+  processData();
 };
 
 function switchTab(tab) {
@@ -283,67 +268,31 @@ const toImp = v => { if (!v || isNaN(v)) return 0; return v > 0 ? 100/(v+100) : 
 const fmtOdds = v => v ? (v > 0 ? '+'+v : v) : '—';
 const fmtNum = v => v != null && !isNaN(v) ? v.toFixed(2) : '—';
 
-function parseData(showAlerts = true) {
-  const rawText = document.getElementById('pasteBox').value.trim();
-  const logDiv = document.getElementById('log');
-  
-  if (!rawText) {
-    if(showAlerts) {
-        logDiv.style.display = 'block';
-        logDiv.innerHTML = '<span style="color:var(--plaid-red)">Error: Paste box is empty.</span>';
-    }
-    return;
-  }
+function processData() {
+  players = [...db];
 
-  players = [];
-  const rows = rawText.split('\n');
-  let errorCount = 0;
-  
-  rows.forEach(row => {
-    const cols = row.split('\t').map(c => c.trim().replace(/['",%]/g, ''));
-    if(cols.length < 2) return; 
-
-    if (cols.length < 12) {
-      errorCount++;
-      return; 
-    }
-
-    let p = {
-      name: cols[0],
-      id: cols[1],
-      price: parseFloat(cols[2]) || null,
-      sunWin: parseFloat(cols[3]) || null,
-      tueWin: parseFloat(cols[4]) || null,
-      wedWin: parseFloat(cols[5]) || null,
-      sgApp: parseFloat(cols[6]) || null,
-      birdiePct: parseFloat(cols[7]) || null,
-      courseHistory: parseFloat(cols[8]) || null,
-      sgArg: parseFloat(cols[9]) || null,
-      prox150: parseFloat(cols[10]) || null,
-      girRough: parseFloat(cols[11]) || null
-    };
-
+  players.forEach(p => {
     p.sunImp = toImp(p.sunWin);
+    p.monImp = toImp(p.monWin);
     p.tueImp = toImp(p.tueWin);
     p.wedImp = toImp(p.wedWin);
-    p.liveImp = p.wedImp || p.tueImp || p.sunImp || 0;
+    
+    // Most recent odds
+    p.liveImp = p.wedImp || p.tueImp || p.monImp || p.sunImp || 0;
 
-    p.velSunTue = p.sunImp > 0.001 ? (p.tueImp - p.sunImp) / p.sunImp : 0;
-    p.velTueWed = p.tueImp > 0.001 ? (p.wedImp - p.tueImp) / p.tueImp : 0;
-    p.velTotal  = p.sunImp > 0.001 ? (p.liveImp - p.sunImp) / p.sunImp : 0;
-
+    // Velocity from baseline (Sunday Open)
+    p.velTotal = p.sunImp > 0.001 ? (p.liveImp - p.sunImp) / p.sunImp : 0;
     p.isSteam = p.velTotal > 0.02;
-    players.push(p);
   });
 
-  if(errorCount > 0 && showAlerts) {
-      alert(`Warning: ${errorCount} rows skipped. Ensure exactly 12 columns are pasted.`);
-  }
-
   const priced = players.filter(p => p.price);
-  priced.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
-  priced.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
-  players.forEach(p => p.dlta = p.price ? (p.salRank - p.oddsRank) : null);
+  if (priced.length > 0) {
+      priced.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
+      priced.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
+      players.forEach(p => p.dlta = p.price ? (p.salRank - p.oddsRank) : null);
+  } else {
+      players.forEach(p => p.dlta = null);
+  }
 
   players.forEach(p => {
     let appScore = p.sgApp ? p.sgApp * 20 : 0;
@@ -363,8 +312,7 @@ function parseData(showAlerts = true) {
     else p.tier = 'Field';
   });
 
-  if(showAlerts) switchTab('arb');
-  else renderTable();
+  renderTable();
 }
 
 function setFilter(f, btn) {
@@ -407,9 +355,9 @@ function renderTable() {
     const tr = document.createElement('tr');
     
     const salStr = p.price ? `<span style="color:var(--plaid-green); font-weight:700;">$${(p.price/1000).toFixed(1)}k</span>` : '<span class="val-muted">—</span>';
-    const oddsStr = `<span style="font-size:9px;color:var(--text2)">${fmtOdds(p.sunWin)} / ${fmtOdds(p.tueWin)} / </span><span style="font-weight:700; color:var(--text);">${fmtOdds(p.liveImp > 0 ? (p.wedWin || p.tueWin || p.sunWin) : null)}</span>`;
+    const oddsStr = `<span style="font-size:9px;color:var(--text2)">${fmtOdds(p.sunWin)} / ${fmtOdds(p.monWin)} / </span><span style="font-weight:700; color:var(--text);">${fmtOdds(p.liveImp > 0 ? (p.wedWin || p.tueWin || p.monWin || p.sunWin) : null)}</span>`;
     
-    let dltaStr = '<span class="val-muted">Waiting on Sal.</span>';
+    let dltaStr = '<span class="val-muted">Wait for Sal</span>';
     if(p.dlta != null) {
       const dColor = p.dlta > 2 ? 'val-good' : (p.dlta < -2 ? 'val-bad' : '');
       dltaStr = `<span class="${dColor}">${p.dlta > 0 ? '+'+p.dlta : p.dlta}</span>`;
