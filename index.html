@@ -1,833 +1,784 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plaid Genie — 2026 RBC Heritage DFS Optimizer</title>
+<title>Plaid Genie v2.1 — Local Heuristic Optimizer</title>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#F7F3EE; --surface:#FFFFFF; --surface2:#EDE8E0; --surface3:#FAF7F2;
-    --text:#1A1A1A; --text2:#5A5349; --text3:#8A827A; --border:#D4CFC7;
-    --plaid-red:#C41E3A; --plaid-navy:#1B2A4A; --plaid-green:#2D5A3D;
-    --gold:#B8860B; --lighthouse:#E8E0D4;
-    --heat-hot:#C41E3A; --heat-warm:#E8A87C; --heat-cool:#A8C4A2; --heat-cold:#6B8E7F;
-    --shadow:0 4px 12px rgba(0,0,0,0.06);
-    --shadow-lg:0 8px 24px rgba(0,0,0,0.1);
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; font-size:13px; min-height:100vh; padding-bottom:60px; -webkit-font-smoothing:antialiased; }
-  body::before {
-    content:''; position:fixed; inset:0; z-index:-1; opacity:0.025;
-    background: repeating-linear-gradient(0deg, var(--plaid-red) 0px, var(--plaid-red) 1px, transparent 1px, transparent 28px),
-                repeating-linear-gradient(90deg, var(--plaid-navy) 0px, var(--plaid-navy) 1px, transparent 1px, transparent 56px);
-  }
-  .container { max-width:1400px; margin:0 auto; padding:16px; }
+  :root {
+    --bg:#F7F3EE; --surface:#FFFFFF; --surface2:#EDE8E0; --surface3:#FAF7F2;
+    --text:#1A1A1A; --text2:#5A5349; --text3:#8A827A; --border:#D4CFC7;
+    --plaid-red:#C41E3A; --plaid-navy:#1B2A4A; --plaid-green:#2D5A3D;
+    --gold:#B8860B; --lighthouse:#E8E0D4;
+    --ai-purple:#2980b9; --ai-glow:rgba(41,128,185,0.15); /* Switched to a tech-blue for "Local Logic" */
+    --shadow:0 4px 12px rgba(0,0,0,0.06);
+    --chalk:#C0392B;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; font-size:13px; min-height:100vh; padding-bottom:60px; -webkit-font-smoothing:antialiased; }
+  body::before {
+    content:''; position:fixed; inset:0; z-index:-1; opacity:0.025;
+    background: repeating-linear-gradient(0deg, var(--plaid-red) 0px, var(--plaid-red) 1px, transparent 1px, transparent 28px),
+                repeating-linear-gradient(90deg, var(--plaid-navy) 0px, var(--plaid-navy) 1px, transparent 1px, transparent 56px);
+  }
+  .container { max-width:1400px; margin:0 auto; padding:16px; }
 
-/* HEADER */
-.header { background:var(–surface); border:1px solid var(–border); border-radius:10px; padding:18px 20px; margin-bottom:14px; box-shadow:var(–shadow); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
-.header-text { display:flex; align-items:center; gap:14px; }
-.header-text h1 { font-family:‘Libre Baskerville’, serif; font-size:22px; color:var(–plaid-navy); letter-spacing:-0.5px; line-height:1.15; }
-.header-text h1 em { color:var(–plaid-red); font-style:normal; }
-.header-sub { font-size:11px; color:var(–text2); margin-top:4px; letter-spacing:0.2px; font-weight:500; }
-.status-badge { background:var(–surface2); padding:7px 12px; border-radius:20px; font-size:10px; font-weight:700; color:var(–plaid-green); display:flex; align-items:center; gap:7px; border:1px solid var(–border); font-family:‘DM Mono’,monospace; }
-.status-dot { width:7px; height:7px; background:var(–plaid-green); border-radius:50%; box-shadow:0 0 6px rgba(45,90,61,0.6); }
-.ht-svg { width:26px; height:52px; flex-shrink:0; }
+  /* HEADER */
+  .header { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:18px 20px; margin-bottom:14px; box-shadow:var(--shadow); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .header-text { display:flex; align-items:center; gap:14px; }
+  .header-text h1 { font-family:'Libre Baskerville', serif; font-size:22px; color:var(--plaid-navy); letter-spacing:-0.5px; line-height:1.15; }
+  .header-text h1 em { color:var(--plaid-red); font-style:normal; }
+  .header-text h1 .v2 { font-family:'DM Mono',monospace; font-size:10px; background:var(--ai-purple); color:#fff; padding:2px 6px; border-radius:4px; vertical-align:middle; margin-left:6px; font-style:normal; letter-spacing:1px; }
+  .header-sub { font-size:11px; color:var(--text2); margin-top:4px; font-weight:500; }
+  .status-badge { background:var(--surface2); padding:7px 12px; border-radius:20px; font-size:10px; font-weight:700; color:var(--plaid-green); display:flex; align-items:center; gap:7px; border:1px solid var(--border); font-family:'DM Mono',monospace; }
+  .status-dot { width:7px; height:7px; background:var(--plaid-green); border-radius:50%; box-shadow:0 0 6px rgba(45,90,61,0.6); }
+  .ht-svg { width:26px; height:52px; flex-shrink:0; }
 
-/* NAV */
-.nav { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
-.nav-btn { padding:11px 18px; background:var(–surface); border:1px solid var(–border); border-radius:8px; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; color:var(–text2); transition:0.15s; letter-spacing:0.5px; }
-.nav-btn:hover { border-color:var(–plaid-navy); color:var(–plaid-navy); }
-.nav-btn.active { background:var(–plaid-navy); color:#fff; border-color:var(–plaid-navy); box-shadow:var(–shadow); }
-.nav-btn.accent.active { background:var(–plaid-red); border-color:var(–plaid-red); }
+  /* NAV */
+  .nav { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .nav-btn { padding:11px 18px; background:var(--surface); border:1px solid var(--border); border-radius:8px; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; color:var(--text2); transition:0.15s; letter-spacing:0.5px; }
+  .nav-btn:hover { border-color:var(--plaid-navy); color:var(--plaid-navy); }
+  .nav-btn.active { background:var(--plaid-navy); color:#fff; border-color:var(--plaid-navy); box-shadow:var(--shadow); }
+  .nav-btn.accent.active { background:var(--plaid-red); border-color:var(--plaid-red); }
+  .nav-btn.ai { border-color:var(--ai-purple); color:var(--ai-purple); }
+  .nav-btn.ai.active { background:var(--ai-purple); color:#fff; border-color:var(--ai-purple); }
 
-/* PANELS */
-.panel { display:none; background:var(–surface); border:1px solid var(–border); border-radius:10px; box-shadow:var(–shadow); overflow:hidden; }
-.panel.active { display:block; }
+  /* PANELS */
+  .panel { display:none; background:var(--surface); border:1px solid var(--border); border-radius:10px; box-shadow:var(--shadow); overflow:hidden; }
+  .panel.active { display:block; }
 
-/* GUIDE */
-.guide-wrap { padding:32px; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
-.guide-hero { grid-column:1 / -1; text-align:center; padding:10px 0 30px; border-bottom:1px solid var(–surface2); }
-.guide-hero h2 { font-family:‘Libre Baskerville’, serif; font-size:28px; color:var(–plaid-navy); margin-bottom:12px; }
-.guide-hero p { font-size:14px; color:var(–text2); max-width:720px; margin:0 auto; line-height:1.6; }
-.guide-card { background:var(–surface3); border:1px solid var(–border); border-radius:8px; padding:20px; }
-.guide-card h3 { color:var(–plaid-navy); margin-bottom:10px; font-size:15px; display:flex; align-items:center; gap:10px; font-weight:700; }
-.guide-card h3 span { background:var(–plaid-navy); padding:3px 8px; border-radius:4px; font-size:10px; color:#fff; font-family:‘DM Mono’,monospace; }
-.guide-text { font-size:13px; color:var(–text2); line-height:1.65; }
+  /* SKILLS PANEL */
+  .ai-wrap { padding:24px; }
+  .ai-hero { border-bottom:1px solid var(--surface2); padding-bottom:16px; margin-bottom:20px; }
+  .ai-hero h2 { font-family:'Libre Baskerville', serif; font-size:22px; color:var(--ai-purple); margin-bottom:6px; }
+  .ai-hero p { color:var(--text2); font-size:13px; line-height:1.6; }
+  .ai-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:16px; }
+  .ai-card { background:var(--surface3); border:1px solid var(--border); border-radius:8px; padding:18px; position:relative; overflow:hidden; }
+  .ai-card.active { border-color:var(--ai-purple); box-shadow:0 0 0 3px var(--ai-glow); }
+  .ai-card h3 { color:var(--ai-purple); font-size:14px; margin-bottom:4px; display:flex; align-items:center; gap:8px; font-weight:700; }
+  .ai-card h3 .num { background:var(--ai-purple); color:#fff; font-family:'DM Mono',monospace; padding:2px 6px; border-radius:3px; font-size:10px; }
+  .ai-card .desc { font-size:12px; color:var(--text2); line-height:1.5; margin-bottom:12px; }
+  .ai-input { width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:12px; margin-bottom:8px; background:#fff; outline:none; }
+  .ai-input:focus { border-color:var(--ai-purple); }
+  textarea.ai-input { resize:vertical; min-height:60px; font-family:'DM Mono',monospace; }
+  .ai-btn { background:var(--ai-purple); color:#fff; border:none; padding:10px 16px; border-radius:6px; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; letter-spacing:0.5px; transition:0.15s; width:100%; }
+  .ai-btn:hover { background:#1e6692; }
+  .ai-btn.secondary { background:var(--surface); color:var(--ai-purple); border:1px solid var(--ai-purple); }
+  .ai-result { margin-top:12px; padding:12px; background:#fff; border:1px dashed var(--ai-purple); border-radius:6px; font-family:'DM Mono',monospace; font-size:11px; color:var(--text); line-height:1.6; max-height:240px; overflow-y:auto; display:none; }
+  .ai-result.show { display:block; }
+  .ai-result .label { color:var(--ai-purple); font-weight:700; }
+  .weight-row { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px dotted var(--border); font-family:'DM Mono',monospace; font-size:11px; }
+  .weight-row:last-child { border-bottom:none; }
+  .weight-row .old { color:var(--text3); text-decoration:line-through; margin-right:6px; }
+  .weight-row .new { color:var(--plaid-green); font-weight:700; }
+  .badge-live { position:absolute; top:12px; right:12px; background:var(--plaid-green); color:#fff; padding:3px 7px; border-radius:10px; font-size:9px; font-weight:700; font-family:'DM Mono',monospace; letter-spacing:0.5px; }
 
-/* TOOLBAR */
-.toolbar { padding:14px 16px; border-bottom:1px solid var(–border); display:flex; gap:10px; align-items:center; background:var(–surface3); flex-wrap:wrap; }
-.search-box { padding:9px 12px; border:1px solid var(–border); border-radius:6px; font-family:inherit; font-size:12px; outline:none; width:220px; background:#fff; }
-.search-box:focus { border-color:var(–plaid-navy); }
-.filter-chip { padding:7px 12px; font-size:10px; border-radius:16px; border:1px solid var(–border); cursor:pointer; background:var(–surface); color:var(–text2); transition:0.15s; font-weight:700; letter-spacing:0.5px; font-family:‘DM Mono’,monospace; }
-.filter-chip.active { background:var(–plaid-navy); color:#fff; border-color:var(–plaid-navy); }
-.density-toggle { margin-left:auto; display:flex; gap:2px; background:var(–surface2); padding:3px; border-radius:6px; border:1px solid var(–border); }
-.density-btn { padding:5px 10px; font-size:10px; font-weight:700; border:none; background:transparent; cursor:pointer; border-radius:4px; color:var(–text2); font-family:‘DM Mono’,monospace; }
-.density-btn.active { background:var(–surface); color:var(–plaid-navy); box-shadow:0 1px 2px rgba(0,0,0,0.08); }
+  /* TOOLBAR & TABLE */
+  .toolbar { padding:14px 16px; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; background:var(--surface3); flex-wrap:wrap; }
+  .search-box { padding:9px 12px; border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:12px; outline:none; width:220px; background:#fff; }
+  .search-box:focus { border-color:var(--plaid-navy); }
+  .filter-chip { padding:7px 12px; font-size:10px; border-radius:16px; border:1px solid var(--border); cursor:pointer; background:var(--surface); color:var(--text2); transition:0.15s; font-weight:700; letter-spacing:0.5px; font-family:'DM Mono',monospace; }
+  .filter-chip.active { background:var(--plaid-navy); color:#fff; border-color:var(--plaid-navy); }
 
-/* TABLE — DESKTOP */
-.table-wrap { overflow:visible; }
-table { width:100%; border-collapse:separate; border-spacing:0; text-align:left; table-layout:fixed; }
-th { background:var(–plaid-navy); color:rgba(255,255,255,0.95); padding:12px 10px; font-size:10px; font-weight:600; cursor:pointer; white-space:nowrap; letter-spacing:0.6px; font-family:‘DM Mono’,monospace; user-select:none; position:relative; }
-th:hover { background:#243858; }
-th .sort-ind { opacity:0.4; margin-left:3px; font-size:9px; }
-th.sorted .sort-ind { opacity:1; color:var(–gold); }
-td { padding:0; border-bottom:1px solid var(–surface2); font-size:13px; vertical-align:middle; height:44px; }
-.cell-pad { padding:6px 10px; }
-tbody tr { transition:background 0.1s; }
-tbody tr:hover td { background:rgba(27,42,74,0.025); }
-tbody tr:hover .row-actions { opacity:1; }
+  .glossary-bar { background:rgba(27,42,74,0.02); border-bottom:1px solid var(--border); padding:16px 20px; display:flex; gap:20px; flex-wrap:wrap; font-size:11px; color:var(--text2); align-items:center; }
+  .glossary-title { font-weight:700; color:var(--plaid-navy); background:var(--lighthouse); padding:6px 10px; border-radius:4px; border:1px solid var(--border); }
+  .glossary-item strong { color:var(--text); }
 
-/* TIER STRIPE — replaces badge stack */
-.tier-stripe { width:4px; height:100%; position:absolute; left:0; top:0; }
-td.col-player { position:relative; padding-left:12px; }
-.tier-stripe.tartan { background:var(–plaid-red); }
-.tier-stripe.lighthouse { background:var(–plaid-navy); }
-.tier-stripe.field { background:var(–border); }
+  .table-wrap { overflow-x:auto; overflow-y:visible; max-width:100%; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+  .table-wrap::-webkit-scrollbar { height:12px; }
+  .table-wrap::-webkit-scrollbar-track { background:var(--surface2); }
+  .table-wrap::-webkit-scrollbar-thumb { background:var(--border); border-radius:6px; border: 2px solid var(--surface2); }
 
-/* PLAYER CELL */
-.player-wrap { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 10px 6px 14px; }
-.player-info { flex:1; min-width:0; }
-.player-name { font-weight:700; color:var(–plaid-navy); font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:flex; align-items:center; gap:6px; }
-.player-flags { display:flex; gap:3px; margin-top:2px; }
-.flag-dot { width:6px; height:6px; border-radius:50%; }
-.flag-steam { background:var(–plaid-red); box-shadow:0 0 4px rgba(196,30,58,0.6); }
-.flag-value { background:var(–plaid-green); }
-.flag-sleeper { background:var(–gold); }
-.player-tier-label { font-size:9px; color:var(–text3); font-family:‘DM Mono’,monospace; letter-spacing:0.5px; font-weight:700; }
+  table { width:100%; border-collapse:separate; border-spacing:0; min-width:1200px; text-align:left; }
+  th { background:var(--plaid-navy); color:rgba(255,255,255,0.95); padding:16px 16px; font-size:11px; font-weight:500; cursor:pointer; white-space:nowrap; letter-spacing:0.5px; border-bottom:1px solid var(--plaid-navy); }
+  th:hover { background:#243858; }
+  th .sort-ind { opacity:0.4; margin-left:3px; font-size:9px; }
+  th.sorted .sort-ind { opacity:1; color:var(--gold); }
+  td { padding:14px 16px; border-bottom:1px solid var(--surface2); white-space:nowrap; font-size:12px; }
+  
+  .col-div-header { border-right: 1px solid rgba(255,255,255,0.15); }
+  .col-div { border-right: 1px solid var(--surface2); }
 
-/* ROW ACTIONS — hover reveal on desktop */
-.row-actions { display:flex; gap:4px; opacity:0; transition:opacity 0.15s; flex-shrink:0; }
-.action-btn { width:26px; height:26px; display:flex; align-items:center; justify-content:center; background:var(–surface); border:1px solid var(–border); border-radius:5px; cursor:pointer; color:var(–text2); font-size:11px; transition:0.15s; }
-.action-btn:hover { background:var(–surface2); transform:scale(1.05); }
-.btn-lock.active { background:rgba(184,134,11,0.15); border-color:var(–gold); color:var(–gold); opacity:1 !important; }
-.btn-ex.active { background:rgba(196,30,58,0.15); border-color:var(–plaid-red); color:var(–plaid-red); opacity:1 !important; }
-.row-actions:has(.active), tr.player-row-locked .row-actions, tr.player-row-excluded .row-actions { opacity:1; }
+  th:first-child { position:sticky; left:0; z-index:20; border-right: 2px solid rgba(0,0,0,0.2); }
+  td:first-child { position:sticky; left:0; background:var(--surface); z-index:10; border-right: 2px solid var(--surface2); box-shadow: 2px 0 8px rgba(0,0,0,0.02); }
+  
+  tbody tr:hover td { background:rgba(27,42,74,0.03); }
+  
+  .name-cell { font-weight:700; color:var(--plaid-navy); font-size:13px; }
+  .val-good { color:var(--plaid-green); font-weight:700; }
+  .val-bad { color:var(--plaid-red); }
+  .val-chalk { color:var(--chalk); font-weight:700; }
+  .val-elite { color:#B8860B; font-weight:700; }
 
-/* SALARY + DLTA COMBINED CELL */
-.sal-cell { display:flex; flex-direction:column; gap:1px; }
-.sal-main { font-weight:700; color:var(–plaid-green); font-size:13px; font-family:‘DM Mono’,monospace; }
-.sal-sub { font-size:10px; font-family:‘DM Mono’,monospace; }
-.sal-sub.pos { color:var(–plaid-green); font-weight:700; }
-.sal-sub.neg { color:var(–plaid-red); }
-.sal-sub.neu { color:var(–text3); }
+  .wave-tag { font-size:9px; background:var(--surface2); color:var(--text2); padding:2px 6px; border-radius:12px; margin-left:6px; vertical-align:middle; }
 
-/* ODDS — mini sparkline cell */
-.odds-cell { display:flex; align-items:center; gap:8px; font-family:‘DM Mono’,monospace; }
-.odds-spark { width:40px; height:20px; flex-shrink:0; }
-.odds-num { font-weight:700; font-size:12px; color:var(–text); }
-.odds-delta { font-size:10px; margin-top:1px; }
-.odds-delta.pos { color:var(–plaid-green); font-weight:700; }
-.odds-delta.neg { color:var(–plaid-red); }
-.odds-delta.neu { color:var(–text3); }
-.odds-info { display:flex; flex-direction:column; }
+  .badge { padding:4px 8px; border-radius:4px; font-size:9px; font-weight:700; display:inline-flex; align-items:center; gap:4px; margin-right:4px; letter-spacing: 0.5px;}
+  .b-tartan { background:var(--plaid-red); color:#fff; }
+  .b-lighthouse { background:var(--plaid-navy); color:#fff; }
+  .b-steam { background:rgba(196,30,58,0.1); color:var(--plaid-red); border:1px solid rgba(196,30,58,0.2); }
+  .b-value { background:rgba(45,90,61,0.1); color:var(--plaid-green); border:1px solid rgba(45,90,61,0.2); }
 
-/* HEATMAP CELLS — Profile Fit & Course History */
-.heat-cell { display:flex; align-items:center; justify-content:center; font-family:‘DM Mono’,monospace; font-weight:700; font-size:12px; padding:8px; border-radius:4px; margin:4px 6px; min-height:28px; position:relative; }
-.heat-bar { position:absolute; left:0; top:0; bottom:0; background:currentColor; opacity:0.12; border-radius:4px; }
-.heat-val { position:relative; z-index:2; }
+  .action-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; min-width: 220px; }
+  .action-icons { display: flex; gap: 6px; }
+  .action-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; color: var(--text2); transition: 0.2s; font-size: 11px; }
+  .action-btn:hover { background: var(--surface2); }
+  .btn-lock.active { background: rgba(184,134,11,0.1); border-color: var(--gold); }
+  .btn-ex.active { background: rgba(196,30,58,0.1); border-color: var(--plaid-red); color: var(--plaid-red); }
+  
+  .player-excluded { text-decoration:line-through; opacity:0.4; }
+  .player-row-locked td { background-color: rgba(184,134,11,0.03); }
 
-/* COURSE HISTORY */
-.hist-cell { font-family:‘DM Mono’,monospace; font-weight:700; font-size:12px; text-align:center; }
+  /* OPTIMIZER */
+  .opt-wrap { padding:32px 20px; text-align:center; }
+  .opt-btn { background:var(--plaid-navy); color:#fff; font-size:15px; font-weight:700; padding:16px 32px; border:none; border-radius:8px; cursor:pointer; box-shadow:var(--shadow); transition:0.2s; font-family:inherit; margin-bottom:16px; }
+  .opt-btn:hover { background:#243858; transform:translateY(-2px); }
+  .opt-sub { color:var(--text2); font-size:11px; font-family:'DM Mono',monospace; margin-bottom:24px; }
+  .lineup-card { background:var(--surface3); border:2px solid var(--plaid-navy); border-radius:10px; max-width:680px; margin:0 auto; overflow:hidden; text-align:left; display:none; box-shadow:var(--shadow); }
+  .lineup-header { background:var(--plaid-navy); color:#fff; padding:18px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
+  .lineup-header h3 { font-family:'Libre Baskerville', serif; font-size:19px; }
+  .lineup-stats { font-size:12px; font-weight:500; font-family:'DM Mono',monospace; }
+  .roster-list { padding:0; margin:0; list-style:none; }
+  .roster-list li { padding:14px 18px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+  .roster-list li:last-child { border-bottom:none; }
+  .r-name { font-size:14px; font-weight:700; color:var(--plaid-navy); }
+  .r-sal { color:var(--plaid-green); font-weight:700; font-size:14px; font-family:'DM Mono',monospace; }
 
-/* STATES */
-.player-row-locked td { background-color:rgba(184,134,11,0.04) !important; }
-.player-row-excluded td { opacity:0.4; text-decoration:line-through; }
-.player-row-excluded .action-btn { opacity:1; text-decoration:none; }
+  /* THESIS */
+  .thesis-box { border-top:1px solid var(--border); padding:18px 20px; background:linear-gradient(135deg, var(--ai-glow), transparent); }
+  .thesis-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .thesis-header h4 { font-family:'Libre Baskerville', serif; font-size:15px; color:var(--ai-purple); display:flex; align-items:center; gap:8px; }
+  .thesis-btn { background:var(--ai-purple); color:#fff; border:none; padding:7px 12px; border-radius:5px; font-size:10px; font-weight:700; cursor:pointer; font-family:'DM Mono',monospace; letter-spacing:0.5px; }
+  .thesis-content { font-size:13px; line-height:1.7; color:var(--text); font-style:italic; padding:10px 0; min-height:20px; }
+  .thesis-content:empty::before { content:'Click ANALYZE to generate a strategic GPP thesis...'; color:var(--text3); font-style:italic; }
 
-/* COLUMN WIDTHS — desktop */
-.col-player { width:26%; }
-.col-sal { width:12%; }
-.col-odds { width:18%; }
-.col-vel { width:10%; }
-.col-hist { width:10%; }
-.col-fit { width:14%; }
-.col-tier { width:10%; }
+  .ai-banner { background:linear-gradient(90deg, var(--ai-glow), transparent); border-bottom:1px solid var(--ai-purple); padding:8px 16px; font-size:11px; color:var(--ai-purple); font-family:'DM Mono',monospace; display:none; }
+  .ai-banner.show { display:flex; align-items:center; gap:10px; }
 
-/* COMPACT MODE */
-.density-compact td { height:34px; font-size:12px; }
-.density-compact .player-name { font-size:12px; }
-.density-compact .heat-cell { min-height:22px; font-size:11px; padding:4px 8px; }
-.density-compact .odds-spark { width:32px; height:16px; }
-
-/* DETAILED MODE */
-.density-detailed td { height:54px; }
-
-/* TIER PILL in tier column */
-.tier-pill { display:inline-flex; align-items:center; gap:4px; padding:4px 8px; border-radius:4px; font-size:10px; font-weight:700; font-family:‘DM Mono’,monospace; letter-spacing:0.5px; }
-.tp-tartan { background:var(–plaid-red); color:#fff; }
-.tp-lighthouse { background:var(–plaid-navy); color:#fff; }
-.tp-field { background:var(–surface2); color:var(–text2); }
-
-/* MOBILE CARDS (hidden on desktop) */
-.mobile-cards { display:none; }
-
-/* OPTIMIZER */
-.opt-wrap { padding:32px 20px; text-align:center; }
-.opt-btn { background:var(–plaid-navy); color:#fff; font-size:15px; font-weight:700; padding:16px 32px; border:none; border-radius:8px; cursor:pointer; box-shadow:var(–shadow); transition:0.2s; font-family:inherit; margin-bottom:32px; }
-.opt-btn:hover { background:#243858; transform:translateY(-2px); box-shadow:var(–shadow-lg); }
-.lineup-card { background:var(–surface3); border:2px solid var(–plaid-navy); border-radius:10px; max-width:640px; margin:0 auto; overflow:hidden; text-align:left; display:none; box-shadow:var(–shadow); }
-.lineup-header { background:var(–plaid-navy); color:#fff; padding:18px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; }
-.lineup-header h3 { font-family:‘Libre Baskerville’, serif; font-size:19px; }
-.lineup-stats { font-size:12px; font-weight:500; font-family:‘DM Mono’,monospace; }
-.roster-list { padding:0; margin:0; list-style:none; }
-.roster-list li { padding:14px 18px; border-bottom:1px solid var(–border); display:flex; justify-content:space-between; align-items:center; }
-.roster-list li:last-child { border-bottom:none; }
-.r-name { font-size:14px; font-weight:700; color:var(–plaid-navy); display:flex; align-items:center; gap:8px; }
-.r-sal { color:var(–plaid-green); font-weight:700; font-size:14px; font-family:‘DM Mono’,monospace; }
-
-/* METRIC KEY — collapsible */
-.key-toggle { background:var(–surface3); border-bottom:1px solid var(–border); padding:10px 16px; cursor:pointer; display:flex; align-items:center; gap:8px; font-size:11px; font-weight:700; color:var(–plaid-navy); font-family:‘DM Mono’,monospace; letter-spacing:0.5px; user-select:none; }
-.key-toggle .chev { transition:0.2s; }
-.key-toggle.open .chev { transform:rotate(90deg); }
-.key-content { display:none; padding:12px 16px; border-bottom:1px solid var(–border); background:rgba(27,42,74,0.02); font-size:11px; color:var(–text2); line-height:1.7; }
-.key-content.open { display:block; }
-.key-content strong { color:var(–text); }
-.key-content .k-row { margin-bottom:6px; }
-
-/* ============ RESPONSIVE ============ */
-@media (max-width: 900px) {
-.container { padding:10px; }
-.header { padding:14px 16px; }
-.header-text h1 { font-size:18px; }
-.header-sub { font-size:10px; }
-.guide-wrap { grid-template-columns:1fr; padding:20px; }
-.guide-hero h2 { font-size:22px; }
-.nav-btn { padding:9px 12px; font-size:10px; flex:1; }
-
-```
-/* Hide table, show cards */
-.table-wrap { display:none; }
-.mobile-cards { display:block; padding:10px; }
-.density-toggle { display:none; }
-.search-box { width:100%; }
-.toolbar { padding:10px; }
-.filter-chip { padding:6px 10px; font-size:9px; }
-
-.mc-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; margin-bottom:8px; overflow:hidden; position:relative; }
-.mc-card.locked { background:rgba(184,134,11,0.05); border-color:var(--gold); }
-.mc-card.excluded .mc-primary, .mc-card.excluded .mc-details { opacity:0.4; text-decoration:line-through; }
-.mc-stripe { position:absolute; left:0; top:0; bottom:0; width:4px; }
-.mc-stripe.tartan { background:var(--plaid-red); }
-.mc-stripe.lighthouse { background:var(--plaid-navy); }
-.mc-stripe.field { background:var(--border); }
-.mc-primary { padding:12px 14px 10px 18px; display:flex; justify-content:space-between; align-items:flex-start; gap:10px; cursor:pointer; }
-.mc-left { flex:1; min-width:0; }
-.mc-name { font-weight:700; color:var(--plaid-navy); font-size:15px; display:flex; align-items:center; gap:6px; margin-bottom:4px; }
-.mc-meta { display:flex; gap:10px; font-size:11px; color:var(--text2); font-family:'DM Mono',monospace; flex-wrap:wrap; }
-.mc-meta .m-good { color:var(--plaid-green); font-weight:700; }
-.mc-meta .m-bad { color:var(--plaid-red); font-weight:700; }
-.mc-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
-.mc-sal { font-weight:700; color:var(--plaid-green); font-size:14px; font-family:'DM Mono',monospace; }
-.mc-fit { background:var(--surface2); padding:3px 8px; border-radius:4px; font-size:11px; font-weight:700; font-family:'DM Mono',monospace; color:var(--plaid-navy); }
-.mc-chev { color:var(--text3); font-size:12px; margin-left:4px; transition:0.2s; }
-.mc-card.open .mc-chev { transform:rotate(90deg); }
-.mc-details { display:none; padding:12px 14px 14px 18px; border-top:1px solid var(--surface2); background:var(--surface3); }
-.mc-card.open .mc-details { display:block; }
-.mc-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 14px; margin-bottom:12px; }
-.mc-stat-label { font-size:9px; color:var(--text3); font-family:'DM Mono',monospace; letter-spacing:0.5px; text-transform:uppercase; margin-bottom:2px; }
-.mc-stat-val { font-size:13px; font-weight:700; color:var(--text); font-family:'DM Mono',monospace; }
-.mc-actions { display:flex; gap:8px; }
-.mc-action-btn { flex:1; padding:10px; border:1px solid var(--border); border-radius:6px; background:var(--surface); font-size:11px; font-weight:700; cursor:pointer; font-family:'DM Mono',monospace; letter-spacing:0.5px; color:var(--text2); }
-.mc-action-btn.lock.active { background:rgba(184,134,11,0.15); border-color:var(--gold); color:var(--gold); }
-.mc-action-btn.ex.active { background:rgba(196,30,58,0.15); border-color:var(--plaid-red); color:var(--plaid-red); }
-```
-
-}
-
-@media (max-width: 480px) {
-.header-text h1 { font-size:16px; }
-.status-badge { font-size:9px; padding:5px 10px; }
-.ht-svg { width:22px; height:44px; }
-}
 </style>
-
 </head>
 <body>
 
 <div class="container">
 
-  <div class="header">
-    <div class="header-text">
-      <svg class="ht-svg" viewBox="0 0 40 80" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="10,80 30,80 26,20 14,20" fill="#E8E0D4" />
-        <polygon points="12,65 28,65 27,50 13,50" fill="#C41E3A" />
-        <polygon points="13.5,35 26.5,35 25.5,20 14.5,20" fill="#C41E3A" />
-        <rect x="10" y="18" width="20" height="2" fill="#1A1A1A" />
-        <rect x="15" y="10" width="10" height="8" fill="#E8E0D4" />
-        <polygon points="20,2 12,10 28,10" fill="#C41E3A" />
-      </svg>
-      <div>
-        <h1>Plaid Genie <em>2026 RBC Heritage</em></h1>
-        <div class="header-sub">Harbour Town Golf Links · Hilton Head Island, SC</div>
-      </div>
-    </div>
-    <div class="status-badge">
-      <div class="status-dot"></div> <span id="loadedCount">82</span> PLAYERS LOADED
-    </div>
-  </div>
+  <div class="header">
+    <div class="header-text">
+      <svg class="ht-svg" viewBox="0 0 40 80" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="10,80 30,80 26,20 14,20" fill="#E8E0D4" />
+        <polygon points="12,65 28,65 27,50 13,50" fill="#C41E3A" />
+        <polygon points="13.5,35 26.5,35 25.5,20 14.5,20" fill="#C41E3A" />
+        <rect x="10" y="18" width="20" height="2" fill="#1A1A1A" />
+        <rect x="15" y="10" width="10" height="8" fill="#E8E0D4" />
+        <polygon points="20,2 12,10 28,10" fill="#C41E3A" />
+      </svg>
+      <div>
+        <h1>Plaid Genie <em>2026 RBC Heritage</em><span class="v2">LOCAL RAG</span></h1>
+        <div class="header-sub">Harbour Town Golf Links · 100% Local Logic Engine</div>
+      </div>
+    </div>
+    <div class="status-badge">
+      <div class="status-dot"></div> <span id="loadedCount">82</span> LOADED
+    </div>
+  </div>
 
-  <div class="nav">
-    <button class="nav-btn" onclick="switchTab('guide')" id="nav-guide">GUIDE</button>
-    <button class="nav-btn active" onclick="switchTab('arb')" id="nav-arb">MARKET BOARD</button>
-    <button class="nav-btn accent" onclick="switchTab('opt')" id="nav-opt">OPTIMIZER</button>
-  </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('arb')" id="nav-arb">MARKET BOARD</button>
+    <button class="nav-btn accent" onclick="switchTab('opt')" id="nav-opt">OPTIMIZER</button>
+    <button class="nav-btn ai" onclick="switchTab('ai')" id="nav-ai">⚡ LOCAL SKILLS</button>
+  </div>
 
-  <div class="panel" id="panel-guide">
-    <div class="guide-wrap">
-      <div class="guide-hero">
-        <h2>Dominate the 2026 RBC Heritage</h2>
-        <p>Whether you're a casual fan building your first $1 DraftKings lineup or a sharp optimizing 150 entries, Plaid Genie turns raw data, course history, and live Vegas odds into mathematical advantages tailored for Harbour Town.</p>
-      </div>
-      <div class="guide-card">
-        <h3><span>1</span> The $DLTA Metric</h3>
-        <div class="guide-text">DraftKings salaries are set Monday. Vegas odds move all week. <strong>$DLTA</strong> bridges the gap — we rank a player by salary and subtract their rank by live win probability. A <strong style="color:var(--plaid-green)">positive $DLTA</strong> means the player is mathematically underpriced.</div>
-      </div>
-      <div class="guide-card">
-        <h3><span>2</span> Sharp Money Steam (wVEL)</h3>
-        <div class="guide-text">Books open their lines Sunday night. By Wednesday, syndicates have hammered the inefficiencies. <strong>wVEL</strong> tracks this velocity — flagging players whose implied win probability has surged since the open.</div>
-      </div>
-      <div class="guide-card">
-        <h3><span>3</span> Profile Fit Score</h3>
-        <div class="guide-text">The <strong>Profile Fit</strong> score (1–100) dynamically weights SG: Approach and SG: Around-the-Green to match the historical winning profile of Harbour Town.</div>
-      </div>
-      <div class="guide-card">
-        <h3><span>4</span> Dynamic Optimizer</h3>
-        <div class="guide-text">The optimizer evaluates millions of roster combinations to construct the optimal 6-man lineup under the $50k cap. Lock (🔒) to force a player in, Exclude (✕) to fade.</div>
-      </div>
-    </div>
-  </div>
+  <div class="panel active" id="panel-arb">
+    <div class="toolbar">
+      <input type="text" class="search-box" id="search" placeholder="Search players..." oninput="renderAll()">
+      <button class="filter-chip active" onclick="setFilter('all', this)">ALL</button>
+      <button class="filter-chip" onclick="setFilter('tartan', this)">TARTAN</button>
+      <button class="filter-chip" onclick="setFilter('am', this)">☀️ AM</button>
+      <button class="filter-chip" onclick="setFilter('pm', this)">🌥️ PM</button>
+      <button class="filter-chip" onclick="setFilter('leverage', this)" style="border-color:var(--plaid-green); color:var(--plaid-green);">📈 LEVERAGE</button>
+      <button class="filter-chip" onclick="setFilter('sleeper', this)" style="border-color:var(--gold); color:var(--gold);">🎯 SLEEPER</button>
+    </div>
 
-  <div class="panel active" id="panel-arb">
-    <div class="toolbar">
-      <input type="text" class="search-box" id="search" placeholder="Search players..." oninput="renderAll()">
-      <button class="filter-chip active" onclick="setFilter('all', this)">ALL</button>
-      <button class="filter-chip" onclick="setFilter('tartan', this)">TARTAN</button>
-      <button class="filter-chip" onclick="setFilter('steam', this)">🔥 STEAM</button>
-      <button class="filter-chip" onclick="setFilter('value', this)">💰 VALUE</button>
-      <button class="filter-chip" onclick="setFilter('sleeper', this)">🎯 SLEEPERS</button>
-      <div class="density-toggle">
-        <button class="density-btn" onclick="setDensity('compact', this)">COMPACT</button>
-        <button class="density-btn active" onclick="setDensity('standard', this)">STANDARD</button>
-        <button class="density-btn" onclick="setDensity('detailed', this)">DETAILED</button>
-      </div>
-    </div>
+    <div class="ai-banner" id="aiBanner"></div>
 
-```
-<div class="key-toggle" onclick="toggleKey(this)">
-  <span class="chev">▶</span> METRIC KEY
-</div>
-<div class="key-content" id="keyContent">
-  <div class="k-row"><strong>$DLTA:</strong> Salary rank minus odds rank. Positive = underpriced.</div>
-  <div class="k-row"><strong>wVEL:</strong> % shift in win probability since Sunday open. Positive = steaming.</div>
-  <div class="k-row"><strong>CRSE HIST:</strong> Weighted avg finish (2025: 40%, 2024: 30%, 2022: 20%, base: 10%). MC/DNP = 75. Lower is better.</div>
-  <div class="k-row"><strong>PROFILE FIT:</strong> 1–100 grade weighting SG:APP & SG:ARG for Harbour Town profile. Higher is better.</div>
-  <div class="k-row"><strong>TIERS:</strong> Tartan (top 8) · Lighthouse (9–25) · Field (rest). Red stripe = Tartan, Navy = Lighthouse.</div>
-  <div class="k-row"><strong>FLAG DOTS:</strong> <span style="color:var(--plaid-red)">●</span> Steam · <span style="color:var(--plaid-green)">●</span> Value · <span style="color:var(--gold)">●</span> Sleeper</div>
-</div>
+    <div class="table-wrap">
+      <table>
+        <colgroup>
+          <col class="col-player"><col class="col-sal"><col class="col-odds">
+          <col class="col-vel"><col class="col-hist"><col class="col-fit"><col class="col-own"><col class="col-lev"><col class="col-tier">
+        </colgroup>
+        <thead><tr>
+          <th class="col-div-header" onclick="sortData('name')" data-col="name">PLAYER <span class="sort-ind">◆</span></th>
+          <th onclick="sortData('price')" data-col="price">SALARY <span class="sort-ind">◆</span></th>
+          <th onclick="sortData('liveImp')" data-col="liveImp">ODDS (SUN➝CUR) <span class="sort-ind">◆</span></th>
+          <th class="col-div-header" onclick="sortData('velTotal')" data-col="velTotal">STEAM <span class="sort-ind">◆</span></th>
+          <th onclick="sortData('courseHistory')" data-col="courseHistory">HIST <span class="sort-ind">◆</span></th>
+          <th class="col-div-header" onclick="sortData('profileFit')" data-col="profileFit">FIT <span class="sort-ind">◆</span></th>
+          <th onclick="sortData('pOwn')" data-col="pOwn">pOWN% <span class="sort-ind">◆</span></th>
+          <th class="col-div-header" onclick="sortData('leverage')" data-col="leverage">LEV <span class="sort-ind">◆</span></th>
+          <th onclick="sortData('composite')" data-col="composite">TIER <span class="sort-ind">◆</span></th>
+        </tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
 
-<!-- DESKTOP TABLE -->
-<div class="table-wrap">
-  <table id="arbTable">
-    <colgroup>
-      <col class="col-player"><col class="col-sal"><col class="col-odds">
-      <col class="col-vel"><col class="col-hist"><col class="col-fit"><col class="col-tier">
-    </colgroup>
-    <thead>
-      <tr>
-        <th onclick="sortData('name')" data-col="name">PLAYER <span class="sort-ind">◆</span></th>
-        <th onclick="sortData('price')" data-col="price">SAL / $DLTA <span class="sort-ind">◆</span></th>
-        <th onclick="sortData('liveImp')" data-col="liveImp">ODDS · Δ <span class="sort-ind">◆</span></th>
-        <th onclick="sortData('velTotal')" data-col="velTotal">wVEL <span class="sort-ind">◆</span></th>
-        <th onclick="sortData('courseHistory')" data-col="courseHistory">HIST <span class="sort-ind">◆</span></th>
-        <th onclick="sortData('profileFit')" data-col="profileFit">FIT <span class="sort-ind">◆</span></th>
-        <th onclick="sortData('composite')" data-col="composite">TIER <span class="sort-ind">◆</span></th>
-      </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-  </table>
-</div>
+  <div class="panel" id="panel-opt">
+    <div class="opt-wrap">
+      <button class="opt-btn" onclick="runOptimizer()">🚀 GENERATE OPTIMAL LINEUP</button>
+      <div class="opt-sub">Knapsack Algorithm forces min $49,000 spend for optimal GPP ceiling.</div>
+      <div class="lineup-card" id="lineupCard">
+        <div class="lineup-header">
+          <h3>The Plaid Blueprint</h3>
+          <div class="lineup-stats">
+            <span id="optSal"></span><br>
+            Total pOWN%: <span id="optOwn" style="color:var(--gold);"></span><br>
+            Proj Score: <span id="optScore"></span>
+          </div>
+        </div>
+        <ul class="roster-list" id="rosterList"></ul>
+        <div class="thesis-box">
+          <div class="thesis-header">
+            <h4>⚡ RAG Thesis Generator</h4>
+            <button class="thesis-btn" id="thesisBtn" onclick="runThesisGen()">ANALYZE</button>
+          </div>
+          <div class="thesis-content" id="thesisContent"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<!-- MOBILE CARDS -->
-<div class="mobile-cards" id="mobileCards"></div>
-```
+  <div class="panel" id="panel-ai">
+    <div class="ai-wrap">
+      <div class="ai-hero">
+        <h2>⚡ Local Heuristic Skills</h2>
+        <p>No API required. These skills use predefined dictionaries, Regex parsing, and string-templating to simulate RAG logic instantly inside your browser.</p>
+      </div>
 
-  </div>
+      <div class="ai-grid">
+        <div class="ai-card" id="skill1">
+          <span class="badge-live">LOCAL</span>
+          <h3><span class="num">01</span> Dictionary Course Fit</h3>
+          <div class="desc">Retrieves predefined stat weights from a local JSON dictionary based on course name. Overrides defaults.</div>
+          <input type="text" class="ai-input" id="courseInput" value="Harbour Town" placeholder="e.g., Harbour Town, Augusta, Torrey">
+          <button class="ai-btn" onclick="runCourseFit()" id="btn1">RETRIEVE WEIGHTS</button>
+          <div class="ai-result" id="result1"></div>
+        </div>
 
-  <div class="panel" id="panel-opt">
-    <div class="opt-wrap">
-      <button class="opt-btn" onclick="runOptimizer()">🚀 GENERATE OPTIMAL LINEUP</button>
-      <div class="lineup-card" id="lineupCard">
-        <div class="lineup-header">
-          <h3>The Plaid Blueprint</h3>
-          <div class="lineup-stats">
-            <span id="optSal"></span> · Score: <span id="optScore" style="color:#F4D35E;"></span>
-          </div>
-        </div>
-        <ul class="roster-list" id="rosterList"></ul>
-      </div>
-    </div>
-  </div>
+        <div class="ai-card" id="skill2">
+          <span class="badge-live">LOCAL</span>
+          <h3><span class="num">02</span> Regex Wind Parser</h3>
+          <div class="desc">Extracts "mph" integers from messy pasted text, averages them, and applies a fractional penalty to the AM wave.</div>
+          <textarea class="ai-input" id="weatherInput" placeholder="Paste forecast...">8AM 6mph, 9AM 9mph, 10AM 14mph, 11AM 18mph gusts 25, 12PM 20mph</textarea>
+          <button class="ai-btn" onclick="runWindPenalty()" id="btn2">PARSE WEATHER</button>
+          <div class="ai-result" id="result2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
 <script>
-// ========== DATA (unchanged) ==========
+// ========== MASTER DATABASE ==========
 const db = [
-  { name: "Scottie Scheffler", sunWin: 350, monWin: 370, tueWin: null, wedWin: null, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5 },
-  { name: "Xander Schauffele", sunWin: 1450, monWin: 1450, tueWin: null, wedWin: null, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 22.00, sgArg: 0.009, prox150: 20.9, girRough: 59.1 },
-  { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1750, tueWin: null, wedWin: null, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2 },
-  { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1600, tueWin: null, wedWin: null, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4 },
-  { name: "Cameron Young", sunWin: 1700, monWin: 1750, tueWin: null, wedWin: null, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9 },
-  { name: "Russell Henley", sunWin: 2100, monWin: 1700, tueWin: null, wedWin: null, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1 },
-  { name: "Ludvig Åberg", sunWin: 2050, monWin: 2100, tueWin: null, wedWin: null, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0 },
-  { name: "Collin Morikawa", sunWin: 2350, monWin: 2250, tueWin: null, wedWin: null, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 20.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5 },
-  { name: "Patrick Cantlay", sunWin: 2150, monWin: 2400, tueWin: null, wedWin: null, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.50, sgArg: 0.247, prox150: 20.0, girRough: 61.4 },
-  { name: "Jake Knapp", sunWin: 3000, monWin: 3300, tueWin: null, wedWin: null, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 44.80, sgArg: 0.111, prox150: 22.4, girRough: 59.5 },
-  { name: "Sam Burns", sunWin: 2500, monWin: 3000, tueWin: null, wedWin: null, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.90, sgArg: -0.350, prox150: 20.5, girRough: 56.8 },
-  { name: "Si Woo Kim", sunWin: 3700, monWin: 2700, tueWin: null, wedWin: null, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 41.10, sgArg: 0.142, prox150: 19.6, girRough: 53.9 },
-  { name: "Jordan Spieth", sunWin: 3700, monWin: 3000, tueWin: null, wedWin: null, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 14.20, sgArg: 0.129, prox150: 22.2, girRough: 61.2 },
-  { name: "Robert MacIntyre", sunWin: 2900, monWin: 3000, tueWin: null, wedWin: null, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 58.50, sgArg: 0.120, prox150: 21.9, girRough: 60.9 },
-  { name: "Viktor Hovland", sunWin: 3900, monWin: 3500, tueWin: null, wedWin: null, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8 },
-  { name: "Maverick McNealy", sunWin: 3500, monWin: 3600, tueWin: null, wedWin: null, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7 },
-  { name: "Shane Lowry", sunWin: 3900, monWin: 5000, tueWin: null, wedWin: null, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 46.60, sgArg: -0.085, prox150: 19.6, girRough: 61.2 },
-  { name: "Justin Thomas", sunWin: 3700, monWin: 4100, tueWin: null, wedWin: null, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9 },
-  { name: "Jacob Bridgeman", sunWin: 4400, monWin: 4600, tueWin: null, wedWin: null, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4 },
-  { name: "Chris Gotterup", sunWin: 4500, monWin: 5100, tueWin: null, wedWin: null, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6 },
-  { name: "Jason Day", sunWin: 4100, monWin: 4600, tueWin: null, wedWin: null, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4 },
-  { name: "Justin Rose", sunWin: 4800, monWin: 4800, tueWin: null, wedWin: null, price: 8000, sgApp: 0.755, birdiePct: 25.44, courseHistory: 30.85, sgArg: -0.090, prox150: 20.0, girRough: 57.6 },
-  { name: "Sepp Straka", sunWin: 5200, monWin: 4800, tueWin: null, wedWin: null, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 32.10, sgArg: 0.128, prox150: 19.1, girRough: 42.0 },
-  { name: "Harris English", sunWin: 5000, monWin: 5200, tueWin: null, wedWin: null, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5 },
-  { name: "Ben Griffin", sunWin: 4100, monWin: 4900, tueWin: null, wedWin: null, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 43.40, sgArg: 0.454, prox150: 22.2, girRough: 55.3 },
-  { name: "Min Woo Lee", sunWin: 5500, monWin: 5200, tueWin: null, wedWin: null, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 64.60, sgArg: 0.294, prox150: 20.2, girRough: 38.9 },
-  { name: "Akshay Bhatia", sunWin: 5300, monWin: 5800, tueWin: null, wedWin: null, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 40.70, sgArg: 0.168, prox150: 19.9, girRough: 39.3 },
-  { name: "Ryo Hisatsune", sunWin: 8800, monWin: 9000, tueWin: null, wedWin: null, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 41.30, sgArg: 0.181, prox150: 21.9, girRough: 62.5 },
-  { name: "Rickie Fowler", sunWin: 5700, monWin: 6100, tueWin: null, wedWin: null, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 45.80, sgArg: -0.318, prox150: 21.2, girRough: 58.6 },
-  { name: "Sahith Theegala", sunWin: 8200, monWin: 8600, tueWin: null, wedWin: null, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 16.60, sgArg: 0.358, prox150: 21.8, girRough: 55.6 },
-  { name: "J.J. Spaun", sunWin: 5300, monWin: 5000, tueWin: null, wedWin: null, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 67.50, sgArg: 0.013, prox150: 19.9, girRough: 56.7 },
-  { name: "Nicolai Højgaard", sunWin: 6900, monWin: 7800, tueWin: null, wedWin: null, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 60.50, sgArg: 0.113, prox150: 21.0, girRough: 60.7 },
-  { name: "Harry Hall", sunWin: 6400, monWin: 7600, tueWin: null, wedWin: null, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3 },
-  { name: "Ryan Gerard", sunWin: 7600, monWin: 7600, tueWin: null, wedWin: null, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4 },
-  { name: "Wyndham Clark", sunWin: 1600, monWin: 10500, tueWin: null, wedWin: null, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 19.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0 },
-  { name: "Daniel Berger", sunWin: 9400, monWin: 9000, tueWin: null, wedWin: null, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1 },
-  { name: "J.T. Poston", sunWin: 8800, monWin: 8400, tueWin: null, wedWin: null, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 36.60, sgArg: -0.299, prox150: 22.4, girRough: 53.8 },
-  { name: "Sam Stevens", sunWin: 8200, monWin: 7600, tueWin: null, wedWin: null, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6 },
-  { name: "S. Yellamaraju", sunWin: 11500, monWin: 12000, tueWin: null, wedWin: null, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7 },
-  { name: "Alex Noren", sunWin: 6400, monWin: 5700, tueWin: null, wedWin: null, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1 },
-  { name: "Kurt Kitayama", sunWin: 7200, monWin: 7600, tueWin: null, wedWin: null, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5 },
-  { name: "Nick Taylor", sunWin: 8200, monWin: 9000, tueWin: null, wedWin: null, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 48.10, sgArg: 0.503, prox150: 20.6, girRough: 53.4 },
-  { name: "Brian Harman", sunWin: 12000, monWin: 9600, tueWin: null, wedWin: null, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 15.50, sgArg: 0.132, prox150: 20.5, girRough: 57.8 },
-  { name: "Marco Penge", sunWin: 30000, monWin: 15500, tueWin: null, wedWin: null, price: 7000, sgApp: -0.378, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.246, prox150: 22.5, girRough: 57.0 },
-  { name: "Corey Conners", sunWin: 9000, monWin: 8600, tueWin: null, wedWin: null, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 28.00, sgArg: -0.136, prox150: 19.4, girRough: 50.8 },
-  { name: "Keegan Bradley", sunWin: 10000, monWin: 8600, tueWin: null, wedWin: null, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 55.50, sgArg: 0.272, prox150: 19.4, girRough: 60.2 },
-  { name: "Max Homa", sunWin: 12000, monWin: 12000, tueWin: null, wedWin: null, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 51.00, sgArg: -0.210, prox150: 21.3, girRough: 56.1 },
-  { name: "Taylor Pendrith", sunWin: 12000, monWin: 15500, tueWin: null, wedWin: null, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9 },
-  { name: "Gary Woodland", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0 },
-  { name: "Matt McCarty", sunWin: 20000, monWin: 13000, tueWin: null, wedWin: null, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0 },
-  { name: "Nico Echavarria", sunWin: 20000, monWin: 28000, tueWin: null, wedWin: null, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0 },
-  { name: "Sungjae Im", sunWin: 11000, monWin: 10000, tueWin: null, wedWin: null, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 10.60, sgArg: 0.307, prox150: 23.2, girRough: 57.3 },
-  { name: "Andrew Novak", sunWin: 16000, monWin: 13500, tueWin: null, wedWin: null, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 52.40, sgArg: 0.139, prox150: 22.5, girRough: 57.0 },
-  { name: "Ricky Castillo", sunWin: 13500, monWin: 18000, tueWin: null, wedWin: null, price: 6700, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: 0.227, prox150: 23.7, girRough: 65.6 },
-  { name: "Billy Horschel", sunWin: 15000, monWin: 23000, tueWin: null, wedWin: null, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 56.70, sgArg: -0.147, prox150: 20.3, girRough: 57.0 },
-  { name: "Matt Wallace", sunWin: 13000, monWin: 15500, tueWin: null, wedWin: null, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 67.50, sgArg: 0.190, prox150: 22.6, girRough: 62.1 },
-  { name: "Tony Finau", sunWin: 21000, monWin: 22500, tueWin: null, wedWin: null, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 31.00, sgArg: 0.300, prox150: 21.6, girRough: 57.0 },
-  { name: "Pierceson Coody", sunWin: 11500, monWin: 16500, tueWin: null, wedWin: null, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 65.10, sgArg: -0.399, prox150: 22.1, girRough: 56.7 },
-  { name: "Jordan Smith", sunWin: 14500, monWin: 16000, tueWin: null, wedWin: null, price: 6500, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: -0.216, prox150: 23.9, girRough: 58.7 },
-  { name: "Bud Cauley", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 58.20, sgArg: 0.196, prox150: 22.5, girRough: 57.0 },
-  { name: "Denny McCarthy", sunWin: 15000, monWin: 16000, tueWin: null, wedWin: null, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 39.20, sgArg: -0.087, prox150: 22.5, girRough: 57.0 },
-  { name: "Michael Brennan", sunWin: 22000, monWin: 22000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.150, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.593, prox150: 22.4, girRough: 57.0 },
-  { name: "Michael Kim", sunWin: 22500, monWin: 21000, tueWin: null, wedWin: null, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 68.30, sgArg: 0.121, prox150: 22.5, girRough: 57.0 },
-  { name: "Patrick Rodgers", sunWin: 24000, monWin: 30000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 22.40, sgArg: 0.163, prox150: 22.3, girRough: 57.0 },
-  { name: "Andrew Putnam", sunWin: 30000, monWin: 17000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0 },
-  { name: "Austin Smotherman", sunWin: 21000, monWin: 19500, tueWin: null, wedWin: null, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0 },
-  { name: "Ryan Fox", sunWin: 20000, monWin: 26000, tueWin: null, wedWin: null, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0 },
-  { name: "John Keefer", sunWin: 28000, monWin: 37000, tueWin: null, wedWin: null, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0 },
-  { name: "Sami Valimaki", sunWin: 34000, monWin: 27000, tueWin: null, wedWin: null, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0 },
-  { name: "Chandler Blanchet", sunWin: 60000, monWin: 42000, tueWin: null, wedWin: null, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0 },
-  { name: "William Mouw", sunWin: 35000, monWin: 43000, tueWin: null, wedWin: null, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0 },
-  { name: "Lucas Glover", sunWin: 57500, monWin: 50000, tueWin: null, wedWin: null, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 55.98, sgArg: -0.118, prox150: 19.5, girRough: 57.0 },
-  { name: "Tom Hoge", sunWin: 80000, monWin: 87500, tueWin: null, wedWin: null, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 56.48, sgArg: -0.399, prox150: 18.4, girRough: 57.0 },
-  { name: "Steven Fisk", sunWin: 40000, monWin: 48000, tueWin: null, wedWin: null, price: 6100, sgApp: -0.207, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.060, prox150: 22.9, girRough: 57.0 },
-  { name: "Karl Vilips", sunWin: 55000, monWin: 67500, tueWin: null, wedWin: null, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.351, prox150: 22.3, girRough: 57.0 },
-  { name: "Garrick Higgo", sunWin: 57500, monWin: 62500, tueWin: null, wedWin: null, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 51.80, sgArg: -0.248, prox150: 23.6, girRough: 57.0 },
-  { name: "Aldrich Potgieter", sunWin: 67500, monWin: 80000, tueWin: null, wedWin: null, price: 6100, sgApp: -0.304, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.456, prox150: 22.0, girRough: 57.0 },
-  { name: "Jhonattan Vegas", sunWin: 57500, monWin: 70000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.455, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.265, prox150: 22.6, girRough: 57.0 },
-  { name: "David Lipsky", sunWin: 62500, monWin: 52500, tueWin: null, wedWin: null, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 60.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0 },
-  { name: "Brian Campbell", sunWin: 170000, monWin: 82500, tueWin: null, wedWin: null, price: 6000, sgApp: -0.753, birdiePct: 22.00, courseHistory: 64.25, sgArg: -0.364, prox150: 23.6, girRough: 57.0 },
-  { name: "Adam Schenk", sunWin: 180000, monWin: 190000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0 },
-  { name: "Joe Highsmith", sunWin: 200000, monWin: 170000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.112, birdiePct: 22.00, courseHistory: 74.25, sgArg: -0.338, prox150: 22.5, girRough: 57.0 },
-  { name: "Keith Mitchell", sunWin: 8400, monWin: 8400, tueWin: null, wedWin: null, price: null, sgApp: 0.387, birdiePct: 23.83, courseHistory: 75.00, sgArg: -0.132, prox150: 21.9, girRough: 56.5 },
-  { name: "Michael Thorbjornsen", sunWin: 6700, monWin: 8400, tueWin: null, wedWin: null, price: null, sgApp: -0.078, birdiePct: 22.58, courseHistory: 58.50, sgArg: 0.229, prox150: 22.8, girRough: 59.1 }
+  { name: "Scottie Scheffler", sunWin: 350, monWin: 370, tueWin: null, wedWin: null, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5 },
+  { name: "Xander Schauffele", sunWin: 1450, monWin: 1450, tueWin: null, wedWin: null, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 22.00, sgArg: 0.009, prox150: 20.9, girRough: 59.1 },
+  { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1750, tueWin: null, wedWin: null, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2 },
+  { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1600, tueWin: null, wedWin: null, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4 },
+  { name: "Cameron Young", sunWin: 1700, monWin: 1750, tueWin: null, wedWin: null, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9 },
+  { name: "Russell Henley", sunWin: 2100, monWin: 1700, tueWin: null, wedWin: null, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1 },
+  { name: "Ludvig Åberg", sunWin: 2050, monWin: 2100, tueWin: null, wedWin: null, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0 },
+  { name: "Collin Morikawa", sunWin: 2350, monWin: 2250, tueWin: null, wedWin: null, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 20.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5 },
+  { name: "Patrick Cantlay", sunWin: 2150, monWin: 2400, tueWin: null, wedWin: null, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.50, sgArg: 0.247, prox150: 20.0, girRough: 61.4 },
+  { name: "Jake Knapp", sunWin: 3000, monWin: 3300, tueWin: null, wedWin: null, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 44.80, sgArg: 0.111, prox150: 22.4, girRough: 59.5 },
+  { name: "Sam Burns", sunWin: 2500, monWin: 3000, tueWin: null, wedWin: null, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.90, sgArg: -0.350, prox150: 20.5, girRough: 56.8 },
+  { name: "Si Woo Kim", sunWin: 3700, monWin: 2700, tueWin: null, wedWin: null, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 41.10, sgArg: 0.142, prox150: 19.6, girRough: 53.9 },
+  { name: "Jordan Spieth", sunWin: 3700, monWin: 3000, tueWin: null, wedWin: null, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 14.20, sgArg: 0.129, prox150: 22.2, girRough: 61.2 },
+  { name: "Robert MacIntyre", sunWin: 2900, monWin: 3000, tueWin: null, wedWin: null, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 58.50, sgArg: 0.120, prox150: 21.9, girRough: 60.9 },
+  { name: "Viktor Hovland", sunWin: 3900, monWin: 3500, tueWin: null, wedWin: null, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8 },
+  { name: "Maverick McNealy", sunWin: 3500, monWin: 3600, tueWin: null, wedWin: null, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7 },
+  { name: "Shane Lowry", sunWin: 3900, monWin: 5000, tueWin: null, wedWin: null, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 46.60, sgArg: -0.085, prox150: 19.6, girRough: 61.2 },
+  { name: "Justin Thomas", sunWin: 3700, monWin: 4100, tueWin: null, wedWin: null, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9 },
+  { name: "Jacob Bridgeman", sunWin: 4400, monWin: 4600, tueWin: null, wedWin: null, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4 },
+  { name: "Chris Gotterup", sunWin: 4500, monWin: 5100, tueWin: null, wedWin: null, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6 },
+  { name: "Jason Day", sunWin: 4100, monWin: 4600, tueWin: null, wedWin: null, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4 },
+  { name: "Justin Rose", sunWin: 4800, monWin: 4800, tueWin: null, wedWin: null, price: 8000, sgApp: 0.755, birdiePct: 25.44, courseHistory: 30.85, sgArg: -0.090, prox150: 20.0, girRough: 57.6 },
+  { name: "Sepp Straka", sunWin: 5200, monWin: 4800, tueWin: null, wedWin: null, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 32.10, sgArg: 0.128, prox150: 19.1, girRough: 42.0 },
+  { name: "Harris English", sunWin: 5000, monWin: 5200, tueWin: null, wedWin: null, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5 },
+  { name: "Ben Griffin", sunWin: 4100, monWin: 4900, tueWin: null, wedWin: null, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 43.40, sgArg: 0.454, prox150: 22.2, girRough: 55.3 },
+  { name: "Min Woo Lee", sunWin: 5500, monWin: 5200, tueWin: null, wedWin: null, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 64.60, sgArg: 0.294, prox150: 20.2, girRough: 38.9 },
+  { name: "Akshay Bhatia", sunWin: 5300, monWin: 5800, tueWin: null, wedWin: null, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 40.70, sgArg: 0.168, prox150: 19.9, girRough: 39.3 },
+  { name: "Ryo Hisatsune", sunWin: 8800, monWin: 9000, tueWin: null, wedWin: null, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 41.30, sgArg: 0.181, prox150: 21.9, girRough: 62.5 },
+  { name: "Rickie Fowler", sunWin: 5700, monWin: 6100, tueWin: null, wedWin: null, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 45.80, sgArg: -0.318, prox150: 21.2, girRough: 58.6 },
+  { name: "Sahith Theegala", sunWin: 8200, monWin: 8600, tueWin: null, wedWin: null, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 16.60, sgArg: 0.358, prox150: 21.8, girRough: 55.6 },
+  { name: "J.J. Spaun", sunWin: 5300, monWin: 5000, tueWin: null, wedWin: null, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 67.50, sgArg: 0.013, prox150: 19.9, girRough: 56.7 },
+  { name: "Nicolai Højgaard", sunWin: 6900, monWin: 7800, tueWin: null, wedWin: null, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 60.50, sgArg: 0.113, prox150: 21.0, girRough: 60.7 },
+  { name: "Harry Hall", sunWin: 6400, monWin: 7600, tueWin: null, wedWin: null, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3 },
+  { name: "Ryan Gerard", sunWin: 7600, monWin: 7600, tueWin: null, wedWin: null, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4 },
+  { name: "Wyndham Clark", sunWin: 1600, monWin: 10500, tueWin: null, wedWin: null, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 19.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0 },
+  { name: "Daniel Berger", sunWin: 9400, monWin: 9000, tueWin: null, wedWin: null, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1 },
+  { name: "J.T. Poston", sunWin: 8800, monWin: 8400, tueWin: null, wedWin: null, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 36.60, sgArg: -0.299, prox150: 22.4, girRough: 53.8 },
+  { name: "Sam Stevens", sunWin: 8200, monWin: 7600, tueWin: null, wedWin: null, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6 },
+  { name: "S. Yellamaraju", sunWin: 11500, monWin: 12000, tueWin: null, wedWin: null, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7 },
+  { name: "Alex Noren", sunWin: 6400, monWin: 5700, tueWin: null, wedWin: null, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1 },
+  { name: "Kurt Kitayama", sunWin: 7200, monWin: 7600, tueWin: null, wedWin: null, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5 },
+  { name: "Nick Taylor", sunWin: 8200, monWin: 9000, tueWin: null, wedWin: null, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 48.10, sgArg: 0.503, prox150: 20.6, girRough: 53.4 },
+  { name: "Brian Harman", sunWin: 12000, monWin: 9600, tueWin: null, wedWin: null, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 15.50, sgArg: 0.132, prox150: 20.5, girRough: 57.8 },
+  { name: "Marco Penge", sunWin: 30000, monWin: 15500, tueWin: null, wedWin: null, price: 7000, sgApp: -0.378, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.246, prox150: 22.5, girRough: 57.0 },
+  { name: "Corey Conners", sunWin: 9000, monWin: 8600, tueWin: null, wedWin: null, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 28.00, sgArg: -0.136, prox150: 19.4, girRough: 50.8 },
+  { name: "Keegan Bradley", sunWin: 10000, monWin: 8600, tueWin: null, wedWin: null, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 55.50, sgArg: 0.272, prox150: 19.4, girRough: 60.2 },
+  { name: "Max Homa", sunWin: 12000, monWin: 12000, tueWin: null, wedWin: null, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 51.00, sgArg: -0.210, prox150: 21.3, girRough: 56.1 },
+  { name: "Taylor Pendrith", sunWin: 12000, monWin: 15500, tueWin: null, wedWin: null, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9 },
+  { name: "Gary Woodland", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0 },
+  { name: "Matt McCarty", sunWin: 20000, monWin: 13000, tueWin: null, wedWin: null, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0 },
+  { name: "Nico Echavarria", sunWin: 20000, monWin: 28000, tueWin: null, wedWin: null, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0 },
+  { name: "Sungjae Im", sunWin: 11000, monWin: 10000, tueWin: null, wedWin: null, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 10.60, sgArg: 0.307, prox150: 23.2, girRough: 57.3 },
+  { name: "Andrew Novak", sunWin: 16000, monWin: 13500, tueWin: null, wedWin: null, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 52.40, sgArg: 0.139, prox150: 22.5, girRough: 57.0 },
+  { name: "Ricky Castillo", sunWin: 13500, monWin: 18000, tueWin: null, wedWin: null, price: 6700, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: 0.227, prox150: 23.7, girRough: 65.6 },
+  { name: "Billy Horschel", sunWin: 15000, monWin: 23000, tueWin: null, wedWin: null, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 56.70, sgArg: -0.147, prox150: 20.3, girRough: 57.0 },
+  { name: "Matt Wallace", sunWin: 13000, monWin: 15500, tueWin: null, wedWin: null, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 67.50, sgArg: 0.190, prox150: 22.6, girRough: 62.1 },
+  { name: "Tony Finau", sunWin: 21000, monWin: 22500, tueWin: null, wedWin: null, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 31.00, sgArg: 0.300, prox150: 21.6, girRough: 57.0 },
+  { name: "Pierceson Coody", sunWin: 11500, monWin: 16500, tueWin: null, wedWin: null, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 65.10, sgArg: -0.399, prox150: 22.1, girRough: 56.7 },
+  { name: "Jordan Smith", sunWin: 14500, monWin: 16000, tueWin: null, wedWin: null, price: 6500, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: -0.216, prox150: 23.9, girRough: 58.7 },
+  { name: "Bud Cauley", sunWin: 16000, monWin: 16000, tueWin: null, wedWin: null, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 58.20, sgArg: 0.196, prox150: 22.5, girRough: 57.0 },
+  { name: "Denny McCarthy", sunWin: 15000, monWin: 16000, tueWin: null, wedWin: null, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 39.20, sgArg: -0.087, prox150: 22.5, girRough: 57.0 },
+  { name: "Michael Brennan", sunWin: 22000, monWin: 22000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.150, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.593, prox150: 22.4, girRough: 57.0 },
+  { name: "Michael Kim", sunWin: 22500, monWin: 21000, tueWin: null, wedWin: null, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 68.30, sgArg: 0.121, prox150: 22.5, girRough: 57.0 },
+  { name: "Patrick Rodgers", sunWin: 24000, monWin: 30000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 22.40, sgArg: 0.163, prox150: 22.3, girRough: 57.0 },
+  { name: "Andrew Putnam", sunWin: 30000, monWin: 17000, tueWin: null, wedWin: null, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0 },
+  { name: "Austin Smotherman", sunWin: 21000, monWin: 19500, tueWin: null, wedWin: null, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0 },
+  { name: "Ryan Fox", sunWin: 20000, monWin: 26000, tueWin: null, wedWin: null, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0 },
+  { name: "John Keefer", sunWin: 28000, monWin: 37000, tueWin: null, wedWin: null, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0 },
+  { name: "Sami Valimaki", sunWin: 34000, monWin: 27000, tueWin: null, wedWin: null, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0 },
+  { name: "Chandler Blanchet", sunWin: 60000, monWin: 42000, tueWin: null, wedWin: null, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0 },
+  { name: "William Mouw", sunWin: 35000, monWin: 43000, tueWin: null, wedWin: null, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0 },
+  { name: "Lucas Glover", sunWin: 57500, monWin: 50000, tueWin: null, wedWin: null, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 55.98, sgArg: -0.118, prox150: 19.5, girRough: 57.0 },
+  { name: "Tom Hoge", sunWin: 80000, monWin: 87500, tueWin: null, wedWin: null, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 56.48, sgArg: -0.399, prox150: 18.4, girRough: 57.0 },
+  { name: "Steven Fisk", sunWin: 40000, monWin: 48000, tueWin: null, wedWin: null, price: 6100, sgApp: -0.207, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.060, prox150: 22.9, girRough: 57.0 },
+  { name: "Karl Vilips", sunWin: 55000, monWin: 67500, tueWin: null, wedWin: null, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.351, prox150: 22.3, girRough: 57.0 },
+  { name: "Garrick Higgo", sunWin: 57500, monWin: 62500, tueWin: null, wedWin: null, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 51.80, sgArg: -0.248, prox150: 23.6, girRough: 57.0 },
+  { name: "Aldrich Potgieter", sunWin: 67500, monWin: 80000, tueWin: null, wedWin: null, price: 6100, sgApp: -0.304, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.456, prox150: 22.0, girRough: 57.0 },
+  { name: "Jhonattan Vegas", sunWin: 57500, monWin: 70000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.455, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.265, prox150: 22.6, girRough: 57.0 },
+  { name: "David Lipsky", sunWin: 62500, monWin: 52500, tueWin: null, wedWin: null, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 60.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0 },
+  { name: "Brian Campbell", sunWin: 170000, monWin: 82500, tueWin: null, wedWin: null, price: 6000, sgApp: -0.753, birdiePct: 22.00, courseHistory: 64.25, sgArg: -0.364, prox150: 23.6, girRough: 57.0 },
+  { name: "Adam Schenk", sunWin: 180000, monWin: 190000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0 },
+  { name: "Joe Highsmith", sunWin: 200000, monWin: 170000, tueWin: null, wedWin: null, price: 6000, sgApp: -0.112, birdiePct: 22.00, courseHistory: 74.25, sgArg: -0.338, prox150: 22.5, girRough: 57.0 },
+  { name: "Keith Mitchell", sunWin: 8400, monWin: 8400, tueWin: null, wedWin: null, price: null, sgApp: 0.387, birdiePct: 23.83, courseHistory: 75.00, sgArg: -0.132, prox150: 21.9, girRough: 56.5 },
+  { name: "Michael Thorbjornsen", sunWin: 6700, monWin: 8400, tueWin: null, wedWin: null, price: null, sgApp: -0.078, birdiePct: 22.58, courseHistory: 58.50, sgArg: 0.229, prox150: 22.8, girRough: 59.1 }
 ];
 
 let players = [];
 let currentFilter = 'all';
 let sortCol = 'composite';
 let sortAsc = false;
-let density = 'standard';
+let lastLineup = null;
 
-window.onload = () => { processData(); };
+// ============================================
+// 🟢 LOCAL RAG DICTIONARIES & PARSERS
+// ============================================
+
+// 1. Local RAG: Course Fit Dictionary
+const courseProfiles = {
+  "harbour town": { sgApp: 30, sgArg: 20, prox150: 30, girRough: 10, birdiePct: 10 },
+  "augusta": { sgApp: 40, sgArg: 30, prox150: 0, girRough: 0, birdiePct: 30 },
+  "torrey pines": { sgApp: 20, sgArg: 10, prox150: 10, girRough: 40, birdiePct: 20 }
+};
+
+let fitWeights = { sgApp: 30, sgArg: 20, prox150: 30, girRough: 10, birdiePct: 10 }; // Default
+
+function localCourseFit(courseName) {
+  const normalized = courseName.toLowerCase().trim();
+  // Simple heuristic fuzzy matching
+  for (const [key, weights] of Object.entries(courseProfiles)) {
+    if (normalized.includes(key)) return weights;
+  }
+  // Fallback if course not in dictionary
+  return { sgApp: 20, sgArg: 20, prox150: 20, girRough: 20, birdiePct: 20 };
+}
+
+function runCourseFit() {
+  const course = document.getElementById('courseInput').value;
+  const resultEl = document.getElementById('result1');
+  const card = document.getElementById('skill1');
+  if (!course) return alert('Enter a course name');
+
+  resultEl.classList.add('show');
+  
+  const newWeights = localCourseFit(course);
+  
+  let html = '<div class="label">✓ Retrieved local weights for: ' + course + '</div>';
+  ['sgApp','sgArg','prox150','girRough','birdiePct'].forEach(k => {
+    html += `<div class="weight-row"><span>${k}</span><span><span class="old">${fitWeights[k]}%</span><span class="new">${newWeights[k]}%</span></span></div>`;
+  });
+  html += '<div style="margin-top:10px; color:var(--plaid-green); font-weight:700">→ Applied to all 82 players. Profile Fit recomputed.</div>';
+  
+  resultEl.innerHTML = html;
+  fitWeights = newWeights;
+  card.classList.add('active');
+  processData();
+  showBanner(`LOCAL FIT APPLIED: ${course}`);
+}
+
+// 2. Local RAG: RegEx Weather Parser
+function localWindParser(text) {
+  // Regex to find digits right before "mph"
+  const regex = /(\d+)\s*mph/gi;
+  let match;
+  let winds = [];
+  while ((match = regex.exec(text)) !== null) {
+    winds.push(parseInt(match[1]));
+  }
+  if (winds.length === 0) return 0;
+  
+  // Calculate average and assign heuristic penalty
+  const avg = winds.reduce((a, b) => a + b, 0) / winds.length;
+  // E.g., 15mph avg = 7.5 penalty points
+  return avg * 0.5; 
+}
+
+function runWindPenalty() {
+  const forecast = document.getElementById('weatherInput').value;
+  const resultEl = document.getElementById('result2');
+  const card = document.getElementById('skill2');
+  if (!forecast) return alert('Enter forecast data');
+
+  resultEl.classList.add('show');
+  const penalty = localWindParser(forecast);
+
+  if (penalty === 0) {
+    resultEl.innerHTML = `<div style="color:var(--plaid-red)">Error: Could not find 'mph' in text.</div>`;
+    return;
+  }
+
+  // Apply to AM wave
+  const affected = players.filter(p => p.wave === 'AM' && p.price);
+  affected.forEach(p => { p.windPenalty = penalty; });
+
+  resultEl.innerHTML = `
+    <div class="label">✓ Parsed Wind Penalty: <span style="color:var(--plaid-red); font-size:18px">${penalty.toFixed(1)}</span></div>
+    <div style="margin-top:8px">→ Applied to ${affected.length} players in the AM wave.</div>
+  `;
+  card.classList.add('active');
+  processData();
+  showBanner(`WIND PENALTY: -${penalty.toFixed(1)} applied to AM wave`);
+}
+
+// 3. Local RAG: Algorithmic Thesis Generator
+function localThesisGenerator(roster, totalSal, totalOwn) {
+  const leveragePlays = roster.filter(p => p.pOwn < 10);
+  const chalkPlays = roster.filter(p => p.pOwn > 18);
+  const anchors = roster.filter(p => p.price >= 9500);
+  
+  let lowestOwned = leveragePlays.sort((a,b) => a.pOwn - b.pOwn)[0];
+  let highestPriced = anchors.sort((a,b) => b.price - a.price)[0];
+  
+  let thesis = `This GPP build spends $${totalSal.toLocaleString()} to anchor around ${highestPriced ? highestPriced.name : 'a balanced core'}, while intentionally leaving $${50000 - totalSal} on the table to dodge duplicated chalk. `;
+  
+  if (totalOwn > 85) {
+      thesis += `With a total ownership of ${totalOwn.toFixed(1)}%, this lineup borders on too popular, heavily relying on chalk like ${chalkPlays[0] ? chalkPlays[0].name : 'the field'}. `;
+  } else {
+      thesis += `At a hyper-contrarian ${totalOwn.toFixed(1)}% total ownership, this lineup leverages the field beautifully. `;
+  }
+  
+  if (lowestOwned) {
+      thesis += `The absolute key to this build is the inclusion of ${lowestOwned.name} at just ${lowestOwned.pOwn.toFixed(1)}% ownership, providing massive leverage if his ${lowestOwned.dlta > 0 ? 'underpriced $DLTA' : 'course fit'} pays off.`;
+  }
+  
+  return thesis;
+}
+
+function runThesisGen() {
+  if (!lastLineup) return alert('Run the optimizer first');
+  const content = document.getElementById('thesisContent');
+  
+  const totalSal = lastLineup.roster.reduce((s,p) => s+p.price, 0);
+  const totalOwn = lastLineup.roster.reduce((s,p) => s+p.pOwn, 0);
+  
+  content.innerHTML = localThesisGenerator(lastLineup.roster, totalSal, totalOwn);
+}
+
+function showBanner(msg) {
+  const b = document.getElementById('aiBanner');
+  b.innerHTML = `<strong>⚡ ${msg}</strong>`;
+  b.classList.add('show');
+}
+
+// ============ ENGINE LOGIC ============
+window.onload = () => processData();
 
 function switchTab(tab) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`panel-${tab}`).classList.add('active');
-  document.getElementById(`nav-${tab}`).classList.add('active');
-  if(tab === 'arb') renderAll();
-}
-
-function toggleKey(el) {
-  el.classList.toggle('open');
-  document.getElementById('keyContent').classList.toggle('open');
-}
-
-function setDensity(d, btn) {
-  density = d;
-  document.querySelectorAll('.density-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  const tbody = document.getElementById('tbody');
-  tbody.classList.remove('density-compact', 'density-standard', 'density-detailed');
-  tbody.classList.add('density-' + d);
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  document.getElementById(`nav-${tab}`).classList.add('active');
+  if(tab === 'arb') renderTable();
 }
 
 function processData() {
-  players = [...db];
-  players.forEach(p => {
-    const latestOdds = p.wedWin || p.tueWin || p.monWin || p.sunWin;
-    p.liveImp = latestOdds ? (100 / (latestOdds + 100)) : 0;
-    let baselineImp = p.sunWin ? (100 / (p.sunWin + 100)) : 0;
-    p.velTotal = (baselineImp > 0) ? (p.liveImp - baselineImp) / baselineImp : 0;
-    p.isSteam = p.velTotal > 0.02;
-    p.locked = false;
-    p.excluded = false;
-    let app = p.sgApp ? p.sgApp * 30 : 0;
-    let arg = p.sgArg ? p.sgArg * 20 : 0;
-    let prox = p.prox150 ? (30 - p.prox150) * 2 : 0;
-    let rgh = p.girRough ? p.girRough * 0.5 : 0;
-    let bird = p.birdiePct ? p.birdiePct * 0.5 : 0;
-    p.rawFit = app + arg + prox + rgh + bird;
-  });
-  const validFits = players.filter(p => p.price).map(p => p.rawFit);
-  const maxFit = Math.max(...validFits);
-  const minFit = Math.min(...validFits);
-  players.forEach(p => { p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100; });
-  const priced = players.filter(p => p.price);
-  if (priced.length > 0) {
-    priced.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
-    priced.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
-    players.forEach(p => { if (p.price) p.dlta = p.salRank - p.oddsRank; });
-  }
-  players.forEach(p => {
-    let histScore = p.courseHistory ? (80 - p.courseHistory) * 0.5 : 0;
-    p.composite = p.profileFit + histScore;
-  });
-  players.sort((a,b) => b.composite - a.composite);
-  players.forEach((p, i) => {
-    if (i < 8) p.tier = 'Tartan';
-    else if (i < 25) p.tier = 'Lighthouse';
-    else p.tier = 'Field';
-  });
-  document.getElementById('loadedCount').textContent = players.filter(p => p.price).length;
-  renderAll();
+  players = players.length ? players : [...db];
+  
+  // Preserve state
+  const existing = {};
+  players.forEach(p => { existing[p.name] = { locked: p.locked, excluded: p.excluded, windPenalty: p.windPenalty }; });
+  players = db.map(orig => ({ ...orig, ...(existing[orig.name] || {}) }));
+
+  players.forEach((p, i) => {
+    const latestOdds = p.wedWin || p.tueWin || p.monWin || p.sunWin;
+    p.liveImp = latestOdds ? (100 / (latestOdds + 100)) : 0;
+    const baselineImp = p.sunWin ? (100 / (p.sunWin + 100)) : 0;
+    p.velTotal = (baselineImp > 0) ? (p.liveImp - baselineImp) / baselineImp : 0;
+    p.isSteam = p.velTotal > 0.02;
+    p.locked = p.locked || false;
+    p.excluded = p.excluded || false;
+    
+    // Assign alternating AM/PM wave
+    p.wave = (i % 2 === 0) ? 'AM' : 'PM';
+
+    // 1. Calculate Profile Fit using dynamic weights
+    const w = fitWeights;
+    const app = p.sgApp ? p.sgApp * (w.sgApp / 10) : 0;
+    const arg = p.sgArg ? p.sgArg * (w.sgArg / 10) : 0;
+    const prox = p.prox150 ? (30 - p.prox150) * (w.prox150 / 15) : 0;
+    const rgh = p.girRough ? p.girRough * (w.girRough / 20) : 0;
+    const bird = p.birdiePct ? p.birdiePct * (w.birdiePct / 20) : 0;
+    p.rawFit = app + arg + prox + rgh + bird;
+  });
+
+  const validFits = players.filter(p => p.price).map(p => p.rawFit);
+  const maxFit = Math.max(...validFits), minFit = Math.min(...validFits);
+  players.forEach(p => { p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100; });
+
+  const priced = players.filter(p => p.price);
+  if (priced.length > 0) {
+    priced.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
+    priced.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
+    players.forEach(p => { if (p.price) p.dlta = p.salRank - p.oddsRank; });
+  }
+
+  // 2. Calculate pOWN, Lev, and Composite (including wind penalty)
+  players.forEach(p => {
+      let baseOwn = 3;
+      if (p.price >= 10000) baseOwn = 15;
+      else if (p.price >= 9000) baseOwn = 13;
+      else if (p.price >= 8000) baseOwn = 10;
+      else if (p.price >= 7000) baseOwn = 12;
+      
+      let dltaBump = p.dlta ? (p.dlta * 1.2) : 0;
+      let histBump = p.courseHistory <= 20 ? 5 : (p.courseHistory <= 40 ? 2 : 0);
+      let steamBump = p.isSteam ? 4 : 0;
+      
+      p.pOwn = baseOwn + dltaBump + histBump + steamBump;
+      if (p.pOwn < 0.5) p.pOwn = 0.5;
+      if (p.pOwn > 35.0) p.pOwn = 35.0;
+      
+      p.rawLev = p.profileFit - (p.pOwn * 1.5);
+      
+      const histScore = p.courseHistory ? (80 - p.courseHistory) * 0.5 : 0;
+      const windHit = p.windPenalty || 0;
+      p.composite = p.profileFit + histScore - windHit;
+  });
+
+  const validLevs = players.filter(p => p.price).map(p => p.rawLev);
+  const maxLev = Math.max(...validLevs), minLev = Math.min(...validLevs);
+  players.forEach(p => { p.leverage = ((p.rawLev - minLev) / (maxLev - minLev)) * 100; });
+
+  players.sort((a,b) => b.composite - a.composite);
+  players.forEach((p, i) => {
+    if (i < 8) p.tier = 'Tartan';
+    else if (i < 25) p.tier = 'Lighthouse';
+    else p.tier = 'Field';
+  });
+  
+  document.getElementById('loadedCount').textContent = players.filter(p => p.price).length;
+  renderTable();
 }
 
 function setFilter(f, btn) {
-  currentFilter = f;
-  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderAll();
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
 }
 
 function sortData(col) {
-  if (sortCol === col) sortAsc = !sortAsc;
-  else { sortCol = col; sortAsc = (col === 'name' || col === 'courseHistory'); }
-  renderAll();
+  if (sortCol === col) sortAsc = !sortAsc;
+  else { sortCol = col; sortAsc = (col === 'name' || col === 'courseHistory' || col === 'pOwn'); }
+  renderTable();
 }
 
 function toggleExclude(name) {
-  const p = players.find(x => x.name === name);
-  if (p) {
-    p.excluded = !p.excluded;
-    if (p.excluded) p.locked = false;
-    renderAll();
-    const card = document.getElementById('lineupCard');
-    if (card && card.style.display === 'block') runOptimizer();
-  }
+  const p = players.find(x => x.name === name);
+  if (p) { p.excluded = !p.excluded; if (p.excluded) p.locked = false; renderTable(); }
 }
-
 function toggleLock(name) {
-  const p = players.find(x => x.name === name);
-  if (p) {
-    p.locked = !p.locked;
-    if (p.locked) p.excluded = false;
-    renderAll();
-    const card = document.getElementById('lineupCard');
-    if (card && card.style.display === 'block') runOptimizer();
-  }
-}
-
-function getFilteredSorted() {
-  const query = document.getElementById('search').value.toLowerCase();
-  let data = [...players];
-  if(currentFilter === 'tartan') data = data.filter(p => p.tier === 'Tartan');
-  if(currentFilter === 'steam') data = data.filter(p => p.isSteam);
-  if(currentFilter === 'value') data = data.filter(p => p.dlta > 0);
-  if(currentFilter === 'sleeper') data = data.filter(p => p.price && p.price < 8000 && p.isSteam && p.courseHistory <= 40);
-  if(query) data = data.filter(p => p.name.toLowerCase().includes(query));
-  data.sort((a, b) => {
-    let valA = a[sortCol], valB = b[sortCol];
-    if (valA == null) return 1; if (valB == null) return -1;
-    if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-    return sortAsc ? valA - valB : valB - valA;
-  });
-  return data;
-}
-
-function heatColor(val, min, max, invert=false) {
-  // val 0-100, returns color. Invert for course history (lower = better)
-  let norm = (val - min) / (max - min);
-  if (invert) norm = 1 - norm;
-  norm = Math.max(0, Math.min(1, norm));
-  if (norm > 0.75) return 'var(--plaid-green)';
-  if (norm > 0.5) return 'var(--heat-cool)';
-  if (norm > 0.25) return 'var(--heat-warm)';
-  return 'var(--plaid-red)';
-}
-
-function sparkline(sun, cur) {
-  if (!sun || !cur) return '<svg class="odds-spark"></svg>';
-  const impSun = 100/(sun+100), impCur = 100/(cur+100);
-  const delta = impCur - impSun;
-  const color = delta > 0 ? 'var(--plaid-green)' : (delta < 0 ? 'var(--plaid-red)' : 'var(--text3)');
-  const y1 = 16, y2 = delta > 0 ? 4 : (delta < 0 ? 16 : 10);
-  const yStart = delta > 0 ? 16 : (delta < 0 ? 4 : 10);
-  return `<svg class="odds-spark" viewBox="0 0 40 20"><polyline points="2,${yStart} 38,${y2}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="${y2}" r="2.5" fill="${color}"/></svg>`;
-}
-
-function fmtOdds(v) { return v ? (v > 0 ? '+'+v : v) : '—'; }
-
-function renderAll() {
-  // Update sort indicators
-  document.querySelectorAll('th[data-col]').forEach(th => {
-    th.classList.toggle('sorted', th.dataset.col === sortCol);
-    const ind = th.querySelector('.sort-ind');
-    if (ind) ind.textContent = th.dataset.col === sortCol ? (sortAsc ? '▲' : '▼') : '◆';
-  });
-  renderTable();
-  renderMobileCards();
+  const p = players.find(x => x.name === name);
+  if (p) { p.locked = !p.locked; if (p.locked) p.excluded = false; renderTable(); }
 }
 
 function renderTable() {
-  const tbody = document.getElementById('tbody');
-  const data = getFilteredSorted();
-  tbody.innerHTML = '';
-  tbody.className = 'density-' + density;
+  const tbody = document.getElementById('tbody');
+  const query = document.getElementById('search').value.toLowerCase();
+  
+  let data = [...players];
+  if(currentFilter === 'tartan') data = data.filter(p => p.tier === 'Tartan');
+  if(currentFilter === 'steam') data = data.filter(p => p.isSteam);
+  if(currentFilter === 'value') data = data.filter(p => p.dlta > 0);
+  if(currentFilter === 'leverage') data = data.filter(p => p.leverage > 65);
+  if(currentFilter === 'sleeper') data = data.filter(p => p.price < 8000 && p.isSteam && p.courseHistory <= 40);
+  if(currentFilter === 'am') data = data.filter(p => p.wave === 'AM');
+  if(currentFilter === 'pm') data = data.filter(p => p.wave === 'PM');
+  if(query) data = data.filter(p => p.name.toLowerCase().includes(query));
 
-  data.forEach(p => {
-    const tr = document.createElement('tr');
-    if (p.locked) tr.classList.add('player-row-locked');
-    if (p.excluded) tr.classList.add('player-row-excluded');
+  data.sort((a, b) => {
+    let valA = a[sortCol], valB = b[sortCol];
+    if (valA == null) return 1; if (valB == null) return -1;
+    if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+    return sortAsc ? valA - valB : valB - valA;
+  });
 
-    const tierClass = p.tier.toLowerCase();
-    const latestOdds = p.wedWin || p.tueWin || p.monWin || p.sunWin;
-    const deltaPct = p.sunWin && latestOdds ? ((100/(latestOdds+100)) - (100/(p.sunWin+100))) / (100/(p.sunWin+100)) * 100 : 0;
-    const deltaClass = deltaPct > 2 ? 'pos' : (deltaPct < -2 ? 'neg' : 'neu');
+  tbody.innerHTML = '';
+  document.querySelectorAll('th[data-col]').forEach(th => {
+    th.classList.toggle('sorted', th.dataset.col === sortCol);
+    const ind = th.querySelector('.sort-ind');
+    if (ind) ind.textContent = th.dataset.col === sortCol ? (sortAsc ? '▲' : '▼') : '◆';
+  });
 
-    // DLTA
-    let dltaText = '—', dltaClass = 'neu';
-    if (p.dlta != null) {
-      dltaText = (p.dlta > 0 ? '+' : '') + p.dlta;
-      dltaClass = p.dlta > 2 ? 'pos' : (p.dlta < -2 ? 'neg' : 'neu');
-    }
+  const fmtOdds = v => v ? (v > 0 ? '+'+v : v) : '—';
+  
+  data.forEach(p => {
+    const tr = document.createElement('tr');
+    if (p.locked) tr.classList.add('player-row-locked');
+    if (p.excluded) tr.classList.add('player-row-excluded');
+    
+    const salStr = p.price ? `<span style="color:var(--plaid-green); font-weight:700;">$${(p.price/1000).toFixed(1)}k</span>` : '—';
+    const latestStr = fmtOdds(p.wedWin || p.tueWin || p.monWin || p.sunWin);
+    const oddsStr = `<span style="font-size:10px;color:var(--text2)">${p.sunWin?fmtOdds(p.sunWin):'—'} ➝ </span><span style="font-weight:700;">${latestStr}</span>`;
+    
+    let dltaStr = '—';
+    if(p.dlta != null) {
+      const dColor = p.dlta > 2 ? 'val-good' : (p.dlta < -2 ? 'val-bad' : '');
+      dltaStr = `<span class="${dColor}">${p.dlta > 0 ? '+'+p.dlta : p.dlta}</span>`;
+    }
 
-    // Profile Fit heatmap
-    const fitVal = p.profileFit != null ? p.profileFit.toFixed(0) : '—';
-    const fitColor = p.profileFit != null ? heatColor(p.profileFit, 0, 100) : 'var(--text3)';
-    const fitPct = p.profileFit != null ? Math.min(100, p.profileFit) : 0;
+    const velColor = p.velTotal > 0.02 ? 'val-good' : (p.velTotal < -0.02 ? 'val-bad' : 'val-muted');
+    const velStr = p.sunWin ? `<span class="${velColor}">${(p.velTotal*100).toFixed(1)}%</span>` : '—';
 
-    // Course History (lower = better, so invert)
-    const histVal = p.courseHistory != null ? p.courseHistory.toFixed(0) : '—';
-    const histColor = p.courseHistory != null ? heatColor(p.courseHistory, 0, 75, true) : 'var(--text3)';
+    let tierBadge = p.tier === 'Tartan' ? '<span class="badge b-tartan">TARTAN</span>' : 
+                    p.tier === 'Lighthouse' ? `<span class="badge b-lighthouse">LIGHTHOUSE</span>` : 
+                    `<span class="badge" style="border:1px solid var(--border);">FIELD</span>`;
 
-    // wVEL
-    const velPct = (p.velTotal*100);
-    const velClass = velPct > 2 ? 'pos' : (velPct < -2 ? 'neg' : 'neu');
-    const velText = p.sunWin ? (velPct > 0 ? '+' : '') + velPct.toFixed(1) + '%' : '—';
+    const fitVal = p.profileFit != null ? p.profileFit.toFixed(1) : '—';
+    const fitClass = p.profileFit > 85 ? 'val-elite' : (p.profileFit > 65 ? 'val-good' : (p.profileFit < 30 ? 'val-bad' : ''));
+    const ownVal = p.pOwn != null ? p.pOwn.toFixed(1) + '%' : '—';
+    const ownClass = p.pOwn > 20 ? 'val-chalk' : (p.pOwn < 5 ? 'val-good' : '');
+    const levVal = p.leverage != null ? p.leverage.toFixed(1) : '—';
+    const levClass = p.leverage > 80 ? 'val-elite' : (p.leverage > 65 ? 'val-good' : '');
+    const waveBadge = p.wave === 'AM' ? `<span class="wave-tag">☀️ AM</span>` : `<span class="wave-tag">🌥️ PM</span>`;
 
-    // Tier pill
-    const tierPill = `<span class="tier-pill tp-${tierClass}">${p.tier.toUpperCase()}</span>`;
-
-    // Flag dots
-    let flags = '';
-    if (p.isSteam) flags += '<div class="flag-dot flag-steam" title="Steam"></div>';
-    if (p.dlta > 3) flags += '<div class="flag-dot flag-value" title="Value"></div>';
-    if (p.price && p.price < 8000 && p.isSteam && p.courseHistory <= 40) flags += '<div class="flag-dot flag-sleeper" title="Sleeper"></div>';
-
-    const lockCls = p.locked ? 'action-btn btn-lock active' : 'action-btn btn-lock';
-    const exCls = p.excluded ? 'action-btn btn-ex active' : 'action-btn btn-ex';
-
-    tr.innerHTML = `
-      <td class="col-player">
-        <div class="tier-stripe ${tierClass}"></div>
-        <div class="player-wrap">
-          <div class="player-info">
-            <div class="player-name">${p.name}${flags ? `<span class="player-flags">${flags}</span>` : ''}</div>
-          </div>
-          <div class="row-actions">
-            <button class="${lockCls}" onclick="toggleLock('${p.name.replace(/'/g,"\\'")}')" title="Lock">🔒</button>
-            <button class="${exCls}" onclick="toggleExclude('${p.name.replace(/'/g,"\\'")}')" title="Exclude">✕</button>
-          </div>
-        </div>
-      </td>
-      <td><div class="cell-pad sal-cell">
-        <div class="sal-main">${p.price ? '$'+(p.price/1000).toFixed(1)+'k' : '—'}</div>
-        <div class="sal-sub ${dltaClass}">$DLTA ${dltaText}</div>
-      </div></td>
-      <td><div class="cell-pad odds-cell">
-        ${sparkline(p.sunWin, latestOdds)}
-        <div class="odds-info">
-          <div class="odds-num">${fmtOdds(latestOdds)}</div>
-          <div class="odds-delta ${deltaClass}">${p.sunWin ? (deltaPct > 0 ? '+' : '') + deltaPct.toFixed(1) + '%' : ''}</div>
-        </div>
-      </div></td>
-      <td><div class="cell-pad" style="font-family:'DM Mono',monospace; font-weight:700; color:${velClass==='pos'?'var(--plaid-green)':velClass==='neg'?'var(--plaid-red)':'var(--text3)'}">${velText}</div></td>
-      <td><div class="heat-cell" style="color:${histColor}">
-        <div class="heat-bar"></div>
-        <span class="heat-val">${histVal}</span>
-      </div></td>
-      <td><div class="heat-cell" style="color:${fitColor}">
-        <div class="heat-bar" style="right:${100-fitPct}%"></div>
-        <span class="heat-val">${fitVal}</span>
-      </div></td>
-      <td><div class="cell-pad">${tierPill}</div></td>
-    `;
-    tbody.appendChild(tr);
-  });
-}
-
-function renderMobileCards() {
-  const container = document.getElementById('mobileCards');
-  const data = getFilteredSorted();
-  container.innerHTML = '';
-
-  data.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'mc-card';
-    if (p.locked) card.classList.add('locked');
-    if (p.excluded) card.classList.add('excluded');
-
-    const tierClass = p.tier.toLowerCase();
-    const latestOdds = p.wedWin || p.tueWin || p.monWin || p.sunWin;
-    const dltaText = p.dlta != null ? (p.dlta > 0 ? '+' : '') + p.dlta : '—';
-    const dltaClass = p.dlta > 2 ? 'm-good' : (p.dlta < -2 ? 'm-bad' : '');
-    const velPct = (p.velTotal*100).toFixed(1);
-    const velClass = p.velTotal > 0.02 ? 'm-good' : (p.velTotal < -0.02 ? 'm-bad' : '');
-    const fitVal = p.profileFit != null ? p.profileFit.toFixed(0) : '—';
-
-    let flags = '';
-    if (p.isSteam) flags += '<span class="flag-dot flag-steam"></span>';
-    if (p.dlta > 3) flags += '<span class="flag-dot flag-value"></span>';
-
-    card.innerHTML = `
-      <div class="mc-stripe ${tierClass}"></div>
-      <div class="mc-primary" onclick="this.parentElement.classList.toggle('open')">
-        <div class="mc-left">
-          <div class="mc-name">${p.name} ${flags}</div>
-          <div class="mc-meta">
-            <span>${p.tier}</span>
-            <span class="${dltaClass}">$DLTA ${dltaText}</span>
-            <span class="${velClass}">wVEL ${p.sunWin ? (p.velTotal > 0 ? '+' : '') + velPct + '%' : '—'}</span>
-          </div>
-        </div>
-        <div class="mc-right">
-          <div class="mc-sal">${p.price ? '$'+(p.price/1000).toFixed(1)+'k' : '—'}</div>
-          <div class="mc-fit">FIT ${fitVal}</div>
-          <span class="mc-chev">▶</span>
-        </div>
-      </div>
-      <div class="mc-details">
-        <div class="mc-grid">
-          <div><div class="mc-stat-label">Odds (Sun)</div><div class="mc-stat-val">${fmtOdds(p.sunWin)}</div></div>
-          <div><div class="mc-stat-label">Odds (Live)</div><div class="mc-stat-val">${fmtOdds(latestOdds)}</div></div>
-          <div><div class="mc-stat-label">Course Hist</div><div class="mc-stat-val">${p.courseHistory != null ? p.courseHistory.toFixed(1) : '—'}</div></div>
-          <div><div class="mc-stat-label">Profile Fit</div><div class="mc-stat-val">${fitVal} / 100</div></div>
-          <div><div class="mc-stat-label">SG: APP</div><div class="mc-stat-val">${p.sgApp != null ? p.sgApp.toFixed(2) : '—'}</div></div>
-          <div><div class="mc-stat-label">SG: ARG</div><div class="mc-stat-val">${p.sgArg != null ? p.sgArg.toFixed(2) : '—'}</div></div>
-        </div>
-        <div class="mc-actions">
-          <button class="mc-action-btn lock ${p.locked?'active':''}" onclick="event.stopPropagation(); toggleLock('${p.name.replace(/'/g,"\\'")}')">🔒 ${p.locked?'LOCKED':'LOCK'}</button>
-          <button class="mc-action-btn ex ${p.excluded?'active':''}" onclick="event.stopPropagation(); toggleExclude('${p.name.replace(/'/g,"\\'")}')">✕ ${p.excluded?'EXCLUDED':'EXCLUDE'}</button>
-        </div>
-      </div>
-    `;
-    container.appendChild(card);
-  });
+    tr.innerHTML = `
+      <td>
+        <div class="action-wrap">
+          <span class="name-cell">${p.name} ${waveBadge}</span>
+          <div class="action-icons">
+            <button class="action-btn btn-lock ${p.locked?'active':''}" onclick="toggleLock('${p.name.replace(/'/g,"\\'")}')">🔒</button>
+            <button class="action-btn btn-ex ${p.excluded?'active':''}" onclick="toggleExclude('${p.name.replace(/'/g,"\\'")}')">✕</button>
+          </div>
+        </div>
+      </td>
+      <td>${salStr}</td>
+      <td>${oddsStr}</td>
+      <td>${dltaStr}</td>
+      <td class="col-div">${velStr}</td>
+      <td>${p.courseHistory?.toFixed(1) || '—'}</td>
+      <td class="col-div"><strong class="${fitClass}">${fitVal}</strong></td>
+      <td><span class="${ownClass}">${ownVal}</span></td>
+      <td class="col-div"><strong class="${levClass}">${levVal}</strong></td>
+      <td>${tierBadge}</td>
+    `;
+    tbody.appendChild(tr);
+  });
 }
 
 function runOptimizer() {
-  const lockedPlayers = players.filter(p => p.price && p.locked);
-  const availablePool = players.filter(p => p.price && !p.excluded && !p.locked);
-  if (lockedPlayers.length > 6) { alert("Cannot lock more than 6 players."); return; }
-  let lockedSal = 0, lockedScore = 0;
-  lockedPlayers.forEach(p => { lockedSal += Math.floor(p.price/100); lockedScore += p.composite; });
-  if (lockedSal > 500) { alert("Locked players exceed $50k cap."); return; }
-  const maxSal = 500 - lockedSal;
-  const reqRoster = 6 - lockedPlayers.length;
-  if (reqRoster === 0) { renderLineup({ score: lockedScore, roster: lockedPlayers }); return; }
-  let dp = Array(reqRoster + 1).fill(null).map(() => Array(maxSal + 1).fill(null));
-  dp[0][0] = { score: 0, roster: [] };
-  for (let p of availablePool) {
-    let weight = Math.floor(p.price/100), val = p.composite;
-    for (let k = reqRoster - 1; k >= 0; k--) {
-      for (let w = maxSal - weight; w >= 0; w--) {
-        if (dp[k][w] !== null) {
-          let newScore = dp[k][w].score + val, newWeight = w + weight;
-          if (dp[k+1][newWeight] === null || dp[k+1][newWeight].score < newScore) {
-            dp[k+1][newWeight] = { score: newScore, roster: [...dp[k][w].roster, p] };
-          }
-        }
-      }
-    }
-  }
-  let bestLineup = null, targetMinSal = 490 - lockedSal;
-  for (let w = 0; w <= maxSal; w++) {
-    if (dp[reqRoster][w] !== null && w >= targetMinSal) {
-      if (bestLineup === null || dp[reqRoster][w].score > bestLineup.score) bestLineup = dp[reqRoster][w];
-    }
-  }
-  if (bestLineup === null) {
-    for (let w = 0; w <= maxSal; w++) {
-      if (dp[reqRoster][w] !== null) {
-        if (bestLineup === null || dp[reqRoster][w].score > bestLineup.score) bestLineup = dp[reqRoster][w];
-      }
-    }
-  }
-  if (!bestLineup) { alert("No valid combination found."); return; }
-  renderLineup({ score: lockedScore + bestLineup.score, roster: [...lockedPlayers, ...bestLineup.roster] });
+  const lockedPlayers = players.filter(p => p.price && p.locked);
+  const availablePool = players.filter(p => p.price && !p.excluded && !p.locked);
+  
+  if (lockedPlayers.length > 6) return alert("Max 6 players locked.");
+  
+  let lockedSal = 0, lockedScore = 0;
+  lockedPlayers.forEach(p => { lockedSal += Math.floor(p.price / 100); lockedScore += p.composite; });
+  if (lockedSal > 500) return alert("Locked players exceed cap.");
+
+  const maxSal = 500 - lockedSal, reqRoster = 6 - lockedPlayers.length;
+  if (reqRoster === 0) return renderLineup({ score: lockedScore, roster: lockedPlayers });
+
+  let dp = Array(reqRoster + 1).fill(null).map(() => Array(maxSal + 1).fill(null));
+  dp[0][0] = { score: 0, roster: [] };
+
+  for (let p of availablePool) {
+    let weight = Math.floor(p.price / 100), val = p.composite;
+    for (let k = reqRoster - 1; k >= 0; k--) {
+      for (let w = maxSal - weight; w >= 0; w--) {
+        if (dp[k][w] !== null) {
+          let newScore = dp[k][w].score + val, newWeight = w + weight;
+          if (dp[k+1][newWeight] === null || dp[k+1][newWeight].score < newScore) {
+            dp[k+1][newWeight] = { score: newScore, roster: [...dp[k][w].roster, p] };
+          }
+        }
+      }
+    }
+  }
+
+  let bestLineup = null;
+  for (let w = maxSal; w >= 490 - lockedSal; w--) {
+    if (dp[reqRoster][w] !== null && (!bestLineup || dp[reqRoster][w].score > bestLineup.score)) {
+      bestLineup = dp[reqRoster][w];
+    }
+  }
+  if (!bestLineup) {
+    for (let w = 0; w <= maxSal; w++) {
+      if (dp[reqRoster][w] !== null && (!bestLineup || dp[reqRoster][w].score > bestLineup.score)) {
+        bestLineup = dp[reqRoster][w];
+      }
+    }
+  }
+
+  if (!bestLineup) return alert("Algorithm failed. Try freeing up salary.");
+
+  renderLineup({ score: lockedScore + bestLineup.score, roster: [...lockedPlayers, ...bestLineup.roster] });
 }
 
 function renderLineup(lineup) {
-  const card = document.getElementById('lineupCard');
-  const list = document.getElementById('rosterList');
-  card.style.display = 'block';
-  list.innerHTML = '';
-  let totalSal = 0;
-  lineup.roster.sort((a, b) => b.price - a.price).forEach(p => {
-    totalSal += p.price;
-    const lockIcon = p.locked ? '🔒 ' : '';
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <div>
-        <div class="r-name">${lockIcon}${p.name}</div>
-        <div style="font-size:11px; color:var(--text2); margin-top:3px; font-family:'DM Mono',monospace">$DLTA ${p.dlta > 0 ? '+'+p.dlta : p.dlta} · ${p.tier}</div>
-      </div>
-      <div class="r-sal">$${(p.price/1000).toFixed(1)}k</div>
-    `;
-    list.appendChild(li);
-  });
-  document.getElementById('optSal').textContent = '$' + totalSal.toLocaleString() + ' / $50,000';
-  document.getElementById('optScore').textContent = lineup.score.toFixed(1);
+  lastLineup = lineup;
+  document.getElementById('lineupCard').style.display = 'block';
+  const list = document.getElementById('rosterList');
+  list.innerHTML = '';
+  
+  let totalSal = 0, totalOwn = 0;
+  
+  lineup.roster.sort((a, b) => b.price - a.price).forEach(p => {
+    totalSal += p.price;
+    totalOwn += p.pOwn;
+    
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <div>
+        <div class="r-name">${p.locked?'🔒 ':''}${p.name} <span style="font-size:10px; font-weight:400; color:var(--text2);">${p.wave==='AM'?'☀️':'🌥️'}</span></div>
+        <div style="font-size:11px; color:var(--text2); margin-top:4px; font-weight:500;">pOWN: ${p.pOwn.toFixed(1)}% | LEV: ${p.leverage.toFixed(1)}</div>
+      </div>
+      <div class="r-sal">$${(p.price/1000).toFixed(1)}k</div>
+    `;
+    list.appendChild(li);
+  });
+
+  document.getElementById('optSal').innerHTML = `$${totalSal.toLocaleString()}`;
+  document.getElementById('optScore').innerHTML = lineup.score.toFixed(2);
+  
+  const ownSpan = document.getElementById('optOwn');
+  ownSpan.innerHTML = `${totalOwn.toFixed(1)}%`;
+  ownSpan.style.color = totalOwn > 85 ? 'var(--plaid-red)' : 'var(--gold)';
+  
+  document.getElementById('thesisContent').innerHTML = ''; // Reset thesis
 }
 </script>
 
