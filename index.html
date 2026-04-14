@@ -172,9 +172,7 @@
 
     .table-wrap {
       background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-      /* ADDED: max-height and overflow-y to create a contained scrolling box.
-         This is required for 'position: sticky; top: 0;' to work properly inside the table.
-      */
+      /* Contain scrolling box */
       max-height: 70vh; overflow-y: auto; overflow-x: auto; 
       -webkit-overflow-scrolling: touch; box-shadow: var(--shadow);
     }
@@ -182,36 +180,39 @@
     .table-wrap::-webkit-scrollbar-track { background: transparent; }
     .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-    table { width: 100%; border-collapse: collapse; text-align: left; min-width: 1000px; }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; } /* Reduced min-width since headers are narrower */
     
-    /* Dual-Axis Sticky Matrix Fix */
+    /* Dual-Axis Sticky Matrix + Emoji Styling */
     th {
-      padding: 10px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 2px solid var(--border);
+      padding: 10px 10px; font-size: 15px; font-weight: 700; color: var(--text-muted); /* Larger font for Emojis */
+      border-bottom: 2px solid var(--border);
       cursor: pointer; user-select: none; transition: 0.2s; font-family: 'JetBrains Mono', monospace;
-      background: var(--surface); position: sticky; top: 0; z-index: 5;
+      background: var(--surface); position: sticky; top: 0; z-index: 5; text-align: center;
     }
     th:hover { color: var(--text); }
-    th .sort { opacity: 0.3; margin-left: 3px; font-size: 9px; }
+    th .sort { opacity: 0.3; margin-left: 3px; font-size: 9px; vertical-align: middle; }
     th.active { color: var(--lighthouse); }
     th.active .sort { opacity: 1; }
     
     /* Pin Player Header to Top-Left */
-    th:first-child { left: 0; z-index: 10; border-right: 2px solid var(--border); }
+    th:first-child { left: 0; z-index: 10; border-right: 2px solid var(--border); text-align: left; }
     
-    td { padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; vertical-align: middle; }
+    td { 
+      padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 12px; 
+      font-weight: 500; vertical-align: middle; text-align: center; /* Center align data under emojis */
+    }
     tr:last-child td { border-bottom: none; }
     tbody tr { transition: background 0.15s; }
     tbody tr:hover { background: var(--surface-hover); }
 
     /* Pin Player Column to Left */
     td:first-child {
-      position: sticky; left: 0; z-index: 4;
+      position: sticky; left: 0; z-index: 4; text-align: left;
       background: var(--surface); border-right: 2px solid var(--border);
     }
     tbody tr:hover td:first-child { background: var(--surface-hover); }
 
-    /* Solid fallbacks for locked rows so scrolling text doesn't bleed through transparent tint */
+    /* Solid fallbacks for locked rows */
     [data-theme="dark"] .row-locked td:first-child { background: #191A1D; }
     [data-theme="harbour"] .row-locked td:first-child { background: #F8F6EF; }
 
@@ -546,15 +547,15 @@
         <table>
           <thead>
             <tr>
-              <th onclick="sortData('name')" data-col="name">🏌️ PLAYER <span class="sort">▼</span></th>
-              <th onclick="sortData('price')" data-col="price">💵 SAL <span class="sort">▼</span></th>
-              <th onclick="sortData('liveImp')" data-col="liveImp">🎲 ODDS <span class="sort">▼</span></th>
-              <th onclick="sortData('dlta')" data-col="dlta">⚖️ $DLTA <span class="sort">▼</span></th>
-              <th onclick="sortData('velTotal')" data-col="velTotal">🚂 STEAM <span class="sort">▼</span></th>
-              <th onclick="sortData('courseHistory')" data-col="courseHistory">🏛️ HIST <span class="sort">▼</span></th>
-              <th onclick="sortData('profileFit')" data-col="profileFit">🎯 FIT <span class="sort">▼</span></th>
-              <th onclick="sortData('pOwn')" data-col="pOwn">👥 pOWN <span class="sort">▼</span></th>
-              <th onclick="sortData('leverage')" data-col="leverage">📈 LEV <span class="sort">▼</span></th>
+              <th onclick="sortData('name')" data-col="name" title="Player Name">🏌️ <span class="sort">▼</span></th>
+              <th onclick="sortData('price')" data-col="price" title="Salary">💵 <span class="sort">▼</span></th>
+              <th onclick="sortData('liveImp')" data-col="liveImp" title="Odds">🎲 <span class="sort">▼</span></th>
+              <th onclick="sortData('dlta')" data-col="dlta" title="$DLTA Arbitrage">⚖️ <span class="sort">▼</span></th>
+              <th onclick="sortData('velTotal')" data-col="velTotal" title="Steam Velocity">🚂 <span class="sort">▼</span></th>
+              <th onclick="sortData('courseHistory')" data-col="courseHistory" title="Course History">🏛️ <span class="sort">▼</span></th>
+              <th onclick="sortData('profileFit')" data-col="profileFit" title="Profile Fit Score">🎯 <span class="sort">▼</span></th>
+              <th onclick="sortData('pOwn')" data-col="pOwn" title="Projected Ownership">👥 <span class="sort">▼</span></th>
+              <th onclick="sortData('leverage')" data-col="leverage" title="Leverage Score">📈 <span class="sort">▼</span></th>
             </tr>
           </thead>
           <tbody id="tbody"></tbody>
