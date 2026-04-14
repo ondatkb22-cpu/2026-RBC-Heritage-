@@ -182,6 +182,7 @@
       <button class="filter-chip" onclick="setFilter('tartan', this)">TARTAN TIER</button>
       <button class="filter-chip" onclick="setFilter('steam', this)">🔥 STEAM</button>
       <button class="filter-chip" onclick="setFilter('value', this)">💰 VALUE ($DLTA+)</button>
+      <button class="filter-chip" onclick="setFilter('sleeper', this)" style="border-color:var(--gold); color:var(--gold);">🎯 SLEEPERS</button>
     </div>
     
     <div class="glossary-bar">
@@ -194,6 +195,7 @@
       <div class="glossary-item"><strong>RGH <150:</strong> Greens in Regulation % from the rough under 150 yds</div>
       <div class="glossary-item"><strong>SG:ARG:</strong> Strokes Gained Around the Green</div>
       <div class="glossary-item"><strong>TIER:</strong> Algorithmic Ranking mapped by top composite scores. Tartan (Top 8), Lighthouse (Ranks 9-25), Field (Rest).</div>
+      <div class="glossary-item"><strong>SLEEPERS:</strong> &lt; $8k Salary + Positive Steam + Top 40 Course History</div>
     </div>
 
     <div class="table-wrap">
@@ -202,7 +204,7 @@
           <tr>
             <th onclick="sortData('name')">PLAYER</th>
             <th onclick="sortData('price')">SALARY</th>
-            <th onclick="sortData('sunWin')">ODDS</th>
+            <th onclick="sortData('sunWin')">ODDS (SUN ➝ CUR)</th>
             <th onclick="sortData('dlta')">$DLTA</th>
             <th onclick="sortData('velTotal')">wVEL</th>
             <th onclick="sortData('sgApp')">SG:APP</th>
@@ -239,7 +241,7 @@
 
 <script>
 // ==========================================
-// MASTER DATABASE (Updated Mon Odds & Steam)
+// MASTER DATABASE 
 // ==========================================
 const db = [
   { name: "Scottie Scheffler", sunWin: 350, monWin: 370, tueWin: null, wedWin: null, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5 },
@@ -439,6 +441,7 @@ function renderTable() {
   if(currentFilter === 'tartan') data = data.filter(p => p.tier === 'Tartan');
   if(currentFilter === 'steam') data = data.filter(p => p.isSteam);
   if(currentFilter === 'value') data = data.filter(p => p.dlta > 0);
+  if(currentFilter === 'sleeper') data = data.filter(p => p.price < 8000 && p.isSteam && p.courseHistory <= 40);
   if(query) data = data.filter(p => p.name.toLowerCase().includes(query));
 
   data.sort((a, b) => {
@@ -471,10 +474,10 @@ function renderTable() {
     
     const salStr = p.price ? `<span style="color:var(--plaid-green); font-weight:700;">$${(p.price/1000).toFixed(1)}k</span>` : '<span class="val-muted">—</span>';
     
-    // Updated Odds String to dynamically show Sun / Mon
+    // Updated Odds String
     const sunStr = p.sunWin ? fmtOdds(p.sunWin) : '—';
     const latestStr = fmtOdds(p.wedWin || p.tueWin || p.monWin || p.sunWin);
-    const oddsStr = `<span style="font-size:9px;color:var(--text2)">${sunStr} / </span><span style="font-weight:700; color:var(--text);">${latestStr}</span>`;
+    const oddsStr = `<span style="font-size:9px;color:var(--text2)">SUN ${sunStr} <span style="font-size:10px; margin:0 2px;">➝</span> </span><span style="font-weight:700; color:var(--text);">${latestStr}</span>`;
     
     let dltaStr = '<span class="val-muted">—</span>';
     if(p.dlta != null) {
