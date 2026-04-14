@@ -291,7 +291,7 @@
       <span class="key-icon">▼</span>
     </div>
     <div class="key-content">
-      <div class="k-item"><div class="k-icon">🏌️</div><div class="k-text"><strong>Player</strong> Lock (🔒) or Exclude (✕). Features AM/PM tee time wave tags.</div></div>
+      <div class="k-item"><div class="k-icon">🏌️</div><div class="k-text"><strong>Player</strong> Lock (🔒) or Exclude (✕). Features exact AM/PM tee time wave tags.</div></div>
       <div class="k-item"><div class="k-icon">💵</div><div class="k-text"><strong>Salary</strong> DraftKings Cap hit.</div></div>
       <div class="k-item"><div class="k-icon">🎲</div><div class="k-text"><strong>Odds</strong> Sun Open ➝ Tue Current.</div></div>
       <div class="k-item"><div class="k-icon">⚖️</div><div class="k-text"><strong>$DLTA</strong> Salary vs Odds inefficiency.</div></div>
@@ -572,7 +572,7 @@ function localWindParser(text) {
   }
   if (winds.length === 0) return 0;
   const avg = winds.reduce((a, b) => a + b, 0) / winds.length;
-  // Apply a fractional mathematical penalty (0.5 pts per 1 mph avg)
+  // Apply a fractional mathematical penalty to the affected wave
   return avg * 0.5; 
 }
 
@@ -590,7 +590,7 @@ function runWindPenalty() {
     return;
   }
 
-  // Apply mathematically to PM wave (historically windier)
+  // Apply mathematically to PM wave
   const affected = players.filter(p => p.wave === 'PM' && p.price);
   affected.forEach(p => { p.windPenalty = penalty; });
 
@@ -654,8 +654,12 @@ function switchTab(tab) {
 }
 
 function processData() {
-  players = [...db];
+  players = players.length ? players : [...db];
   
+  const existing = {};
+  players.forEach(p => { existing[p.name] = { locked: p.locked, excluded: p.excluded, windPenalty: p.windPenalty }; });
+  players = db.map(orig => ({ ...orig, ...(existing[orig.name] || {}) }));
+
   players.forEach((p) => {
     const latest = p.tueWin || p.sunWin;
     p.liveImp = latest ? (100 / (latest + 100)) : 0;
