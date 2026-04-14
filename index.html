@@ -10,7 +10,7 @@
     --bg:#F7F3EE; --surface:#FFFFFF; --surface2:#EDE8E0;
     --text:#1A1A1A; --text2:#5A5349; --border:#D4CFC7;
     --plaid-red:#C41E3A; --plaid-navy:#1B2A4A; --plaid-green:#2D5A3D;
-    --gold:#B8860B; --lighthouse:#E8E0D4;
+    --gold:#B8860B; --lighthouse:#E8E0D4; --chalk:#C0392B;
     --shadow:0 4px 12px rgba(0,0,0,0.06);
   }
   
@@ -23,7 +23,7 @@
                 repeating-linear-gradient(90deg, var(--plaid-navy) 0px, var(--plaid-navy) 1px, transparent 1px, transparent 56px);
   }
 
-  .container { max-width:1300px; margin:0 auto; padding:20px; }
+  .container { max-width:1400px; margin:0 auto; padding:20px; }
 
   /* ── HEADER ── */
   .header { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:20px; box-shadow:var(--shadow); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; position:relative; overflow:hidden; }
@@ -68,16 +68,16 @@
   .glossary-item strong { color:var(--text); }
 
   .table-wrap { overflow-x:auto; overflow-y:visible; max-width:100%; padding-bottom:8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
-  .table-wrap::-webkit-scrollbar { height:10px; }
+  .table-wrap::-webkit-scrollbar { height:12px; }
   .table-wrap::-webkit-scrollbar-track { background:var(--surface2); }
-  .table-wrap::-webkit-scrollbar-thumb { background:var(--border); border-radius:5px; border: 2px solid var(--surface2); }
+  .table-wrap::-webkit-scrollbar-thumb { background:var(--border); border-radius:6px; border: 2px solid var(--surface2); }
   .table-wrap::-webkit-scrollbar-thumb:hover { background:var(--text2); }
 
-  table { width:100%; border-collapse:separate; border-spacing:0; min-width:900px; text-align:left; }
+  table { width:100%; border-collapse:separate; border-spacing:0; min-width:1000px; text-align:left; }
   
-  th { background:var(--plaid-navy); color:rgba(255,255,255,0.95); padding:14px 12px; font-size:11px; font-weight:500; cursor:pointer; white-space:nowrap; letter-spacing:0.5px; border-bottom:1px solid var(--plaid-navy); }
+  th { background:var(--plaid-navy); color:rgba(255,255,255,0.95); padding:16px 16px; font-size:11px; font-weight:500; cursor:pointer; white-space:nowrap; letter-spacing:0.5px; border-bottom:1px solid var(--plaid-navy); }
   th:hover { background:#243858; }
-  td { padding:12px 12px; border-bottom:1px solid var(--surface2); white-space:nowrap; font-size:12px; }
+  td { padding:14px 16px; border-bottom:1px solid var(--surface2); white-space:nowrap; font-size:13px; }
   
   .col-div-header { border-right: 1px solid rgba(255,255,255,0.15); }
   .col-div { border-right: 1px solid var(--surface2); }
@@ -87,9 +87,10 @@
   
   tbody tr:hover td { background:rgba(27,42,74,0.03); }
   
-  .name-cell { font-weight:700; color:var(--plaid-navy); font-size:13px; }
+  .name-cell { font-weight:700; color:var(--plaid-navy); font-size:14px; min-width:150px; }
   .val-good { color:var(--plaid-green); font-weight:700; }
   .val-bad { color:var(--plaid-red); }
+  .val-chalk { color:var(--chalk); font-weight:700; }
   .val-elite { color:#B8860B; font-weight:700; }
 
   .badge { padding:4px 8px; border-radius:4px; font-size:10px; font-weight:700; display:inline-flex; align-items:center; gap:4px; margin-right:4px; letter-spacing: 0.5px;}
@@ -98,10 +99,10 @@
   .b-steam { background:rgba(196,30,58,0.1); color:var(--plaid-red); border:1px solid rgba(196,30,58,0.2); }
   .b-value { background:rgba(45,90,61,0.1); color:var(--plaid-green); border:1px solid rgba(45,90,61,0.2); }
 
-  /* ── ACTION COLUMN (DESKTOP) ── */
-  .action-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; min-width: 220px; }
+  /* ── ICON BUTTON UI (LOCK/EXCLUDE) ── */
+  .action-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; min-width: 240px; }
   .action-icons { display: flex; gap: 6px; }
-  .action-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; color: var(--text2); transition: 0.2s; font-size: 12px; }
+  .action-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; color: var(--text2); transition: 0.2s; font-size: 13px; }
   .action-btn:hover { background: var(--surface2); }
   
   .btn-lock.active { background: rgba(184,134,11,0.1); border-color: var(--gold); }
@@ -117,7 +118,7 @@
   .lineup-card { background:#fafafa; border:2px solid var(--plaid-navy); border-radius:8px; max-width:650px; margin:0 auto; overflow:hidden; text-align:left; display:none; box-shadow: var(--shadow); }
   .lineup-header { background:var(--plaid-navy); color:#fff; padding:20px; display:flex; justify-content:space-between; align-items:center; }
   .lineup-header h3 { font-family:'Libre Baskerville', serif; font-size:20px; }
-  .lineup-stats { font-size:13px; font-weight:500; }
+  .lineup-stats { font-size:13px; font-weight:500; text-align:right;}
   .roster-list { padding:0; margin:0; list-style:none; }
   .roster-list li { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
   .roster-list li:last-child { border-bottom:none; }
@@ -134,11 +135,9 @@
     .toolbar { padding: 12px; gap: 8px; }
     .search-box { width: 100%; }
     
-    /* Squash Table for Mobile */
     th { padding: 10px 8px; font-size: 9px; white-space: normal; line-height: 1.2; }
     td { padding: 10px 8px; font-size: 10px; }
     
-    /* Shrink the sticky column so it doesn't eat the whole phone screen */
     .name-cell { font-size: 12px; min-width: unset; display: block; }
     .action-wrap { flex-direction: column; align-items: flex-start; min-width: 100px; gap: 6px; }
     .action-icons { display: flex; gap: 4px; }
@@ -148,6 +147,7 @@
     
     .opt-btn { width: 100%; padding: 14px 20px; font-size: 14px; }
     .lineup-header { flex-direction: column; gap: 8px; text-align: center; }
+    .lineup-stats { text-align: center; }
   }
 </style>
 </head>
@@ -196,12 +196,12 @@
         <div class="guide-text"><p>Books open their lines on Sunday night. By Wednesday, sharp bettors and syndicates have hammered the inefficiencies. Plaid Genie tracks this velocity. The <strong>wVEL Indicator</strong> flags players whose implied win probability has surged since the open.</p></div>
       </div>
       <div class="guide-card">
-        <h3><span>3</span> Profile Fit Score</h3>
-        <div class="guide-text"><p>We collapsed all the noise. The <strong>Profile Fit</strong> score (1-100) dynamically weights SG: Approach and SG: Around-the-Green to match the historical winning profile of Harbour Town.</p></div>
+        <h3><span>3</span> Profile Fit & Leverage</h3>
+        <div class="guide-text"><p>The <strong>Profile Fit</strong> score (1-100) dynamically weights SG: Approach and SG: Around-the-Green to match Harbour Town. We then compare that fit to our synthetic <strong>pOWN%</strong> model to generate a <strong>Leverage</strong> score—identifying elite plays the public is ignoring.</p></div>
       </div>
       <div class="guide-card">
-        <h3><span>4</span> Dynamic Optimizer</h3>
-        <div class="guide-text"><p>Stop guessing. Our built-in Dynamic Optimization Algorithm instantly evaluates millions of roster combinations to construct the single most optimal 6-man lineup under the $50k DraftKings salary cap. You can Lock (🔒) players to force them into the lineup, or Exclude (✕) players you want to fade.</p></div>
+        <h3><span>4</span> GPP Dynamic Optimizer</h3>
+        <div class="guide-text"><p>Stop guessing. Our built-in Dynamic Algorithm evaluates millions of combinations to construct the optimal 6-man lineup under the $50k cap. Lock (🔒) players, Exclude (✕) chalk, and monitor your <strong>Total Lineup Ownership</strong> to ensure GPP viability.</p></div>
       </div>
     </div>
   </div>
@@ -211,18 +211,17 @@
       <input type="text" class="search-box" id="search" placeholder="Search player pool..." oninput="renderTable()">
       <button class="filter-chip active" onclick="setFilter('all', this)">ALL TIERS</button>
       <button class="filter-chip" onclick="setFilter('tartan', this)">TARTAN TIER</button>
-      <button class="filter-chip" onclick="setFilter('steam', this)">🔥 STEAM</button>
-      <button class="filter-chip" onclick="setFilter('value', this)">💰 VALUE ($DLTA+)</button>
+      <button class="filter-chip" onclick="setFilter('leverage', this)" style="border-color:var(--plaid-green); color:var(--plaid-green);">📈 TOP LEVERAGE</button>
       <button class="filter-chip" onclick="setFilter('sleeper', this)" style="border-color:var(--gold); color:var(--gold);">🎯 SLEEPERS</button>
     </div>
     
     <div class="glossary-bar">
       <div class="glossary-title">📊 METRIC KEY</div>
       <div class="glossary-item"><strong>$DLTA:</strong> Salary Rank vs Odds Rank (Positive = Underpriced)</div>
-      <div class="glossary-item"><strong>wVEL:</strong> % shift in win probability since Sunday</div>
-      <div class="glossary-item"><strong>CRSE HIST (AVG FINISH):</strong> Chronologically Weighted (2025: 40%, 2024: 30%, 2022: 20%, Base: 10%). MC/DNP = 75. <strong>(Lower is Better)</strong></div>
-      <div class="glossary-item"><strong>PROFILE FIT (1-100):</strong> Algorithmic grade heavily weighting SG:APP & SG:ARG. <strong>(Higher is Better)</strong></div>
-      <div class="glossary-item"><strong>TIER:</strong> Algorithmic Ranking mapped by composite scores. Tartan (Top 8), Lighthouse (Ranks 9-25), Field (Rest).</div>
+      <div class="glossary-item"><strong>CRSE HIST (AVG FINISH):</strong> Chronologically Weighted. MC/DNP = 75. <strong>(Lower is Better)</strong></div>
+      <div class="glossary-item"><strong>PROFILE FIT (1-100):</strong> Algorithmic grade weighting SG:APP & SG:ARG. <strong>(Higher is Better)</strong></div>
+      <div class="glossary-item"><strong>pOWN%:</strong> Synthetic projected DFS ownership based on Salary, Steam, and Course History chalk.</div>
+      <div class="glossary-item"><strong>LEVERAGE (1-100):</strong> Measures Profile Fit vs. Projected Ownership to find elite contrarian plays.</div>
     </div>
 
     <div class="table-wrap">
@@ -234,8 +233,10 @@
             <th onclick="sortData('sunWin')">ODDS (SUN ➝ CUR)</th>
             <th onclick="sortData('dlta')">$DLTA</th>
             <th class="col-div-header" onclick="sortData('velTotal')">wVEL (STEAM)</th>
-            <th onclick="sortData('courseHistory')">CRSE HIST (AVG FINISH)</th>
-            <th class="col-div-header" onclick="sortData('profileFit')">PROFILE FIT (1-100)</th>
+            <th onclick="sortData('courseHistory')">CRSE HIST</th>
+            <th class="col-div-header" onclick="sortData('profileFit')">PROFILE FIT</th>
+            <th onclick="sortData('pOwn')">pOWN%</th>
+            <th class="col-div-header" onclick="sortData('leverage')">LEVERAGE</th>
             <th onclick="sortData('composite')">TIER</th>
           </tr>
         </thead>
@@ -252,7 +253,9 @@
         <div class="lineup-header">
           <h3>The Plaid Blueprint</h3>
           <div class="lineup-stats">
-            <span id="optSal"></span> Remaining | Proj. Engine Score: <span id="optScore" style="color:#F4D35E;"></span>
+            Salary: <span id="optSal"></span> Remaining<br>
+            Total Lineup pOWN%: <span id="optOwn" style="color:var(--gold);"></span><br>
+            Proj. Engine Score: <span id="optScore"></span>
           </div>
         </div>
         <ul class="roster-list" id="rosterList"></ul>
@@ -373,6 +376,7 @@ function switchTab(tab) {
 function processData() {
   players = [...db];
 
+  // 1. Calculate DLTA and Steam First
   players.forEach(p => {
     const latestOdds = p.wedWin || p.tueWin || p.monWin || p.sunWin;
     p.liveImp = latestOdds ? (100 / (latestOdds + 100)) : 0;
@@ -382,22 +386,6 @@ function processData() {
     p.isSteam = p.velTotal > 0.02;
     p.locked = false;
     p.excluded = false;
-    
-    let app = p.sgApp ? p.sgApp * 30 : 0; 
-    let arg = p.sgArg ? p.sgArg * 20 : 0; 
-    let prox = p.prox150 ? (30 - p.prox150) * 2 : 0;
-    let rgh = p.girRough ? p.girRough * 0.5 : 0;
-    let bird = p.birdiePct ? p.birdiePct * 0.5 : 0;
-    
-    p.rawFit = app + arg + prox + rgh + bird;
-  });
-
-  const validFits = players.filter(p => p.price).map(p => p.rawFit);
-  const maxFit = Math.max(...validFits);
-  const minFit = Math.min(...validFits);
-  
-  players.forEach(p => {
-      p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100;
   });
 
   const priced = players.filter(p => p.price);
@@ -410,9 +398,53 @@ function processData() {
       });
   }
 
+  // 2. Calculate Profile Fit
   players.forEach(p => {
-    let histScore = p.courseHistory ? (80 - p.courseHistory) * 0.5 : 0; 
-    p.composite = p.profileFit + histScore;
+    let app = p.sgApp ? p.sgApp * 30 : 0; 
+    let arg = p.sgArg ? p.sgArg * 20 : 0; 
+    let prox = p.prox150 ? (30 - p.prox150) * 2 : 0;
+    let rgh = p.girRough ? p.girRough * 0.5 : 0;
+    let bird = p.birdiePct ? p.birdiePct * 0.5 : 0;
+    p.rawFit = app + arg + prox + rgh + bird;
+  });
+
+  const validFits = players.filter(p => p.price).map(p => p.rawFit);
+  const maxFit = Math.max(...validFits);
+  const minFit = Math.min(...validFits);
+  
+  // 3. Calculate pOWN%, Leverage, and Composite
+  players.forEach(p => {
+      p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100;
+      
+      // Synthetic pOWN% Calculation
+      let baseOwn = 3;
+      if (p.price >= 10000) baseOwn = 15;
+      else if (p.price >= 9000) baseOwn = 13;
+      else if (p.price >= 8000) baseOwn = 10;
+      else if (p.price >= 7000) baseOwn = 12;
+      
+      let dltaBump = p.dlta ? (p.dlta * 1.2) : 0;
+      let histBump = p.courseHistory <= 20 ? 5 : (p.courseHistory <= 40 ? 2 : 0);
+      let steamBump = p.isSteam ? 4 : 0;
+      
+      p.pOwn = baseOwn + dltaBump + histBump + steamBump;
+      if (p.pOwn < 0.5) p.pOwn = 0.5;
+      if (p.pOwn > 35.0) p.pOwn = 35.0;
+      
+      // Leverage Calculation
+      p.rawLev = p.profileFit - (p.pOwn * 1.5);
+      
+      let histScore = p.courseHistory ? (80 - p.courseHistory) * 0.5 : 0; 
+      p.composite = p.profileFit + histScore;
+  });
+  
+  // Normalize Leverage
+  const validLevs = players.filter(p => p.price).map(p => p.rawLev);
+  const maxLev = Math.max(...validLevs);
+  const minLev = Math.min(...validLevs);
+  
+  players.forEach(p => {
+      p.leverage = ((p.rawLev - minLev) / (maxLev - minLev)) * 100;
   });
 
   players.sort((a,b) => b.composite - a.composite);
@@ -436,7 +468,7 @@ function sortData(col) {
   if (sortCol === col) sortAsc = !sortAsc;
   else { 
       sortCol = col; 
-      sortAsc = (col === 'name' || col === 'courseHistory'); 
+      sortAsc = (col === 'name' || col === 'courseHistory' || col === 'pOwn'); // High-to-Low defaults
   }
   renderTable();
 }
@@ -474,6 +506,7 @@ function renderTable() {
   if(currentFilter === 'tartan') data = data.filter(p => p.tier === 'Tartan');
   if(currentFilter === 'steam') data = data.filter(p => p.isSteam);
   if(currentFilter === 'value') data = data.filter(p => p.dlta > 0);
+  if(currentFilter === 'leverage') data = data.filter(p => p.leverage > 65);
   if(currentFilter === 'sleeper') data = data.filter(p => p.price < 8000 && p.isSteam && p.courseHistory <= 40);
   if(query) data = data.filter(p => p.name.toLowerCase().includes(query));
 
@@ -487,7 +520,7 @@ function renderTable() {
   tbody.innerHTML = '';
   
   const fmtOdds = v => v ? (v > 0 ? '+'+v : v) : '—';
-  const fmtNum = v => v != null ? v.toFixed(2) : '—';
+  const fmtNum = v => v != null ? v.toFixed(1) : '—';
 
   const lighthouseIcon = `<svg viewBox="0 0 40 80" width="8" height="16" xmlns="http://www.w3.org/2000/svg" style="vertical-align:text-bottom"><polygon points="10,80 30,80 26,20 14,20" fill="#E8E0D4" /><polygon points="12,65 28,65 27,50 13,50" fill="#C41E3A" /><polygon points="13.5,35 26.5,35 25.5,20 14.5,20" fill="#C41E3A" /><rect x="10" y="18" width="20" height="2" fill="#1A1A1A" /><rect x="15" y="10" width="10" height="8" fill="#E8E0D4" /><polygon points="20,2 12,10 28,10" fill="#C41E3A" /></svg>`;
 
@@ -519,11 +552,14 @@ function renderTable() {
                     p.tier === 'Lighthouse' ? `<span class="badge b-lighthouse">${lighthouseIcon} LIGHTHOUSE</span>` : 
                     `<span class="badge" style="color:var(--text2); border:1px solid var(--border);">FIELD</span>`;
 
-    if(p.dlta > 3) tierBadge += '<span class="badge b-value">$DLTA+</span>';
-    if(p.isSteam) tierBadge += '<span class="badge b-steam">STEAM</span>';
-
     const fitVal = p.profileFit != null ? p.profileFit.toFixed(1) : '—';
     const fitClass = p.profileFit > 85 ? 'val-elite' : (p.profileFit > 65 ? 'val-good' : (p.profileFit < 30 ? 'val-bad' : ''));
+    
+    const ownVal = p.pOwn != null ? p.pOwn.toFixed(1) + '%' : '—';
+    const ownClass = p.pOwn > 20 ? 'val-chalk' : (p.pOwn < 5 ? 'val-good' : '');
+    
+    const levVal = p.leverage != null ? p.leverage.toFixed(1) : '—';
+    const levClass = p.leverage > 80 ? 'val-elite' : (p.leverage > 65 ? 'val-good' : '');
 
     tr.innerHTML = `
       <td>
@@ -541,6 +577,8 @@ function renderTable() {
       <td class="${excludedClass} col-div">${velStr}</td>
       <td class="${excludedClass}">${fmtNum(p.courseHistory)}</td>
       <td class="${excludedClass} col-div"><strong class="${fitClass}">${fitVal}</strong></td>
+      <td class="${excludedClass}"><span class="${ownClass}">${ownVal}</span></td>
+      <td class="${excludedClass} col-div"><strong class="${levClass}">${levVal}</strong></td>
       <td class="${excludedClass}">${tierBadge}</td>
     `;
     tbody.appendChild(tr);
@@ -640,26 +678,40 @@ function renderLineup(lineup) {
   const list = document.getElementById('rosterList');
   const salSpan = document.getElementById('optSal');
   const scoreSpan = document.getElementById('optScore');
+  const ownSpan = document.getElementById('optOwn');
 
   card.style.display = 'block';
   list.innerHTML = '';
   
   let totalSal = 0;
+  let totalOwn = 0;
+  
   lineup.roster.sort((a, b) => b.price - a.price).forEach(p => {
     totalSal += p.price;
+    totalOwn += p.pOwn;
+    
     const lockIndicator = p.locked ? '<span class="lock-icon" title="Locked Player">🔒</span> ' : '';
     const li = document.createElement('li');
     li.innerHTML = `
       <div>
         <div class="r-name">${lockIndicator}${p.name}</div>
-        <div style="font-size:11px; color:var(--text2); margin-top:4px; font-weight:500;">$DLTA: ${p.dlta > 0 ? '+'+p.dlta : p.dlta} | Tier: ${p.tier}</div>
+        <div style="font-size:11px; color:var(--text2); margin-top:4px; font-weight:500;">pOWN: ${p.pOwn.toFixed(1)}% | LEV: ${p.leverage.toFixed(1)}</div>
       </div>
       <div class="r-sal">$${(p.price/1000).toFixed(1)}k</div>
     `;
     list.appendChild(li);
   });
 
-  salSpan.innerHTML = `Salary: $${totalSal.toLocaleString()} / $50,000`;
+  salSpan.innerHTML = `$${totalSal.toLocaleString()}`;
+  ownSpan.innerHTML = `${totalOwn.toFixed(1)}%`;
+  
+  if (totalOwn > 95) {
+      ownSpan.style.color = 'var(--plaid-red)';
+      ownSpan.title = "High Ownership Warning: Consider swapping a chalky player for leverage.";
+  } else {
+      ownSpan.style.color = 'var(--gold)';
+  }
+  
   scoreSpan.innerHTML = lineup.score.toFixed(2);
 }
 </script>
