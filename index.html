@@ -172,13 +172,15 @@
 
     .table-wrap {
       background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-      overflow-x: auto; box-shadow: var(--shadow);
+      overflow-x: auto; -webkit-overflow-scrolling: touch; box-shadow: var(--shadow);
     }
     .table-wrap::-webkit-scrollbar { height: 8px; }
     .table-wrap::-webkit-scrollbar-track { background: transparent; }
     .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
     table { width: 100%; border-collapse: collapse; text-align: left; min-width: 1000px; }
+    
+    /* Dual-Axis Sticky Matrix Fix */
     th {
       padding: 10px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted);
       text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 2px solid var(--border);
@@ -189,10 +191,25 @@
     th .sort { opacity: 0.3; margin-left: 3px; font-size: 9px; }
     th.active { color: var(--lighthouse); }
     th.active .sort { opacity: 1; }
+    
+    /* Pin Player Header to Top-Left */
+    th:first-child { left: 0; z-index: 10; border-right: 2px solid var(--border); }
+    
     td { padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
     tbody tr { transition: background 0.15s; }
     tbody tr:hover { background: var(--surface-hover); }
+
+    /* Pin Player Column to Left */
+    td:first-child {
+      position: sticky; left: 0; z-index: 4;
+      background: var(--surface); border-right: 2px solid var(--border);
+    }
+    tbody tr:hover td:first-child { background: var(--surface-hover); }
+
+    /* Solid fallbacks for locked rows so scrolling text doesn't bleed through transparent tint */
+    [data-theme="dark"] .row-locked td:first-child { background: #191A1D; }
+    [data-theme="harbour"] .row-locked td:first-child { background: #F8F6EF; }
 
     .player-name { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--text); }
     .tier-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -365,17 +382,21 @@
     .stat-val { font-size: 15px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
     .stat-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
 
-    /* ============ RESPONSIVE ============ */
+    /* ============ RESPONSIVE DE-ZOOM ============ */
     @media (max-width: 768px) {
-      .container { padding: 12px; }
+      .container { padding: 8px; }
       .header { flex-direction: column; align-items: flex-start; }
       .search-box { width: 100%; }
       .filter-chip { flex: 1 1 auto; text-align: center; }
       .sync-btn { width: 100%; margin-left: 0; }
       .tab-btn { min-width: auto; padding: 10px 10px; font-size: 10px; }
       .tab-btn .step-num { display: none; }
-      th, td { padding: 10px 10px; font-size: 11px; }
-      .player-name { font-size: 12px; }
+      
+      /* De-zoom table for Pro mobile scanning */
+      th, td { padding: 8px 8px; font-size: 10px; }
+      .player-name { font-size: 11px; }
+      .btn-icon { width: 20px; height: 20px; font-size: 10px; }
+      
       .build-actions { grid-template-columns: 1fr; }
       .fab-stats { gap: 12px; }
       .stat-val { font-size: 13px; }
@@ -458,7 +479,7 @@
         <div class="step-card">
           <div class="step-num-big">4</div>
           <h3>🎰 Run 10M Simulations</h3>
-          <p>Let the Monte Carlo engine run 10,000,000 tournament simulations and surface the Top 5 Cash + Top 20 GPP lineups statistically proven to perform.</p>
+          <p>Let the Monte Carlo engine run 10,000,000 tournament simulations and surface the Top 5 Cash + Top 3 GPP lineups statistically proven to perform.</p>
           <button class="go-btn" onclick="switchTabByName('prebuilt')">VIEW PRE-BUILT →</button>
         </div>
       </div>
@@ -587,7 +608,7 @@
     <div class="panel" id="panel-prebuilt">
       <div class="prebuilt-hero">
         <h2>🎰 Monte Carlo Pre-Built Lineups</h2>
-        <p>Run 10,000,000 tournament simulations against the full player pool. The engine surfaces the Top 5 Cash + Top 20 GPP lineups statistically proven to perform under Harbour Town conditions.</p>
+        <p>Run 10,000,000 tournament simulations against the full player pool. The engine surfaces the Top 5 Cash + Top 3 GPP lineups statistically proven to perform under Harbour Town conditions.</p>
         <button class="sim-btn" id="simBtn" onclick="runMonteCarloSim()">▶ RUN 10M SIMULATIONS</button>
         <div class="progress-wrap" id="progressWrap">
           <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
@@ -601,7 +622,7 @@
           <div class="prebuilt-grid" id="cashGrid"></div>
         </div>
         <div class="prebuilt-section">
-          <h3>🚀 TOP 20 GPP LINEUPS <span class="count">TOURNAMENT LEVERAGE</span></h3>
+          <h3>🚀 TOP 3 GPP LINEUPS <span class="count">TOURNAMENT LEVERAGE</span></h3>
           <div class="prebuilt-grid" id="gppGrid"></div>
         </div>
       </div>
@@ -1160,7 +1181,7 @@
           self.postMessage({
             type: 'done',
             cash: cashSorted.slice(0, 5),
-            gpp: gppSorted.slice(0, 20),
+            gpp: gppSorted.slice(0, 3), // <-- SLICED TO TOP 3
             totalUnique: all.length
           });
         };
