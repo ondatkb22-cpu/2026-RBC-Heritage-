@@ -272,10 +272,22 @@
     .locks-display {
       background: var(--surface-3); border: 1px solid var(--border); border-radius: 10px; padding: 14px;
     }
-    .locks-display h4 {
-      font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
-      margin-bottom: 10px; text-transform: uppercase;
+    .locks-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
     }
+    .locks-header h4 {
+      font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+      margin-bottom: 0; text-transform: uppercase;
+    }
+    .clear-btn {
+      background: transparent; border: 1px solid var(--text-dim); color: var(--text-muted);
+      padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 700; cursor: pointer;
+      font-family: 'JetBrains Mono', monospace; transition: 0.2s; letter-spacing: 0.5px;
+    }
+    .clear-btn:hover {
+      border-color: var(--accent-red); color: var(--accent-red); background: rgba(255,51,102,0.1);
+    }
+    
     .lock-item {
       display: flex; justify-content: space-between; align-items: center; padding: 8px 0;
       border-bottom: 1px dashed var(--border); font-size: 12px;
@@ -581,7 +593,10 @@
           </div>
 
           <div class="locks-display">
-            <h4>🔒 Locked Players</h4>
+            <div class="locks-header">
+              <h4>🔒 Locked Players</h4>
+              <button class="clear-btn" onclick="clearAllLocks()">CLEAR ALL</button>
+            </div>
             <div id="locksList"><div class="lock-empty">No players locked. Go to Pool tab to lock players.</div></div>
           </div>
 
@@ -861,6 +876,12 @@
       const p = players.find(x => x.name === name);
       if (p) { p.excluded = !p.excluded; if (p.excluded) p.locked = false; }
       renderTable(); updateSideStats();
+    }
+
+    function clearAllLocks() {
+      players.forEach(p => p.locked = false);
+      renderTable(); 
+      updateSideStats();
     }
 
     function renderTable() {
