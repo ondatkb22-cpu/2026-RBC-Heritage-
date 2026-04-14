@@ -573,10 +573,24 @@ function runOptimizer() {
   }
 
   let bestLineup = null;
+  let targetMinSal = 490 - lockedSal;
+
   for (let w = 0; w <= maxSal; w++) {
     if (dp[reqRoster][w] !== null) {
-      if (bestLineup === null || dp[reqRoster][w].score > bestLineup.score) {
-        bestLineup = dp[reqRoster][w];
+      if (w >= targetMinSal) {
+        if (bestLineup === null || dp[reqRoster][w].score > bestLineup.score) {
+          bestLineup = dp[reqRoster][w];
+        }
+      }
+    }
+  }
+
+  if (bestLineup === null) {
+    for (let w = 0; w <= maxSal; w++) {
+      if (dp[reqRoster][w] !== null) {
+        if (bestLineup === null || dp[reqRoster][w].score > bestLineup.score) {
+          bestLineup = dp[reqRoster][w];
+        }
       }
     }
   }
