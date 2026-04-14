@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Plaid Genie v4.2 — Content Aware Pro</title>
+  <title>Plaid Genie v4.3 — Tri-Odds Engine</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     /* ============ THEME SYSTEM ============ */
@@ -53,521 +53,101 @@
       --serif: 'Libre Baskerville', serif;
     }
 
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-      -webkit-tap-highlight-color: transparent; 
-    }
-    
-    body {
-      background: var(--bg); 
-      color: var(--text); 
-      font-family: var(--body-font); 
-      font-size: 13px;
-      min-height: 100vh; 
-      padding-bottom: 100px; 
-      -webkit-font-smoothing: antialiased;
-      transition: background 0.4s, color 0.4s;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); font-family: var(--body-font); font-size: 13px; min-height: 100vh; padding-bottom: 100px; -webkit-font-smoothing: antialiased; transition: background 0.4s, color 0.4s; }
 
-    body::before {
-      content: ''; 
-      position: fixed; 
-      top: -50%; 
-      left: -50%; 
-      width: 200%; 
-      height: 200%;
-      background: radial-gradient(circle at 50% 50%, rgba(0, 122, 255, 0.03) 0%, transparent 50%);
-      z-index: -1; 
-      animation: pulse 15s ease-in-out infinite alternate;
-    }
+    body::before { content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(0, 122, 255, 0.03) 0%, transparent 50%); z-index: -1; animation: pulse 15s ease-in-out infinite alternate; }
     
-    [data-theme="harbour"] body::before {
-      background: repeating-linear-gradient(0deg, rgba(196, 30, 58, 0.02) 0, rgba(196, 30, 58, 0.02) 1px, transparent 1px, transparent 28px),
-                  repeating-linear-gradient(90deg, rgba(27, 42, 74, 0.02) 0, rgba(27, 42, 74, 0.02) 1px, transparent 1px, transparent 56px);
-      animation: none;
-    }
+    [data-theme="harbour"] body::before { background: repeating-linear-gradient(0deg, rgba(196, 30, 58, 0.02) 0, rgba(196, 30, 58, 0.02) 1px, transparent 1px, transparent 28px), repeating-linear-gradient(90deg, rgba(27, 42, 74, 0.02) 0, rgba(27, 42, 74, 0.02) 1px, transparent 1px, transparent 56px); animation: none; }
     
-    @keyframes pulse { 
-      0% { transform: scale(1); } 
-      100% { transform: scale(1.1); } 
-    }
+    @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
 
-    .container { 
-      max-width: 1400px; 
-      margin: 0 auto; 
-      padding: 20px; 
-    }
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 
     /* ============ HEADER ============ */
-    .header {
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      gap: 16px;
-      padding: 20px 0; 
-      border-bottom: 1px solid var(--border); 
-      margin-bottom: 20px; 
-      flex-wrap: wrap;
-    }
-
-    .header-left { 
-      display: flex; 
-      align-items: center; 
-      gap: 14px; 
-    }
-
-    .lighthouse-svg { 
-      width: 32px; 
-      height: 56px; 
-      flex-shrink: 0; 
-    }
-
-    [data-theme="dark"] .lighthouse-svg { 
-      filter: brightness(1.2); 
-    }
-
-    .header-text h1 {
-      font-family: var(--serif); 
-      font-size: 26px; 
-      font-weight: 700; 
-      letter-spacing: -0.5px;
-      display: flex; 
-      align-items: center; 
-      gap: 10px;
-    }
-
-    .header-text h1 em { 
-      color: var(--tartan); 
-      font-style: normal; 
-    }
-
-    .header-text h1 .v-badge {
-      font-family: 'JetBrains Mono', monospace; 
-      font-size: 9px; 
-      background: var(--lighthouse); 
-      color: #fff;
-      padding: 3px 7px; 
-      border-radius: 10px; 
-      text-transform: uppercase; 
-      letter-spacing: 1px; 
-      font-weight: 700;
-    }
-
-    .header-sub { 
-      color: var(--text-muted); 
-      font-size: 12px; 
-      margin-top: 4px; 
-      font-weight: 400; 
-    }
-
-    .header-right { 
-      display: flex; 
-      gap: 10px; 
-      align-items: center; 
-    }
+    .header { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; flex-wrap: wrap; }
+    .header-left { display: flex; align-items: center; gap: 14px; }
+    .lighthouse-svg { width: 32px; height: 56px; flex-shrink: 0; }
+    [data-theme="dark"] .lighthouse-svg { filter: brightness(1.2); }
+    .header-text h1 { font-family: var(--serif); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
+    .header-text h1 em { color: var(--tartan); font-style: normal; }
+    .header-text h1 .v-badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; background: var(--lighthouse); color: #fff; padding: 3px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .header-sub { color: var(--text-muted); font-size: 12px; margin-top: 4px; font-weight: 400; }
+    .header-right { display: flex; gap: 10px; align-items: center; }
     
-    .theme-toggle {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      color: var(--text);
-      padding: 8px 14px; 
-      border-radius: 20px; 
-      font-size: 11px; 
-      font-weight: 600; 
-      cursor: pointer;
-      display: flex; 
-      align-items: center; 
-      gap: 6px; 
-      font-family: 'JetBrains Mono', monospace; 
-      letter-spacing: 0.5px;
-    }
-
-    .theme-toggle:hover { 
-      border-color: var(--lighthouse); 
-    }
+    .theme-toggle { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+    .theme-toggle:hover { border-color: var(--lighthouse); }
 
     /* ============ TABS ============ */
-    .tabs {
-      display: flex; 
-      gap: 6px; 
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 12px;
-      padding: 5px; 
-      margin-bottom: 20px; 
-      overflow-x: auto;
-    }
-
-    .tab-btn {
-      flex: 1; 
-      min-width: 100px; 
-      padding: 12px 16px; 
-      background: transparent; 
-      border: none; 
-      color: var(--text-muted);
-      font-family: inherit; 
-      font-size: 12px; 
-      font-weight: 600; 
-      cursor: pointer; 
-      border-radius: 8px;
-      transition: all 0.2s; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 6px; 
-      white-space: nowrap;
-      letter-spacing: 0.3px;
-    }
-
-    .tab-btn:hover { 
-      color: var(--text); 
-    }
-
-    .tab-btn.active { 
-      background: var(--lighthouse); 
-      color: #fff; 
-      box-shadow: var(--shadow); 
-    }
-
-    .tab-btn .step-num {
-      width: 18px; 
-      height: 18px; 
-      border-radius: 50%; 
-      background: rgba(255, 255, 255, 0.15); 
-      color: inherit;
-      font-size: 10px; 
-      font-weight: 700; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-    }
-
-    .tab-btn.active .step-num { 
-      background: rgba(255, 255, 255, 0.25); 
-    }
-
-    [data-theme="harbour"] .tab-btn:not(.active) .step-num { 
-      background: var(--border); 
-    }
+    .tabs { display: flex; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 5px; margin-bottom: 20px; overflow-x: auto; }
+    .tab-btn { flex: 1; min-width: 100px; padding: 12px 16px; background: transparent; border: none; color: var(--text-muted); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; letter-spacing: 0.3px; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { background: var(--lighthouse); color: #fff; box-shadow: var(--shadow); }
+    .tab-btn .step-num { width: 18px; height: 18px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); color: inherit; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+    .tab-btn.active .step-num { background: rgba(255, 255, 255, 0.25); }
+    [data-theme="harbour"] .tab-btn:not(.active) .step-num { background: var(--border); }
 
     /* ============ PANELS ============ */
-    .panel { 
-      display: none; 
-      animation: fadeIn 0.3s ease; 
-    }
-
-    .panel.active { 
-      display: block; 
-    }
-
-    @keyframes fadeIn { 
-      from { opacity: 0; transform: translateY(10px); } 
-      to { opacity: 1; transform: translateY(0); } 
-    }
+    .panel { display: none; animation: fadeIn 0.3s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ============ GUIDE TAB ============ */
-    .guide-hero {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 16px; 
-      padding: 32px;
-      text-align: center; 
-      margin-bottom: 20px; 
-      box-shadow: var(--shadow);
-    }
+    .guide-hero { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 20px; box-shadow: var(--shadow); }
+    .guide-hero h2 { font-family: var(--serif); font-size: 28px; margin-bottom: 12px; color: var(--text); }
+    .guide-hero p { color: var(--text-muted); font-size: 14px; max-width: 700px; margin: 0 auto; line-height: 1.6; }
 
-    .guide-hero h2 { 
-      font-family: var(--serif); 
-      font-size: 28px; 
-      margin-bottom: 12px; 
-      color: var(--text); 
-    }
+    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; position: relative; transition: 0.2s; box-shadow: var(--shadow); }
+    .step-card:hover { border-color: var(--lighthouse); transform: translateY(-2px); }
+    .step-num-big { position: absolute; top: -10px; left: 20px; background: var(--lighthouse); color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; box-shadow: var(--shadow); }
+    .step-card h3 { font-size: 16px; font-weight: 700; margin: 8px 0 10px; color: var(--text); }
+    .step-card p { color: var(--text-muted); font-size: 12px; line-height: 1.6; }
+    .step-card .go-btn { margin-top: 14px; background: transparent; border: 1px solid var(--lighthouse); color: var(--lighthouse); padding: 8px 14px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+    .step-card .go-btn:hover { background: var(--lighthouse); color: #fff; }
 
-    .guide-hero p { 
-      color: var(--text-muted); 
-      font-size: 14px; 
-      max-width: 700px; 
-      margin: 0 auto; 
-      line-height: 1.6; 
-    }
-
-    .steps-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
-      gap: 16px; 
-      margin-bottom: 24px; 
-    }
-
-    .step-card {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 14px; 
-      padding: 22px;
-      position: relative; 
-      transition: 0.2s; 
-      box-shadow: var(--shadow);
-    }
-
-    .step-card:hover { 
-      border-color: var(--lighthouse); 
-      transform: translateY(-2px); 
-    }
-
-    .step-num-big {
-      position: absolute; 
-      top: -10px; 
-      left: 20px; 
-      background: var(--lighthouse); 
-      color: #fff;
-      width: 32px; 
-      height: 32px; 
-      border-radius: 50%; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      font-weight: 700; 
-      font-family: 'JetBrains Mono', monospace; 
-      font-size: 13px; 
-      box-shadow: var(--shadow);
-    }
-
-    .step-card h3 { 
-      font-size: 16px; 
-      font-weight: 700; 
-      margin: 8px 0 10px; 
-      color: var(--text); 
-    }
-
-    .step-card p { 
-      color: var(--text-muted); 
-      font-size: 12px; 
-      line-height: 1.6; 
-    }
-
-    .step-card .go-btn {
-      margin-top: 14px; 
-      background: transparent; 
-      border: 1px solid var(--lighthouse); 
-      color: var(--lighthouse);
-      padding: 8px 14px; 
-      border-radius: 8px; 
-      font-size: 11px; 
-      font-weight: 700; 
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; 
-      letter-spacing: 0.5px;
-    }
-
-    .step-card .go-btn:hover { 
-      background: var(--lighthouse); 
-      color: #fff; 
-    }
-
-    .metrics-ref {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 14px; 
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .metrics-ref h3 { 
-      font-family: var(--serif); 
-      font-size: 18px; 
-      margin-bottom: 16px; 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-    }
-
-    .metrics-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-      gap: 14px; 
-    }
-
-    .m-item { 
-      display: flex; 
-      gap: 10px; 
-      padding: 12px; 
-      background: var(--surface-3); 
-      border-radius: 10px; 
-      border: 1px solid var(--border); 
-    }
-
-    .m-icon { 
-      font-size: 18px; 
-      flex-shrink: 0; 
-    }
-
-    .m-text strong { 
-      display: block; 
-      margin-bottom: 3px; 
-      font-size: 12px; 
-      color: var(--text); 
-      letter-spacing: 0.3px; 
-    }
-
-    .m-text { 
-      color: var(--text-muted); 
-      font-size: 11px; 
-      line-height: 1.5; 
-    }
+    .metrics-ref { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); }
+    .metrics-ref h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .m-item { display: flex; gap: 10px; padding: 12px; background: var(--surface-3); border-radius: 10px; border: 1px solid var(--border); }
+    .m-icon { font-size: 18px; flex-shrink: 0; }
+    .m-text strong { display: block; margin-bottom: 3px; font-size: 12px; color: var(--text); letter-spacing: 0.3px; }
+    .m-text { color: var(--text-muted); font-size: 11px; line-height: 1.5; }
 
     /* ============ POOL TAB ============ */
-    .controls-bar { 
-      display: flex; 
-      gap: 10px; 
-      align-items: center; 
-      flex-wrap: wrap; 
-      margin-bottom: 16px; 
-    }
+    .controls-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .search-box { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; width: 240px; outline: none; transition: 0.2s; font-family: inherit; }
+    .search-box:focus { border-color: var(--lighthouse); box-shadow: var(--glow); }
+    .filter-chip { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 9px 14px; border-radius: 18px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.3px; }
+    .filter-chip:hover { border-color: var(--text-muted); color: var(--text); }
+    .filter-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .sync-btn { margin-left: auto; background: rgba(0, 122, 255, 0.1); border: 1px solid rgba(0, 122, 255, 0.3); color: var(--lighthouse); padding: 9px 14px; border-radius: 18px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
+    [data-theme="harbour"] .sync-btn { background: rgba(27, 42, 74, 0.08); }
+    .sync-btn:hover { background: var(--lighthouse); color: #fff; }
 
-    .search-box {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      color: var(--text);
-      padding: 10px 14px; 
-      border-radius: 10px; 
-      font-size: 13px; 
-      width: 240px; 
-      outline: none; 
-      transition: 0.2s;
-      font-family: inherit;
-    }
-
-    .search-box:focus { 
-      border-color: var(--lighthouse); 
-      box-shadow: var(--glow); 
-    }
-
-    .filter-chip {
-      background: transparent; 
-      border: 1px solid var(--border); 
-      color: var(--text-muted);
-      padding: 9px 14px; 
-      border-radius: 18px; 
-      font-size: 11px; 
-      font-weight: 600; 
-      cursor: pointer; 
-      transition: 0.2s;
-      font-family: 'JetBrains Mono', monospace; 
-      letter-spacing: 0.3px;
-    }
-
-    .filter-chip:hover { 
-      border-color: var(--text-muted); 
-      color: var(--text); 
-    }
-
-    .filter-chip.active { 
-      background: var(--text); 
-      color: var(--bg); 
-      border-color: var(--text); 
-    }
-
-    .sync-btn {
-      margin-left: auto; 
-      background: rgba(0, 122, 255, 0.1); 
-      border: 1px solid rgba(0, 122, 255, 0.3); 
-      color: var(--lighthouse);
-      padding: 9px 14px; 
-      border-radius: 18px; 
-      font-size: 11px; 
-      font-weight: 700; 
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; 
-      letter-spacing: 0.5px;
-    }
-
-    [data-theme="harbour"] .sync-btn { 
-      background: rgba(27, 42, 74, 0.08); 
-    }
-
-    .sync-btn:hover { 
-      background: var(--lighthouse); 
-      color: #fff; 
-    }
-
-    .table-wrap {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 14px;
-      max-height: 70vh; 
-      overflow-y: auto; 
-      overflow-x: auto; 
-      -webkit-overflow-scrolling: touch; 
-      box-shadow: var(--shadow);
-    }
-
+    .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; max-height: 70vh; overflow-y: auto; overflow-x: auto; -webkit-overflow-scrolling: touch; box-shadow: var(--shadow); }
     .table-wrap::-webkit-scrollbar { width: 8px; height: 8px; }
     .table-wrap::-webkit-scrollbar-track { background: transparent; }
     .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-    table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      min-width: 800px; 
-    }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
     
-    /* Dual-Axis Sticky Matrix + Emoji Styling */
-    th {
-      padding: 10px 10px; 
-      font-size: 15px; 
-      font-weight: 700; 
-      color: var(--text-muted); 
-      border-bottom: 2px solid var(--border);
-      cursor: pointer; 
-      user-select: none; 
-      transition: 0.2s; 
-      font-family: 'JetBrains Mono', monospace;
-      background: var(--surface); 
-      position: sticky; 
-      top: 0; 
-      z-index: 5; 
-      text-align: center;
-    }
-
+    th { padding: 10px 10px; font-size: 15px; font-weight: 700; color: var(--text-muted); border-bottom: 2px solid var(--border); cursor: pointer; user-select: none; transition: 0.2s; font-family: 'JetBrains Mono', monospace; background: var(--surface); position: sticky; top: 0; z-index: 5; text-align: center; }
     th:hover { color: var(--text); }
     th .sort { opacity: 0.3; margin-left: 3px; font-size: 9px; vertical-align: middle; }
     th.active { color: var(--lighthouse); }
     th.active .sort { opacity: 1; }
     
-    /* Pin Player Header to Top-Left */
-    th:first-child { 
-      left: 0; 
-      z-index: 10; 
-      border-right: 2px solid var(--border); 
-      text-align: left; 
-    }
+    th:first-child { left: 0; z-index: 10; border-right: 2px solid var(--border); text-align: left; }
     
-    td { 
-      padding: 6px 10px; 
-      border-bottom: 1px solid var(--border); 
-      font-size: 12px; 
-      font-weight: 500; 
-      vertical-align: middle; 
-      text-align: center; 
-    }
-
+    td { padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; vertical-align: middle; text-align: center; }
     tr:last-child td { border-bottom: none; }
     tbody tr { transition: background 0.15s; }
     tbody tr:hover { background: var(--surface-hover); }
 
-    /* Pin Player Column to Left */
-    td:first-child {
-      position: sticky; 
-      left: 0; 
-      z-index: 4; 
-      text-align: left;
-      background: var(--surface); 
-      border-right: 2px solid var(--border);
-    }
+    td:first-child { position: sticky; left: 0; z-index: 4; text-align: left; background: var(--surface); border-right: 2px solid var(--border); }
     tbody tr:hover td:first-child { background: var(--surface-hover); }
 
-    /* Solid fallbacks for locked rows */
     [data-theme="dark"] .row-locked td:first-child { background: #191A1D; }
     [data-theme="harbour"] .row-locked td:first-child { background: #F8F6EF; }
 
@@ -577,43 +157,15 @@
     .row-locked td { background: rgba(255, 214, 10, 0.04); }
     [data-theme="harbour"] .row-locked td { background: rgba(184, 134, 11, 0.05); }
 
-    .player-cell { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      padding-right: 5px; 
-    }
-
-    .name-txt { 
-      font-weight: 700; 
-      font-family: 'Inter', sans-serif; 
-      white-space: nowrap; 
-      overflow: hidden; 
-      text-overflow: ellipsis; 
-      display: flex; 
-      align-items: center; 
-      gap: 6px; 
-    }
-
-    .tier-dot { 
-      width: 8px; 
-      height: 8px; 
-      border-radius: 50%; 
-      flex-shrink: 0; 
-    }
+    .player-cell { display: flex; justify-content: space-between; align-items: center; padding-right: 5px; }
+    .name-txt { font-weight: 700; font-family: 'Inter', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; }
+    
+    .tier-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     .tier-dot.mega { background: var(--accent-red); box-shadow: 0 0 6px currentColor; }
     .tier-dot.content { background: var(--accent-gold); }
     .tier-dot.standard { background: var(--text-dim); }
 
-    .wave-badge {
-      background: var(--border); 
-      color: var(--text-muted); 
-      font-size: 9px; 
-      padding: 2px 6px;
-      border-radius: 6px; 
-      font-weight: 700; 
-      font-family: 'JetBrains Mono', monospace;
-    }
+    .wave-badge { background: var(--border); color: var(--text-muted); font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
 
     .val-green { color: var(--accent-green); font-weight: 700; }
     .val-red { color: var(--accent-red); }
@@ -621,332 +173,97 @@
     .mono { font-family: 'JetBrains Mono', monospace; }
 
     .actions { display: flex; gap: 6px; }
-    
-    .btn-icon {
-      width: 22px; 
-      height: 22px; 
-      border-radius: 6px; 
-      border: 1px solid var(--border);
-      background: transparent; 
-      color: var(--text-muted); 
-      cursor: pointer;
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      transition: 0.15s; 
-      font-size: 11px;
-    }
+    .btn-icon { width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; font-size: 11px; }
     .btn-icon:hover { background: var(--border); color: var(--text); }
     .btn-icon.locked { background: rgba(255, 214, 10, 0.15); border-color: var(--accent-gold); color: var(--accent-gold); }
     .btn-icon.excluded { background: rgba(255, 51, 102, 0.15); border-color: var(--accent-red); color: var(--accent-red); }
 
     /* ============ BUILD TAB ============ */
-    .build-wrap { 
-      display: grid; 
-      grid-template-columns: 1fr 380px; 
-      gap: 20px; 
-    }
+    .build-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 20px; }
     @media (max-width: 900px) { .build-wrap { grid-template-columns: 1fr; } }
 
-    .build-main {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 14px; 
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-
+    .build-main { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); }
     .build-main h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 6px; }
     .build-main > p { color: var(--text-muted); font-size: 12px; margin-bottom: 16px; }
 
-    .build-actions { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 10px; 
-      margin-bottom: 20px; 
-    }
-
-    .build-btn {
-      background: var(--surface-3); 
-      border: 1px solid var(--border); 
-      color: var(--text);
-      padding: 18px; 
-      border-radius: 12px; 
-      cursor: pointer; 
-      transition: 0.2s; 
-      text-align: left;
-      font-family: inherit;
-    }
-
+    .build-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .build-btn { background: var(--surface-3); border: 1px solid var(--border); color: var(--text); padding: 18px; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left; font-family: inherit; }
     .build-btn:hover { border-color: var(--lighthouse); transform: translateY(-1px); }
     .build-btn.cash { border-left: 3px solid var(--accent-green); }
     .build-btn.gpp { border-left: 3px solid var(--lighthouse); }
-    
-    .build-btn .btn-title { 
-      font-size: 14px; 
-      font-weight: 700; 
-      margin-bottom: 4px; 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-    }
-    
-    .build-btn .btn-sub { 
-      font-size: 11px; 
-      color: var(--text-muted); 
-      line-height: 1.4; 
-    }
+    .build-btn .btn-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .build-btn .btn-sub { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
 
-    .locks-display {
-      background: var(--surface-3); 
-      border: 1px solid var(--border); 
-      border-radius: 10px; 
-      padding: 14px;
-    }
-
-    .locks-header {
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      margin-bottom: 10px;
-    }
-
-    .locks-header h4 {
-      font-size: 11px; 
-      color: var(--text-muted); 
-      font-family: 'JetBrains Mono', monospace; 
-      letter-spacing: 0.5px;
-      margin-bottom: 0; 
-      text-transform: uppercase;
-    }
-
-    .clear-btn {
-      background: transparent; 
-      border: 1px solid var(--text-dim); 
-      color: var(--text-muted);
-      padding: 4px 8px; 
-      border-radius: 6px; 
-      font-size: 9px; 
-      font-weight: 700; 
-      cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; 
-      transition: 0.2s; 
-      letter-spacing: 0.5px;
-    }
-
-    .clear-btn:hover {
-      border-color: var(--accent-red); 
-      color: var(--accent-red); 
-      background: rgba(255, 51, 102, 0.1);
-    }
-    
-    .lock-item {
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      padding: 8px 0;
-      border-bottom: 1px dashed var(--border); 
-      font-size: 12px;
-    }
-
+    .locks-display { background: var(--surface-3); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+    .locks-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .locks-header h4 { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; margin-bottom: 0; text-transform: uppercase; }
+    .clear-btn { background: transparent; border: 1px solid var(--text-dim); color: var(--text-muted); padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 700; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: 0.2s; letter-spacing: 0.5px; }
+    .clear-btn:hover { border-color: var(--accent-red); color: var(--accent-red); background: rgba(255, 51, 102, 0.1); }
+    .lock-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 12px; }
     .lock-item:last-child { border-bottom: none; }
     .lock-empty { color: var(--text-dim); font-size: 11px; font-style: italic; text-align: center; padding: 10px 0; }
 
-    .build-side {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 14px; 
-      padding: 20px;
-      box-shadow: var(--shadow); 
-      height: fit-content;
-    }
-
+    .build-side { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); height: fit-content; }
     .build-side h4 { font-family: var(--serif); font-size: 16px; margin-bottom: 14px; }
     .side-stat { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border); }
     .side-stat:last-child { border-bottom: none; }
     .side-stat .lbl { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.3px; }
     .side-stat .val { font-weight: 700; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
 
-    .output-card {
-      background: var(--surface); 
-      border: 2px solid var(--lighthouse); 
-      border-radius: 14px; 
-      margin-top: 20px;
-      overflow: hidden; 
-      display: none; 
-      box-shadow: var(--shadow);
-    }
+    .output-card { background: var(--surface); border: 2px solid var(--lighthouse); border-radius: 14px; margin-top: 20px; overflow: hidden; display: none; box-shadow: var(--shadow); }
     .output-card.show { display: block; }
-    
-    .output-header {
-      background: var(--lighthouse); 
-      color: #fff; 
-      padding: 16px 20px; 
-      display: flex; 
-      justify-content: space-between;
-      align-items: center; 
-      flex-wrap: wrap; 
-      gap: 10px;
-    }
-
+    .output-header { background: var(--lighthouse); color: #fff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
     .output-header h4 { font-family: var(--serif); font-size: 17px; }
     .output-stats { font-family: 'JetBrains Mono', monospace; font-size: 12px; display: flex; gap: 14px; }
     .output-list { list-style: none; padding: 0; margin: 0; }
-    .output-list li {
-      padding: 12px 20px; 
-      border-bottom: 1px solid var(--border); 
-      display: flex;
-      justify-content: space-between; 
-      align-items: center;
-    }
+    .output-list li { padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
     .output-list li:last-child { border-bottom: none; }
 
     /* ============ PRE-BUILT TAB ============ */
-    .prebuilt-hero {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 14px; 
-      padding: 24px;
-      margin-bottom: 20px; 
-      box-shadow: var(--shadow); 
-      text-align: center;
-    }
-
+    .prebuilt-hero { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); text-align: center; }
     .prebuilt-hero h2 { font-family: var(--serif); font-size: 24px; margin-bottom: 8px; }
     .prebuilt-hero p { color: var(--text-muted); font-size: 13px; margin-bottom: 18px; }
     
-    .sim-btn {
-      background: var(--lighthouse); 
-      color: #fff; 
-      border: none; 
-      padding: 14px 28px; 
-      border-radius: 10px;
-      font-family: inherit; 
-      font-size: 13px; 
-      font-weight: 700; 
-      cursor: pointer; 
-      letter-spacing: 0.5px;
-      transition: 0.2s; 
-      box-shadow: var(--shadow);
-    }
-
+    .sim-btn { background: var(--lighthouse); color: #fff; border: none; padding: 14px 28px; border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: 0.5px; transition: 0.2s; box-shadow: var(--shadow); }
     .sim-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3); }
     .sim-btn:disabled { opacity: 0.7; cursor: wait; }
 
     .progress-wrap { margin-top: 20px; display: none; }
     .progress-wrap.show { display: block; }
     .progress-bar-bg { height: 8px; background: var(--surface-3); border-radius: 4px; overflow: hidden; margin-bottom: 8px; border: 1px solid var(--border); }
-    .progress-bar-fill {
-      height: 100%; 
-      background: linear-gradient(90deg, var(--lighthouse), var(--accent-green));
-      width: 0%; 
-      transition: width 0.2s; 
-      border-radius: 4px;
-    }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--lighthouse), var(--accent-green)); width: 0%; transition: width 0.2s; border-radius: 4px; }
     .progress-text { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
 
     .prebuilt-section { margin-bottom: 24px; }
-    .prebuilt-section h3 {
-      font-family: var(--serif); 
-      font-size: 18px; 
-      margin-bottom: 12px; 
-      display: flex; 
-      align-items: center; 
-      gap: 10px;
-    }
-
-    .prebuilt-section h3 .count {
-      background: var(--lighthouse); 
-      color: #fff; 
-      font-size: 10px; 
-      padding: 3px 8px; 
-      border-radius: 10px;
-      font-family: 'JetBrains Mono', monospace; 
-      font-weight: 700;
-    }
-
+    .prebuilt-section h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .prebuilt-section h3 .count { background: var(--lighthouse); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; }
     .prebuilt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
-    .lineup-card {
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 12px; 
-      overflow: hidden;
-      transition: 0.2s; 
-      box-shadow: var(--shadow);
-    }
-
+    
+    .lineup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.2s; box-shadow: var(--shadow); }
     .lineup-card:hover { transform: translateY(-2px); border-color: var(--lighthouse); }
     .lineup-card.cash { border-left: 3px solid var(--accent-green); }
     .lineup-card.gpp { border-left: 3px solid var(--lighthouse); }
     
-    .lc-header {
-      padding: 12px 14px; 
-      background: var(--surface-3); 
-      display: flex; 
-      justify-content: space-between;
-      align-items: center; 
-      border-bottom: 1px solid var(--border);
-    }
-
+    .lc-header { padding: 12px 14px; background: var(--surface-3); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
     .lc-rank { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-muted); }
     .lc-stats { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); display: flex; gap: 8px; }
     .lc-stats strong { color: var(--text); }
     .lc-body { padding: 10px 14px; }
-    .lc-row {
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      padding: 5px 0; 
-      font-size: 12px;
-    }
+    .lc-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 12px; }
     .lc-name { font-weight: 600; }
     .lc-price { color: var(--accent-green); font-family: 'JetBrains Mono', monospace; font-weight: 700; }
-    .lc-footer {
-      padding: 10px 14px; 
-      background: var(--surface-3); 
-      border-top: 1px solid var(--border);
-      font-family: 'JetBrains Mono', monospace; 
-      font-size: 10px; 
-      color: var(--text-muted);
-      display: flex; 
-      justify-content: space-between; 
-      gap: 6px; 
-      flex-wrap: wrap;
-    }
+    .lc-footer { padding: 10px 14px; background: var(--surface-3); border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); display: flex; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
     .lc-footer strong { color: var(--text); }
 
     /* ============ FLOATING BAR ============ */
-    .fab-container {
-      position: fixed; 
-      bottom: 20px; 
-      left: 50%; 
-      transform: translateX(-50%);
-      width: 92%; 
-      max-width: 760px; 
-      z-index: 100;
-    }
-
-    .fab-bar {
-      background: var(--glass); 
-      backdrop-filter: blur(20px); 
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border); 
-      border-radius: 20px; 
-      padding: 14px 20px;
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); 
-      cursor: pointer; 
-      transition: 0.3s;
-    }
-
+    .fab-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 760px; z-index: 100; }
+    .fab-bar { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); cursor: pointer; transition: 0.3s; }
     .fab-stats { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
     .stat-block { display: flex; flex-direction: column; }
     .stat-val { font-size: 15px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
     .stat-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
 
-    /* ============ RESPONSIVE DE-ZOOM (MOBILE FIXES) ============ */
+    /* ============ RESPONSIVE ============ */
     @media (max-width: 768px) {
       .container { padding: 4px; }
       .header { flex-direction: column; align-items: flex-start; }
@@ -957,18 +274,11 @@
       .tab-btn { min-width: auto; padding: 10px 10px; font-size: 10px; }
       .tab-btn .step-num { display: none; }
       
-      /* De-zoom table for Pro mobile scanning */
       table { min-width: 650px; }
       th { font-size: 12px; padding: 6px 4px; }
       td { font-size: 10px; padding: 6px 4px; }
       
-      th:first-child, td:first-child { 
-          width: 110px; 
-          max-width: 110px;
-          white-space: nowrap; 
-          overflow: hidden; 
-          text-overflow: ellipsis; 
-      }
+      th:first-child, td:first-child { width: 110px; max-width: 110px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .name-txt { gap: 4px; }
       .player-name { font-size: 10px; }
       .btn-icon { width: 18px; height: 18px; font-size: 9px; }
@@ -1021,7 +331,7 @@
 
     <div class="panel active" id="panel-guide">
       <div class="guide-hero">
-        <h2>Welcome to Plaid Genie v4.2</h2>
+        <h2>Welcome to Plaid Genie v4.3</h2>
         <p>A complete DFS workflow for the 2026 RBC Heritage at Harbour Town. Four steps, zero fluff. Every metric is computed locally — your data never leaves the browser.</p>
       </div>
 
@@ -1041,7 +351,7 @@
         <div class="step-card">
           <div class="step-num-big">3</div>
           <h3>🛠️ Build Manually</h3>
-          <p>Use your locks and exclusions to generate Cash or GPP optimized lineups on demand. Knapsack algorithm finds the optimal 6-man roster under $50k.</p>
+          <p>Use your locks and exclusions to generate Cash or GPP optimized lineups on demand. Knapsack algorithm finds the optimal 6-man roster between $49k and $50k.</p>
           <button class="go-btn" onclick="switchTabByName('build')">START BUILDING →</button>
         </div>
         <div class="step-card">
@@ -1085,9 +395,9 @@
             <tr>
               <th onclick="sortData('name')" data-col="name" title="Player Name">🏌️ <span class="sort">▼</span></th>
               <th onclick="sortData('price')" data-col="price" title="Salary">💵 <span class="sort">▼</span></th>
-              <th onclick="sortData('liveImp')" data-col="liveImp" title="Odds">🎲 <span class="sort">▼</span></th>
+              <th onclick="sortData('liveImp')" data-col="liveImp" title="Odds (Sunday Open → Current Live)">🎲 <span class="sort">▼</span></th>
               <th onclick="sortData('dlta')" data-col="dlta" title="$DLTA Arbitrage">⚖️ <span class="sort">▼</span></th>
-              <th onclick="sortData('velTotal')" data-col="velTotal" title="Steam Velocity">🚂 <span class="sort">▼</span></th>
+              <th onclick="sortData('velTotal')" data-col="velTotal" title="Steam Velocity (Sun to Current)">🚂 <span class="sort">▼</span></th>
               <th onclick="sortData('courseHistory')" data-col="courseHistory" title="Course History">🏛️ <span class="sort">▼</span></th>
               <th onclick="sortData('profileFit')" data-col="profileFit" title="Profile Fit Score">🎯 <span class="sort">▼</span></th>
               <th onclick="sortData('composite')" data-col="composite" title="Projection (Composite)">🌟 <span class="sort">▼</span></th>
@@ -1193,90 +503,91 @@
   </div>
 
   <script>
-    // ============ DATA (Full 81 Player Field Updated) ============
+    // ============ DATA (Full 81 Player Field with Tri-Odds System) ============
+    // sunWin = Opening Line | monWin = Monday Update | tueWin = Final Tue Live Odds
     const db = [
-      { name: "Scottie Scheffler", sunWin: 350, monWin: 320, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5, sentiment: "mega_chalk" },
-      { name: "Xander Schauffele", sunWin: 1450, monWin: 1450, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 22.00, sgArg: 0.009, prox150: 20.9, girRough: 59.1, sentiment: "mega_chalk" },
-      { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1750, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2, sentiment: "standard" }, 
-      { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1600, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4, sentiment: "mega_chalk" },
-      { name: "Cameron Young", sunWin: 1700, monWin: 1750, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9, sentiment: "bad_chalk" },
-      { name: "Russell Henley", sunWin: 2100, monWin: 1700, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1, sentiment: "mega_chalk" },
-      { name: "Ludvig Åberg", sunWin: 2050, monWin: 2100, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0, sentiment: "standard" },
-      { name: "Collin Morikawa", sunWin: 2350, monWin: 2250, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 20.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5, sentiment: "standard" },
-      { name: "Patrick Cantlay", sunWin: 2150, monWin: 2400, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.50, sgArg: 0.247, prox150: 20.0, girRough: 61.4, sentiment: "mega_chalk" },
-      { name: "Jake Knapp", sunWin: 3000, monWin: 3300, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 44.80, sgArg: 0.111, prox150: 22.4, girRough: 59.5, sentiment: "standard" },
-      { name: "Sam Burns", sunWin: 2500, monWin: 3000, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.90, sgArg: -0.350, prox150: 20.5, girRough: 56.8, sentiment: "mega_chalk" },
-      { name: "Si Woo Kim", sunWin: 3700, monWin: 2700, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 41.10, sgArg: 0.142, prox150: 19.6, girRough: 53.9, sentiment: "standard" },
-      { name: "Jordan Spieth", sunWin: 3700, monWin: 3000, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 14.20, sgArg: 0.129, prox150: 22.2, girRough: 61.2, sentiment: "standard" },
-      { name: "Robert MacIntyre", sunWin: 2900, monWin: 3000, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 58.50, sgArg: 0.120, prox150: 21.9, girRough: 60.9, sentiment: "standard" },
-      { name: "Viktor Hovland", sunWin: 3900, monWin: 3500, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8, sentiment: "standard" },
-      { name: "Maverick McNealy", sunWin: 3500, monWin: 3600, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7, sentiment: "standard" },
-      { name: "Shane Lowry", sunWin: 3900, monWin: 5000, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 46.60, sgArg: -0.085, prox150: 19.6, girRough: 61.2, sentiment: "content_chalk" },
-      { name: "Justin Thomas", sunWin: 3700, monWin: 4100, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9, sentiment: "bad_chalk" },
-      { name: "Jacob Bridgeman", sunWin: 4400, monWin: 4600, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4, sentiment: "standard" },
-      { name: "Chris Gotterup", sunWin: 4500, monWin: 5100, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6, sentiment: "sleeper" },
-      { name: "Jason Day", sunWin: 4100, monWin: 4600, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4, sentiment: "standard" },
-      { name: "Sepp Straka", sunWin: 5200, monWin: 4800, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 32.10, sgArg: 0.128, prox150: 19.1, girRough: 42.0, sentiment: "content_chalk" },
-      { name: "Harris English", sunWin: 5000, monWin: 5200, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5, sentiment: "standard" },
-      { name: "Ben Griffin", sunWin: 4100, monWin: 4900, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 43.40, sgArg: 0.454, prox150: 22.2, girRough: 55.3, sentiment: "standard" },
-      { name: "Min Woo Lee", sunWin: 5500, monWin: 5200, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 64.60, sgArg: 0.294, prox150: 20.2, girRough: 38.9, sentiment: "standard" },
-      { name: "Akshay Bhatia", sunWin: 5300, monWin: 5800, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 40.70, sgArg: 0.168, prox150: 19.9, girRough: 39.3, sentiment: "standard" },
-      { name: "Ryo Hisatsune", sunWin: 8800, monWin: 9000, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 41.30, sgArg: 0.181, prox150: 21.9, girRough: 62.5, sentiment: "standard" },
-      { name: "Rickie Fowler", sunWin: 5700, monWin: 6100, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 45.80, sgArg: -0.318, prox150: 21.2, girRough: 58.6, sentiment: "standard" },
-      { name: "Sahith Theegala", sunWin: 8200, monWin: 8600, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 16.60, sgArg: 0.358, prox150: 21.8, girRough: 55.6, sentiment: "standard" },
-      { name: "J.J. Spaun", sunWin: 5300, monWin: 5000, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 67.50, sgArg: 0.013, prox150: 19.9, girRough: 56.7, sentiment: "standard" },
-      { name: "Nicolai Højgaard", sunWin: 6900, monWin: 7800, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 60.50, sgArg: 0.113, prox150: 21.0, girRough: 60.7, sentiment: "standard" },
-      { name: "Harry Hall", sunWin: 6400, monWin: 7600, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3, sentiment: "standard" },
-      { name: "Ryan Gerard", sunWin: 7600, monWin: 7600, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4, sentiment: "standard" },
-      { name: "Wyndham Clark", sunWin: 1600, monWin: 10500, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 19.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Daniel Berger", sunWin: 9400, monWin: 9000, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1, sentiment: "sleeper" },
-      { name: "J.T. Poston", sunWin: 8800, monWin: 8400, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 36.60, sgArg: -0.299, prox150: 22.4, girRough: 53.8, sentiment: "standard" },
-      { name: "Sam Stevens", sunWin: 8200, monWin: 7600, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6, sentiment: "standard" },
-      { name: "Sudarshan Yellamaraju", sunWin: 11500, monWin: 12000, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7, sentiment: "sleeper" },
-      { name: "Alex Noren", sunWin: 6400, monWin: 5700, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1, sentiment: "standard" },
-      { name: "Kurt Kitayama", sunWin: 7200, monWin: 7600, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5, sentiment: "standard" },
-      { name: "Nick Taylor", sunWin: 8200, monWin: 9000, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 48.10, sgArg: 0.503, prox150: 20.6, girRough: 53.4, sentiment: "standard" },
-      { name: "Brian Harman", sunWin: 12000, monWin: 9600, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 15.50, sgArg: 0.132, prox150: 20.5, girRough: 57.8, sentiment: "content_chalk" },
-      { name: "Marco Penge", sunWin: 30000, monWin: 15500, price: 7000, sgApp: -0.378, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.246, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Corey Conners", sunWin: 9000, monWin: 8600, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 28.00, sgArg: -0.136, prox150: 19.4, girRough: 50.8, sentiment: "content_chalk" },
-      { name: "Keegan Bradley", sunWin: 10000, monWin: 8600, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 55.50, sgArg: 0.272, prox150: 19.4, girRough: 60.2, sentiment: "standard" },
-      { name: "Max Homa", sunWin: 12000, monWin: 12000, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 51.00, sgArg: -0.210, prox150: 21.3, girRough: 56.1, sentiment: "standard" },
-      { name: "Taylor Pendrith", sunWin: 12000, monWin: 15500, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9, sentiment: "standard" },
-      { name: "Gary Woodland", sunWin: 16000, monWin: 16000, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0, sentiment: "standard" },
-      { name: "Michael Thorbjornsen", sunWin: 10000, monWin: 9000, price: 6800, sgApp: 0.450, birdiePct: 24.00, courseHistory: 75.00, sgArg: 0.100, prox150: 22.5, girRough: 57.0, sentiment: "sleeper" },
-      { name: "Matt McCarty", sunWin: 20000, monWin: 13000, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Nico Echavarria", sunWin: 20000, monWin: 28000, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Sungjae Im", sunWin: 11000, monWin: 10000, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 10.60, sgArg: 0.307, prox150: 23.2, girRough: 57.3, sentiment: "standard" },
-      { name: "Andrew Novak", sunWin: 16000, monWin: 13500, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 52.40, sgArg: 0.139, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Ricky Castillo", sunWin: 13500, monWin: 18000, price: 6700, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: 0.227, prox150: 23.7, girRough: 65.6, sentiment: "standard" },
-      { name: "Billy Horschel", sunWin: 15000, monWin: 23000, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 56.70, sgArg: -0.147, prox150: 20.3, girRough: 57.0, sentiment: "standard" },
-      { name: "Matt Wallace", sunWin: 13000, monWin: 15500, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 67.50, sgArg: 0.190, prox150: 22.6, girRough: 62.1, sentiment: "standard" },
-      { name: "Tony Finau", sunWin: 21000, monWin: 22500, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 31.00, sgArg: 0.300, prox150: 21.6, girRough: 57.0, sentiment: "standard" },
-      { name: "Pierceson Coody", sunWin: 11500, monWin: 16500, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 65.10, sgArg: -0.399, prox150: 22.1, girRough: 56.7, sentiment: "standard" },
-      { name: "Jordan Smith", sunWin: 14500, monWin: 16000, price: 6500, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: -0.216, prox150: 23.9, girRough: 58.7, sentiment: "standard" },
-      { name: "Bud Cauley", sunWin: 16000, monWin: 16000, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 58.20, sgArg: 0.196, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Denny McCarthy", sunWin: 15000, monWin: 16000, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 39.20, sgArg: -0.087, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Michael Brennan", sunWin: 22000, monWin: 22000, price: 6400, sgApp: 0.150, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.593, prox150: 22.4, girRough: 57.0, sentiment: "standard" },
-      { name: "Michael Kim", sunWin: 22500, monWin: 21000, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 68.30, sgArg: 0.121, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Patrick Rodgers", sunWin: 24000, monWin: 30000, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 22.40, sgArg: 0.163, prox150: 22.3, girRough: 57.0, sentiment: "standard" },
-      { name: "Andrew Putnam", sunWin: 30000, monWin: 17000, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Austin Smotherman", sunWin: 21000, monWin: 19500, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Ryan Fox", sunWin: 20000, monWin: 26000, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Johnny Keefer", sunWin: 28000, monWin: 37000, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0, sentiment: "standard" },
-      { name: "Sami Valimaki", sunWin: 34000, monWin: 27000, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0, sentiment: "standard" },
-      { name: "Chandler Blanchet", sunWin: 60000, monWin: 42000, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "William Mouw", sunWin: 35000, monWin: 43000, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0, sentiment: "standard" },
-      { name: "Lucas Glover", sunWin: 57500, monWin: 50000, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 55.98, sgArg: -0.118, prox150: 19.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Tom Hoge", sunWin: 80000, monWin: 87500, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 56.48, sgArg: -0.399, prox150: 18.4, girRough: 57.0, sentiment: "standard" },
-      { name: "Steven Fisk", sunWin: 40000, monWin: 48000, price: 6100, sgApp: -0.207, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.060, prox150: 22.9, girRough: 57.0, sentiment: "standard" },
-      { name: "Karl Vilips", sunWin: 55000, monWin: 67500, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.351, prox150: 22.3, girRough: 57.0, sentiment: "standard" },
-      { name: "Garrick Higgo", sunWin: 57500, monWin: 62500, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 51.80, sgArg: -0.248, prox150: 23.6, girRough: 57.0, sentiment: "standard" },
-      { name: "Aldrich Potgieter", sunWin: 67500, monWin: 80000, price: 6100, sgApp: -0.304, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.456, prox150: 22.0, girRough: 57.0, sentiment: "standard" },
-      { name: "Jhonattan Vegas", sunWin: 57500, monWin: 70000, price: 6000, sgApp: -0.455, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.265, prox150: 22.6, girRough: 57.0, sentiment: "standard" },
-      { name: "David Lipsky", sunWin: 62500, monWin: 52500, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 60.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0, sentiment: "standard" },
-      { name: "Brian Campbell", sunWin: 170000, monWin: 82500, price: 6000, sgApp: -0.753, birdiePct: 22.00, courseHistory: 64.25, sgArg: -0.364, prox150: 23.6, girRough: 57.0, sentiment: "standard" },
-      { name: "Adam Schenk", sunWin: 180000, monWin: 190000, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
-      { name: "Joe Highsmith", sunWin: 200000, monWin: 170000, price: 6000, sgApp: -0.112, birdiePct: 22.00, courseHistory: 74.25, sgArg: -0.338, prox150: 22.5, girRough: 57.0, sentiment: "standard" }
+      { name: "Scottie Scheffler", sunWin: 350, monWin: 320, tueWin: 380, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5, sentiment: "mega_chalk" },
+      { name: "Xander Schauffele", sunWin: 1450, monWin: 1450, tueWin: 1500, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 22.00, sgArg: 0.009, prox150: 20.9, girRough: 59.1, sentiment: "mega_chalk" },
+      { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1750, tueWin: 1800, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2, sentiment: "standard" },
+      { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1600, tueWin: 1650, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4, sentiment: "mega_chalk" },
+      { name: "Cameron Young", sunWin: 1700, monWin: 1750, tueWin: 1800, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9, sentiment: "bad_chalk" },
+      { name: "Russell Henley", sunWin: 2100, monWin: 1700, tueWin: 1750, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1, sentiment: "mega_chalk" },
+      { name: "Ludvig Åberg", sunWin: 2050, monWin: 2100, tueWin: 2200, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0, sentiment: "standard" },
+      { name: "Collin Morikawa", sunWin: 2350, monWin: 2250, tueWin: 2300, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 20.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5, sentiment: "standard" },
+      { name: "Patrick Cantlay", sunWin: 2150, monWin: 2400, tueWin: 2450, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.50, sgArg: 0.247, prox150: 20.0, girRough: 61.4, sentiment: "mega_chalk" },
+      { name: "Jake Knapp", sunWin: 3000, monWin: 3300, tueWin: 3500, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 44.80, sgArg: 0.111, prox150: 22.4, girRough: 59.5, sentiment: "standard" },
+      { name: "Sam Burns", sunWin: 2500, monWin: 3000, tueWin: 3100, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.90, sgArg: -0.350, prox150: 20.5, girRough: 56.8, sentiment: "mega_chalk" },
+      { name: "Si Woo Kim", sunWin: 3700, monWin: 2700, tueWin: 2800, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 41.10, sgArg: 0.142, prox150: 19.6, girRough: 53.9, sentiment: "standard" },
+      { name: "Jordan Spieth", sunWin: 3700, monWin: 3000, tueWin: 3100, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 14.20, sgArg: 0.129, prox150: 22.2, girRough: 61.2, sentiment: "standard" },
+      { name: "Robert MacIntyre", sunWin: 2900, monWin: 3000, tueWin: 3100, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 58.50, sgArg: 0.120, prox150: 21.9, girRough: 60.9, sentiment: "standard" },
+      { name: "Viktor Hovland", sunWin: 3900, monWin: 3500, tueWin: 3600, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8, sentiment: "standard" },
+      { name: "Maverick McNealy", sunWin: 3500, monWin: 3600, tueWin: 3700, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7, sentiment: "standard" },
+      { name: "Shane Lowry", sunWin: 3900, monWin: 5000, tueWin: 5200, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 46.60, sgArg: -0.085, prox150: 19.6, girRough: 61.2, sentiment: "content_chalk" },
+      { name: "Justin Thomas", sunWin: 3700, monWin: 4100, tueWin: 4200, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9, sentiment: "bad_chalk" },
+      { name: "Jacob Bridgeman", sunWin: 4400, monWin: 4600, tueWin: 4800, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4, sentiment: "standard" },
+      { name: "Chris Gotterup", sunWin: 4500, monWin: 5100, tueWin: 5200, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6, sentiment: "sleeper" },
+      { name: "Jason Day", sunWin: 4100, monWin: 4600, tueWin: 4800, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4, sentiment: "standard" },
+      { name: "Sepp Straka", sunWin: 5200, monWin: 4800, tueWin: 4700, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 32.10, sgArg: 0.128, prox150: 19.1, girRough: 42.0, sentiment: "content_chalk" },
+      { name: "Harris English", sunWin: 5000, monWin: 5200, tueWin: 5400, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5, sentiment: "standard" },
+      { name: "Ben Griffin", sunWin: 4100, monWin: 4900, tueWin: 5000, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 43.40, sgArg: 0.454, prox150: 22.2, girRough: 55.3, sentiment: "standard" },
+      { name: "Min Woo Lee", sunWin: 5500, monWin: 5200, tueWin: 5300, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 64.60, sgArg: 0.294, prox150: 20.2, girRough: 38.9, sentiment: "standard" },
+      { name: "Akshay Bhatia", sunWin: 5300, monWin: 5800, tueWin: 6000, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 40.70, sgArg: 0.168, prox150: 19.9, girRough: 39.3, sentiment: "standard" },
+      { name: "Ryo Hisatsune", sunWin: 8800, monWin: 9000, tueWin: 9000, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 41.30, sgArg: 0.181, prox150: 21.9, girRough: 62.5, sentiment: "standard" },
+      { name: "Rickie Fowler", sunWin: 5700, monWin: 6100, tueWin: 6300, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 45.80, sgArg: -0.318, prox150: 21.2, girRough: 58.6, sentiment: "standard" },
+      { name: "Sahith Theegala", sunWin: 8200, monWin: 8600, tueWin: 8400, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 16.60, sgArg: 0.358, prox150: 21.8, girRough: 55.6, sentiment: "standard" },
+      { name: "J.J. Spaun", sunWin: 5300, monWin: 5000, tueWin: 5200, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 67.50, sgArg: 0.013, prox150: 19.9, girRough: 56.7, sentiment: "standard" },
+      { name: "Nicolai Højgaard", sunWin: 6900, monWin: 7800, tueWin: 8200, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 60.50, sgArg: 0.113, prox150: 21.0, girRough: 60.7, sentiment: "standard" },
+      { name: "Harry Hall", sunWin: 6400, monWin: 7600, tueWin: 8000, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3, sentiment: "standard" },
+      { name: "Ryan Gerard", sunWin: 7600, monWin: 7600, tueWin: 7800, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4, sentiment: "standard" },
+      { name: "Wyndham Clark", sunWin: 1600, monWin: 10500, tueWin: 11000, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 19.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Daniel Berger", sunWin: 9400, monWin: 9000, tueWin: 9400, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1, sentiment: "sleeper" },
+      { name: "J.T. Poston", sunWin: 8800, monWin: 8400, tueWin: 8600, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 36.60, sgArg: -0.299, prox150: 22.4, girRough: 53.8, sentiment: "standard" },
+      { name: "Sam Stevens", sunWin: 8200, monWin: 7600, tueWin: 7800, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6, sentiment: "standard" },
+      { name: "Sudarshan Yellamaraju", sunWin: 11500, monWin: 12000, tueWin: 11500, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7, sentiment: "sleeper" },
+      { name: "Alex Noren", sunWin: 6400, monWin: 5700, tueWin: 5900, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1, sentiment: "standard" },
+      { name: "Kurt Kitayama", sunWin: 7200, monWin: 7600, tueWin: 7800, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5, sentiment: "standard" },
+      { name: "Nick Taylor", sunWin: 8200, monWin: 9000, tueWin: 9200, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 48.10, sgArg: 0.503, prox150: 20.6, girRough: 53.4, sentiment: "standard" },
+      { name: "Brian Harman", sunWin: 12000, monWin: 9600, tueWin: 10000, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 15.50, sgArg: 0.132, prox150: 20.5, girRough: 57.8, sentiment: "content_chalk" },
+      { name: "Marco Penge", sunWin: 30000, monWin: 15500, tueWin: 16000, price: 7000, sgApp: -0.378, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.246, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Corey Conners", sunWin: 9000, monWin: 8600, tueWin: 8800, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 28.00, sgArg: -0.136, prox150: 19.4, girRough: 50.8, sentiment: "content_chalk" },
+      { name: "Keegan Bradley", sunWin: 10000, monWin: 8600, tueWin: 9000, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 55.50, sgArg: 0.272, prox150: 19.4, girRough: 60.2, sentiment: "standard" },
+      { name: "Max Homa", sunWin: 12000, monWin: 12000, tueWin: 12500, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 51.00, sgArg: -0.210, prox150: 21.3, girRough: 56.1, sentiment: "standard" },
+      { name: "Taylor Pendrith", sunWin: 12000, monWin: 15500, tueWin: 16000, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9, sentiment: "standard" },
+      { name: "Gary Woodland", sunWin: 16000, monWin: 16000, tueWin: 16500, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0, sentiment: "standard" },
+      { name: "Michael Thorbjornsen", sunWin: 10000, monWin: 9000, tueWin: 8800, price: 7300, sgApp: 0.450, birdiePct: 24.00, courseHistory: 75.00, sgArg: 0.100, prox150: 22.5, girRough: 57.0, sentiment: "sleeper" },
+      { name: "Matt McCarty", sunWin: 20000, monWin: 13000, tueWin: 14000, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Nico Echavarria", sunWin: 20000, monWin: 28000, tueWin: 29000, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Sungjae Im", sunWin: 11000, monWin: 10000, tueWin: 10000, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 10.60, sgArg: 0.307, prox150: 23.2, girRough: 57.3, sentiment: "standard" },
+      { name: "Andrew Novak", sunWin: 16000, monWin: 13500, tueWin: 14000, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 52.40, sgArg: 0.139, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Ricky Castillo", sunWin: 13500, monWin: 18000, tueWin: 18500, price: 6700, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: 0.227, prox150: 23.7, girRough: 65.6, sentiment: "standard" },
+      { name: "Billy Horschel", sunWin: 15000, monWin: 23000, tueWin: 24000, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 56.70, sgArg: -0.147, prox150: 20.3, girRough: 57.0, sentiment: "standard" },
+      { name: "Matt Wallace", sunWin: 13000, monWin: 15500, tueWin: 16000, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 67.50, sgArg: 0.190, prox150: 22.6, girRough: 62.1, sentiment: "standard" },
+      { name: "Tony Finau", sunWin: 21000, monWin: 22500, tueWin: 23000, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 31.00, sgArg: 0.300, prox150: 21.6, girRough: 57.0, sentiment: "standard" },
+      { name: "Pierceson Coody", sunWin: 11500, monWin: 16500, tueWin: 17500, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 65.10, sgArg: -0.399, prox150: 22.1, girRough: 56.7, sentiment: "standard" },
+      { name: "Jordan Smith", sunWin: 14500, monWin: 16000, tueWin: 17000, price: 6500, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: -0.216, prox150: 23.9, girRough: 58.7, sentiment: "standard" },
+      { name: "Bud Cauley", sunWin: 16000, monWin: 16000, tueWin: 17000, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 58.20, sgArg: 0.196, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Denny McCarthy", sunWin: 15000, monWin: 16000, tueWin: 16500, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 39.20, sgArg: -0.087, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Michael Brennan", sunWin: 22000, monWin: 22000, tueWin: 23000, price: 6400, sgApp: 0.150, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.593, prox150: 22.4, girRough: 57.0, sentiment: "standard" },
+      { name: "Michael Kim", sunWin: 22500, monWin: 21000, tueWin: 22500, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 68.30, sgArg: 0.121, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Patrick Rodgers", sunWin: 24000, monWin: 30000, tueWin: 31000, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 22.40, sgArg: 0.163, prox150: 22.3, girRough: 57.0, sentiment: "standard" },
+      { name: "Andrew Putnam", sunWin: 30000, monWin: 17000, tueWin: 17500, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Austin Smotherman", sunWin: 21000, monWin: 19500, tueWin: 20000, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Ryan Fox", sunWin: 20000, monWin: 26000, tueWin: 27500, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Johnny Keefer", sunWin: 28000, monWin: 37000, tueWin: 39000, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0, sentiment: "standard" },
+      { name: "Sami Valimaki", sunWin: 34000, monWin: 27000, tueWin: 28000, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0, sentiment: "standard" },
+      { name: "Chandler Blanchet", sunWin: 60000, monWin: 42000, tueWin: 44000, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "William Mouw", sunWin: 35000, monWin: 43000, tueWin: 45000, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0, sentiment: "standard" },
+      { name: "Lucas Glover", sunWin: 57500, monWin: 50000, tueWin: 52500, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 55.98, sgArg: -0.118, prox150: 19.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Tom Hoge", sunWin: 80000, monWin: 87500, tueWin: 90000, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 56.48, sgArg: -0.399, prox150: 18.4, girRough: 57.0, sentiment: "standard" },
+      { name: "Steven Fisk", sunWin: 40000, monWin: 48000, tueWin: 50000, price: 6100, sgApp: -0.207, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.060, prox150: 22.9, girRough: 57.0, sentiment: "standard" },
+      { name: "Karl Vilips", sunWin: 55000, monWin: 67500, tueWin: 70000, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.351, prox150: 22.3, girRough: 57.0, sentiment: "standard" },
+      { name: "Garrick Higgo", sunWin: 57500, monWin: 62500, tueWin: 65000, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 51.80, sgArg: -0.248, prox150: 23.6, girRough: 57.0, sentiment: "standard" },
+      { name: "Aldrich Potgieter", sunWin: 67500, monWin: 80000, tueWin: 82500, price: 6100, sgApp: -0.304, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.456, prox150: 22.0, girRough: 57.0, sentiment: "standard" },
+      { name: "Jhonattan Vegas", sunWin: 57500, monWin: 70000, tueWin: 72500, price: 6000, sgApp: -0.455, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.265, prox150: 22.6, girRough: 57.0, sentiment: "standard" },
+      { name: "David Lipsky", sunWin: 62500, monWin: 52500, tueWin: 55000, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 60.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0, sentiment: "standard" },
+      { name: "Brian Campbell", sunWin: 170000, monWin: 82500, tueWin: 85000, price: 6000, sgApp: -0.753, birdiePct: 22.00, courseHistory: 64.25, sgArg: -0.364, prox150: 23.6, girRough: 57.0, sentiment: "standard" },
+      { name: "Adam Schenk", sunWin: 180000, monWin: 190000, tueWin: 200000, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0, sentiment: "standard" },
+      { name: "Joe Highsmith", sunWin: 200000, monWin: 170000, tueWin: 180000, price: 6000, sgApp: -0.112, birdiePct: 22.00, courseHistory: 74.25, sgArg: -0.338, prox150: 22.5, girRough: 57.0, sentiment: "standard" }
     ];
 
     let players = [];
@@ -1338,9 +649,15 @@
       players = db.map((orig, i) => {
         let p = { ...orig, ...(existing[orig.name] || { locked: false, excluded: false }) };
         
-        const cur = p.monWin || p.sunWin;
+        // RED-GREEN FIX: The Tri-Odds System
+        // Use Tuesday odds for the live implied win probability
+        const cur = p.tueWin || p.monWin || p.sunWin;
         p.liveImp = 100 / (cur + 100);
-        p.velTotal = (p.monWin - p.sunWin) / p.sunWin || 0;
+        
+        // Use the total delta from Sunday Open to Tuesday Live to capture full Steam
+        p.velTotal = (cur - p.sunWin) / p.sunWin || 0;
+        
+        // Negative velocity indicates the odds shortened (e.g. +3000 to +2500) -> Steam!
         p.isSteam = p.velTotal < -0.02; 
         p.wave = (i % 2 === 0) ? 'AM' : 'PM';
 
@@ -1509,8 +826,11 @@
 
       tbody.innerHTML = data.map(p => {
         const rowCls = p.locked ? 'row-locked' : (p.excluded ? 'row-excluded' : '');
-        const oddsStr = p.sunWin ? `<span style="color:var(--text-dim); font-size:10px">+${p.sunWin}→</span>` : '';
-        const cur = p.monWin || p.sunWin;
+        
+        // RED-GREEN FIX: Display Sunday Opening Odds -> Current Tuesday Odds
+        const cur = p.tueWin || p.monWin || p.sunWin;
+        const oddsStr = p.sunWin ? `<div style="color:var(--text-dim); font-size:9px; margin-bottom:2px;">+${p.sunWin} ➝</div>` : '';
+        
         const dltaCls = p.dlta > 2 ? 'val-green' : (p.dlta < -2 ? 'val-red' : '');
         
         let dotCls = 'standard';
@@ -1532,7 +852,10 @@
               </div>
             </td>
             <td class="val-green mono">$${p.price/1000}k</td>
-            <td class="mono">${oddsStr} +${cur}</td>
+            <td class="mono">
+              ${oddsStr}
+              <strong>+${cur}</strong>
+            </td>
             <td class="${dltaCls} mono">${p.dlta > 0 ? '+' + p.dlta : p.dlta}</td>
             <td class="mono ${p.velTotal < -0.02 ? 'val-green' : ''}">${p.sunWin ? (p.velTotal * -100).toFixed(1) + '%' : '—'}</td>
             <td class="mono">${p.courseHistory.toFixed(1)}</td>
@@ -1630,8 +953,7 @@
       }
 
       let best = null;
-      // RED-GREEN FIX: Math.max ensures we don't look for negative salary requirements
-      // The loop bound w >= minUnits ensures we NEVER output a lineup below $49k
+      
       const minUnits = Math.max(0, Math.ceil((49000 - lockedSal) / unit));
       
       // PASS 1: Strict GPP Constraints (>= 49k AND Total Own <= 85%)
