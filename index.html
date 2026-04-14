@@ -3,244 +3,295 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Plaid Genie V5.0 — Institutional DFS Terminal</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>Plaid Genie V4.6 — Millionaire Maker Optimizer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=SF+Pro+Display:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    /* Institutional Dark Mode (Bloomberg/Tesla Vibe) */
-    --bg: #09090B;
-    --surface: #121214;
-    --surface-alt: #18181B;
-    --border: #27272A;
-    --border-light: #3F3F46;
-    --text: #FAFAFA;
-    --text-muted: #A1A1AA;
+    /* Apple/Tesla Premium Dark Mode UI */
+    --bg: #000000;
+    --surface: #111113;
+    --surface-hover: #1A1A1D;
+    --glass: rgba(17, 17, 19, 0.85);
+    --border: #262629;
+    --text: #F5F5F7;
+    --text-muted: #86868B;
     
-    --plaid-red: #E11D48;
-    --plaid-blue: #2563EB;
-    --plaid-green: #16A34A;
-    --plaid-gold: #F59E0B;
+    --accent-red: #FF453A;
+    --accent-blue: #0A84FF;
+    --accent-green: #32D74B;
+    --accent-gold: #FFD60A;
+    --ai-purple: #BF5AF2;
     
-    font-family: 'Inter', -apple-system, sans-serif;
+    --shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    --glow: 0 0 24px rgba(10, 132, 255, 0.2);
+    
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   
   body { 
     background: var(--bg); 
     color: var(--text); 
     font-size: 13px; 
-    -webkit-font-smoothing: antialiased;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
+    min-height: 100vh; 
+    padding-bottom: 140px; 
+    -webkit-font-smoothing: antialiased; 
   }
 
-  /* ── TOP NAVIGATION BAR ── */
-  .top-nav {
+  /* Subtle Ambient Glow */
+  body::before {
+    content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.08) 0%, transparent 40%);
+    z-index: -1; pointer-events: none;
+  }
+
+  .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
+
+  /* ── HEADER ── */
+  .header {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 16px 24px; background: var(--surface); border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
+    padding: 16px 0 24px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px;
   }
-  .brand { display: flex; align-items: center; gap: 12px; }
-  .brand h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px;}
-  .version-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; background: var(--border-light); padding: 2px 6px; border-radius: 4px; color: var(--text); }
-  .tourney-info { color: var(--text-muted); font-size: 12px; font-weight: 500; }
-
-  .tab-group { display: flex; gap: 8px; background: var(--bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
-  .tab-btn {
-    background: transparent; border: none; color: var(--text-muted); padding: 8px 16px;
-    border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;
-  }
-  .tab-btn:hover { color: var(--text); }
-  .tab-btn.active { background: var(--surface-alt); color: var(--text); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-
-  /* ── MAIN LAYOUT ── */
-  .main-content {
-    flex-grow: 1; overflow-y: auto; padding: 24px; position: relative;
-  }
+  .header-left h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 12px; }
+  .header-left h1 .v4 { font-size: 10px; background: var(--text); color: var(--bg); padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .header-sub { color: var(--text-muted); font-size: 13px; margin-top: 6px; font-weight: 400; }
   
-  /* ── PANELS ── */
-  .panel { display: none; animation: fadeIn 0.3s ease; }
-  .panel.active { display: block; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+  /* ── NAV ── */
+  .nav { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .nav-btn { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 10px 18px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+  .nav-btn:hover { border-color: var(--text); color: var(--text); }
+  .nav-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-  /* ── GUIDE TAB ── */
-  .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto;}
-  .guide-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-  .guide-card h3 { color: var(--text); font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 12px;}
-  .guide-text { color: var(--text-muted); font-size: 13px; line-height: 1.6; }
+  /* ── COLLAPSIBLE METRIC KEY ── */
+  .key-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    margin-bottom: 24px; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .key-header {
+    padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; user-select: none; font-weight: 600; font-size: 13px; color: var(--text);
+  }
+  .key-header:hover { background: var(--surface-hover); }
+  .key-icon { font-size: 14px; transition: transform 0.3s ease; color: var(--text-muted); }
+  .key-card.open .key-icon { transform: rotate(180deg); }
+  .key-content {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;
+    padding: 0 20px; max-height: 0; opacity: 0; transition: all 0.3s ease;
+  }
+  .key-card.open .key-content { max-height: 500px; opacity: 1; padding: 0 20px 20px 20px; }
+  .k-item { display: flex; gap: 10px; align-items: flex-start; }
+  .k-icon { font-size: 16px; }
+  .k-text strong { color: #fff; display: block; margin-bottom: 2px; font-size: 12px; }
+  .k-text { color: var(--text-muted); font-size: 11px; line-height: 1.4; }
 
-  /* ── MARKET BOARD TAB ── */
-  .toolbar {
-    display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap;
+  /* ── TOOLBAR / CONTROLS ── */
+  .controls-bar {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px;
   }
   .search-box {
     background: var(--surface); border: 1px solid var(--border); color: var(--text);
-    padding: 10px 16px; border-radius: 8px; font-size: 13px; width: 280px; outline: none;
-    font-family: 'Inter', sans-serif;
+    padding: 10px 16px; border-radius: 12px; font-size: 13px; width: 240px; outline: none; transition: 0.2s;
   }
-  .search-box:focus { border-color: var(--plaid-blue); }
-  .filter-btn {
-    background: var(--surface); border: 1px solid var(--border); color: var(--text-muted);
-    padding: 9px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;
+  .search-box:focus { border-color: var(--accent-blue); box-shadow: var(--glow); }
+  
+  .filter-chip {
+    background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 9px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; letter-spacing: 0.5px;
   }
-  .filter-btn:hover { border-color: var(--border-light); color: var(--text); }
-  .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .filter-chip:hover { border-color: var(--text-muted); color: var(--text); }
+  .filter-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-  .table-container {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-    overflow-x: auto; max-height: calc(100vh - 180px);
+  /* ── DATA TABLE (Ultra Compact Emojis) ── */
+  .table-wrap {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    overflow-x: auto; box-shadow: var(--shadow);
   }
-  table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1000px; }
-  th {
-    background: var(--surface-alt); padding: 12px 16px; font-size: 14px; 
-    border-bottom: 1px solid var(--border); cursor: pointer; user-select: none;
-    position: sticky; top: 0; z-index: 20; text-align: center; white-space: nowrap;
-  }
-  th:first-child { text-align: left; left: 0; z-index: 30; }
-  th:hover { background: var(--border); }
-  th .sort-icon { font-size: 10px; color: var(--text-muted); margin-left: 4px; }
-  th.active .sort-icon { color: var(--plaid-blue); }
+  .table-wrap::-webkit-scrollbar { height: 6px; }
+  .table-wrap::-webkit-scrollbar-track { background: transparent; }
+  .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-  td {
-    padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 13px;
-    text-align: center; font-family: 'JetBrains Mono', monospace; vertical-align: middle;
+  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 900px; }
+  th { 
+    padding: 14px 12px; font-size: 14px; 
+    border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; transition: 0.2s; text-align: center;
   }
-  td:first-child { text-align: left; position: sticky; left: 0; background: var(--surface); z-index: 10; font-family: 'Inter', sans-serif; border-right: 1px solid var(--border);}
-  tbody tr:hover td { background: var(--surface-alt); }
-  tbody tr:hover td:first-child { background: var(--surface-alt); }
+  th:first-child { text-align: left; padding-left: 20px; }
+  th:hover { background: var(--surface-hover); }
+  th .sort { opacity: 0; font-size: 10px; margin-left: 4px; vertical-align: middle; color: var(--text-muted); }
+  th.active .sort { opacity: 1; color: var(--accent-blue); }
   
-  .player-name-wrapper { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .player-name { font-weight: 600; color: #fff; font-size: 13px; display: flex; align-items: center; gap: 6px;}
-  .wave-tag { font-size: 9px; background: var(--border); color: var(--text-muted); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace;}
-  
-  .val-pos { color: var(--plaid-green); }
-  .val-neg { color: var(--plaid-red); }
-  .val-elite { color: var(--plaid-gold); }
+  td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; vertical-align: middle; text-align: center; }
+  td:first-child { text-align: left; padding-left: 20px; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr { transition: background 0.15s; }
+  tbody tr:hover { background: var(--surface-hover); }
 
-  .action-group { display: flex; gap: 4px; }
-  .action-btn {
-    width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--border);
-    background: var(--bg); color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px;
+  /* Sticky First Column */
+  th:first-child, td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 10; border-right: 1px solid var(--border); }
+  tbody tr:hover td:first-child { background: var(--surface-hover); }
+
+  .player-name { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #fff; }
+  
+  .val-green { color: var(--accent-green); }
+  .val-red { color: var(--accent-red); }
+  .val-gold { color: var(--accent-gold); }
+
+  .actions { display: flex; gap: 6px; margin-top: 4px; }
+  .btn-icon { 
+    width: 24px; height: 24px; border-radius: 6px; border: 1px solid var(--border); 
+    background: transparent; color: var(--text-muted); cursor: pointer; 
+    display: flex; align-items: center; justify-content: center; transition: 0.2s; font-size: 10px;
   }
-  .action-btn:hover { background: var(--border-light); color: var(--text); }
-  .action-btn.locked { background: rgba(245, 158, 11, 0.1); border-color: var(--plaid-gold); color: var(--plaid-gold); }
-  .action-btn.excluded { background: rgba(225, 29, 72, 0.1); border-color: var(--plaid-red); color: var(--plaid-red); }
+  .btn-icon:hover { background: var(--border); color: #fff; }
+  .btn-icon.locked { background: rgba(255,214,10,0.15); border-color: var(--accent-gold); color: var(--accent-gold); }
+  .btn-icon.excluded { background: rgba(255,69,58,0.15); border-color: var(--accent-red); color: var(--accent-red); }
   
-  .row-locked td { background: rgba(245, 158, 11, 0.05) !important; }
-  .row-excluded td { opacity: 0.3; }
+  .row-excluded td { opacity: 0.3; text-decoration: line-through; }
+  .row-excluded td:first-child { text-decoration: none; opacity: 1; }
+  .row-locked td { background: rgba(255,214,10,0.03); }
 
-  /* ── BUILD HUB TAB ── */
-  .build-grid { display: grid; grid-template-columns: 1fr 350px; gap: 24px; align-items: start; max-width: 1400px; margin: 0 auto;}
-  
-  .prebuilt-section { display: flex; flex-direction: column; gap: 24px; }
-  .section-title { font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;}
-  
-  .prebuilt-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-  .lineup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .lc-header { background: var(--surface-alt); padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;}
-  .lc-title { font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px;}
-  .lc-stats { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
-  .lc-roster { list-style: none; padding: 0; }
-  .lc-roster li { padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
-  .lc-roster li:last-child { border-bottom: none; }
-  .lc-name { font-weight: 500; }
-  .lc-sal { color: var(--plaid-green); font-family: 'JetBrains Mono', monospace;}
+  .wave-tag { font-size: 9px; background: rgba(255,255,255,0.1); color: var(--text-muted); padding: 2px 6px; border-radius: 8px; font-weight: 700; margin-left: 6px; }
 
-  .custom-builder { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: sticky; top: 0;}
-  .cb-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-  .cb-stat-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
-  .cb-val { font-size: 18px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--text); }
-  .cb-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
-  
-  .build-btn {
-    width: 100%; background: var(--plaid-blue); color: #fff; border: none; padding: 14px;
-    border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-bottom: 12px;
+  /* ── FLOATING LINEUP BAR (Glassmorphism) ── */
+  .fab-container {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 700px; z-index: 100;
   }
-  .build-btn:hover { background: #1D4ED8; }
-  .build-sub { font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.5;}
+  
+  .fab-bar {
+    background: var(--glass); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: var(--shadow); cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .fab-bar:hover { border-color: rgba(255,255,255,0.2); }
+  
+  .fab-stats { display: flex; gap: 24px; align-items: center; }
+  .stat-block { display: flex; flex-direction: column; }
+  .stat-val { font-size: 15px; font-weight: 700; color: #fff; font-family: monospace;}
+  .stat-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;}
+  
+  .fab-chevron { color: var(--text-muted); transition: 0.3s; font-size: 12px;}
+  
+  /* The Expanded Sheet */
+  .fab-sheet {
+    position: absolute; bottom: calc(100% + 12px); left: 0; width: 100%;
+    background: var(--glass); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 24px;
+    box-shadow: var(--shadow); overflow: hidden;
+    opacity: 0; pointer-events: none; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex; flex-direction: column; max-height: 80vh;
+  }
+  
+  .fab-container.open .fab-sheet { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .fab-container.open .fab-chevron { transform: rotate(180deg); }
+
+  .sheet-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;
+  }
+  .gen-btn {
+    background: transparent; border: none; padding: 16px; color: #fff; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .gen-btn:hover { background: rgba(255,255,255,0.05); }
+  .gen-sub { font-size: 9px; color: var(--text-muted); font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px;}
+  .btn-gpp { color: var(--accent-blue); }
+
+  .roster-list { list-style: none; padding: 12px; overflow-y: auto; flex-grow: 1;}
+  .roster-list::-webkit-scrollbar { width: 4px; }
+  .roster-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+  
+  .r-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px; background: rgba(0,0,0,0.3); border-radius: 12px; margin-bottom: 6px;
+  }
+  .r-item:last-child { margin-bottom: 0; }
+  .r-name { font-weight: 600; color: #fff; font-size: 13px; }
+  .r-meta { font-size: 10px; color: var(--text-muted); margin-top: 4px; display: flex; gap: 12px; font-family: monospace;}
+  .r-price { color: var(--accent-green); font-weight: 700; font-family: monospace; font-size: 13px;}
 
   /* ── MOBILE OPTIMIZATION ── */
-  @media (max-width: 900px) {
-    .top-nav { flex-direction: column; gap: 16px; align-items: stretch; }
-    .brand { justify-content: center; }
-    .tab-group { width: 100%; display: flex; }
-    .tab-btn { flex: 1; text-align: center; padding: 10px; }
-    .build-grid { grid-template-columns: 1fr; }
-    .custom-builder { position: static; }
+  @media (max-width: 768px) {
+    .container { padding: 12px; }
+    .header { flex-direction: column; align-items: flex-start; padding: 12px 0; }
+    .search-box { width: 100%; }
+    .controls-bar { gap: 8px; }
+    .filter-chip { padding: 8px 12px; flex: 1 1 auto; text-align: center; }
+    .nav { justify-content: stretch; width: 100%; }
+    .nav-btn { flex: 1; text-align: center; }
+    
+    th { font-size: 13px; padding: 12px 8px; }
+    td { padding: 12px 8px; font-size: 11px; }
+    th:first-child, td:first-child { padding-left: 12px; }
+    .player-name { font-size: 12px; }
+    .name-cell { min-width: 130px; }
+    
+    .fab-container { width: calc(100% - 24px); bottom: 12px; }
+    .fab-stats { gap: 12px; }
+    .stat-val { font-size: 13px; }
   }
 </style>
 </head>
 <body>
 
-<nav class="top-nav">
-  <div class="brand">
-    <h1>Plaid Genie <span class="version-tag">V5.0 INST</span></h1>
-    <div class="tourney-info">2026 RBC Heritage · Live Odds</div>
-  </div>
-  <div class="tab-group">
-    <button class="tab-btn" onclick="switchTab('guide')" id="nav-guide">Guide</button>
-    <button class="tab-btn active" onclick="switchTab('arb')" id="nav-arb">Market Board</button>
-    <button class="tab-btn" onclick="switchTab('build')" id="nav-build">Build Hub</button>
-  </div>
-</nav>
+<div class="container">
 
-<div class="main-content">
+  <header class="header">
+    <div class="header-left">
+      <h1>Plaid Genie <span class="v4">V4.6 PRO</span></h1>
+      <div class="header-sub">RBC Heritage · Tue Odds Synced · Expert Touts Flagged</div>
+    </div>
+  </header>
 
-  <div class="panel" id="panel-guide">
-    <div class="guide-grid">
-      <div class="guide-card">
-        <h3>⚖️ $DLTA (Arbitrage)</h3>
-        <div class="guide-text">Ranks a player based on their DFS Salary and subtracts their rank based on Live Win Probability. A positive number indicates the player is underpriced by DraftKings compared to Vegas.</div>
-      </div>
-      <div class="guide-card">
-        <h3>🚂 STEAM (wVEL)</h3>
-        <div class="guide-text">The velocity of odds movement from Sunday open to current Tuesday lines. Highly correlated with sharp money. We track any movement > 2%.</div>
-      </div>
-      <div class="guide-card">
-        <h3>🎯 PROFILE FIT</h3>
-        <div class="guide-text">A 1-100 quantitative grade matching a player's recent stats (Heavily weighted to SG:APP and SG:ARG) against the historical winning profile of Harbour Town.</div>
-      </div>
-      <div class="guide-card">
-        <h3>👥 pOWN% & LEVERAGE</h3>
-        <div class="guide-text">Projected ownership accounts for the "Tout Bump" (inflated chalk). The Leverage score (1-100) finds players with elite Profile Fits that the public is ignoring.</div>
-      </div>
-      <div class="guide-card">
-        <h3>⏱️ TEE TIME WAVE</h3>
-        <div class="guide-text">AM/PM tags derived from official Thursday tee times. The engine mathematically penalizes the PM wave to account for historically higher coastal afternoon winds.</div>
-      </div>
-      <div class="guide-card">
-        <h3>🧮 KNAPSACK OPTIMIZER</h3>
-        <div class="guide-text">A dynamic programming algorithm that evaluates millions of combinations. It strictly forces a total spend between $49,000 and $50,000 to maximize structural ceiling.</div>
-      </div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('arb')" id="nav-arb">MARKET BOARD</button>
+  </div>
+
+  <div class="key-card" id="keyCard">
+    <div class="key-header" onclick="document.getElementById('keyCard').classList.toggle('open')">
+      <span>📚 DASHBOARD METRIC KEY</span>
+      <span class="key-icon">▼</span>
+    </div>
+    <div class="key-content">
+      <div class="k-item"><div class="k-icon">🏌️</div><div class="k-text"><strong>Player</strong> Lock (🔒) or Exclude (✕). Features exact AM/PM tee time wave tags.</div></div>
+      <div class="k-item"><div class="k-icon">💵</div><div class="k-text"><strong>Salary</strong> DraftKings Cap hit.</div></div>
+      <div class="k-item"><div class="k-icon">🎲</div><div class="k-text"><strong>Odds</strong> Sun Open ➝ Tue Current.</div></div>
+      <div class="k-item"><div class="k-icon">⚖️</div><div class="k-text"><strong>$DLTA</strong> Salary vs Odds inefficiency.</div></div>
+      <div class="k-item"><div class="k-icon">🚂</div><div class="k-text"><strong>Steam</strong> % odds shift. Tracks sharp $.</div></div>
+      <div class="k-item"><div class="k-icon">🏛️</div><div class="k-text"><strong>History</strong> Avg Finish. Lower = better.</div></div>
+      <div class="k-item"><div class="k-icon">🎯</div><div class="k-text"><strong>Fit</strong> 1-100 Course architecture grade.</div></div>
+      <div class="k-item"><div class="k-icon">👥</div><div class="k-text"><strong>pOWN (Adj)</strong> DFS Ownership, artificially inflated for heavily touted players.</div></div>
+      <div class="k-item"><div class="k-icon">📈</div><div class="k-text"><strong>Leverage</strong> High Fit + Low pOWN edge.</div></div>
+      <div class="k-item"><div class="k-icon">🏆</div><div class="k-text"><strong>Tier</strong> Internal algorithm bucket.</div></div>
     </div>
   </div>
 
   <div class="panel active" id="panel-arb">
-    <div class="toolbar">
-      <input type="text" class="search-box" id="search" placeholder="Search player pool..." oninput="renderTable()">
-      <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
-      <button class="filter-btn" onclick="setFilter('tartan', this)">Tartan Tier</button>
-      <button class="filter-btn" onclick="setFilter('am', this)">☀️ AM Wave</button>
-      <button class="filter-btn" onclick="setFilter('pm', this)">🌥️ PM Wave</button>
-      <button class="filter-btn" onclick="setFilter('leverage', this)" style="color: var(--plaid-green);">📈 Leverage</button>
+    <div class="controls-bar">
+      <input type="text" class="search-box" id="search" placeholder="Search players..." oninput="renderTable()">
+      <button class="filter-chip active" onclick="setFilter('all', this)">ALL</button>
+      <button class="filter-chip" onclick="setFilter('tartan', this)">TARTAN</button>
+      <button class="filter-chip" onclick="setFilter('am', this)">☀️ AM</button>
+      <button class="filter-chip" onclick="setFilter('pm', this)">🌥️ PM</button>
+      <button class="filter-chip" onclick="setFilter('leverage', this)" style="border-color: var(--accent-green); color: var(--accent-green);">📈 LEVERAGE</button>
+      <button class="filter-chip" onclick="setFilter('chalk', this)" style="border-color: var(--accent-red); color: var(--accent-red);">🐑 TOUT CHALK</button>
     </div>
 
-    <div class="table-container">
+    <div class="table-wrap">
       <table id="arbTable">
         <thead>
           <tr>
-            <th onclick="sortData('name')" data-col="name">🏌️ Player <span class="sort-icon">▼</span></th>
-            <th onclick="sortData('price')" data-col="price">💵 Sal <span class="sort-icon">▼</span></th>
-            <th onclick="sortData('liveImp')" data-col="liveImp">🎲 Odds <span class="sort-icon">▼</span></th>
-            <th onclick="sortData('dlta')" data-col="dlta">⚖️ $DLTA <span class="sort-icon">▼</span></th>
-            <th onclick="sortData('velTotal')" data-col="velTotal">🚂 Steam <span class="sort-icon">▼</span></th>
-            <th onclick="sortData('courseHistory')" data-col="courseHistory">🏛️ Hist <span class="sort-icon">▼</span></th>
-            <th onclick="sortData('profileFit')" data-col="profileFit">🎯 Fit <span class="sort-icon">▼</span></th>
-            <th onclick="sortData('pOwn')" data-col="pOwn">👥 pOwn <span class="sort-icon">▼</span></th>
-            <th onclick="sortData('leverage')" data-col="leverage">📈 Lev <span class="sort-icon">▼</span></th>
+            <th onclick="sortData('name')" data-col="name" title="Player & Wave">🏌️ Player <span class="sort">▼</span></th>
+            <th onclick="sortData('price')" data-col="price" title="DraftKings Salary">💵 Sal <span class="sort">▼</span></th>
+            <th onclick="sortData('liveImp')" data-col="liveImp" title="Current Odds">🎲 Odds <span class="sort">▼</span></th>
+            <th onclick="sortData('dlta')" data-col="dlta" title="$DLTA Arbitrage">⚖️ $DLTA <span class="sort">▼</span></th>
+            <th onclick="sortData('velTotal')" data-col="velTotal" title="Steam Velocity">🚂 Steam <span class="sort">▼</span></th>
+            <th onclick="sortData('courseHistory')" data-col="courseHistory" title="Course History">🏛️ Hist <span class="sort">▼</span></th>
+            <th onclick="sortData('profileFit')" data-col="profileFit" title="Profile Fit">🎯 Fit <span class="sort">▼</span></th>
+            <th onclick="sortData('pOwn')" data-col="pOwn" title="Projected Ownership (Tout Adjusted)">👥 pOWN <span class="sort">▼</span></th>
+            <th onclick="sortData('leverage')" data-col="leverage" title="Leverage Score">📈 Lev <span class="sort">▼</span></th>
+            <th onclick="sortData('composite')" data-col="composite" title="Optimizer Tier">🏆 Tier <span class="sort">▼</span></th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -248,49 +299,54 @@
     </div>
   </div>
 
-  <div class="panel" id="panel-build">
-    <div class="build-grid">
-      
-      <div class="prebuilt-section">
-        <div class="section-title">
-          <span>⚡ Instant Pre-Built Lineups</span>
-          <span style="font-size:12px; color:var(--text-muted); font-weight:400;">Generated on load</span>
-        </div>
-        <div class="prebuilt-cards" id="prebuiltContainer">
-          </div>
-      </div>
+</div>
 
-      <div class="custom-builder">
-        <h3 style="margin-bottom: 16px; font-size: 15px; border-bottom: 1px solid var(--border); padding-bottom: 12px;">🛠️ Custom Roster Builder</h3>
-        
-        <div class="cb-stats">
-          <div class="cb-stat-box">
-            <div class="cb-val" id="cbCount">0/6</div>
-            <div class="cb-lbl">Locked</div>
-          </div>
-          <div class="cb-stat-box">
-            <div class="cb-val val-pos" id="cbSal">$50,000</div>
-            <div class="cb-lbl">Rem. Cap</div>
-          </div>
-        </div>
-
-        <button class="build-btn" onclick="generateCustomLineup('cash')" style="background: var(--surface-alt); border: 1px solid var(--border); color: var(--text);">🛡️ Optimize for Cash</button>
-        <button class="build-btn" onclick="generateCustomLineup('gpp')">🚀 Optimize for GPP</button>
-        
-        <p class="build-sub">Lock (🔒) players on the Market Board, then click to run the Knapsack algorithm.<br><br>The algorithm will evaluate combinations to strictly force a spend between $49,000 and $50,000.</p>
-        
-        <div id="customResult" style="margin-top: 24px; display: none;">
-          </div>
-      </div>
-
+<div class="fab-container" id="fabContainer">
+  <div class="fab-sheet">
+    <div class="sheet-actions">
+      <button class="gen-btn" onclick="generateLineup('cash')">
+        <span style="font-size: 16px;">🛡️</span> CASH OPTIMIZER
+        <span class="gen-sub">Maximizes Median Floor. Ignores Ownership.</span>
+      </button>
+      <button class="gen-btn btn-gpp" onclick="generateLineup('gpp')">
+        <span style="font-size: 16px;">🚀</span> GPP MILLY MAKER
+        <span class="gen-sub">Maximizes Leverage. Hard Caps pOWN at 85%.</span>
+      </button>
     </div>
+    <ul class="roster-list" id="rosterList">
+      <div style="padding: 30px; text-align: center; color: var(--text-muted); font-size: 12px;">
+        Lock (🔒) your core players on the board above, then generate a build.
+      </div>
+    </ul>
   </div>
-
+  
+  <div class="fab-bar" onclick="document.getElementById('fabContainer').classList.toggle('open')">
+    <div class="fab-stats">
+      <div class="stat-block">
+        <span class="stat-val" id="fabCount">0/6</span>
+        <span class="stat-lbl">Roster</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-val val-green" id="fabSal">$50,000</span>
+        <span class="stat-lbl">Rem. Cap</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-val" id="fabProj">0.0</span>
+        <span class="stat-lbl">Proj Pts</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-val val-gold" id="fabOwn">0.0%</span>
+        <span class="stat-lbl">Total Own</span>
+      </div>
+    </div>
+    <div class="fab-chevron">▲</div>
+  </div>
 </div>
 
 <script>
 // ==========================================
-// V5.0 MASTER DATABASE (Tue Odds & Official Waves)
+// V4.6 DATA SCIENCE INJECTION
+// Master Database (81 Players - Tue Odds & Tee Times Synced)
 // ==========================================
 const db = [
   { name: "Scottie Scheffler", sunWin: 350, tueWin: 385, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5, wave: "PM" },
@@ -377,11 +433,20 @@ const db = [
   { name: "Adam Schenk", sunWin: 180000, tueWin: 200000, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0, wave: "AM" }
 ];
 
+// Analyst Transcript Sentiment: Touts specifically targeted for Ownership Inflation (+10%)
 const chalkTouts = [
-  "Tommy Fleetwood", "Matt Fitzpatrick", "Russell Henley", 
-  "Jacob Bridgeman", "Maverick McNealy", "Justin Thomas", 
-  "Ryo Hisatsune", "J.J. Spaun", "S. Yellamaraju", 
-  "Gary Woodland", "Sungjae Im", "Brian Campbell"
+  "Russell Henley", 
+  "Patrick Cantlay", 
+  "Matt Fitzpatrick", 
+  "Scottie Scheffler", 
+  "Tommy Fleetwood", 
+  "Jordan Spieth", 
+  "Brian Campbell", 
+  "Brian Harman", 
+  "Akshay Bhatia", 
+  "Sudarshan Yellamaraju",
+  "Jacob Bridgeman",
+  "Cameron Young"
 ];
 
 let players = [];
@@ -394,12 +459,11 @@ let fitWeights = { sgApp: 30, sgArg: 20, prox150: 30, girRough: 10, birdiePct: 1
 
 window.onload = () => {
   processData();
-  generatePrebuilts();
 };
 
 function switchTab(tab) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(`panel-${tab}`).classList.add('active');
   document.getElementById(`nav-${tab}`).classList.add('active');
   if(tab === 'arb') renderTable();
@@ -438,15 +502,17 @@ function processData() {
     let dltaBump = p.dlta ? (p.dlta * 1.2) : 0;
     let histBump = p.courseHistory <= 20 ? 5 : (p.courseHistory <= 40 ? 2 : 0);
     
-    let toutBump = chalkTouts.includes(p.name) ? 8 : 0;
+    // Analyst Chalk Inflation: Brutal +10% penalty for sheep picks
+    let toutBump = chalkTouts.includes(p.name) ? 10 : 0;
     p.isChalk = toutBump > 0;
     
-    p.pOwn = Math.min(35, Math.max(0.5, baseOwn + dltaBump + histBump + (p.isSteam ? 4 : 0) + toutBump));
+    // Calculate final pOWN and constrain max cap
+    p.pOwn = Math.min(40, Math.max(0.5, baseOwn + dltaBump + histBump + (p.isSteam ? 4 : 0) + toutBump));
+    
+    // Leverage Score heavily penalized by the new pOWN%
     p.rawLev = p.profileFit - (p.pOwn * 1.5);
     
-    // Hardcoded Wind Penalty logic (2.5 pts for PM wave)
     let windHit = p.wave === 'PM' ? 2.5 : 0;
-    
     p.composite = p.profileFit + (p.courseHistory ? (80 - p.courseHistory) * 0.5 : 0) - windHit;
   });
 
@@ -460,7 +526,7 @@ function processData() {
 
 function setFilter(f, btn) {
   currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   renderTable();
 }
@@ -474,12 +540,12 @@ function sortData(col) {
 function toggleLock(name) {
   const p = players.find(x => x.name === name);
   if(p) { p.locked = !p.locked; if(p.locked) p.excluded = false; }
-  renderTable(); updateBuilderStats();
+  renderTable(); updateFabStats();
 }
 function toggleExclude(name) {
   const p = players.find(x => x.name === name);
   if(p) { p.excluded = !p.excluded; if(p.excluded) p.locked = false; }
-  renderTable(); updateBuilderStats();
+  renderTable(); updateFabStats();
 }
 
 function renderTable() {
@@ -490,6 +556,7 @@ function renderTable() {
     if(query && !p.name.toLowerCase().includes(query)) return false;
     if(currentFilter === 'tartan') return p.tier === 'Tartan';
     if(currentFilter === 'leverage') return p.leverage > 65;
+    if(currentFilter === 'chalk') return p.isChalk;
     if(currentFilter === 'am') return p.wave === 'AM';
     if(currentFilter === 'pm') return p.wave === 'PM';
     return true;
@@ -503,54 +570,67 @@ function renderTable() {
 
   document.querySelectorAll('th[data-col]').forEach(th => {
     th.classList.toggle('active', th.dataset.col === sortCol);
-    if(th.dataset.col === sortCol) th.querySelector('.sort-icon').textContent = sortAsc ? '▲' : '▼';
+    if(th.dataset.col === sortCol) th.querySelector('.sort').textContent = sortAsc ? '▲' : '▼';
   });
 
   tbody.innerHTML = data.map(p => {
     const rowClass = p.locked ? 'row-locked' : (p.excluded ? 'row-excluded' : '');
     const oddsStr = p.sunWin ? `+${p.sunWin} ➝ ` : '';
     const curOdds = p.tueWin || p.sunWin;
-    const dltaCls = p.dlta > 2 ? 'val-pos' : (p.dlta < -2 ? 'val-neg' : '');
-    const levCls = p.leverage > 80 ? 'val-elite' : '';
+    const dltaCls = p.dlta > 2 ? 'val-green' : (p.dlta < -2 ? 'val-red' : '');
+    const levCls = p.leverage > 80 ? 'val-gold' : '';
+    const ownCls = p.isChalk ? 'val-red' : (p.pOwn > 20 ? 'val-gold' : '');
     
     return `<tr class="${rowClass}">
       <td>
-        <div class="player-name-wrapper">
-          <div class="player-name">${p.name} <span class="wave-tag">${p.wave}</span></div>
-          <div class="action-group">
-            <button class="action-btn ${p.locked?'locked':''}" onclick="toggleLock('${p.name}')">🔒</button>
-            <button class="action-btn ${p.excluded?'excluded':''}" onclick="toggleExclude('${p.name}')">✕</button>
-          </div>
+        <div class="player-name">${p.name} <span class="wave-tag">${p.wave==='AM'?'☀️':'🌥️'} ${p.wave}</span></div>
+        <div class="actions">
+          <button class="btn-icon ${p.locked?'locked':''}" onclick="toggleLock('${p.name}')">🔒</button>
+          <button class="btn-icon ${p.excluded?'excluded':''}" onclick="toggleExclude('${p.name}')">✕</button>
         </div>
       </td>
-      <td style="color:var(--plaid-green); font-weight:700;">$${p.price/1000}k</td>
-      <td><span style="color:var(--text-muted); font-size:10px; font-family:'Inter', sans-serif;">${oddsStr}</span> +${curOdds}</td>
-      <td class="${dltaCls}">${p.dlta>0?'+'+p.dlta:p.dlta}</td>
-      <td class="${p.velTotal>0.02?'val-pos':''}">${p.sunWin ? (p.velTotal*100).toFixed(1)+'%' : '—'}</td>
-      <td>${p.courseHistory.toFixed(1)}</td>
-      <td><strong style="color: ${p.profileFit>75?'var(--plaid-green)':'inherit'}">${p.profileFit.toFixed(1)}</strong></td>
-      <td class="${p.isChalk?'val-neg':(p.pOwn>20?'val-elite':'')}">${p.pOwn.toFixed(1)}%</td>
-      <td class="${levCls}">${p.leverage.toFixed(1)}</td>
+      <td style="color:var(--accent-green); font-weight:700; font-family:monospace; font-size:14px;">$${p.price/1000}k</td>
+      <td style="font-family:monospace;"><span style="color:var(--text-muted); font-size:10px;">${oddsStr}</span> <br>+${curOdds}</td>
+      <td class="${dltaCls}" style="font-weight:600;">${p.dlta>0?'+'+p.dlta:p.dlta}</td>
+      <td class="${p.velTotal>0.02?'val-green':''}" style="font-family:monospace;">${p.sunWin ? (p.velTotal*100).toFixed(1)+'%' : '—'}</td>
+      <td style="font-family:monospace;">${p.courseHistory.toFixed(1)}</td>
+      <td><strong style="color: ${p.profileFit>75?'var(--accent-green)':'inherit'}">${p.profileFit.toFixed(1)}</strong></td>
+      <td class="${ownCls}" style="font-family:monospace; font-weight:700;">${p.pOwn.toFixed(1)}%</td>
+      <td class="${levCls}" style="font-weight:700;">${p.leverage.toFixed(1)}</td>
+      <td><span style="font-size:10px; color:${p.tier==='Tartan'?'var(--accent-red)':(p.tier==='Lighthouse'?'var(--accent-blue)':'var(--text-muted)')}; font-weight:700; text-transform:uppercase;">${p.tier}</span></td>
     </tr>`;
   }).join('');
 }
 
-// ── KNAPSACK ALGORITHM ──
-function runKnapsack(pool, type, lockedPlayers = []) {
-  let lockedSal = lockedPlayers.reduce((s,p)=>s+p.price,0);
-  const maxSal = 50000 - lockedSal;
-  const req = 6 - lockedPlayers.length;
+function updateFabStats() {
+  const locked = players.filter(p => p.locked);
+  let sal = locked.reduce((s,p)=>s+p.price,0), own = locked.reduce((s,p)=>s+p.pOwn,0), pts = locked.reduce((s,p)=>s+p.composite,0);
+  
+  document.getElementById('fabCount').textContent = `${locked.length}/6`;
+  document.getElementById('fabSal').textContent = `$${(50000 - sal).toLocaleString()}`;
+  document.getElementById('fabProj').textContent = pts.toFixed(1);
+  document.getElementById('fabOwn').textContent = `${own.toFixed(1)}%`;
+}
 
-  if (req === 0) return lockedPlayers;
+function generateLineup(type) {
+  const locked = players.filter(p => p.locked);
+  if (locked.length > 6) return alert("Max 6 locked players.");
+  
+  let lockedSal = locked.reduce((s,p)=>s+p.price,0);
+  if (lockedSal > 50000) return alert("Locked players exceed $50k.");
+
+  const pool = players.filter(p => !p.excluded && !p.locked);
+  const req = 6 - locked.length;
+  const maxSal = 50000 - lockedSal;
+
+  if (req === 0) return finalizeLineup(locked);
 
   let dp = Array(req + 1).fill(null).map(() => Array(maxSal + 1).fill(null));
   dp[0][0] = { score: 0, roster: [] };
 
   for (let p of pool) {
     let weight = p.price;
-    // Core math divergence: Cash focuses on history/fit. GPP focuses on Leverage. Balanced is composite.
-    let val = type === 'cash' ? (p.courseHistory<30 ? p.composite*1.2 : p.composite) : 
-              type === 'gpp' ? p.composite + (p.leverage * 0.6) : p.composite;
+    let val = type === 'cash' ? (p.courseHistory<30 ? p.composite*1.2 : p.composite) : p.composite + (p.leverage * 0.5);
 
     for (let k = req - 1; k >= 0; k--) {
       for (let w = maxSal - weight; w >= 0; w--) {
@@ -565,85 +645,46 @@ function runKnapsack(pool, type, lockedPlayers = []) {
   }
 
   let best = null;
-  // STRICT CONSTRAINT: Must spend at least $49,000 for structural ceiling
+  // Force structural optimal spend constraint
   for (let w = maxSal; w >= 49000 - lockedSal; w--) {
     if (dp[req][w]) {
       let candidate = dp[req][w];
-      let totalOwn = lockedPlayers.reduce((s,p)=>s+p.pOwn,0) + candidate.roster.reduce((s,p)=>s+p.pOwn,0);
-      
-      if (type === 'gpp' && totalOwn > 80) continue; // Hard Cap GPP ownership
-      if (type === 'cash' && totalOwn < 60) continue; // Force safe chalk for cash
-      
+      let totalOwn = locked.reduce((s,p)=>s+p.pOwn,0) + candidate.roster.reduce((s,p)=>s+p.pOwn,0);
+      if (type === 'gpp' && totalOwn > 85) continue; 
       if (!best || candidate.score > best.score) best = candidate;
     }
   }
 
-  if (!best) return null;
-  return [...lockedPlayers, ...best.roster];
+  if (!best) {
+    for (let w = maxSal; w >= 0; w--) {
+      if (dp[req][w] && (!best || dp[req][w].score > best.score)) best = dp[req][w];
+    }
+  }
+
+  if (best) finalizeLineup([...locked, ...best.roster]);
 }
 
-// ── PRE-BUILTS ──
-function generatePrebuilts() {
-  const container = document.getElementById('prebuiltContainer');
-  const pool = players.filter(p => !p.excluded);
-  
-  const cashLineup = runKnapsack(pool, 'cash');
-  const gppLineup = runKnapsack(pool, 'gpp');
-  const balLineup = runKnapsack(pool, 'balanced');
-
-  container.innerHTML = `
-    ${buildCardHTML('Optimal Cash (50/50)', cashLineup, '🛡️')}
-    ${buildCardHTML('GPP Leverage (Milly Maker)', gppLineup, '🚀')}
-    ${buildCardHTML('Balanced Core (Single Entry)', balLineup, '⚖️')}
-  `;
-}
-
-function buildCardHTML(title, roster, icon) {
-  if (!roster) return '';
-  const sal = roster.reduce((s,p)=>s+p.price,0);
-  const own = roster.reduce((s,p)=>s+p.pOwn,0);
-  
-  const lis = roster.sort((a,b)=>b.price-a.price).map(p => `
-    <li>
-      <div class="lc-name">${p.name}</div>
-      <div class="lc-sal">$${(p.price/1000).toFixed(1)}k</div>
+function finalizeLineup(roster) {
+  const list = document.getElementById('rosterList');
+  list.innerHTML = roster.sort((a,b)=>b.price-a.price).map(p => `
+    <li class="r-item">
+      <div>
+        <div class="r-name">${p.locked?'🔒':''} ${p.name} <span style="font-size:10px; font-weight:400; color:var(--text-muted);">${p.wave==='AM'?'☀️':'🌥️'}</span></div>
+        <div class="r-meta"><span>pOWN: <strong style="color:${p.isChalk?'var(--accent-red)':'inherit'};">${p.pOwn.toFixed(1)}%</strong></span><span>LEV: ${p.leverage.toFixed(0)}</span></div>
+      </div>
+      <div class="r-price">$${(p.price/1000).toFixed(1)}k</div>
     </li>
   `).join('');
-
-  return `
-    <div class="lineup-card">
-      <div class="lc-header">
-        <div class="lc-title">${icon} ${title}</div>
-        <div class="lc-stats">$${sal.toLocaleString()} <br> <span style="color:var(--text-muted)">${own.toFixed(1)}% pOWN</span></div>
-      </div>
-      <ul class="lc-roster">${lis}</ul>
-    </div>
-  `;
-}
-
-// ── CUSTOM BUILDER ──
-function updateBuilderStats() {
-  const locked = players.filter(p => p.locked);
-  let sal = locked.reduce((s,p)=>s+p.price,0);
   
-  document.getElementById('cbCount').textContent = `${locked.length}/6`;
-  document.getElementById('cbSal').textContent = `$${(50000 - sal).toLocaleString()}`;
-}
-
-function generateCustomLineup(type) {
-  const locked = players.filter(p => p.locked);
-  if (locked.length > 6) return alert("Max 6 locked players.");
-  let lockedSal = locked.reduce((s,p)=>s+p.price,0);
-  if (lockedSal > 50000) return alert("Locked players exceed $50k.");
-
-  const pool = players.filter(p => !p.excluded && !p.locked);
-  const roster = runKnapsack(pool, type, locked);
-
-  if (!roster) return alert("Algorithm failed. Try freeing up salary or unlocking players. (Constraint: Must spend $49k+)");
-
-  const resDiv = document.getElementById('customResult');
-  resDiv.style.display = 'block';
-  resDiv.innerHTML = buildCardHTML('Your Custom Build', roster, '💎');
+  let sal = roster.reduce((s,p)=>s+p.price,0), own = roster.reduce((s,p)=>s+p.pOwn,0), pts = roster.reduce((s,p)=>s+p.composite,0);
+  document.getElementById('fabCount').textContent = `6/6`;
+  document.getElementById('fabSal').textContent = `$${(50000 - sal).toLocaleString()}`;
+  document.getElementById('fabProj').textContent = pts.toFixed(1);
+  const ownEl = document.getElementById('fabOwn');
+  ownEl.textContent = `${own.toFixed(1)}%`;
+  ownEl.style.color = own > 85 ? 'var(--accent-red)' : 'var(--accent-gold)';
+  
+  document.getElementById('fabContainer').classList.add('open');
 }
 </script>
 </body>
