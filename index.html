@@ -1,1416 +1,875 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Plaid Genie v4.4 — Tri-Odds Engine (Patched)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    /* ============ THEME SYSTEM ============ */
-    :root[data-theme="dark"] {
-      --bg: #0A0A0C;
-      --surface: #14151A;
-      --surface-hover: #1C1E26;
-      --surface-3: #1A1C24;
-      --glass: rgba(20, 21, 26, 0.75);
-      --border: #2A2C36;
-      --text: #F3F4F6;
-      --text-muted: #8F95A3;
-      --text-dim: #5A5F6E;
-      --accent-red: #FF3366;
-      --accent-blue: #007AFF;
-      --accent-green: #30D158;
-      --accent-gold: #FFD60A;
-      --tartan: #FF3366;
-      --lighthouse: #007AFF;
-      --field: #2A2C36;
-      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-      --glow: 0 0 20px rgba(0, 122, 255, 0.15);
-      --body-font: 'Inter', sans-serif;
-      --serif: 'Libre Baskerville', serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Plaid Genie V4.5 — Millionaire Maker Optimizer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=SF+Pro+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Apple/Tesla Premium Dark Mode UI */
+    --bg: #000000;
+    --surface: #111113;
+    --surface-hover: #1A1A1D;
+    --glass: rgba(17, 17, 19, 0.85);
+    --border: #262629;
+    --text: #F5F5F7;
+    --text-muted: #86868B;
+    
+    --accent-red: #FF453A;
+    --accent-blue: #0A84FF;
+    --accent-green: #32D74B;
+    --accent-gold: #FFD60A;
+    --ai-purple: #BF5AF2;
+    
+    --shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    --glow: 0 0 24px rgba(10, 132, 255, 0.2);
+    
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  }
 
-    :root[data-theme="harbour"] {
-      --bg: #F7F3EE;
-      --surface: #FFFFFF;
-      --surface-hover: #EDE8E0;
-      --surface-3: #FAF7F2;
-      --glass: rgba(255, 255, 255, 0.85);
-      --border: #D4CFC7;
-      --text: #1A1A1A;
-      --text-muted: #5A5349;
-      --text-dim: #8A827A;
-      --accent-red: #C41E3A;
-      --accent-blue: #1B2A4A;
-      --accent-green: #2D5A3D;
-      --accent-gold: #B8860B;
-      --tartan: #C41E3A;
-      --lighthouse: #1B2A4A;
-      --field: #D4CFC7;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      --glow: 0 0 20px rgba(196, 30, 58, 0.2);
-      --body-font: 'Inter', sans-serif;
-      --serif: 'Libre Baskerville', serif;
-    }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  
+  body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-size: 13px; 
+    min-height: 100vh; 
+    padding-bottom: 140px; 
+    -webkit-font-smoothing: antialiased; 
+  }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--bg); color: var(--text); font-family: var(--body-font); font-size: 13px; min-height: 100vh; padding-bottom: 100px; -webkit-font-smoothing: antialiased; transition: background 0.4s, color 0.4s; }
+  /* Subtle Ambient Glow */
+  body::before {
+    content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle at 50% 0%, rgba(10, 132, 255, 0.08) 0%, transparent 40%);
+    z-index: -1; pointer-events: none;
+  }
 
-    body::before { content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(0, 122, 255, 0.03) 0%, transparent 50%); z-index: -1; animation: pulse 15s ease-in-out infinite alternate; }
+  .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
 
-    [data-theme="harbour"] body::before { background: repeating-linear-gradient(0deg, rgba(196, 30, 58, 0.02) 0, rgba(196, 30, 58, 0.02) 1px, transparent 1px, transparent 28px), repeating-linear-gradient(90deg, rgba(27, 42, 74, 0.02) 0, rgba(27, 42, 74, 0.02) 1px, transparent 1px, transparent 56px); animation: none; }
+  /* ── HEADER ── */
+  .header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 0 24px 0; border-bottom: 1px solid var(--border); margin-bottom: 24px;
+  }
+  .header-left h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 12px; }
+  .header-left h1 .v4 { font-size: 10px; background: var(--text); color: var(--bg); padding: 3px 8px; border-radius: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .header-sub { color: var(--text-muted); font-size: 13px; margin-top: 6px; font-weight: 400; }
+  
+  /* ── NAV ── */
+  .nav { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .nav-btn { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 10px 18px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+  .nav-btn:hover { border-color: var(--text); color: var(--text); }
+  .nav-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .nav-btn.ai { border-color: var(--ai-purple); color: var(--ai-purple); }
+  .nav-btn.ai.active { background: var(--ai-purple); color: #fff; border-color: var(--ai-purple); }
 
-    @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+  /* ── PANELS ── */
+  .panel { display: none; }
+  .panel.active { display: block; }
 
-    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+  /* ── COLLAPSIBLE METRIC KEY ── */
+  .key-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    margin-bottom: 24px; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .key-header {
+    padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; user-select: none; font-weight: 600; font-size: 13px; color: var(--text);
+  }
+  .key-header:hover { background: var(--surface-hover); }
+  .key-icon { font-size: 14px; transition: transform 0.3s ease; color: var(--text-muted); }
+  .key-card.open .key-icon { transform: rotate(180deg); }
+  .key-content {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;
+    padding: 0 20px; max-height: 0; opacity: 0; transition: all 0.3s ease;
+  }
+  .key-card.open .key-content { max-height: 500px; opacity: 1; padding: 0 20px 20px 20px; }
+  .k-item { display: flex; gap: 10px; align-items: flex-start; }
+  .k-icon { font-size: 16px; }
+  .k-text strong { color: #fff; display: block; margin-bottom: 2px; font-size: 12px; }
+  .k-text { color: var(--text-muted); font-size: 11px; line-height: 1.4; }
 
-    /* ============ HEADER ============ */
-    .header { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; flex-wrap: wrap; }
-    .header-left { display: flex; align-items: center; gap: 14px; }
-    .lighthouse-svg { width: 32px; height: 56px; flex-shrink: 0; }
-    [data-theme="dark"] .lighthouse-svg { filter: brightness(1.2); }
-    .header-text h1 { font-family: var(--serif); font-size: 26px; font-weight: 700; letter-spacing: -0.5px; display: flex; align-items: center; gap: 10px; }
-    .header-text h1 em { color: var(--tartan); font-style: normal; }
-    .header-text h1 .v-badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; background: var(--lighthouse); color: #fff; padding: 3px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-    .header-sub { color: var(--text-muted); font-size: 12px; margin-top: 4px; font-weight: 400; }
-    .header-right { display: flex; gap: 10px; align-items: center; }
+  /* ── TOOLBAR / CONTROLS ── */
+  .controls-bar {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px;
+  }
+  .search-box {
+    background: var(--surface); border: 1px solid var(--border); color: var(--text);
+    padding: 10px 16px; border-radius: 12px; font-size: 13px; width: 240px; outline: none; transition: 0.2s;
+  }
+  .search-box:focus { border-color: var(--accent-blue); box-shadow: var(--glow); }
+  
+  .filter-chip {
+    background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 9px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; letter-spacing: 0.5px;
+  }
+  .filter-chip:hover { border-color: var(--text-muted); color: var(--text); }
+  .filter-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-    .theme-toggle { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
-    .theme-toggle:hover { border-color: var(--lighthouse); }
+  /* ── DATA TABLE (Ultra Compact Emojis) ── */
+  .table-wrap {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    overflow-x: auto; box-shadow: var(--shadow);
+  }
+  .table-wrap::-webkit-scrollbar { height: 6px; }
+  .table-wrap::-webkit-scrollbar-track { background: transparent; }
+  .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-    /* ============ TABS ============ */
-    .tabs { display: flex; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 5px; margin-bottom: 20px; overflow-x: auto; }
-    .tab-btn { flex: 1; min-width: 100px; padding: 12px 16px; background: transparent; border: none; color: var(--text-muted); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; letter-spacing: 0.3px; }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active { background: var(--lighthouse); color: #fff; box-shadow: var(--shadow); }
-    .tab-btn .step-num { width: 18px; height: 18px; border-radius: 50%; background: rgba(255, 255, 255, 0.15); color: inherit; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-    .tab-btn.active .step-num { background: rgba(255, 255, 255, 0.25); }
-    [data-theme="harbour"] .tab-btn:not(.active) .step-num { background: var(--border); }
+  table { width: 100%; border-collapse: collapse; text-align: left; min-width: 900px; }
+  th { 
+    padding: 14px 12px; font-size: 14px; 
+    border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; transition: 0.2s; text-align: center;
+  }
+  th:first-child { text-align: left; padding-left: 20px; }
+  th:hover { background: var(--surface-hover); }
+  th .sort { opacity: 0; font-size: 10px; margin-left: 4px; vertical-align: middle; color: var(--text-muted); }
+  th.active .sort { opacity: 1; color: var(--accent-blue); }
+  
+  td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; vertical-align: middle; text-align: center; }
+  td:first-child { text-align: left; padding-left: 20px; }
+  tr:last-child td { border-bottom: none; }
+  tbody tr { transition: background 0.15s; }
+  tbody tr:hover { background: var(--surface-hover); }
 
-    /* ============ PANELS ============ */
-    .panel { display: none; animation: fadeIn 0.3s ease; }
-    .panel.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  /* Sticky First Column */
+  th:first-child, td:first-child { position: sticky; left: 0; background: var(--surface); z-index: 10; border-right: 1px solid var(--border); }
+  tbody tr:hover td:first-child { background: var(--surface-hover); }
 
-    /* ============ GUIDE TAB ============ */
-    .guide-hero { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 20px; box-shadow: var(--shadow); }
-    .guide-hero h2 { font-family: var(--serif); font-size: 28px; margin-bottom: 12px; color: var(--text); }
-    .guide-hero p { color: var(--text-muted); font-size: 14px; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+  .player-name { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #fff; }
+  
+  .val-green { color: var(--accent-green); }
+  .val-red { color: var(--accent-red); }
+  .val-gold { color: var(--accent-gold); }
 
-    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
-    .step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; position: relative; transition: 0.2s; box-shadow: var(--shadow); }
-    .step-card:hover { border-color: var(--lighthouse); transform: translateY(-2px); }
-    .step-num-big { position: absolute; top: -10px; left: 20px; background: var(--lighthouse); color: #fff; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; box-shadow: var(--shadow); }
-    .step-card h3 { font-size: 16px; font-weight: 700; margin: 8px 0 10px; color: var(--text); }
-    .step-card p { color: var(--text-muted); font-size: 12px; line-height: 1.6; }
-    .step-card .go-btn { margin-top: 14px; background: transparent; border: 1px solid var(--lighthouse); color: var(--lighthouse); padding: 8px 14px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
-    .step-card .go-btn:hover { background: var(--lighthouse); color: #fff; }
+  .actions { display: flex; gap: 6px; margin-top: 4px; }
+  .btn-icon { 
+    width: 24px; height: 24px; border-radius: 6px; border: 1px solid var(--border); 
+    background: transparent; color: var(--text-muted); cursor: pointer; 
+    display: flex; align-items: center; justify-content: center; transition: 0.2s; font-size: 10px;
+  }
+  .btn-icon:hover { background: var(--border); color: #fff; }
+  .btn-icon.locked { background: rgba(255,214,10,0.15); border-color: var(--accent-gold); color: var(--accent-gold); }
+  .btn-icon.excluded { background: rgba(255,69,58,0.15); border-color: var(--accent-red); color: var(--accent-red); }
+  
+  .row-excluded td { opacity: 0.3; text-decoration: line-through; }
+  .row-excluded td:first-child { text-decoration: none; opacity: 1; }
+  .row-locked td { background: rgba(255,214,10,0.03); }
 
-    .metrics-ref { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); }
-    .metrics-ref h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-    .m-item { display: flex; gap: 10px; padding: 12px; background: var(--surface-3); border-radius: 10px; border: 1px solid var(--border); }
-    .m-icon { font-size: 18px; flex-shrink: 0; }
-    .m-text strong { display: block; margin-bottom: 3px; font-size: 12px; color: var(--text); letter-spacing: 0.3px; }
-    .m-text { color: var(--text-muted); font-size: 11px; line-height: 1.5; }
+  .wave-tag { font-size: 9px; background: rgba(255,255,255,0.1); color: var(--text-muted); padding: 2px 6px; border-radius: 8px; font-weight: 700; margin-left: 6px; }
 
-    /* ============ CHANGELOG ============ */
-    .changelog { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); margin-top: 20px; }
-    .changelog h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .changelog-list { list-style: none; padding: 0; }
-    .changelog-list li { padding: 6px 0; font-size: 12px; color: var(--text-muted); line-height: 1.5; border-bottom: 1px dashed var(--border); display: flex; gap: 8px; }
-    .changelog-list li:last-child { border-bottom: none; }
-    .cl-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; align-self: flex-start; margin-top: 2px; }
-    .cl-bug { background: rgba(255, 51, 102, 0.15); color: var(--accent-red); }
-    .cl-feat { background: rgba(0, 122, 255, 0.15); color: var(--lighthouse); }
-    .cl-fix { background: rgba(48, 209, 88, 0.15); color: var(--accent-green); }
+  /* ── LOCAL AI SKILLS PANEL ── */
+  .ai-wrap { padding: 0; }
+  .ai-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin-top: 16px;}
+  .ai-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; position: relative; overflow: hidden; box-shadow: var(--shadow); transition: 0.3s; }
+  .ai-card:hover { border-color: var(--ai-purple); box-shadow: 0 0 20px rgba(191, 90, 242, 0.1); }
+  .ai-card h3 { color: var(--ai-purple); font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; font-weight: 700; }
+  .ai-card .desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; }
+  .ai-input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 10px; font-family: monospace; font-size: 12px; margin-bottom: 12px; background: var(--bg); color: var(--text); outline: none; }
+  .ai-input:focus { border-color: var(--ai-purple); }
+  textarea.ai-input { resize: vertical; min-height: 80px; }
+  .ai-btn { background: var(--ai-purple); color: #fff; border: none; padding: 12px; border-radius: 10px; font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; width: 100%; }
+  .ai-btn:hover { background: #d07af8; }
+  .ai-result { margin-top: 16px; padding: 16px; background: var(--bg); border: 1px dashed var(--ai-purple); border-radius: 10px; font-family: monospace; font-size: 11px; color: var(--text); line-height: 1.6; display: none; }
+  .ai-result.show { display: block; }
+  .weight-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dotted var(--border); }
+  .weight-row:last-child { border-bottom: none; }
+  .badge-local { position: absolute; top: 16px; right: 16px; background: rgba(191, 90, 242, 0.15); color: var(--ai-purple); padding: 4px 8px; border-radius: 8px; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; border: 1px solid var(--ai-purple); }
 
-    /* ============ POOL TAB ============ */
-    .controls-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
-    .search-box { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; width: 240px; outline: none; transition: 0.2s; font-family: inherit; }
-    .search-box:focus { border-color: var(--lighthouse); box-shadow: var(--glow); }
-    .filter-chip { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 9px 14px; border-radius: 18px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.3px; }
-    .filter-chip:hover { border-color: var(--text-muted); color: var(--text); }
-    .filter-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
-    .sync-btn { margin-left: auto; background: rgba(0, 122, 255, 0.1); border: 1px solid rgba(0, 122, 255, 0.3); color: var(--lighthouse); padding: 9px 14px; border-radius: 18px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; }
-    [data-theme="harbour"] .sync-btn { background: rgba(27, 42, 74, 0.08); }
-    .sync-btn:hover { background: var(--lighthouse); color: #fff; }
+  /* ── FLOATING LINEUP BAR (Glassmorphism) ── */
+  .fab-container {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    width: 90%; max-width: 700px; z-index: 100;
+  }
+  
+  .fab-bar {
+    background: var(--glass); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: var(--shadow); cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .fab-bar:hover { border-color: rgba(255,255,255,0.2); }
+  
+  .fab-stats { display: flex; gap: 24px; align-items: center; }
+  .stat-block { display: flex; flex-direction: column; }
+  .stat-val { font-size: 15px; font-weight: 700; color: #fff; font-family: monospace;}
+  .stat-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px;}
+  
+  .fab-chevron { color: var(--text-muted); transition: 0.3s; font-size: 12px;}
+  
+  /* The Expanded Sheet */
+  .fab-sheet {
+    position: absolute; bottom: calc(100% + 12px); left: 0; width: 100%;
+    background: var(--glass); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 24px;
+    box-shadow: var(--shadow); overflow: hidden;
+    opacity: 0; pointer-events: none; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex; flex-direction: column; max-height: 80vh;
+  }
+  
+  .fab-container.open .fab-sheet { opacity: 1; pointer-events: auto; transform: translateY(0); }
+  .fab-container.open .fab-chevron { transform: rotate(180deg); }
 
-    .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; max-height: 70vh; overflow-y: auto; overflow-x: auto; -webkit-overflow-scrolling: touch; box-shadow: var(--shadow); }
-    .table-wrap::-webkit-scrollbar { width: 8px; height: 8px; }
-    .table-wrap::-webkit-scrollbar-track { background: transparent; }
-    .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .sheet-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0;
+  }
+  .gen-btn {
+    background: transparent; border: none; padding: 16px; color: #fff; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .gen-btn:hover { background: rgba(255,255,255,0.05); }
+  .gen-sub { font-size: 9px; color: var(--text-muted); font-weight: 400; text-transform: uppercase; letter-spacing: 0.5px;}
+  .btn-gpp { color: var(--accent-blue); }
 
-    table { width: 100%; border-collapse: collapse; min-width: 820px; }
+  .roster-list { list-style: none; padding: 12px; overflow-y: auto; flex-grow: 1;}
+  .roster-list::-webkit-scrollbar { width: 4px; }
+  .roster-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+  
+  .r-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px; background: rgba(0,0,0,0.3); border-radius: 12px; margin-bottom: 6px;
+  }
+  .r-item:last-child { margin-bottom: 0; }
+  .r-name { font-weight: 600; color: #fff; font-size: 13px; }
+  .r-meta { font-size: 10px; color: var(--text-muted); margin-top: 4px; display: flex; gap: 12px; font-family: monospace;}
+  .r-price { color: var(--accent-green); font-weight: 700; font-family: monospace; font-size: 13px;}
 
-    th { padding: 10px 10px; font-size: 15px; font-weight: 700; color: var(--text-muted); border-bottom: 2px solid var(--border); cursor: pointer; user-select: none; transition: 0.2s; font-family: 'JetBrains Mono', monospace; background: var(--surface); position: sticky; top: 0; z-index: 5; text-align: center; }
-    th:hover { color: var(--text); }
-    th .sort { opacity: 0.3; margin-left: 3px; font-size: 9px; vertical-align: middle; }
-    th.active { color: var(--lighthouse); }
-    th.active .sort { opacity: 1; }
+  /* THESIS BOX (Inside FAB) */
+  .thesis-box { border-top: 1px solid rgba(255,255,255,0.1); padding: 16px; background: rgba(191,90,242,0.05); flex-shrink: 0;}
+  .thesis-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .thesis-header h4 { color: var(--ai-purple); font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .thesis-btn { background: var(--ai-purple); color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; }
+  .thesis-content { font-size: 12px; line-height: 1.6; color: var(--text); font-style: italic; }
+  .thesis-content:empty::before { content: 'Click ANALYZE to generate a GPP thesis...'; color: var(--text-muted); }
 
-    th:first-child { left: 0; z-index: 10; border-right: 2px solid var(--border); text-align: left; }
+  .ai-banner { background:linear-gradient(90deg, rgba(191,90,242,0.15), transparent); border-bottom:1px solid var(--ai-purple); padding:8px 16px; font-size:11px; color:var(--ai-purple); font-family:monospace; display:none; }
+  .ai-banner.show { display:flex; align-items:center; gap:10px; margin-bottom: 16px; border-radius: 8px; }
 
-    td { padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; vertical-align: middle; text-align: center; }
-    tr:last-child td { border-bottom: none; }
-    tbody tr { transition: background 0.15s; }
-    tbody tr:hover { background: var(--surface-hover); }
-
-    td:first-child { position: sticky; left: 0; z-index: 4; text-align: left; background: var(--surface); border-right: 2px solid var(--border); }
-    tbody tr:hover td:first-child { background: var(--surface-hover); }
-
-    [data-theme="dark"] .row-locked td:first-child { background: #191A1D; }
-    [data-theme="harbour"] .row-locked td:first-child { background: #F8F6EF; }
-
-    .row-excluded td { opacity: 0.35; }
-    .row-excluded .player-name { text-decoration: line-through; }
-    .row-excluded .btn-icon { opacity: 1; }
-    .row-locked td { background: rgba(255, 214, 10, 0.04); }
-    [data-theme="harbour"] .row-locked td { background: rgba(184, 134, 11, 0.05); }
-
-    .player-cell { display: flex; justify-content: space-between; align-items: center; padding-right: 5px; }
-    .name-txt { font-weight: 700; font-family: 'Inter', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; }
-
-    .tier-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .tier-dot.mega { background: var(--accent-red); box-shadow: 0 0 6px currentColor; }
-    .tier-dot.content { background: var(--accent-gold); }
-    .tier-dot.standard { background: var(--text-dim); }
-
-    .wave-badge { font-size: 9px; padding: 2px 6px; border-radius: 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-    .wave-am { background: rgba(48, 209, 88, 0.12); color: var(--accent-green); }
-    .wave-pm { background: rgba(0, 122, 255, 0.12); color: var(--lighthouse); }
-
-    .val-green { color: var(--accent-green); font-weight: 700; }
-    .val-red { color: var(--accent-red); }
-    .val-gold { color: var(--accent-gold); font-weight: 700; }
-    .mono { font-family: 'JetBrains Mono', monospace; }
-
-    .odds-shortened { color: var(--accent-green); }
-    .odds-drifted { color: var(--accent-red); }
-    .odds-arrow { font-size: 10px; }
-    .no-history { color: var(--text-dim); font-style: italic; }
-
-    .actions { display: flex; gap: 6px; }
-    .btn-icon { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.15s; font-size: 12px; min-width: 28px; min-height: 28px; }
-    .btn-icon:hover { background: var(--border); color: var(--text); }
-    .btn-icon.locked { background: rgba(255, 214, 10, 0.15); border-color: var(--accent-gold); color: var(--accent-gold); }
-    .btn-icon.excluded { background: rgba(255, 51, 102, 0.15); border-color: var(--accent-red); color: var(--accent-red); }
-
-    /* ============ BUILD TAB ============ */
-    .build-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 20px; }
-    @media (max-width: 900px) { .build-wrap { grid-template-columns: 1fr; } }
-
-    .build-main { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); }
-    .build-main h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 6px; }
-    .build-main > p { color: var(--text-muted); font-size: 12px; margin-bottom: 16px; }
-
-    .build-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-    .build-btn { background: var(--surface-3); border: 1px solid var(--border); color: var(--text); padding: 18px; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left; font-family: inherit; }
-    .build-btn:hover { border-color: var(--lighthouse); transform: translateY(-1px); }
-    .build-btn.cash { border-left: 3px solid var(--accent-green); }
-    .build-btn.gpp { border-left: 3px solid var(--lighthouse); }
-    .build-btn .btn-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-    .build-btn .btn-sub { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
-
-    .locks-display { background: var(--surface-3); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
-    .locks-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .locks-header h4 { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; margin-bottom: 0; text-transform: uppercase; }
-    .clear-btn { background: transparent; border: 1px solid var(--text-dim); color: var(--text-muted); padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 700; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: 0.2s; letter-spacing: 0.5px; }
-    .clear-btn:hover { border-color: var(--accent-red); color: var(--accent-red); background: rgba(255, 51, 102, 0.1); }
-    .lock-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed var(--border); font-size: 12px; }
-    .lock-item:last-child { border-bottom: none; }
-    .lock-empty { color: var(--text-dim); font-size: 11px; font-style: italic; text-align: center; padding: 10px 0; }
-
-    .build-side { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); height: fit-content; }
-    .build-side h4 { font-family: var(--serif); font-size: 16px; margin-bottom: 14px; }
-    .side-stat { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border); }
-    .side-stat:last-child { border-bottom: none; }
-    .side-stat .lbl { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.3px; }
-    .side-stat .val { font-weight: 700; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
-
-    .export-row { display: flex; gap: 10px; margin-top: 16px; }
-    .export-btn { flex: 1; background: var(--surface-3); border: 1px solid var(--accent-green); color: var(--accent-green); padding: 10px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px; transition: 0.2s; text-align: center; }
-    .export-btn:hover { background: var(--accent-green); color: #fff; }
-    .export-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    .output-card { background: var(--surface); border: 2px solid var(--lighthouse); border-radius: 14px; margin-top: 20px; overflow: hidden; display: none; box-shadow: var(--shadow); }
-    .output-card.show { display: block; }
-    .output-header { background: var(--lighthouse); color: #fff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-    .output-header h4 { font-family: var(--serif); font-size: 17px; }
-    .output-stats { font-family: 'JetBrains Mono', monospace; font-size: 12px; display: flex; gap: 14px; }
-    .output-list { list-style: none; padding: 0; margin: 0; }
-    .output-list li { padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .output-list li:last-child { border-bottom: none; }
-
-    /* ============ PRE-BUILT TAB ============ */
-    .prebuilt-hero { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); text-align: center; }
-    .prebuilt-hero h2 { font-family: var(--serif); font-size: 24px; margin-bottom: 8px; }
-    .prebuilt-hero p { color: var(--text-muted); font-size: 13px; margin-bottom: 18px; }
-
-    .sim-btn { background: var(--lighthouse); color: #fff; border: none; padding: 14px 28px; border-radius: 10px; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: 0.5px; transition: 0.2s; box-shadow: var(--shadow); }
-    .sim-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3); }
-    .sim-btn:disabled { opacity: 0.7; cursor: wait; }
-
-    .progress-wrap { margin-top: 20px; display: none; }
-    .progress-wrap.show { display: block; }
-    .progress-bar-bg { height: 8px; background: var(--surface-3); border-radius: 4px; overflow: hidden; margin-bottom: 8px; border: 1px solid var(--border); }
-    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--lighthouse), var(--accent-green)); width: 0%; transition: width 0.2s; border-radius: 4px; }
-    .progress-text { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
-
-    .prebuilt-section { margin-bottom: 24px; }
-    .prebuilt-section h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
-    .prebuilt-section h3 .count { background: var(--lighthouse); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 700; }
-    .prebuilt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
-
-    .lineup-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: 0.2s; box-shadow: var(--shadow); }
-    .lineup-card:hover { transform: translateY(-2px); border-color: var(--lighthouse); }
-    .lineup-card.cash { border-left: 3px solid var(--accent-green); }
-    .lineup-card.gpp { border-left: 3px solid var(--lighthouse); }
-
-    .lc-header { padding: 12px 14px; background: var(--surface-3); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
-    .lc-rank { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-muted); }
-    .lc-stats { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); display: flex; gap: 8px; }
-    .lc-stats strong { color: var(--text); }
-    .lc-body { padding: 10px 14px; }
-    .lc-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 12px; }
-    .lc-name { font-weight: 600; }
-    .lc-price { color: var(--accent-green); font-family: 'JetBrains Mono', monospace; font-weight: 700; }
-    .lc-footer { padding: 10px 14px; background: var(--surface-3); border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); display: flex; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
-    .lc-footer strong { color: var(--text); }
-    .lc-export { margin-top: 0; padding: 8px 14px; border-top: 1px solid var(--border); text-align: center; }
-    .lc-export button { background: transparent; border: 1px solid var(--accent-green); color: var(--accent-green); padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: 700; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: 0.2s; }
-    .lc-export button:hover { background: var(--accent-green); color: #fff; }
-
-    /* ============ FLOATING BAR ============ */
-    .fab-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 760px; z-index: 100; }
-    .fab-bar { background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 20px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); cursor: pointer; transition: 0.3s; }
-    .fab-stats { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-    .stat-block { display: flex; flex-direction: column; }
-    .stat-val { font-size: 15px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-    .stat-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
-
-    /* ============ RESPONSIVE ============ */
-    @media (max-width: 768px) {
-      .container { padding: 4px; }
-      .header { flex-direction: column; align-items: flex-start; }
-      .header-text h1 { font-size: 18px; }
-      .search-box { width: 100%; }
-      .filter-chip { flex: 1 1 auto; text-align: center; }
-      .sync-btn { width: 100%; margin-left: 0; }
-      .tab-btn { min-width: auto; padding: 10px 10px; font-size: 10px; }
-      .tab-btn .step-num { display: none; }
-
-      table { min-width: 700px; }
-      th { font-size: 12px; padding: 6px 4px; }
-      td { font-size: 10px; padding: 6px 4px; }
-
-      th:first-child, td:first-child { width: 130px; max-width: 130px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .name-txt { gap: 4px; }
-      .player-name { font-size: 10px; }
-      /* FIX #10: Mobile touch targets — 44x44 minimum */
-      .btn-icon { width: 36px; height: 36px; font-size: 13px; min-width: 36px; min-height: 36px; }
-
-      .build-actions { grid-template-columns: 1fr; }
-      .fab-stats { gap: 12px; }
-      .stat-val { font-size: 13px; }
-    }
-  </style>
+  /* ── MOBILE OPTIMIZATION ── */
+  @media (max-width: 768px) {
+    .container { padding: 12px; }
+    .header { flex-direction: column; align-items: flex-start; padding: 12px 0; }
+    .search-box { width: 100%; }
+    .controls-bar { gap: 8px; }
+    .filter-chip { padding: 8px 12px; flex: 1 1 auto; text-align: center; }
+    .nav { justify-content: stretch; width: 100%; }
+    .nav-btn { flex: 1; text-align: center; }
+    
+    th { font-size: 16px; padding: 12px 8px; }
+    td { padding: 12px 8px; font-size: 11px; }
+    th:first-child, td:first-child { padding-left: 12px; }
+    .player-name { font-size: 12px; }
+    .name-cell { min-width: 130px; }
+    
+    .fab-container { width: calc(100% - 24px); bottom: 12px; }
+    .fab-stats { gap: 12px; }
+    .stat-val { font-size: 13px; }
+    .ai-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
 <body>
 
-  <svg width="0" height="0" style="position:absolute">
-    <defs>
-      <symbol id="lighthouse-icon" viewBox="0 0 40 80">
-        <polygon points="10,80 30,80 26,20 14,20" fill="currentColor" opacity="0.9"/>
-        <polygon points="12,65 28,65 27,50 13,50" fill="var(--tartan)"/>
-        <polygon points="13.5,35 26.5,35 25.5,20 14.5,20" fill="var(--tartan)"/>
-        <rect x="10" y="18" width="20" height="2" fill="var(--text)"/>
-        <rect x="15" y="10" width="10" height="8" fill="currentColor" opacity="0.9"/>
-        <polygon points="20,2 12,10 28,10" fill="var(--tartan)"/>
-        <circle cx="20" cy="14" r="1.5" fill="var(--accent-gold)"/>
-      </symbol>
-    </defs>
-  </svg>
+<div class="container">
 
-  <div class="container">
-
-    <header class="header">
-      <div class="header-left">
-        <svg class="lighthouse-svg" style="color:var(--text-muted)"><use href="#lighthouse-icon"/></svg>
-        <div class="header-text">
-          <h1>Plaid Genie <em>2026 RBC Heritage</em> <span class="v-badge">v4.4</span></h1>
-          <div class="header-sub">Harbour Town Golf Links · R1 Thu: 74°F, E 10-15 mph AM / SSE 5-10 mph PM, 0% rain · Tee Times Locked</div>
-        </div>
-      </div>
-      <div class="header-right">
-        <button class="theme-toggle" onclick="toggleTheme()">
-          <span id="themeIcon">☀️</span> <span id="themeLabel">HARBOUR</span>
-        </button>
-      </div>
-    </header>
-
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('guide', this)"><span class="step-num">1</span> GUIDE</button>
-      <button class="tab-btn" onclick="switchTab('pool', this)"><span class="step-num">2</span> POOL</button>
-      <button class="tab-btn" onclick="switchTab('build', this)"><span class="step-num">3</span> BUILD</button>
-      <button class="tab-btn" onclick="switchTab('prebuilt', this)"><span class="step-num">4</span> PRE-BUILT</button>
+  <header class="header">
+    <div class="header-left">
+      <h1>Plaid Genie <span class="v4">V4.5 PRO</span></h1>
+      <div class="header-sub">RBC Heritage · Tee Times Synced · Ownership Calibrated</div>
     </div>
+  </header>
 
-    <!-- ============ GUIDE PANEL ============ -->
-    <div class="panel active" id="panel-guide">
-      <div class="guide-hero">
-        <h2>Welcome to Plaid Genie v4.4</h2>
-        <p>A complete DFS workflow for the 2026 RBC Heritage at Harbour Town. Four steps, zero fluff. Every metric is computed locally — your data never leaves the browser.</p>
-      </div>
-
-      <div class="steps-grid">
-        <div class="step-card">
-          <div class="step-num-big">1</div>
-          <h3>📚 Learn the Metrics</h3>
-          <p>Understand $DLTA arbitrage, Steam velocity, Course Fit scoring, and Leverage ranking. The same terminology used by sharp DFS operators.</p>
-          <button class="go-btn" onclick="scrollToMetrics()">VIEW METRICS ↓</button>
-        </div>
-        <div class="step-card">
-          <div class="step-num-big">2</div>
-          <h3>🏌️ Scan the Pool</h3>
-          <p>Review all 81 players with live odds, sharp steam, and local engine rankings. Lock players you love, exclude players you hate.</p>
-          <button class="go-btn" onclick="switchTabByName('pool')">OPEN POOL →</button>
-        </div>
-        <div class="step-card">
-          <div class="step-num-big">3</div>
-          <h3>🛠️ Build Manually</h3>
-          <p>Use your locks and exclusions to generate Cash or GPP optimized lineups. Knapsack algorithm finds the optimal 6-man roster ($49k–$50k). Export to DraftKings CSV.</p>
-          <button class="go-btn" onclick="switchTabByName('build')">START BUILDING →</button>
-        </div>
-        <div class="step-card">
-          <div class="step-num-big">4</div>
-          <h3>🎰 Run 10M Simulations</h3>
-          <p>Monte Carlo engine runs 10,000,000 simulations with wave-correlated scoring and surfaces the Top 5 Cash + Top 3 GPP lineups.</p>
-          <button class="go-btn" onclick="switchTabByName('prebuilt')">VIEW PRE-BUILT →</button>
-        </div>
-      </div>
-
-      <div class="metrics-ref" id="metricsRef">
-        <h3>📊 Metric Reference</h3>
-        <div class="metrics-grid">
-          <div class="m-item"><div class="m-icon">💵</div><div class="m-text"><strong>SALARY</strong>DraftKings roster cost. $50,000 cap across 6 players.</div></div>
-          <div class="m-item"><div class="m-icon">🎲</div><div class="m-text"><strong>ODDS (Sun → Cur)</strong>Sunday opening line versus current live line. Green = shortened (steam). Red = drifted (cold).</div></div>
-          <div class="m-item"><div class="m-icon">⚖️</div><div class="m-text"><strong>$DLTA (Arbitrage)</strong>Salary Rank minus Odds Rank. Positive = DK salary overpriced vs market.</div></div>
-          <div class="m-item"><div class="m-icon">🚂</div><div class="m-text"><strong>STEAM (wVEL)</strong>% magnitude of odds movement since Sunday open. Higher = more market action. Sorted by strength.</div></div>
-          <div class="m-item"><div class="m-icon">🏛️</div><div class="m-text"><strong>COURSE HIST</strong>Weighted avg finish at Harbour Town. Lower is better. "N/A" = no course history (penalized in model).</div></div>
-          <div class="m-item"><div class="m-icon">🎯</div><div class="m-text"><strong>PROFILE FIT (1-100)</strong>Local engine grade vs Harbour Town winning DNA. Includes SG:APP, SG:ARG, birdie rate, and sentiment adjustments.</div></div>
-          <div class="m-item"><div class="m-icon">🌟</div><div class="m-text"><strong>PROJ (Composite)</strong>Blended projection combining Fit, Course History, and Implied Win Probability from odds.</div></div>
-          <div class="m-item"><div class="m-icon">👥</div><div class="m-text"><strong>pOWN% (Projected)</strong>Model-estimated DraftKings ownership. Normalized to exactly 600%. Includes sentiment bumps.</div></div>
-          <div class="m-item"><div class="m-icon">📈</div><div class="m-text"><strong>LEVERAGE (1-100)</strong>High Fit × Low Ownership (log-scaled). The GPP differentiator signal.</div></div>
-        </div>
-      </div>
-
-      <div class="changelog">
-        <h3>📝 v4.4 Changelog</h3>
-        <ul class="changelog-list">
-          <li><span class="cl-tag cl-bug">BUG</span>Steam column sort fixed — highest steam now sorts to top correctly</li>
-          <li><span class="cl-tag cl-bug">BUG</span>runLocalSync() event parameter fix — works in all browsers including Firefox</li>
-          <li><span class="cl-tag cl-fix">FIX</span>Course History 75.0 placeholder now displays as "N/A" with visual distinction</li>
-          <li><span class="cl-tag cl-fix">FIX</span>Composite projection now incorporates implied win probability from odds</li>
-          <li><span class="cl-tag cl-fix">FIX</span>Leverage formula uses log-scaled ownership penalty instead of linear</li>
-          <li><span class="cl-tag cl-fix">FIX</span>Monte Carlo salary floor dynamically reads actual pool minimum price</li>
-          <li><span class="cl-tag cl-fix">FIX</span>Wave assignments use seeded tee-time groups (R1/R2 pairings) instead of random index</li>
-          <li><span class="cl-tag cl-fix">FIX</span>Odds column shows green/red color cues for shortened vs drifted</li>
-          <li><span class="cl-tag cl-fix">FIX</span>Mobile touch targets enlarged to 36×36px (closer to 44px HIG)</li>
-          <li><span class="cl-tag cl-feat">NEW</span>CSV Export — export any generated lineup to DraftKings-compatible CSV</li>
-          <li><span class="cl-tag cl-feat">NEW</span>Locks &amp; exclusions persist across page refreshes via localStorage</li>
-          <li><span class="cl-tag cl-feat">NEW</span>Pre-built lineup cards have individual CSV export buttons</li>
-          <li><span class="cl-tag cl-fix">FIX</span>SYNC ENGINE button relabeled to RECALC — no false implication of external data</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- ============ POOL PANEL ============ -->
-    <div class="panel" id="panel-pool">
-      <div class="controls-bar">
-        <input type="text" class="search-box" id="search" placeholder="Search players..." oninput="renderTable()">
-        <button class="filter-chip active" onclick="setFilter('all', this)">ALL</button>
-        <button class="filter-chip" onclick="setFilter('tartan', this)">🔴 TARTAN</button>
-        <button class="filter-chip" onclick="setFilter('leverage', this)">📈 LEVERAGE</button>
-        <button class="filter-chip" onclick="setFilter('sleeper', this)">🎯 SLEEPER</button>
-        <button class="filter-chip" onclick="setFilter('steam', this)">🚂 STEAM</button>
-        <button class="sync-btn" onclick="runLocalSync(event)">🔄 RECALC ENGINE</button>
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th onclick="sortData('name')" data-col="name" title="Player Name">🏌️ <span class="sort">▼</span></th>
-              <th onclick="sortData('price')" data-col="price" title="Salary">💵 <span class="sort">▼</span></th>
-              <th onclick="sortData('liveImp')" data-col="liveImp" title="Odds (Sunday Open → Current Live)">🎲 <span class="sort">▼</span></th>
-              <th onclick="sortData('dlta')" data-col="dlta" title="$DLTA Arbitrage">⚖️ <span class="sort">▼</span></th>
-              <th onclick="sortData('steamDisplay')" data-col="steamDisplay" title="Steam Velocity (absolute magnitude)">🚂 <span class="sort">▼</span></th>
-              <th onclick="sortData('courseHistory')" data-col="courseHistory" title="Course History">🏛️ <span class="sort">▼</span></th>
-              <th onclick="sortData('profileFit')" data-col="profileFit" title="Profile Fit Score">🎯 <span class="sort">▼</span></th>
-              <th onclick="sortData('composite')" data-col="composite" title="Projection (Composite)">🌟 <span class="sort">▼</span></th>
-              <th onclick="sortData('pOwn')" data-col="pOwn" title="Projected Ownership">👥 <span class="sort">▼</span></th>
-              <th onclick="sortData('leverage')" data-col="leverage" title="Leverage Score">📈 <span class="sort">▼</span></th>
-            </tr>
-          </thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-      <div style="font-size:10px; color:var(--text-muted); margin-top:10px; font-family:'JetBrains Mono'; display:flex; gap:15px; flex-wrap:wrap;">
-        <span><span class="tier-dot mega" style="display:inline-block"></span> Mega-Chalk (Dual Hype)</span>
-        <span><span class="tier-dot content" style="display:inline-block"></span> Content Darling</span>
-        <span><span class="tier-dot standard" style="display:inline-block"></span> Standard</span>
-        <span style="margin-left:auto; color:var(--text-dim);">N/A = No course history (75.0 penalty applied)</span>
-      </div>
-    </div>
-
-    <!-- ============ BUILD PANEL ============ -->
-    <div class="panel" id="panel-build">
-      <div class="build-wrap">
-        <div class="build-main">
-          <h3>🛠️ Manual Lineup Builder</h3>
-          <p>Lock or exclude players in the Pool tab, then generate an optimized lineup for your contest type.</p>
-
-          <div class="build-actions">
-            <button class="build-btn cash" onclick="generateLineup('cash')">
-              <div class="btn-title">🛡️ GENERATE CASH</div>
-              <div class="btn-sub">Maximize median floor. Weights course history heavy. Ignores ownership.</div>
-            </button>
-            <button class="build-btn gpp" onclick="generateLineup('gpp')">
-              <div class="btn-title">🚀 GENERATE GPP</div>
-              <div class="btn-sub">Maximize leverage score. Caps total ownership at 85%. Built for tournaments.</div>
-            </button>
-          </div>
-
-          <div class="locks-display">
-            <div class="locks-header">
-              <h4>🔒 Locked Players</h4>
-              <button class="clear-btn" onclick="clearAllLocks()">CLEAR ALL</button>
-            </div>
-            <div id="locksList"><div class="lock-empty">No players locked. Go to Pool tab to lock players.</div></div>
-          </div>
-
-          <div class="output-card" id="outputCard">
-            <div class="output-header">
-              <h4 id="outputTitle">Optimal Lineup</h4>
-              <div class="output-stats" id="outputStats">
-                <span>SAL: <strong>—</strong></span>
-                <span>PROJ: <strong>—</strong></span>
-                <span>OWN: <strong>—</strong></span>
-              </div>
-            </div>
-            <ul class="output-list" id="outputList"></ul>
-            <div class="lc-export" id="outputExport" style="display:none">
-              <button onclick="exportCurrentLineup()">📥 EXPORT TO DRAFTKINGS CSV</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="build-side">
-          <h4>📋 Live Roster State</h4>
-          <div class="side-stat"><span class="lbl">LOCKED</span><span class="val" id="sideLocked">0 / 6</span></div>
-          <div class="side-stat"><span class="lbl">EXCLUDED</span><span class="val" id="sideExcluded">0</span></div>
-          <div class="side-stat"><span class="lbl">CAP USED</span><span class="val val-green" id="sideSal">$0</span></div>
-          <div class="side-stat"><span class="lbl">CAP REMAINING</span><span class="val" id="sideRem">$50,000</span></div>
-          <div class="side-stat"><span class="lbl">PROJECTED</span><span class="val" id="sideProj">0.0</span></div>
-          <div class="side-stat"><span class="lbl">TOTAL OWN</span><span class="val val-gold" id="sideOwn">0.0%</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ============ PRE-BUILT PANEL ============ -->
-    <div class="panel" id="panel-prebuilt">
-      <div class="prebuilt-hero">
-        <h2>🎰 Monte Carlo Pre-Built Lineups</h2>
-        <p>Run 10,000,000 tournament simulations with wave-correlated scoring against the full player pool. Surfaces Top 5 Cash + Top 3 GPP lineups statistically proven to perform under Harbour Town conditions.</p>
-        <button class="sim-btn" id="simBtn" onclick="runMonteCarloSim()">▶ RUN 10M SIMULATIONS</button>
-        <div class="progress-wrap" id="progressWrap">
-          <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
-          <div class="progress-text" id="progressText">Initializing simulation engine...</div>
-        </div>
-      </div>
-
-      <div id="prebuiltResults" style="display:none">
-        <div class="prebuilt-section">
-          <h3 id="pbCashHeader">🛡️ TOP 5 CASH LINEUPS <span class="count">HIGH FLOOR</span></h3>
-          <div class="prebuilt-grid" id="cashGrid"></div>
-        </div>
-        <div class="prebuilt-section">
-          <h3 id="pbGppHeader">🚀 TOP 3 GPP LINEUPS <span class="count">TOURNAMENT LEVERAGE</span></h3>
-          <div class="prebuilt-grid" id="gppGrid"></div>
-        </div>
-      </div>
-    </div>
-
+  <div class="nav">
+    <button class="nav-btn active" onclick="switchTab('arb')" id="nav-arb">MARKET BOARD</button>
+    <button class="nav-btn ai" onclick="switchTab('ai')" id="nav-ai">⚡ LOCAL AI SKILLS</button>
   </div>
 
-  <div class="fab-container">
-    <div class="fab-bar" onclick="switchTabByName('build')">
-      <div class="fab-stats">
-        <div class="stat-block"><span class="stat-val" id="fabCount">0/6</span><span class="stat-lbl">ROSTER</span></div>
-        <div class="stat-block"><span class="stat-val val-green" id="fabSal">$50,000</span><span class="stat-lbl">REM CAP</span></div>
-        <div class="stat-block"><span class="stat-val" id="fabProj">0.0</span><span class="stat-lbl">PROJ</span></div>
-        <div class="stat-block"><span class="stat-val val-gold" id="fabOwn">0.0%</span><span class="stat-lbl">OWN</span></div>
-      </div>
-      <div style="color:var(--text-muted); font-size:11px; font-family:'JetBrains Mono',monospace">TAP →</div>
+  <div class="key-card" id="keyCard">
+    <div class="key-header" onclick="document.getElementById('keyCard').classList.toggle('open')">
+      <span>📚 DASHBOARD METRIC KEY</span>
+      <span class="key-icon">▼</span>
+    </div>
+    <div class="key-content">
+      <div class="k-item"><div class="k-icon">🏌️</div><div class="k-text"><strong>Player</strong> Lock (🔒) or Exclude (✕). Features AM/PM tee time wave tags.</div></div>
+      <div class="k-item"><div class="k-icon">💵</div><div class="k-text"><strong>Salary</strong> DraftKings Cap hit.</div></div>
+      <div class="k-item"><div class="k-icon">🎲</div><div class="k-text"><strong>Odds</strong> Sun Open ➝ Tue Current.</div></div>
+      <div class="k-item"><div class="k-icon">⚖️</div><div class="k-text"><strong>$DLTA</strong> Salary vs Odds inefficiency.</div></div>
+      <div class="k-item"><div class="k-icon">🚂</div><div class="k-text"><strong>Steam</strong> % odds shift. Tracks sharp $.</div></div>
+      <div class="k-item"><div class="k-icon">🏛️</div><div class="k-text"><strong>History</strong> Avg Finish. Lower = better.</div></div>
+      <div class="k-item"><div class="k-icon">🎯</div><div class="k-text"><strong>Fit</strong> 1-100 Course architecture grade.</div></div>
+      <div class="k-item"><div class="k-icon">👥</div><div class="k-text"><strong>pOWN</strong> Projected DFS Ownership.</div></div>
+      <div class="k-item"><div class="k-icon">📈</div><div class="k-text"><strong>Leverage</strong> High Fit + Low pOWN edge.</div></div>
+      <div class="k-item"><div class="k-icon">🏆</div><div class="k-text"><strong>Tier</strong> Internal algorithm bucket.</div></div>
     </div>
   </div>
 
-  <script>
-    // ============ DATA (Full 81 Player Field with Tri-Odds System) ============
-    // sunWin = Opening Line | monWin = Monday Update | tueWin = Final Tue Live Odds
-    // FIX #8: wave is now assigned via seeded tee-time groups, not array index
-    const NO_HISTORY_SENTINEL = 75.00;
+  <div class="panel active" id="panel-arb">
+    <div class="controls-bar">
+      <input type="text" class="search-box" id="search" placeholder="Search players..." oninput="renderTable()">
+      <button class="filter-chip active" onclick="setFilter('all', this)">ALL</button>
+      <button class="filter-chip" onclick="setFilter('tartan', this)">TARTAN</button>
+      <button class="filter-chip" onclick="setFilter('am', this)">☀️ AM</button>
+      <button class="filter-chip" onclick="setFilter('pm', this)">🌥️ PM</button>
+      <button class="filter-chip" onclick="setFilter('leverage', this)" style="border-color: var(--accent-green); color: var(--accent-green);">📈 LEVERAGE</button>
+      <button class="filter-chip" onclick="setFilter('chalk', this)" style="border-color: var(--accent-red); color: var(--accent-red);">🐑 TOUT CHALK</button>
+    </div>
 
-    // R1 Tee Times (Thu Apr 17, 2026) — Harbour Town GL
-    // AM wave: 6:05–9:35 AM CDT | PM wave: 9:50 AM–1:10 PM CDT
-    // R1 Weather: High 74°F, Low 57°F, 0% rain, E wind 10-15 mph AM → calming SSE 5-10 mph PM
-    // DFS EDGE: AM wave faces stiffer easterly wind off the ocean; PM wave gets calmer conditions.
-    const db = [
-      // === PM WAVE (12:50 PM) ===
-      { name: "Scottie Scheffler", sunWin: 350, monWin: 320, tueWin: 380, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5, sentiment: "mega_chalk", wave: "PM", teeTime: "12:50 PM" },
-      // === PM WAVE (12:30 PM) ===
-      { name: "Xander Schauffele", sunWin: 1450, monWin: 1450, tueWin: 1500, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 22.00, sgArg: 0.009, prox150: 20.9, girRough: 59.1, sentiment: "mega_chalk", wave: "PM", teeTime: "12:30 PM" },
-      // === PM WAVE (12:40 PM) ===
-      { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1750, tueWin: 1800, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2, sentiment: "standard", wave: "PM", teeTime: "12:40 PM" },
-      // === PM WAVE (12:50 PM) ===
-      { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1600, tueWin: 1650, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4, sentiment: "mega_chalk", wave: "PM", teeTime: "12:50 PM" },
-      // === AM WAVE (9:15 AM) ===
-      { name: "Cameron Young", sunWin: 1700, monWin: 1750, tueWin: 1800, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9, sentiment: "bad_chalk", wave: "AM", teeTime: "9:15 AM" },
-      // === PM WAVE (12:30 PM) ===
-      { name: "Russell Henley", sunWin: 2100, monWin: 1700, tueWin: 1750, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1, sentiment: "mega_chalk", wave: "PM", teeTime: "12:30 PM" },
-      // === AM WAVE (9:05 AM) ===
-      { name: "Ludvig Åberg", sunWin: 2050, monWin: 2100, tueWin: 2200, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0, sentiment: "standard", wave: "AM", teeTime: "9:05 AM" },
-      // === PM WAVE (12:20 PM) ===
-      { name: "Collin Morikawa", sunWin: 2350, monWin: 2250, tueWin: 2300, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 20.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5, sentiment: "standard", wave: "PM", teeTime: "12:20 PM" },
-      // === PM WAVE (12:05 PM) ===
-      { name: "Patrick Cantlay", sunWin: 2150, monWin: 2400, tueWin: 2450, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.50, sgArg: 0.247, prox150: 20.0, girRough: 61.4, sentiment: "mega_chalk", wave: "PM", teeTime: "12:05 PM" },
-      // === PM WAVE (1:00 PM) ===
-      { name: "Jake Knapp", sunWin: 3000, monWin: 3300, tueWin: 3500, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 44.80, sgArg: 0.111, prox150: 22.4, girRough: 59.5, sentiment: "standard", wave: "PM", teeTime: "1:00 PM" },
-      // === PM WAVE (12:40 PM) ===
-      { name: "Sam Burns", sunWin: 2500, monWin: 3000, tueWin: 3100, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.90, sgArg: -0.350, prox150: 20.5, girRough: 56.8, sentiment: "mega_chalk", wave: "PM", teeTime: "12:40 PM" },
-      // === AM WAVE (11:35 AM) ===
-      { name: "Si Woo Kim", sunWin: 3700, monWin: 2700, tueWin: 2800, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 41.10, sgArg: 0.142, prox150: 19.6, girRough: 53.9, sentiment: "standard", wave: "AM", teeTime: "11:35 AM" },
-      // === AM WAVE (9:15 AM) ===
-      { name: "Jordan Spieth", sunWin: 3700, monWin: 3000, tueWin: 3100, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 14.20, sgArg: 0.129, prox150: 22.2, girRough: 61.2, sentiment: "standard", wave: "AM", teeTime: "9:15 AM" },
-      // === AM WAVE (8:10 AM) ===
-      { name: "Robert MacIntyre", sunWin: 2900, monWin: 3000, tueWin: 3100, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 58.50, sgArg: 0.120, prox150: 21.9, girRough: 60.9, sentiment: "standard", wave: "AM", teeTime: "8:10 AM" },
-      // === AM WAVE (8:55 AM) ===
-      { name: "Viktor Hovland", sunWin: 3900, monWin: 3500, tueWin: 3600, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8, sentiment: "standard", wave: "AM", teeTime: "8:55 AM" },
-      // === AM WAVE (11:45 AM) ===
-      { name: "Maverick McNealy", sunWin: 3500, monWin: 3600, tueWin: 3700, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7, sentiment: "standard", wave: "AM", teeTime: "11:45 AM" },
-      // === PM WAVE (12:20 PM) ===
-      { name: "Shane Lowry", sunWin: 3900, monWin: 5000, tueWin: 5200, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 46.60, sgArg: -0.085, prox150: 19.6, girRough: 61.2, sentiment: "content_chalk", wave: "PM", teeTime: "12:20 PM" },
-      // === AM WAVE (9:05 AM) ===
-      { name: "Justin Thomas", sunWin: 3700, monWin: 4100, tueWin: 4200, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9, sentiment: "bad_chalk", wave: "AM", teeTime: "9:05 AM" },
-      // === AM WAVE (8:35 AM) ===
-      { name: "Jacob Bridgeman", sunWin: 4400, monWin: 4600, tueWin: 4800, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4, sentiment: "standard", wave: "AM", teeTime: "8:35 AM" },
-      // === AM WAVE (8:55 AM) ===
-      { name: "Chris Gotterup", sunWin: 4500, monWin: 5100, tueWin: 5200, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6, sentiment: "sleeper", wave: "AM", teeTime: "8:55 AM" },
-      // === PM WAVE (1:00 PM) ===
-      { name: "Jason Day", sunWin: 4100, monWin: 4600, tueWin: 4800, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4, sentiment: "standard", wave: "PM", teeTime: "1:00 PM" },
-      // === AM WAVE (8:45 AM) ===
-      { name: "Sepp Straka", sunWin: 5200, monWin: 4800, tueWin: 4700, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 32.10, sgArg: 0.128, prox150: 19.1, girRough: 42.0, sentiment: "content_chalk", wave: "AM", teeTime: "8:45 AM" },
-      // === AM WAVE (8:00 AM) ===
-      { name: "Harris English", sunWin: 5000, monWin: 5200, tueWin: 5400, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5, sentiment: "standard", wave: "AM", teeTime: "8:00 AM" },
-      // === AM WAVE (8:10 AM) ===
-      { name: "Ben Griffin", sunWin: 4100, monWin: 4900, tueWin: 5000, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 43.40, sgArg: 0.454, prox150: 22.2, girRough: 55.3, sentiment: "standard", wave: "AM", teeTime: "8:10 AM" },
-      // === AM WAVE (7:30 AM) ===
-      { name: "Min Woo Lee", sunWin: 5500, monWin: 5200, tueWin: 5300, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 64.60, sgArg: 0.294, prox150: 20.2, girRough: 38.9, sentiment: "standard", wave: "AM", teeTime: "7:30 AM" },
-      // === AM WAVE (11:55 AM) ===
-      { name: "Akshay Bhatia", sunWin: 5300, monWin: 5800, tueWin: 6000, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 40.70, sgArg: 0.168, prox150: 19.9, girRough: 39.3, sentiment: "standard", wave: "AM", teeTime: "11:55 AM" },
-      // === AM WAVE (7:05 AM) ===
-      { name: "Ryo Hisatsune", sunWin: 8800, monWin: 9000, tueWin: 9000, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 41.30, sgArg: 0.181, prox150: 21.9, girRough: 62.5, sentiment: "standard", wave: "AM", teeTime: "7:05 AM" },
-      // === PM WAVE (10:40 AM) ===
-      { name: "Rickie Fowler", sunWin: 5700, monWin: 6100, tueWin: 6300, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 45.80, sgArg: -0.318, prox150: 21.2, girRough: 58.6, sentiment: "standard", wave: "PM", teeTime: "10:40 AM" },
-      // === AM WAVE (9:25 AM) ===
-      { name: "Sahith Theegala", sunWin: 8200, monWin: 8600, tueWin: 8400, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 16.60, sgArg: 0.358, prox150: 21.8, girRough: 55.6, sentiment: "standard", wave: "AM", teeTime: "9:25 AM" },
-      // === AM WAVE (8:35 AM) ===
-      { name: "J.J. Spaun", sunWin: 5300, monWin: 5000, tueWin: 5200, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 67.50, sgArg: 0.013, prox150: 19.9, girRough: 56.7, sentiment: "standard", wave: "AM", teeTime: "8:35 AM" },
-      // === PM WAVE (10:50 AM) ===
-      { name: "Nicolai Højgaard", sunWin: 6900, monWin: 7800, tueWin: 8200, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 60.50, sgArg: 0.113, prox150: 21.0, girRough: 60.7, sentiment: "standard", wave: "PM", teeTime: "10:50 AM" },
-      // === AM WAVE (11:25 AM) ===
-      { name: "Harry Hall", sunWin: 6400, monWin: 7600, tueWin: 8000, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3, sentiment: "standard", wave: "AM", teeTime: "11:25 AM" },
-      // === AM WAVE (7:50 AM) ===
-      { name: "Ryan Gerard", sunWin: 7600, monWin: 7600, tueWin: 7800, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4, sentiment: "standard", wave: "AM", teeTime: "7:50 AM" },
-      // === PM WAVE (11:05 AM) ===
-      { name: "Wyndham Clark", sunWin: 1600, monWin: 10500, tueWin: 11000, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 19.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "11:05 AM" },
-      // === PM WAVE (10:20 AM) ===
-      { name: "Daniel Berger", sunWin: 9400, monWin: 9000, tueWin: 9400, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1, sentiment: "sleeper", wave: "PM", teeTime: "10:20 AM" },
-      // === AM WAVE (6:45 AM) ===
-      { name: "J.T. Poston", sunWin: 8800, monWin: 8400, tueWin: 8600, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 36.60, sgArg: -0.299, prox150: 22.4, girRough: 53.8, sentiment: "standard", wave: "AM", teeTime: "6:45 AM" },
-      // === PM WAVE (10:30 AM) ===
-      { name: "Sam Stevens", sunWin: 8200, monWin: 7600, tueWin: 7800, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6, sentiment: "standard", wave: "PM", teeTime: "10:30 AM" },
-      // === PM WAVE (1:10 PM) ===
-      { name: "Sudarshan Yellamaraju", sunWin: 11500, monWin: 12000, tueWin: 11500, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7, sentiment: "sleeper", wave: "PM", teeTime: "1:10 PM" },
-      // === PM WAVE (10:50 AM) ===
-      { name: "Alex Noren", sunWin: 6400, monWin: 5700, tueWin: 5900, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1, sentiment: "standard", wave: "PM", teeTime: "10:50 AM" },
-      // === PM WAVE (10:40 AM) ===
-      { name: "Kurt Kitayama", sunWin: 7200, monWin: 7600, tueWin: 7800, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5, sentiment: "standard", wave: "PM", teeTime: "10:40 AM" },
-      // === AM WAVE (8:00 AM) ===
-      { name: "Nick Taylor", sunWin: 8200, monWin: 9000, tueWin: 9200, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 48.10, sgArg: 0.503, prox150: 20.6, girRough: 53.4, sentiment: "standard", wave: "AM", teeTime: "8:00 AM" },
-      // === AM WAVE (8:20 AM) ===
-      { name: "Brian Harman", sunWin: 12000, monWin: 9600, tueWin: 10000, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 15.50, sgArg: 0.132, prox150: 20.5, girRough: 57.8, sentiment: "content_chalk", wave: "AM", teeTime: "8:20 AM" },
-      // === AM WAVE (9:35 AM) ===
-      { name: "Marco Penge", sunWin: 30000, monWin: 15500, tueWin: 16000, price: 7000, sgApp: -0.378, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.246, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "9:35 AM" },
-      // === PM WAVE (12:05 PM) ===
-      { name: "Corey Conners", sunWin: 9000, monWin: 8600, tueWin: 8800, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 28.00, sgArg: -0.136, prox150: 19.4, girRough: 50.8, sentiment: "content_chalk", wave: "PM", teeTime: "12:05 PM" },
-      // === AM WAVE (11:35 AM) ===
-      { name: "Keegan Bradley", sunWin: 10000, monWin: 8600, tueWin: 9000, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 55.50, sgArg: 0.272, prox150: 19.4, girRough: 60.2, sentiment: "standard", wave: "AM", teeTime: "11:35 AM" },
-      // === PM WAVE (1:10 PM) ===
-      { name: "Max Homa", sunWin: 12000, monWin: 12000, tueWin: 12500, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 51.00, sgArg: -0.210, prox150: 21.3, girRough: 56.1, sentiment: "standard", wave: "PM", teeTime: "1:10 PM" },
-      // === AM WAVE (7:30 AM) ===
-      { name: "Taylor Pendrith", sunWin: 12000, monWin: 15500, tueWin: 16000, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9, sentiment: "standard", wave: "AM", teeTime: "7:30 AM" },
-      // === AM WAVE (8:45 AM) ===
-      { name: "Gary Woodland", sunWin: 16000, monWin: 16000, tueWin: 16500, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "8:45 AM" },
-      // === AM WAVE (7:40 AM) ===
-      { name: "Michael Thorbjornsen", sunWin: 10000, monWin: 9000, tueWin: 8800, price: 7300, sgApp: 0.450, birdiePct: 24.00, courseHistory: 75.00, sgArg: 0.100, prox150: 22.5, girRough: 57.0, sentiment: "sleeper", wave: "AM", teeTime: "7:40 AM" },
-      // === AM WAVE (7:40 AM) ===
-      { name: "Matt McCarty", sunWin: 20000, monWin: 13000, tueWin: 14000, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "7:40 AM" },
-      // === AM WAVE (11:55 AM) ===
-      { name: "Nico Echavarria", sunWin: 20000, monWin: 28000, tueWin: 29000, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "11:55 AM" },
-      // === AM WAVE (8:20 AM) ===
-      { name: "Sungjae Im", sunWin: 11000, monWin: 10000, tueWin: 10000, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 10.60, sgArg: 0.307, prox150: 23.2, girRough: 57.3, sentiment: "standard", wave: "AM", teeTime: "8:20 AM" },
-      // === AM WAVE (11:45 AM) ===
-      { name: "Andrew Novak", sunWin: 16000, monWin: 13500, tueWin: 14000, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 52.40, sgArg: 0.139, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "11:45 AM" },
-      // === AM WAVE (11:25 AM) ===
-      { name: "Ricky Castillo", sunWin: 13500, monWin: 18000, tueWin: 18500, price: 6700, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: 0.227, prox150: 23.7, girRough: 65.6, sentiment: "standard", wave: "AM", teeTime: "11:25 AM" },
-      // === AM WAVE (9:25 AM) ===
-      { name: "Billy Horschel", sunWin: 15000, monWin: 23000, tueWin: 24000, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 56.70, sgArg: -0.147, prox150: 20.3, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "9:25 AM" },
-      // === AM WAVE (6:25 AM) ===
-      { name: "Matt Wallace", sunWin: 13000, monWin: 15500, tueWin: 16000, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 67.50, sgArg: 0.190, prox150: 22.6, girRough: 62.1, sentiment: "standard", wave: "AM", teeTime: "6:25 AM" },
-      // === AM WAVE (7:50 AM) ===
-      { name: "Tony Finau", sunWin: 21000, monWin: 22500, tueWin: 23000, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 31.00, sgArg: 0.300, prox150: 21.6, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "7:50 AM" },
-      // === PM WAVE (9:50 AM) ===
-      { name: "Pierceson Coody", sunWin: 11500, monWin: 16500, tueWin: 17500, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 65.10, sgArg: -0.399, prox150: 22.1, girRough: 56.7, sentiment: "standard", wave: "PM", teeTime: "9:50 AM" },
-      // === AM WAVE (6:35 AM) ===
-      { name: "Jordan Smith", sunWin: 14500, monWin: 16000, tueWin: 17000, price: 6500, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: -0.216, prox150: 23.9, girRough: 58.7, sentiment: "standard", wave: "AM", teeTime: "6:35 AM" },
-      // === PM WAVE (11:15 AM) ===
-      { name: "Bud Cauley", sunWin: 16000, monWin: 16000, tueWin: 17000, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 58.20, sgArg: 0.196, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "11:15 AM" },
-      // === AM WAVE (6:35 AM) ===
-      { name: "Denny McCarthy", sunWin: 15000, monWin: 16000, tueWin: 16500, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 39.20, sgArg: -0.087, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:35 AM" },
-      // === AM WAVE (7:05 AM) ===
-      { name: "Michael Brennan", sunWin: 22000, monWin: 22000, tueWin: 23000, price: 6400, sgApp: 0.150, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.593, prox150: 22.4, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "7:05 AM" },
-      // === PM WAVE (10:00 AM) ===
-      { name: "Michael Kim", sunWin: 22500, monWin: 21000, tueWin: 22500, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 68.30, sgArg: 0.121, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "10:00 AM" },
-      // === AM WAVE (6:55 AM) ===
-      { name: "Patrick Rodgers", sunWin: 24000, monWin: 30000, tueWin: 31000, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 22.40, sgArg: 0.163, prox150: 22.3, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:55 AM" },
-      // === PM WAVE (10:10 AM) ===
-      { name: "Andrew Putnam", sunWin: 30000, monWin: 17000, tueWin: 17500, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "10:10 AM" },
-      // === PM WAVE (11:15 AM) ===
-      { name: "Austin Smotherman", sunWin: 21000, monWin: 19500, tueWin: 20000, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "11:15 AM" },
-      // === PM WAVE (10:00 AM) ===
-      { name: "Ryan Fox", sunWin: 20000, monWin: 26000, tueWin: 27500, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "10:00 AM" },
-      // === AM WAVE (9:35 AM) ===
-      { name: "Johnny Keefer", sunWin: 28000, monWin: 37000, tueWin: 39000, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "9:35 AM" },
-      // === PM WAVE (10:30 AM) ===
-      { name: "Sami Valimaki", sunWin: 34000, monWin: 27000, tueWin: 28000, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "10:30 AM" },
-      // === AM WAVE (6:05 AM) ===
-      { name: "Chandler Blanchet", sunWin: 60000, monWin: 42000, tueWin: 44000, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:05 AM" },
-      // === PM WAVE (10:10 AM) ===
-      { name: "William Mouw", sunWin: 35000, monWin: 43000, tueWin: 45000, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "10:10 AM" },
-      // === AM WAVE (6:55 AM) ===
-      { name: "Lucas Glover", sunWin: 57500, monWin: 50000, tueWin: 52500, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 55.98, sgArg: -0.118, prox150: 19.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:55 AM" },
-      // === AM WAVE (7:20 AM) ===
-      { name: "Tom Hoge", sunWin: 80000, monWin: 87500, tueWin: 90000, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 56.48, sgArg: -0.399, prox150: 18.4, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "7:20 AM" },
-      // === AM WAVE (6:45 AM) ===
-      { name: "Steven Fisk", sunWin: 40000, monWin: 48000, tueWin: 50000, price: 6100, sgApp: -0.207, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.060, prox150: 22.9, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:45 AM" },
-      // === AM WAVE (7:20 AM) ===
-      { name: "Karl Vilips", sunWin: 55000, monWin: 67500, tueWin: 70000, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.351, prox150: 22.3, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "7:20 AM" },
-      // === PM WAVE (10:20 AM) ===
-      { name: "Garrick Higgo", sunWin: 57500, monWin: 62500, tueWin: 65000, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 51.80, sgArg: -0.248, prox150: 23.6, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "10:20 AM" },
-      // === PM WAVE (11:05 AM) ===
-      { name: "Aldrich Potgieter", sunWin: 67500, monWin: 80000, tueWin: 82500, price: 6100, sgApp: -0.304, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.456, prox150: 22.0, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "11:05 AM" },
-      // === PM WAVE (9:50 AM) ===
-      { name: "Jhonattan Vegas", sunWin: 57500, monWin: 70000, tueWin: 72500, price: 6000, sgApp: -0.455, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.265, prox150: 22.6, girRough: 57.0, sentiment: "standard", wave: "PM", teeTime: "9:50 AM" },
-      // === AM WAVE (6:05 AM) ===
-      { name: "David Lipsky", sunWin: 62500, monWin: 52500, tueWin: 55000, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 60.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:05 AM" },
-      // === AM WAVE (6:15 AM) ===
-      { name: "Brian Campbell", sunWin: 170000, monWin: 82500, tueWin: 85000, price: 6000, sgApp: -0.753, birdiePct: 22.00, courseHistory: 64.25, sgArg: -0.364, prox150: 23.6, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:15 AM" },
-      // === AM WAVE (6:25 AM) ===
-      { name: "Adam Schenk", sunWin: 180000, monWin: 190000, tueWin: 200000, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:25 AM" },
-      // === AM WAVE (6:15 AM) ===
-      { name: "Joe Highsmith", sunWin: 200000, monWin: 170000, tueWin: 180000, price: 6000, sgApp: -0.112, birdiePct: 22.00, courseHistory: 74.25, sgArg: -0.338, prox150: 22.5, girRough: 57.0, sentiment: "standard", wave: "AM", teeTime: "6:15 AM" }
-    ];
+    <div class="ai-banner" id="aiBanner"></div>
 
-    let players = [];
-    let currentFilter = 'all';
-    let sortCol = 'composite';
-    let sortAsc = false;
-    let lastGeneratedLineup = null; // FIX #12: Track for CSV export
-
-    // ============ PERSISTENCE (FIX #15) ============
-    function saveState() {
-      try {
-        const state = {};
-        players.forEach(p => {
-          if (p.locked || p.excluded) {
-            state[p.name] = { locked: !!p.locked, excluded: !!p.excluded };
-          }
-        });
-        localStorage.setItem('plaidGenie_v44_state', JSON.stringify(state));
-      } catch(e) { /* localStorage unavailable */ }
-    }
-
-    function loadState() {
-      try {
-        const raw = localStorage.getItem('plaidGenie_v44_state');
-        if (raw) return JSON.parse(raw);
-      } catch(e) { /* ignore */ }
-      return {};
-    }
-
-    // ============ INIT ============
-    window.onload = () => {
-      processData();
-    };
-
-    function toggleTheme() {
-      const html = document.documentElement;
-      const cur = html.getAttribute('data-theme');
-      const next = cur === 'dark' ? 'harbour' : 'dark';
-      html.setAttribute('data-theme', next);
-      document.getElementById('themeIcon').textContent = next === 'dark' ? '☀️' : '🌙';
-      document.getElementById('themeLabel').textContent = next === 'dark' ? 'HARBOUR' : 'DARK';
-    }
-
-    function switchTab(name, btn) {
-      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(`panel-${name}`).classList.add('active');
-      if (btn) btn.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function switchTabByName(name) {
-      const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.textContent.toLowerCase().includes(name));
-      if (btn) switchTab(name, btn);
-    }
-
-    function scrollToMetrics() {
-      document.getElementById('metricsRef').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // FIX #2: Accept event parameter explicitly — no implicit window.event
-    function runLocalSync(e) {
-      processData();
-      const btn = e ? e.target : document.querySelector('.sync-btn');
-      const origText = btn.textContent;
-      btn.textContent = '✓ RECALCULATED';
-      setTimeout(() => { btn.innerHTML = '🔄 RECALC ENGINE'; }, 1500);
-    }
-
-    // ============ CORE DATA PROCESSING ============
-    function processData() {
-      // FIX #15: Load persisted lock/exclude state
-      const persisted = loadState();
-      const existing = {};
-      players.forEach(p => {
-        existing[p.name] = { locked: p.locked, excluded: p.excluded };
-      });
-
-      let totalRawOwn = 0;
-
-      players = db.map((orig, i) => {
-        // Merge: in-memory state > persisted state > defaults
-        const mem = existing[orig.name];
-        const saved = persisted[orig.name];
-        const lockState = mem || saved || { locked: false, excluded: false };
-
-        let p = { ...orig, ...lockState };
-
-        // Tri-Odds: Use Tuesday odds for live implied win probability
-        const cur = p.tueWin || p.monWin || p.sunWin;
-        p.liveImp = 100 / (cur + 100);
-
-        // FIX #1: Store BOTH raw velocity AND display-friendly absolute magnitude
-        // velTotal < 0 means odds shortened (steam)
-        // velTotal > 0 means odds drifted (cold)
-        p.velTotal = (cur - p.sunWin) / p.sunWin || 0;
-        p.steamDisplay = Math.abs(p.velTotal) * 100; // Always positive, sortable by magnitude
-        p.isSteam = p.velTotal < -0.02; // Shortened = steam
-        p.isDrift = p.velTotal > 0.05;  // Drifted significantly
-
-        // FIX #8: Wave comes from data now, not computed from index
-        // (already set in db as wave: "AM"/"PM")
-
-        // FIX #3: Flag no-history players
-        p.hasHistory = p.courseHistory < NO_HISTORY_SENTINEL;
-
-        // Base Fit Calculation
-        const appScore = p.sgApp * 40;
-        const argScore = p.sgArg ? p.sgArg * 15 : 0;
-        const histScore = p.hasHistory ? (80 - p.courseHistory) : 0; // No history = no bonus
-        p.rawFit = appScore + argScore + histScore;
-
-        // Sentiment multipliers
-        if (p.sentiment === 'mega_chalk') p.rawFit *= 1.10;
-        else if (p.sentiment === 'content_chalk') p.rawFit *= 1.05;
-        else if (p.sentiment === 'bad_chalk') p.rawFit *= 0.80;
-
-        return p;
-      });
-
-      // Normalize Fit Scores (1-100)
-      const fits = players.map(p => p.rawFit);
-      const maxF = Math.max(...fits);
-      const minF = Math.min(...fits);
-
-      // Calculate Ranks for Arbitrage
-      players.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
-      players.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
-
-      // PASS 1: RAW OWNERSHIP CALCULATION
-      players.forEach(p => {
-        p.profileFit = ((p.rawFit - minF) / (maxF - minF)) * 100;
-        p.dlta = p.salRank - p.oddsRank;
-
-        let baseOwn = 12;
-        if (p.price >= 10000) baseOwn = 15;
-        else if (p.price >= 9000) baseOwn = 13;
-        else if (p.price >= 8000) baseOwn = 10;
-
-        let dltaBump = p.dlta * 1.2;
-        let histBump = 0;
-        if (p.hasHistory && p.courseHistory <= 20) histBump = 5;
-        else if (p.hasHistory && p.courseHistory <= 40) histBump = 2;
-
-        p.rawOwn = Math.max(0.5, baseOwn + dltaBump + histBump + (p.isSteam ? 4 : 0));
-
-        // Ownership bumps for content/chalk sentiment
-        if (p.sentiment === 'mega_chalk') p.rawOwn += 8;
-        if (p.sentiment === 'content_chalk') p.rawOwn += 5;
-
-        totalRawOwn += p.rawOwn;
-      });
-
-      // PASS 2: 600% NORMALIZATION
-      const normalizer = 600 / totalRawOwn;
-      players.forEach(p => {
-        p.pOwn = Math.min(45, p.rawOwn * normalizer);
-
-        // FIX #5: Leverage uses log-scaled ownership penalty
-        // log(pOwn) grows slowly — doesn't over-penalize high-owned elites
-        const logOwn = Math.log2(Math.max(1, p.pOwn));
-        p.rawLev = p.profileFit - (logOwn * 8);
-
-        if (p.sentiment === 'sleeper') p.rawLev *= 1.3;
-      });
-
-      // Normalize Leverage (1-100)
-      const levs = players.map(p => p.rawLev);
-      const maxLev = Math.max(...levs);
-      const minLev = Math.min(...levs);
-
-      players.forEach(p => {
-        p.leverage = ((p.rawLev - minLev) / (maxLev - minLev)) * 100;
-
-        // FIX #4: Composite now blends Fit + History + Implied Win Probability
-        const histBonus = p.hasHistory ? ((80 - p.courseHistory) * 0.5) : 0;
-        const oddsBonus = p.liveImp * 120; // Scale implied probability into projection range
-        p.composite = p.profileFit + histBonus + oddsBonus;
-      });
-
-      // Sort by composite default
-      players.sort((a,b) => b.composite - a.composite);
-
-      renderTable();
-      updateSideStats();
-    }
-
-    // ============ FILTERS & SORTING ============
-    function setFilter(f, btn) {
-      currentFilter = f;
-      document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderTable();
-    }
-
-    function sortData(col) {
-      if (sortCol === col) { sortAsc = !sortAsc; }
-      else { sortAsc = false; }
-      sortCol = col;
-      renderTable();
-    }
-
-    function toggleLock(name) {
-      const p = players.find(x => x.name === name);
-      if (p) {
-        p.locked = !p.locked;
-        if (p.locked) p.excluded = false;
-      }
-      renderTable();
-      updateSideStats();
-      saveState(); // FIX #15
-    }
-
-    function toggleExclude(name) {
-      const p = players.find(x => x.name === name);
-      if (p) {
-        p.excluded = !p.excluded;
-        if (p.excluded) p.locked = false;
-      }
-      renderTable();
-      updateSideStats();
-      saveState(); // FIX #15
-    }
-
-    function clearAllState() {
-      players.forEach(p => { p.locked = false; p.excluded = false; });
-      document.getElementById('search').value = '';
-      renderTable();
-      updateSideStats();
-      saveState();
-    }
-
-    function clearAllLocks() {
-      players.forEach(p => { p.locked = false; });
-      renderTable();
-      updateSideStats();
-      saveState();
-    }
-
-    // ============ TABLE RENDERING ============
-    function renderTable() {
-      const tbody = document.getElementById('tbody');
-      const query = document.getElementById('search').value.toLowerCase();
-
-      let data = players.filter(p => {
-        if (query && !p.name.toLowerCase().includes(query)) return false;
-        if (currentFilter === 'tartan') return p.price >= 9000;
-        if (currentFilter === 'leverage') return p.leverage > 65;
-        if (currentFilter === 'sleeper') return p.sentiment === 'sleeper';
-        if (currentFilter === 'steam') return p.isSteam;
-        return true;
-      });
-
-      data.sort((a, b) => {
-        let va = a[sortCol];
-        let vb = b[sortCol];
-        if (typeof va === 'string') {
-          return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
-        }
-        return sortAsc ? va - vb : vb - va;
-      });
-
-      document.querySelectorAll('th[data-col]').forEach(th => {
-        th.classList.toggle('active', th.dataset.col === sortCol);
-        const s = th.querySelector('.sort');
-        if (s) {
-          s.textContent = th.dataset.col === sortCol ? (sortAsc ? '▲' : '▼') : '▼';
-        }
-      });
-
-      tbody.innerHTML = data.map(p => {
-        const rowCls = p.locked ? 'row-locked' : (p.excluded ? 'row-excluded' : '');
-        const cur = p.tueWin || p.monWin || p.sunWin;
-
-        // FIX #9: Color-coded odds direction
-        let oddsColorClass = '';
-        let oddsArrow = '';
-        if (cur < p.sunWin) {
-          oddsColorClass = 'odds-shortened'; // Green — steam
-          oddsArrow = ' ▼';
-        } else if (cur > p.sunWin) {
-          oddsColorClass = 'odds-drifted'; // Red — drifted
-          oddsArrow = ' ▲';
-        }
-
-        const oddsStr = `<div style="color:var(--text-dim); font-size:9px; margin-bottom:2px;">+${p.sunWin} →</div>`;
-
-        const dltaCls = p.dlta > 2 ? 'val-green' : (p.dlta < -2 ? 'val-red' : '');
-
-        let dotCls = 'standard';
-        if (p.sentiment === 'mega_chalk') dotCls = 'mega';
-        else if (p.sentiment === 'content_chalk') dotCls = 'content';
-
-        // FIX #3: Course history display
-        const histDisplay = p.hasHistory
-          ? p.courseHistory.toFixed(1)
-          : '<span class="no-history">N/A</span>';
-
-        // FIX #1: Steam display — always shows absolute magnitude
-        // Positive steamDisplay = large movement. Color indicates direction.
-        const steamVal = p.steamDisplay.toFixed(1);
-        let steamCls = '';
-        if (p.isSteam) steamCls = 'val-green';        // Shortened = hot steam = green
-        else if (p.isDrift) steamCls = 'val-red';       // Drifted = cold = red
-
-        // Wave badge
-        const waveCls = p.wave === 'AM' ? 'wave-am' : 'wave-pm';
-
-        return `
-          <tr class="${rowCls}">
-            <td>
-              <div class="player-cell">
-                <div class="name-txt" title="${p.name}">
-                  <span class="tier-dot ${dotCls}"></span>
-                  <span class="player-name">${p.name}</span>
-                  <span class="wave-badge ${waveCls}">${p.wave}</span>
-                </div>
-                <div class="actions">
-                  <button class="btn-icon ${p.locked ? 'locked' : ''}" onclick="toggleLock('${p.name.replace(/'/g,"\\'")}')" title="Lock">🔒</button>
-                  <button class="btn-icon ${p.excluded ? 'excluded' : ''}" onclick="toggleExclude('${p.name.replace(/'/g,"\\'")}')" title="Exclude">✕</button>
-                </div>
-              </div>
-            </td>
-            <td class="val-green mono">$${p.price/1000}k</td>
-            <td class="mono ${oddsColorClass}">
-              ${oddsStr}
-              <strong>+${cur}</strong><span class="odds-arrow">${oddsArrow}</span>
-            </td>
-            <td class="${dltaCls} mono">${p.dlta > 0 ? '+' + p.dlta : p.dlta}</td>
-            <td class="mono ${steamCls}">${steamVal}%</td>
-            <td class="mono">${histDisplay}</td>
-            <td class="mono"><strong>${p.profileFit.toFixed(1)}</strong></td>
-            <td class="mono" style="color:var(--accent-gold)"><strong>${p.composite.toFixed(1)}</strong></td>
-            <td class="mono ${p.pOwn > 15 ? 'val-red' : ''}">${p.pOwn.toFixed(1)}%</td>
-            <td class="mono"><strong>${p.leverage.toFixed(1)}</strong></td>
+    <div class="table-wrap">
+      <table id="arbTable">
+        <thead>
+          <tr>
+            <th onclick="sortData('name')" data-col="name" title="Player & Wave">🏌️ <span class="sort">▼</span></th>
+            <th onclick="sortData('price')" data-col="price" title="Salary">💵 <span class="sort">▼</span></th>
+            <th onclick="sortData('liveImp')" data-col="liveImp" title="Current Odds">🎲 <span class="sort">▼</span></th>
+            <th onclick="sortData('dlta')" data-col="dlta" title="$DLTA Arbitrage">⚖️ <span class="sort">▼</span></th>
+            <th onclick="sortData('velTotal')" data-col="velTotal" title="Steam Velocity">🚂 <span class="sort">▼</span></th>
+            <th onclick="sortData('courseHistory')" data-col="courseHistory" title="Course History">🏛️ <span class="sort">▼</span></th>
+            <th onclick="sortData('profileFit')" data-col="profileFit" title="Profile Fit">🎯 <span class="sort">▼</span></th>
+            <th onclick="sortData('pOwn')" data-col="pOwn" title="Projected Ownership">👥 <span class="sort">▼</span></th>
+            <th onclick="sortData('leverage')" data-col="leverage" title="Leverage Score">📈 <span class="sort">▼</span></th>
+            <th onclick="sortData('composite')" data-col="composite" title="Optimizer Tier">🏆 <span class="sort">▼</span></th>
           </tr>
-        `;
-      }).join('');
-    }
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
 
-    // ============ SIDE STATS ============
-    function updateSideStats() {
-      const locked = players.filter(p => p.locked);
-      const excluded = players.filter(p => p.excluded);
+  <div class="panel" id="panel-ai">
+    <div class="ai-wrap">
+      <div class="ai-hero">
+        <h2>⚡ Local Heuristic Skills</h2>
+        <p>No external API required. These functions use embedded dictionaries and Regex logic to simulate reasoning locally inside your browser.</p>
+      </div>
 
-      const sal = locked.reduce((s,p) => s + p.price, 0);
-      const own = locked.reduce((s,p) => s + p.pOwn, 0);
-      const pts = locked.reduce((s,p) => s + p.composite, 0);
+      <div class="ai-grid">
+        <div class="ai-card" id="skill1">
+          <span class="badge-local">LOCAL RAG</span>
+          <h3><span class="num">01</span> Dictionary Course Fit</h3>
+          <div class="desc">Retrieves predefined stat weights from an embedded JSON dictionary based on course name. Overrides the engine's default weights.</div>
+          <input type="text" class="ai-input" id="courseInput" value="Harbour Town" placeholder="e.g., Harbour Town, Augusta, Torrey">
+          <button class="ai-btn" onclick="runCourseFit()" id="btn1">RETRIEVE WEIGHTS</button>
+          <div class="ai-result" id="result1"></div>
+        </div>
 
-      document.getElementById('sideLocked').textContent = `${locked.length} / 6`;
-      document.getElementById('sideExcluded').textContent = excluded.length;
-      document.getElementById('sideSal').textContent = '$' + sal.toLocaleString();
-      document.getElementById('sideRem').textContent = '$' + (50000 - sal).toLocaleString();
-      document.getElementById('sideProj').textContent = pts.toFixed(1);
-      document.getElementById('sideOwn').textContent = own.toFixed(1) + '%';
+        <div class="ai-card" id="skill2">
+          <span class="badge-local">REGEX</span>
+          <h3><span class="num">02</span> Wind String Parser</h3>
+          <div class="desc">Extracts raw "mph" integers from messy text, calculates the average, and applies a fractional mathematical penalty to the <strong>PM wave</strong> players.</div>
+          <textarea class="ai-input" id="weatherInput" placeholder="Paste messy forecast...">12PM 15mph, 1PM cloudy 18mph, 2PM 20mph gusts 25</textarea>
+          <button class="ai-btn" onclick="runWindPenalty()" id="btn2">PARSE WEATHER & APPLY</button>
+          <div class="ai-result" id="result2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      document.getElementById('fabCount').textContent = `${locked.length}/6`;
-      document.getElementById('fabSal').textContent = '$' + (50000 - sal).toLocaleString();
-      document.getElementById('fabProj').textContent = pts.toFixed(1);
-      document.getElementById('fabOwn').textContent = own.toFixed(1) + '%';
+</div>
 
-      const locksList = document.getElementById('locksList');
-      if (locked.length === 0) {
-        locksList.innerHTML = '<div class="lock-empty">NO PLAYERS LOCKED.</div>';
-      } else {
-        locksList.innerHTML = locked.map(p => `
-          <div class="lock-item">
-            <span>🔒 <strong>${p.name}</strong> <span class="wave-badge ${p.wave === 'AM' ? 'wave-am' : 'wave-pm'}">${p.wave}</span></span>
-            <span class="mono val-green">$${(p.price/1000).toFixed(1)}k</span>
-          </div>
-        `).join('');
-      }
-    }
+<div class="fab-container" id="fabContainer">
+  <div class="fab-sheet">
+    <div class="sheet-actions">
+      <button class="gen-btn" onclick="generateLineup('cash')">
+        <span style="font-size: 16px;">🛡️</span> CASH OPTIMIZER
+        <span class="gen-sub">Maximizes Median Floor. Ignores Ownership.</span>
+      </button>
+      <button class="gen-btn btn-gpp" onclick="generateLineup('gpp')">
+        <span style="font-size: 16px;">🚀</span> GPP MILLY MAKER
+        <span class="gen-sub">Maximizes Leverage. Hard Caps pOWN at 85%.</span>
+      </button>
+    </div>
+    <ul class="roster-list" id="rosterList">
+      <div style="padding: 30px; text-align: center; color: var(--text-muted); font-size: 12px;">
+        Lock (🔒) your core players on the board above, then generate a build.
+      </div>
+    </ul>
+    <div class="thesis-box">
+      <div class="thesis-header">
+        <h4>⚡ Local Thesis Generator</h4>
+        <button class="thesis-btn" id="thesisBtn" onclick="runThesisGen()">ANALYZE</button>
+      </div>
+      <div class="thesis-content" id="thesisContent"></div>
+    </div>
+  </div>
+  
+  <div class="fab-bar" onclick="document.getElementById('fabContainer').classList.toggle('open')">
+    <div class="fab-stats">
+      <div class="stat-block">
+        <span class="stat-val" id="fabCount">0/6</span>
+        <span class="stat-lbl">Roster</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-val val-green" id="fabSal">$50,000</span>
+        <span class="stat-lbl">Rem. Cap</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-val" id="fabProj">0.0</span>
+        <span class="stat-lbl">Proj Pts</span>
+      </div>
+      <div class="stat-block">
+        <span class="stat-val val-gold" id="fabOwn">0.0%</span>
+        <span class="stat-lbl">Total Own</span>
+      </div>
+    </div>
+    <div class="fab-chevron">▲</div>
+  </div>
+</div>
 
-    // ============ CSV EXPORT (FIX #12) ============
-    function exportLineupCSV(roster, filename) {
-      if (!roster || roster.length !== 6) {
-        return alert('Need a complete 6-player lineup to export.');
-      }
-      // DraftKings Golf CSV format: G,G,G,G,G,G
-      const header = 'G,G,G,G,G,G';
-      const names = roster.sort((a,b) => b.price - a.price).map(p => p.name).join(',');
-      const csvContent = header + '\n' + names;
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename || 'plaid_genie_lineup.csv';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
+<script>
+// ==========================================
+// V4.5 DATA SCIENCE INJECTION
+// Master Database (81 Players - Tue Odds & Tee Times Synced)
+// ==========================================
+const db = [
+  { name: "Scottie Scheffler", sunWin: 350, tueWin: 385, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5, wave: "PM" },
+  { name: "Xander Schauffele", sunWin: 1450, tueWin: 1500, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 22.00, sgArg: 0.009, prox150: 20.9, girRough: 59.1, wave: "PM" },
+  { name: "Matt Fitzpatrick", sunWin: 1950, tueWin: 1700, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4, wave: "PM" },
+  { name: "Cameron Young", sunWin: 1700, tueWin: 1750, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9, wave: "AM" },
+  { name: "Russell Henley", sunWin: 2100, tueWin: 1800, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1, wave: "PM" },
+  { name: "Tommy Fleetwood", sunWin: 1700, tueWin: 1800, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2, wave: "PM" },
+  { name: "Ludvig Åberg", sunWin: 2050, tueWin: 2100, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0, wave: "AM" },
+  { name: "Collin Morikawa", sunWin: 2350, tueWin: 2350, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 20.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5, wave: "PM" },
+  { name: "Patrick Cantlay", sunWin: 2150, tueWin: 2500, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.50, sgArg: 0.247, prox150: 20.0, girRough: 61.4, wave: "PM" },
+  { name: "Si Woo Kim", sunWin: 3700, tueWin: 2800, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 41.10, sgArg: 0.142, prox150: 19.6, girRough: 53.9, wave: "PM" },
+  { name: "Robert MacIntyre", sunWin: 2900, tueWin: 2900, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 58.50, sgArg: 0.120, prox150: 21.9, girRough: 60.9, wave: "AM" },
+  { name: "Jordan Spieth", sunWin: 3700, tueWin: 3000, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 14.20, sgArg: 0.129, prox150: 22.2, girRough: 61.2, wave: "AM" },
+  { name: "Viktor Hovland", sunWin: 3900, tueWin: 3400, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8, wave: "AM" },
+  { name: "Sam Burns", sunWin: 2500, tueWin: 3500, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.90, sgArg: -0.350, prox150: 20.5, girRough: 56.8, wave: "PM" },
+  { name: "Maverick McNealy", sunWin: 3500, tueWin: 3700, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7, wave: "PM" },
+  { name: "Jake Knapp", sunWin: 3000, tueWin: 3800, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 44.80, sgArg: 0.111, prox150: 22.4, girRough: 59.5, wave: "PM" },
+  { name: "Justin Thomas", sunWin: 3700, tueWin: 4000, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9, wave: "AM" },
+  { name: "Sepp Straka", sunWin: 5200, tueWin: 4500, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 32.10, sgArg: 0.128, prox150: 19.1, girRough: 42.0, wave: "AM" },
+  { name: "Jacob Bridgeman", sunWin: 4400, tueWin: 4500, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4, wave: "AM" },
+  { name: "Jason Day", sunWin: 4100, tueWin: 4800, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4, wave: "PM" },
+  { name: "J.J. Spaun", sunWin: 5300, tueWin: 4900, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 67.50, sgArg: 0.013, prox150: 19.9, girRough: 56.7, wave: "AM" },
+  { name: "Min Woo Lee", sunWin: 5500, tueWin: 5200, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 64.60, sgArg: 0.294, prox150: 20.2, girRough: 38.9, wave: "AM" },
+  { name: "Chris Gotterup", sunWin: 4500, tueWin: 5300, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6, wave: "AM" },
+  { name: "Ben Griffin", sunWin: 4100, tueWin: 5300, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 43.40, sgArg: 0.454, prox150: 22.2, girRough: 55.3, wave: "AM" },
+  { name: "Shane Lowry", sunWin: 3900, tueWin: 5500, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 46.60, sgArg: -0.085, prox150: 19.6, girRough: 61.2, wave: "PM" },
+  { name: "Harris English", sunWin: 5000, tueWin: 5800, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5, wave: "AM" },
+  { name: "Alex Noren", sunWin: 6400, tueWin: 6000, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1, wave: "AM" },
+  { name: "Akshay Bhatia", sunWin: 5300, tueWin: 6000, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 40.70, sgArg: 0.168, prox150: 19.9, girRough: 39.3, wave: "PM" },
+  { name: "Rickie Fowler", sunWin: 5700, tueWin: 6500, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 45.80, sgArg: -0.318, prox150: 21.2, girRough: 58.6, wave: "AM" },
+  { name: "Ryan Gerard", sunWin: 7600, tueWin: 7600, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4, wave: "AM" },
+  { name: "Sahith Theegala", sunWin: 8200, tueWin: 7800, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 16.60, sgArg: 0.358, prox150: 21.8, girRough: 55.6, wave: "AM" },
+  { name: "Sam Stevens", sunWin: 8200, tueWin: 8000, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6, wave: "AM" },
+  { name: "Harry Hall", sunWin: 6400, tueWin: 8000, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3, wave: "PM" },
+  { name: "Nicolai Højgaard", sunWin: 6900, tueWin: 8400, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 60.50, sgArg: 0.113, prox150: 21.0, girRough: 60.7, wave: "AM" },
+  { name: "J.T. Poston", sunWin: 8800, tueWin: 8600, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 36.60, sgArg: -0.299, prox150: 22.4, girRough: 53.8, wave: "AM" },
+  { name: "Ryo Hisatsune", sunWin: 8800, tueWin: 8800, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 41.30, sgArg: 0.181, prox150: 21.9, girRough: 62.5, wave: "AM" },
+  { name: "Nick Taylor", sunWin: 8200, tueWin: 8800, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 48.10, sgArg: 0.503, prox150: 20.6, girRough: 53.4, wave: "AM" },
+  { name: "Michael Thorbjornsen", sunWin: 6700, tueWin: 8800, price: 6200, sgApp: -0.078, birdiePct: 22.58, courseHistory: 58.50, sgArg: 0.229, prox150: 22.8, girRough: 59.1, wave: "AM" },
+  { name: "Kurt Kitayama", sunWin: 7200, tueWin: 8800, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5, wave: "AM" },
+  { name: "Daniel Berger", sunWin: 9400, tueWin: 9000, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1, wave: "AM" },
+  { name: "Corey Conners", sunWin: 9000, tueWin: 9000, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 28.00, sgArg: -0.136, prox150: 19.4, girRough: 50.8, wave: "PM" },
+  { name: "Keegan Bradley", sunWin: 10000, tueWin: 9200, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 55.50, sgArg: 0.272, prox150: 19.4, girRough: 60.2, wave: "PM" },
+  { name: "Brian Harman", sunWin: 12000, tueWin: 9600, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 15.50, sgArg: 0.132, prox150: 20.5, girRough: 57.8, wave: "AM" },
+  { name: "Sungjae Im", sunWin: 11000, tueWin: 9800, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 10.60, sgArg: 0.307, prox150: 23.2, girRough: 57.3, wave: "AM" },
+  { name: "Wyndham Clark", sunWin: 1600, tueWin: 11500, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 19.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0, wave: "PM" },
+  { name: "S. Yellamaraju", sunWin: 11500, tueWin: 12000, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7, wave: "PM" },
+  { name: "Max Homa", sunWin: 12000, tueWin: 12500, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 51.00, sgArg: -0.210, prox150: 21.3, girRough: 56.1, wave: "PM" },
+  { name: "Matt McCarty", sunWin: 20000, tueWin: 13000, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0, wave: "AM" },
+  { name: "Andrew Novak", sunWin: 16000, tueWin: 14000, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 52.40, sgArg: 0.139, prox150: 22.5, girRough: 57.0, wave: "PM" },
+  { name: "Gary Woodland", sunWin: 16000, tueWin: 15500, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0, wave: "AM" },
+  { name: "Marco Penge", sunWin: 30000, tueWin: 15500, price: 7000, sgApp: -0.378, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.246, prox150: 22.5, girRough: 57.0, wave: "AM" },
+  { name: "Matt Wallace", sunWin: 13000, tueWin: 16000, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 67.50, sgArg: 0.190, prox150: 22.6, girRough: 62.1, wave: "AM" },
+  { name: "Denny McCarthy", sunWin: 15000, tueWin: 16500, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 39.20, sgArg: -0.087, prox150: 22.5, girRough: 57.0, wave: "AM" },
+  { name: "Taylor Pendrith", sunWin: 12000, tueWin: 16500, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9, wave: "AM" },
+  { name: "Jordan Smith", sunWin: 14500, tueWin: 17000, price: 6500, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: -0.216, prox150: 23.9, girRough: 58.7, wave: "AM" },
+  { name: "Bud Cauley", sunWin: 16000, tueWin: 17000, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 58.20, sgArg: 0.196, prox150: 22.5, girRough: 57.0, wave: "PM" },
+  { name: "Pierceson Coody", sunWin: 11500, tueWin: 18000, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 65.10, sgArg: -0.399, prox150: 22.1, girRough: 56.7, wave: "AM" },
+  { name: "Andrew Putnam", sunWin: 30000, tueWin: 18000, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0, wave: "AM" },
+  { name: "Ricky Castillo", sunWin: 13500, tueWin: 18500, price: 6700, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: 0.227, prox150: 23.7, girRough: 65.6, wave: "PM" },
+  { name: "Austin Smotherman", sunWin: 21000, tueWin: 21000, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0, wave: "PM" },
+  { name: "Michael Brennan", sunWin: 22000, tueWin: 22500, price: 6400, sgApp: 0.150, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.593, prox150: 22.4, girRough: 57.0, wave: "AM" },
+  { name: "Billy Horschel", sunWin: 15000, tueWin: 22500, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 56.70, sgArg: -0.147, prox150: 20.3, girRough: 57.0, wave: "AM" },
+  { name: "Tony Finau", sunWin: 21000, tueWin: 22500, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 31.00, sgArg: 0.300, prox150: 21.6, girRough: 57.0, wave: "AM" },
+  { name: "Michael Kim", sunWin: 22500, tueWin: 23000, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 68.30, sgArg: 0.121, prox150: 22.5, girRough: 57.0, wave: "AM" },
+  { name: "Ryan Fox", sunWin: 20000, tueWin: 28000, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0, wave: "AM" },
+  { name: "Sami Valimaki", sunWin: 34000, tueWin: 29000, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0, wave: "AM" },
+  { name: "Nico Echavarria", sunWin: 20000, tueWin: 29000, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0, wave: "PM" },
+  { name: "Patrick Rodgers", sunWin: 24000, tueWin: 30000, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 22.40, sgArg: 0.163, prox150: 22.3, girRough: 57.0, wave: "AM" },
+  { name: "John Keefer", sunWin: 28000, tueWin: 36000, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0, wave: "AM" },
+  { name: "Chandler Blanchet", sunWin: 60000, tueWin: 44000, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0, wave: "AM" },
+  { name: "William Mouw", sunWin: 35000, tueWin: 47500, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0, wave: "AM" },
+  { name: "Steven Fisk", sunWin: 40000, tueWin: 50000, price: 6100, sgApp: -0.207, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.060, prox150: 22.9, girRough: 57.0, wave: "AM" },
+  { name: "Lucas Glover", sunWin: 57500, tueWin: 52500, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 55.98, sgArg: -0.118, prox150: 19.5, girRough: 57.0, wave: "AM" },
+  { name: "David Lipsky", sunWin: 62500, tueWin: 55000, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 60.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0, wave: "AM" },
+  { name: "Karl Vilips", sunWin: 55000, tueWin: 67500, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.351, prox150: 22.3, girRough: 57.0, wave: "AM" },
+  { name: "Garrick Higgo", sunWin: 57500, tueWin: 67500, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 51.80, sgArg: -0.248, prox150: 23.6, girRough: 57.0, wave: "AM" },
+  { name: "Jhonattan Vegas", sunWin: 57500, tueWin: 77500, price: 6000, sgApp: -0.455, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.265, prox150: 22.6, girRough: 57.0, wave: "AM" },
+  { name: "Brian Campbell", sunWin: 170000, tueWin: 87500, price: 6000, sgApp: -0.753, birdiePct: 22.00, courseHistory: 64.25, sgArg: -0.364, prox150: 23.6, girRough: 57.0, wave: "AM" },
+  { name: "Tom Hoge", sunWin: 80000, tueWin: 87500, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 56.48, sgArg: -0.399, prox150: 18.4, girRough: 57.0, wave: "AM" },
+  { name: "Aldrich Potgieter", sunWin: 67500, tueWin: 90000, price: 6100, sgApp: -0.304, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.456, prox150: 22.0, girRough: 57.0, wave: "PM" },
+  { name: "Joe Highsmith", sunWin: 200000, tueWin: 190000, price: 6000, sgApp: -0.112, birdiePct: 22.00, courseHistory: 74.25, sgArg: -0.338, prox150: 22.5, girRough: 57.0, wave: "AM" },
+  { name: "Adam Schenk", sunWin: 180000, tueWin: 200000, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0, wave: "AM" }
+];
 
-    function exportCurrentLineup() {
-      if (lastGeneratedLineup) {
-        exportLineupCSV(lastGeneratedLineup.roster, `plaid_genie_${lastGeneratedLineup.type}_lineup.csv`);
-      }
-    }
+// Analyst Transcript Sentiment: Touts inflating public ownership
+const chalkTouts = [
+  "Tommy Fleetwood", "Matt Fitzpatrick", "Russell Henley", 
+  "Jacob Bridgeman", "Maverick McNealy", "Justin Thomas", 
+  "Ryo Hisatsune", "J.J. Spaun", "S. Yellamaraju", 
+  "Gary Woodland", "Sungjae Im", "Brian Campbell"
+];
 
-    // ============ DYNAMIC PROGRAMMING KNAPSACK ALGORITHM ============
-    function generateLineup(type) {
-      const locked = players.filter(p => p.locked);
+let players = [];
+let currentFilter = 'all';
+let sortCol = 'composite';
+let sortAsc = false;
+let lastLineup = null;
 
-      if (locked.length > 6) {
-        return alert("Max 6 locked players.");
-      }
+// ============================================
+// 🟢 LOCAL RAG DICTIONARIES & PARSERS
+// ============================================
 
-      let lockedSal = locked.reduce((s,p) => s + p.price, 0);
-      if (lockedSal > 50000) {
-        return alert("Locked exceed $50k.");
-      }
+const courseProfiles = {
+  "harbour town": { sgApp: 30, sgArg: 20, prox150: 30, girRough: 10, birdiePct: 10 },
+  "augusta": { sgApp: 40, sgArg: 30, prox150: 0, girRough: 0, birdiePct: 30 },
+  "torrey pines": { sgApp: 20, sgArg: 10, prox150: 10, girRough: 40, birdiePct: 20 }
+};
 
-      const pool = players.filter(p => !p.excluded && !p.locked);
-      const req = 6 - locked.length;
-      const maxSal = 50000 - lockedSal;
+let fitWeights = { sgApp: 30, sgArg: 20, prox150: 30, girRough: 10, birdiePct: 10 };
 
-      if (req === 0) {
-        lastGeneratedLineup = { roster: locked, type };
-        return renderBuildOutput(locked, type);
-      }
+function localCourseFit(courseName) {
+  const normalized = courseName.toLowerCase().trim();
+  for (const [key, weights] of Object.entries(courseProfiles)) {
+    if (normalized.includes(key)) return weights;
+  }
+  return { sgApp: 20, sgArg: 20, prox150: 20, girRough: 20, birdiePct: 20 };
+}
 
-      // FIX #7: Use actual minimum price in available pool, not hardcoded 6000
-      const actualMinPrice = Math.min(...pool.map(p => p.price));
+function runCourseFit() {
+  const course = document.getElementById('courseInput').value;
+  const resultEl = document.getElementById('result1');
+  const card = document.getElementById('skill1');
+  if (!course) return alert('Enter a course name');
 
-      const unit = 100;
-      const maxUnits = maxSal / unit;
-      let dp = Array(req + 1).fill(null).map(() => Array(maxUnits + 1).fill(null));
-      dp[0][0] = { score: 0, roster: [] };
+  resultEl.classList.add('show');
+  const newWeights = localCourseFit(course);
+  
+  let html = '<div class="label">✓ Retrieved local weights for: ' + course + '</div>';
+  ['sgApp','sgArg','prox150','girRough','birdiePct'].forEach(k => {
+    html += `<div class="weight-row"><span>${k}</span><span><span class="old">${fitWeights[k]}%</span><span class="new">${newWeights[k]}%</span></span></div>`;
+  });
+  html += '<div style="margin-top:10px; color:var(--accent-green); font-weight:700">→ Applied to all active players. Profile Fit recomputed.</div>';
+  
+  resultEl.innerHTML = html;
+  fitWeights = newWeights;
+  card.classList.add('active');
+  processData();
+}
 
-      for (let i = 0; i < pool.length; i++) {
-        const p = pool[i];
-        const weight = p.price / unit;
-        let val = type === 'cash' ? p.composite : p.composite + (p.leverage * 0.5);
+function localWindParser(text) {
+  const regex = /(\d+)\s*mph/gi;
+  let match;
+  let winds = [];
+  while ((match = regex.exec(text)) !== null) {
+    winds.push(parseInt(match[1]));
+  }
+  if (winds.length === 0) return 0;
+  const avg = winds.reduce((a, b) => a + b, 0) / winds.length;
+  // Apply a fractional mathematical penalty (0.5 pts per 1 mph avg)
+  return avg * 0.5; 
+}
 
-        for (let k = req - 1; k >= 0; k--) {
-          for (let w = maxUnits - weight; w >= 0; w--) {
-            if (dp[k][w] !== null) {
-              const ns = dp[k][w].score + val;
-              const nw = w + weight;
-              if (!dp[k+1][nw] || dp[k+1][nw].score < ns) {
-                dp[k+1][nw] = { score: ns, roster: [...dp[k][w].roster, p] };
-              }
-            }
+function runWindPenalty() {
+  const forecast = document.getElementById('weatherInput').value;
+  const resultEl = document.getElementById('result2');
+  const card = document.getElementById('skill2');
+  if (!forecast) return alert('Enter forecast data');
+
+  resultEl.classList.add('show');
+  const penalty = localWindParser(forecast);
+
+  if (penalty === 0) {
+    resultEl.innerHTML = `<div style="color:var(--accent-red)">Error: Could not find 'mph' in text.</div>`;
+    return;
+  }
+
+  // Apply mathematically to PM wave (historically windier)
+  const affected = players.filter(p => p.wave === 'PM' && p.price);
+  affected.forEach(p => { p.windPenalty = penalty; });
+
+  resultEl.innerHTML = `
+    <div class="label">✓ Parsed Wind Penalty: <span style="color:var(--accent-red); font-size:16px">${penalty.toFixed(1)}</span></div>
+    <div style="margin-top:8px">→ Applied to ${affected.length} players in the PM wave.</div>
+  `;
+  card.classList.add('active');
+  processData();
+  showBanner(`WIND PENALTY: -${penalty.toFixed(1)} applied to PM wave`);
+}
+
+function localThesisGenerator(roster, totalSal, totalOwn) {
+  const leveragePlays = roster.filter(p => p.pOwn < 10);
+  const chalkPlays = roster.filter(p => p.pOwn > 18);
+  const anchors = roster.filter(p => p.price >= 9500);
+  
+  let lowestOwned = leveragePlays.sort((a,b) => a.pOwn - b.pOwn)[0];
+  let highestPriced = anchors.sort((a,b) => b.price - a.price)[0];
+  
+  let thesis = `This build utilizes $${totalSal.toLocaleString()} to anchor around ${highestPriced ? highestPriced.name : 'a balanced core'}, intentionally leaving $${50000 - totalSal} on the table to dodge duplicated chalk. `;
+  
+  if (totalOwn > 85) {
+      thesis += `With a total ownership of ${totalOwn.toFixed(1)}%, this lineup borders on too popular, heavily relying on public plays like ${chalkPlays[0] ? chalkPlays[0].name : 'the field'}. `;
+  } else {
+      thesis += `At a hyper-contrarian ${totalOwn.toFixed(1)}% total ownership, this lineup leverages the field beautifully. `;
+  }
+  
+  if (lowestOwned) {
+      thesis += `The absolute key to this build is the inclusion of ${lowestOwned.name} at just ${lowestOwned.pOwn.toFixed(1)}% ownership, providing massive GPP leverage if his ${lowestOwned.dlta > 0 ? 'underpriced $DLTA' : 'course fit'} pays off.`;
+  }
+  
+  return thesis;
+}
+
+function runThesisGen() {
+  if (!lastLineup) return alert('Run the optimizer first');
+  const content = document.getElementById('thesisContent');
+  const totalSal = lastLineup.roster.reduce((s,p) => s+p.price, 0);
+  const totalOwn = lastLineup.roster.reduce((s,p) => s+p.pOwn, 0);
+  content.innerHTML = localThesisGenerator(lastLineup.roster, totalSal, totalOwn);
+}
+
+function showBanner(msg) {
+  const b = document.getElementById('aiBanner');
+  b.innerHTML = `<strong>⚡ ${msg}</strong>`;
+  b.classList.add('show');
+}
+
+// ==========================================
+// ENGINE LOGIC
+// ==========================================
+window.onload = () => processData();
+
+function switchTab(tab) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  document.getElementById(`nav-${tab}`).classList.add('active');
+  if(tab === 'arb') renderTable();
+}
+
+function processData() {
+  players = [...db];
+  
+  players.forEach((p) => {
+    const latest = p.tueWin || p.sunWin;
+    p.liveImp = latest ? (100 / (latest + 100)) : 0;
+    const baseImp = p.sunWin ? (100 / (p.sunWin + 100)) : 0;
+    p.velTotal = (baseImp > 0) ? (p.liveImp - baseImp) / baseImp : 0;
+    p.isSteam = p.velTotal > 0.02;
+    p.locked = p.locked || false; 
+    p.excluded = p.excluded || false;
+
+    let app = p.sgApp ? p.sgApp * (fitWeights.sgApp / 10) : 0;
+    let arg = p.sgArg ? p.sgArg * (fitWeights.sgArg / 10) : 0;
+    let prox = p.prox150 ? (30 - p.prox150) * (fitWeights.prox150 / 15) : 0;
+    let rgh = p.girRough ? p.girRough * (fitWeights.girRough / 20) : 0;
+    let bird = p.birdiePct ? p.birdiePct * (fitWeights.birdiePct / 20) : 0;
+    p.rawFit = app + arg + prox + rgh + bird;
+  });
+
+  const validFits = players.map(p => p.rawFit);
+  const maxFit = Math.max(...validFits), minFit = Math.min(...validFits);
+  players.forEach(p => p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100);
+
+  players.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
+  players.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
+  
+  players.forEach(p => {
+    p.dlta = p.salRank - p.oddsRank;
+    
+    let baseOwn = p.price >= 10000 ? 15 : (p.price >= 9000 ? 13 : (p.price >= 8000 ? 10 : 12));
+    let dltaBump = p.dlta ? (p.dlta * 1.2) : 0;
+    let histBump = p.courseHistory <= 20 ? 5 : (p.courseHistory <= 40 ? 2 : 0);
+    
+    let toutBump = chalkTouts.includes(p.name) ? 8 : 0;
+    p.isChalk = toutBump > 0;
+    
+    p.pOwn = Math.min(35, Math.max(0.5, baseOwn + dltaBump + histBump + (p.isSteam ? 4 : 0) + toutBump));
+    p.rawLev = p.profileFit - (p.pOwn * 1.5);
+    
+    let windHit = p.windPenalty || 0;
+    p.composite = p.profileFit + (p.courseHistory ? (80 - p.courseHistory) * 0.5 : 0) - windHit;
+  });
+
+  const maxLev = Math.max(...players.map(p => p.rawLev)), minLev = Math.min(...players.map(p => p.rawLev));
+  players.forEach(p => p.leverage = ((p.rawLev - minLev) / (maxLev - minLev)) * 100);
+
+  players.sort((a,b) => b.composite - a.composite).forEach((p, i) => p.tier = i < 8 ? 'Tartan' : (i < 25 ? 'Lighthouse' : 'Field'));
+
+  renderTable();
+  updateFabStats();
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function sortData(col) {
+  sortAsc = sortCol === col ? !sortAsc : (col === 'name' || col === 'courseHistory' || col === 'pOwn');
+  sortCol = col;
+  renderTable();
+}
+
+function toggleLock(name) {
+  const p = players.find(x => x.name === name);
+  if(p) { p.locked = !p.locked; if(p.locked) p.excluded = false; }
+  renderTable(); updateFabStats();
+}
+function toggleExclude(name) {
+  const p = players.find(x => x.name === name);
+  if(p) { p.excluded = !p.excluded; if(p.excluded) p.locked = false; }
+  renderTable(); updateFabStats();
+}
+
+function renderTable() {
+  const tbody = document.getElementById('tbody');
+  const query = document.getElementById('search').value.toLowerCase();
+  
+  let data = players.filter(p => {
+    if(query && !p.name.toLowerCase().includes(query)) return false;
+    if(currentFilter === 'tartan') return p.tier === 'Tartan';
+    if(currentFilter === 'leverage') return p.leverage > 65;
+    if(currentFilter === 'chalk') return p.isChalk;
+    if(currentFilter === 'sleeper') return p.price < 8000 && p.isSteam && p.courseHistory <= 40;
+    if(currentFilter === 'am') return p.wave === 'AM';
+    if(currentFilter === 'pm') return p.wave === 'PM';
+    return true;
+  });
+
+  data.sort((a, b) => {
+    let valA = a[sortCol], valB = b[sortCol];
+    if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+    return sortAsc ? valA - valB : valB - valA;
+  });
+
+  document.querySelectorAll('th[data-col]').forEach(th => {
+    th.classList.toggle('active', th.dataset.col === sortCol);
+    if(th.dataset.col === sortCol) th.querySelector('.sort').textContent = sortAsc ? '▲' : '▼';
+  });
+
+  tbody.innerHTML = data.map(p => {
+    const rowClass = p.locked ? 'row-locked' : (p.excluded ? 'row-excluded' : '');
+    const oddsStr = p.sunWin ? `+${p.sunWin} ➝ ` : '';
+    const curOdds = p.tueWin || p.sunWin;
+    const dltaCls = p.dlta > 2 ? 'val-green' : (p.dlta < -2 ? 'val-red' : '');
+    const levCls = p.leverage > 80 ? 'val-gold' : '';
+    const ownCls = p.isChalk ? 'val-red' : (p.pOwn > 20 ? 'val-gold' : '');
+    
+    return `<tr class="${rowClass}">
+      <td>
+        <div class="player-name">${p.name} <span class="wave-tag">${p.wave==='AM'?'☀️':'🌥️'} ${p.wave}</span></div>
+        <div class="actions">
+          <button class="btn-icon ${p.locked?'locked':''}" onclick="toggleLock('${p.name}')">🔒</button>
+          <button class="btn-icon ${p.excluded?'excluded':''}" onclick="toggleExclude('${p.name}')">✕</button>
+        </div>
+      </td>
+      <td style="color:var(--accent-green); font-weight:700; font-family:monospace; font-size:14px;">$${p.price/1000}k</td>
+      <td style="font-family:monospace;"><span style="color:var(--text-muted); font-size:10px;">${oddsStr}</span> <br>+${curOdds}</td>
+      <td class="${dltaCls}" style="font-weight:600;">${p.dlta>0?'+'+p.dlta:p.dlta}</td>
+      <td class="${p.velTotal>0.02?'val-green':''}" style="font-family:monospace;">${p.sunWin ? (p.velTotal*100).toFixed(1)+'%' : '—'}</td>
+      <td style="font-family:monospace;">${p.courseHistory.toFixed(1)}</td>
+      <td><strong style="color: ${p.profileFit>75?'var(--accent-green)':'inherit'}">${p.profileFit.toFixed(1)}</strong></td>
+      <td class="${ownCls}" style="font-family:monospace; font-weight:700;">${p.pOwn.toFixed(1)}%</td>
+      <td class="${levCls}" style="font-weight:700;">${p.leverage.toFixed(1)}</td>
+      <td><span style="font-size:10px; color:${p.tier==='Tartan'?'var(--accent-red)':(p.tier==='Lighthouse'?'var(--accent-blue)':'var(--text-muted)')}; font-weight:700; text-transform:uppercase;">${p.tier}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function updateFabStats() {
+  const locked = players.filter(p => p.locked);
+  let sal = locked.reduce((s,p)=>s+p.price,0), own = locked.reduce((s,p)=>s+p.pOwn,0), pts = locked.reduce((s,p)=>s+p.composite,0);
+  
+  document.getElementById('fabCount').textContent = `${locked.length}/6`;
+  document.getElementById('fabSal').textContent = `$${(50000 - sal).toLocaleString()}`;
+  document.getElementById('fabProj').textContent = pts.toFixed(1);
+  document.getElementById('fabOwn').textContent = `${own.toFixed(1)}%`;
+}
+
+function generateLineup(type) {
+  const locked = players.filter(p => p.locked);
+  if (locked.length > 6) return alert("Max 6 locked players.");
+  
+  let lockedSal = locked.reduce((s,p)=>s+p.price,0);
+  if (lockedSal > 50000) return alert("Locked players exceed $50k.");
+
+  const pool = players.filter(p => !p.excluded && !p.locked);
+  const req = 6 - locked.length;
+  const maxSal = 50000 - lockedSal;
+
+  if (req === 0) return finalizeLineup(locked);
+
+  let dp = Array(req + 1).fill(null).map(() => Array(maxSal + 1).fill(null));
+  dp[0][0] = { score: 0, roster: [] };
+
+  for (let p of pool) {
+    let weight = p.price;
+    let val = type === 'cash' ? (p.courseHistory<30 ? p.composite*1.2 : p.composite) : p.composite + (p.leverage * 0.5);
+
+    for (let k = req - 1; k >= 0; k--) {
+      for (let w = maxSal - weight; w >= 0; w--) {
+        if (dp[k][w] !== null) {
+          let ns = dp[k][w].score + val, nw = w + weight;
+          if (!dp[k+1][nw] || dp[k+1][nw].score < ns) {
+            dp[k+1][nw] = { score: ns, roster: [...dp[k][w].roster, p] };
           }
         }
       }
-
-      let best = null;
-      const minUnits = Math.max(0, Math.ceil((49000 - lockedSal) / unit));
-
-      // PASS 1: Strict constraints
-      for (let w = maxUnits; w >= minUnits; w--) {
-        if (dp[req][w]) {
-          const cand = dp[req][w];
-          const totalOwn = locked.reduce((s,p) => s + p.pOwn, 0) + cand.roster.reduce((s,p) => s + p.pOwn, 0);
-          if (type === 'gpp' && totalOwn > 85) continue;
-          if (!best || cand.score > best.score) best = cand;
-        }
-      }
-
-      // PASS 2: Relax ownership
-      if (!best) {
-        for (let w = maxUnits; w >= minUnits; w--) {
-          if (dp[req][w]) {
-            if (!best || dp[req][w].score > best.score) best = dp[req][w];
-          }
-        }
-      }
-
-      if (!best) {
-        return alert(`Cannot build a valid lineup ≥ $49,000. Min available salary is $${actualMinPrice.toLocaleString()}. Try clearing some locks or exclusions.`);
-      }
-
-      const fullRoster = [...locked, ...best.roster];
-      lastGeneratedLineup = { roster: fullRoster, type };
-      renderBuildOutput(fullRoster, type);
     }
+  }
 
-    function renderBuildOutput(roster, type) {
-      const card = document.getElementById('outputCard');
-      const list = document.getElementById('outputList');
-      const title = document.getElementById('outputTitle');
-      const exportDiv = document.getElementById('outputExport');
-
-      card.style.display = 'block';
-      exportDiv.style.display = 'block';
-      title.innerHTML = type === 'cash' ? '🛡️ OPTIMAL CASH' : '🚀 OPTIMAL GPP';
-
-      let sal = 0, own = 0, pts = 0;
-      roster.forEach(p => { sal += p.price; own += p.pOwn; pts += p.composite; });
-
-      document.getElementById('outputStats').innerHTML = `
-        <span>SAL: <strong style="color:var(--text)">$${sal.toLocaleString()}</strong></span>
-        <span>PROJ: <strong style="color:var(--text)">${pts.toFixed(1)}</strong></span>
-        <span>OWN: <strong style="color:var(--text)">${own.toFixed(1)}%</strong></span>
-      `;
-
-      list.innerHTML = roster.sort((a,b) => b.price - a.price).map(p => `
-        <li style="padding:10px 20px; border-bottom:1px solid var(--border);">
-          <div>
-            <div style="font-weight:700">${p.locked ? '🔒 ' : ''}${p.name} <span class="wave-badge ${p.wave === 'AM' ? 'wave-am' : 'wave-pm'}">${p.wave}</span></div>
-            <div style="font-size:10px; color:var(--text-muted); font-family:'JetBrains Mono'; margin-top:3px;">
-              pOWN ${p.pOwn.toFixed(1)}% · LEV ${p.leverage.toFixed(0)} · FIT ${p.profileFit.toFixed(0)}
-            </div>
-          </div>
-          <div class="val-green mono" style="font-weight:700">$${(p.price/1000).toFixed(1)}k</div>
-        </li>
-      `).join('');
+  let best = null;
+  for (let w = maxSal; w >= 49000 - lockedSal; w--) {
+    if (dp[req][w]) {
+      let candidate = dp[req][w];
+      let totalOwn = locked.reduce((s,p)=>s+p.pOwn,0) + candidate.roster.reduce((s,p)=>s+p.pOwn,0);
+      if (type === 'gpp' && totalOwn > 85) continue; 
+      if (!best || candidate.score > best.score) best = candidate;
     }
+  }
 
-    // ============ MONTE CARLO SIMULATOR (MAIN THREAD — CHUNKED ASYNC) ============
-    // Blob Worker URLs are blocked on claudeusercontent.com (SecurityError).
-    // This runs the same simulation on the main thread using setTimeout chunks
-    // to keep the UI responsive with live progress updates.
-    let simRunning = false;
-
-    function runMonteCarloSim() {
-      if (simRunning) return;
-      simRunning = true;
-
-      const btn = document.getElementById('simBtn');
-      const wrap = document.getElementById('progressWrap');
-      const fill = document.getElementById('progressFill');
-      const text = document.getElementById('progressText');
-      const results = document.getElementById('prebuiltResults');
-
-      btn.disabled = true;
-      btn.textContent = '⏳ SIMULATING...';
-      wrap.style.display = 'block';
-      results.style.display = 'none';
-      document.getElementById('pbCashHeader').style.display = 'none';
-      document.getElementById('pbGppHeader').style.display = 'none';
-      document.getElementById('cashGrid').innerHTML = '';
-      document.getElementById('gppGrid').innerHTML = '';
-      fill.style.width = '0%';
-      text.textContent = 'Initializing 10,000,000 simulations...';
-
-      const pool = players.filter(p => !p.excluded);
-      const locked = pool.filter(p => p.locked);
-      const lockedSal = locked.reduce((s,p) => s + p.price, 0);
-      const avail = pool.filter(p => !p.locked);
-      const minPlayerPrice = Math.min(...pool.map(p => p.price));
-
-      avail.forEach(p => {
-        p.simMean = p.composite * 0.85 + 20;
-        p.simStd = p.price > 9000 ? 15 : 22;
-      });
-
-      const weights = avail.map(p => Math.max(1, Math.pow(p.composite, 2)));
-      const totalW = weights.reduce((s,w) => s + w, 0);
-      const cumW = [];
-      let wAcc = 0;
-      for (let i = 0; i < weights.length; i++) { wAcc += weights[i]; cumW.push(wAcc); }
-
-      function weightedPick() {
-        const r = Math.random() * totalW;
-        let lo = 0, hi = cumW.length - 1;
-        while (lo < hi) { const m = (lo + hi) >> 1; if (cumW[m] < r) lo = m + 1; else hi = m; }
-        return lo;
-      }
-
-      function boxMuller(mean, std) {
-        const u1 = Math.max(1e-10, Math.random());
-        const u2 = Math.random();
-        return mean + Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2) * std;
-      }
-
-      function buildLineup() {
-        const picked = new Set();
-        const roster = [...locked];
-        let sal = lockedSal;
-        let attempts = 0;
-        while (roster.length < 6 && attempts < 80) {
-          const idx = weightedPick();
-          const p = avail[idx];
-          if (picked.has(idx)) { attempts++; continue; }
-          if (sal + p.price > 50000) { attempts++; continue; }
-          const remSlots = 6 - roster.length - 1;
-          if (50000 - (sal + p.price) < remSlots * minPlayerPrice) { attempts++; continue; }
-          roster.push(p); picked.add(idx); sal += p.price; attempts++;
-        }
-        return (roster.length === 6 && sal >= 49000) ? { roster, sal } : null;
-      }
-
-      const lineupStats = new Map();
-      const TOTAL_SIMS = 10000000;
-      const CHUNK = 100000;
-      let completed = 0;
-
-      function runChunk() {
-        const amAdvantage = (Math.random() - 0.5) * 8;
-        for (let i = 0; i < CHUNK; i++) {
-          const built = buildLineup();
-          if (!built) continue;
-          let score = 0, amCount = 0, pmCount = 0;
-          for (let j = 0; j < built.roster.length; j++) {
-            const p = built.roster[j];
-            const waveMod = p.wave === 'AM' ? amAdvantage : -amAdvantage;
-            score += boxMuller(p.simMean + waveMod, p.simStd * 0.6);
-            if (p.wave === 'AM') amCount++; else pmCount++;
-          }
-          if (Math.abs(amCount - pmCount) >= 4) score += Math.abs(amAdvantage) * 0.3;
-          const key = built.roster.map(p => p.name).sort().join('|');
-          const existing = lineupStats.get(key);
-          if (existing) {
-            existing.simCount++; existing.totalScore += score;
-            if (score > existing.maxScore) existing.maxScore = score;
-          } else {
-            lineupStats.set(key, { roster: built.roster, sal: built.sal, simCount: 1, totalScore: score, maxScore: score });
-          }
-        }
-        completed += CHUNK;
-        const pct = (completed / TOTAL_SIMS) * 100;
-        fill.style.width = pct + '%';
-        text.textContent = `Running simulation ${completed.toLocaleString()} of ${TOTAL_SIMS.toLocaleString()} (${pct.toFixed(1)}%)`;
-        if (completed < TOTAL_SIMS) { setTimeout(runChunk, 0); } else { finalizeSim(); }
-      }
-
-      function finalizeSim() {
-        const all = Array.from(lineupStats.values()).filter(l => l.simCount >= 2);
-        all.forEach(l => {
-          l.avgScore = l.totalScore / l.simCount;
-          l.totalOwn = l.roster.reduce((s,p) => s + p.pOwn, 0);
-          l.avgLev = l.roster.reduce((s,p) => s + p.leverage, 0) / 6;
-        });
-        const cashSorted = [...all].sort((a,b) => b.avgScore - a.avgScore);
-        const gppSorted = [...all].filter(l => l.totalOwn <= 90)
-          .sort((a,b) => (b.maxScore + b.avgLev*0.5) - (a.maxScore + a.avgLev*0.5));
-
-        fill.style.width = '100%';
-        text.textContent = `✓ Complete. Evaluated ${all.length.toLocaleString()} unique lineups.`;
-        results.style.display = 'block';
-        document.getElementById('pbCashHeader').style.display = 'block';
-        document.getElementById('pbGppHeader').style.display = 'block';
-
-        const renderCard = (l, i, type) => {
-          const sorted = [...l.roster].sort((a,b) => b.price - a.price);
-          const cardId = `prebuilt_${type}_${i}`;
-          window[`_lineup_${cardId}`] = sorted;
-          return `
-            <div class="lineup-card ${type}">
-              <div class="lc-header">
-                <span class="lc-rank">#${i+1} · ${type.toUpperCase()}</span>
-                <div class="lc-stats">
-                  <span title="Mean Projected Score">MEAN <strong>${l.avgScore.toFixed(1)}</strong></span>
-                  <span title="Ceiling Score">CEIL <strong>${l.maxScore.toFixed(1)}</strong></span>
-                </div>
-              </div>
-              <div class="lc-body">
-                ${sorted.map(p => `
-                  <div class="lc-row">
-                    <span class="lc-name">${p.name} <span class="wave-badge ${p.wave === 'AM' ? 'wave-am' : 'wave-pm'}" style="font-size:8px">${p.wave}</span></span>
-                    <span class="lc-price">$${(p.price/1000).toFixed(1)}k</span>
-                  </div>
-                `).join('')}
-              </div>
-              <div class="lc-footer">
-                <span>SAL <strong>$${l.sal.toLocaleString()}</strong></span>
-                <span>OWN <strong>${l.totalOwn.toFixed(1)}%</strong></span>
-                <span>LEV <strong>${l.avgLev.toFixed(0)}</strong></span>
-                <span>SIMS <strong>${l.simCount}</strong></span>
-              </div>
-              <div class="lc-export">
-                <button onclick="exportLineupCSV(window._lineup_${cardId}, 'plaid_genie_${type}_${i+1}.csv')">📥 EXPORT CSV</button>
-              </div>
-            </div>
-          `;
-        };
-
-        document.getElementById('cashGrid').innerHTML = cashSorted.slice(0, 5).map((l,i) => renderCard(l, i, 'cash')).join('');
-        document.getElementById('gppGrid').innerHTML = gppSorted.slice(0, 3).map((l,i) => renderCard(l, i, 'gpp')).join('');
-        btn.disabled = false;
-        btn.textContent = '▶ RUN 10M SIMULATIONS';
-        simRunning = false;
-        setTimeout(() => { document.getElementById('pbCashHeader').scrollIntoView({ behavior: 'smooth' }); }, 200);
-      }
-
-      setTimeout(runChunk, 50);
+  if (!best) {
+    for (let w = maxSal; w >= 0; w--) {
+      if (dp[req][w] && (!best || dp[req][w].score > best.score)) best = dp[req][w];
     }
-  </script>
+  }
+
+  if (best) finalizeLineup([...locked, ...best.roster]);
+}
+
+function finalizeLineup(roster) {
+  lastLineup = { roster: roster };
+  const list = document.getElementById('rosterList');
+  list.innerHTML = roster.sort((a,b)=>b.price-a.price).map(p => `
+    <li class="r-item">
+      <div>
+        <div class="r-name">${p.locked?'🔒':''} ${p.name} <span style="font-size:10px; font-weight:400; color:var(--text-muted);">${p.wave==='AM'?'☀️':'🌥️'}</span></div>
+        <div class="r-meta"><span>pOWN: <strong style="color:${p.isChalk?'var(--accent-red)':'inherit'};">${p.pOwn.toFixed(1)}%</strong></span><span>LEV: ${p.leverage.toFixed(0)}</span></div>
+      </div>
+      <div class="r-price">$${(p.price/1000).toFixed(1)}k</div>
+    </li>
+  `).join('');
+  
+  let sal = roster.reduce((s,p)=>s+p.price,0), own = roster.reduce((s,p)=>s+p.pOwn,0), pts = roster.reduce((s,p)=>s+p.composite,0);
+  document.getElementById('fabCount').textContent = `6/6`;
+  document.getElementById('fabSal').textContent = `$${(50000 - sal).toLocaleString()}`;
+  document.getElementById('fabProj').textContent = pts.toFixed(1);
+  const ownEl = document.getElementById('fabOwn');
+  ownEl.textContent = `${own.toFixed(1)}%`;
+  ownEl.style.color = own > 85 ? 'var(--accent-red)' : 'var(--accent-gold)';
+  
+  document.getElementById('thesisContent').innerHTML = '';
+  document.getElementById('fabContainer').classList.add('open');
+}
+</script>
 </body>
 </html>
