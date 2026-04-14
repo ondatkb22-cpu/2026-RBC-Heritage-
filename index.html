@@ -8,415 +8,412 @@
   <style>
     /* ============ THEME SYSTEM ============ */
     :root[data-theme="dark"] {
-      --bg: #0A0A0C; --surface: #14151A; --surface-hover: #1C1E26; --surface-3: #1A1C24;
-      --glass: rgba(20,21,26,0.75); --border: #2A2C36;
-      --text: #F3F4F6; --text-muted: #8F95A3; --text-dim: #5A5F6E;
-      --accent-red: #FF3366; --accent-blue: #007AFF; --accent-green: #30D158; --accent-gold: #FFD60A;
-      --tartan: #FF3366; --lighthouse: #007AFF; --field: #2A2C36;
-      --shadow: 0 8px 32px rgba(0,0,0,0.4);
-      --glow: 0 0 20px rgba(0,122,255,0.15);
-      --body-font: 'Inter', sans-serif;
-      --serif: 'Libre Baskerville', serif;
+      --bg:#0A0A0C; --surface:#14151A; --surface-hover:#1C1E26; --surface-3:#1A1C24;
+      --glass:rgba(20,21,26,0.75); --border:#2A2C36;
+      --text:#F3F4F6; --text-muted:#8F95A3; --text-dim:#5A5F6E;
+      --accent-red:#FF3366; --accent-blue:#007AFF; --accent-green:#30D158; --accent-gold:#FFD60A;
+      --tartan:#FF3366; --lighthouse:#007AFF; --field:#2A2C36;
+      --shadow:0 8px 32px rgba(0,0,0,0.4);
+      --glow:0 0 20px rgba(0,122,255,0.15);
+      --body-font:'Inter',sans-serif;
+      --serif:'Libre Baskerville',serif;
     }
-    
     :root[data-theme="harbour"] {
-      --bg: #F7F3EE; --surface: #FFFFFF; --surface-hover: #EDE8E0; --surface-3: #FAF7F2;
-      --glass: rgba(255,255,255,0.85); --border: #D4CFC7;
-      --text: #1A1A1A; --text-muted: #5A5349; --text-dim: #8A827A;
-      --accent-red: #C41E3A; --accent-blue: #1B2A4A; --accent-green: #2D5A3D; --accent-gold: #B8860B;
-      --tartan: #C41E3A; --lighthouse: #1B2A4A; --field: #D4CFC7;
-      --shadow: 0 4px 12px rgba(0,0,0,0.08);
-      --glow: 0 0 20px rgba(196,30,58,0.2);
-      --body-font: 'Inter', sans-serif;
-      --serif: 'Libre Baskerville', serif;
+      --bg:#F7F3EE; --surface:#FFFFFF; --surface-hover:#EDE8E0; --surface-3:#FAF7F2;
+      --glass:rgba(255,255,255,0.85); --border:#D4CFC7;
+      --text:#1A1A1A; --text-muted:#5A5349; --text-dim:#8A827A;
+      --accent-red:#C41E3A; --accent-blue:#1B2A4A; --accent-green:#2D5A3D; --accent-gold:#B8860B;
+      --tartan:#C41E3A; --lighthouse:#1B2A4A; --field:#D4CFC7;
+      --shadow:0 4px 12px rgba(0,0,0,0.08);
+      --glow:0 0 20px rgba(196,30,58,0.2);
+      --body-font:'Inter',sans-serif;
+      --serif:'Libre Baskerville',serif;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
     
     body {
-      background: var(--bg); color: var(--text); font-family: var(--body-font); font-size: 13px;
-      min-height: 100vh; padding-bottom: 100px; -webkit-font-smoothing: antialiased;
-      transition: background 0.4s, color 0.4s;
+      background:var(--bg); color:var(--text); font-family:var(--body-font); font-size:13px;
+      min-height:100vh; padding-bottom:100px; -webkit-font-smoothing:antialiased;
+      transition:background 0.4s, color 0.4s;
     }
 
-    /* Animated bg — dark mode only */
     body::before {
-      content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle at 50% 50%, rgba(0,122,255,0.03) 0%, transparent 50%);
-      z-index: -1; animation: pulse 15s ease-in-out infinite alternate;
+      content:''; position:fixed; top:-50%; left:-50%; width:200%; height:200%;
+      background:radial-gradient(circle at 50% 50%, rgba(0,122,255,0.03) 0%, transparent 50%);
+      z-index:-1; animation:pulse 15s ease-in-out infinite alternate;
     }
     
     [data-theme="harbour"] body::before {
-      background: repeating-linear-gradient(0deg, rgba(196,30,58,0.02) 0, rgba(196,30,58,0.02) 1px, transparent 1px, transparent 28px),
+      background:repeating-linear-gradient(0deg, rgba(196,30,58,0.02) 0, rgba(196,30,58,0.02) 1px, transparent 1px, transparent 28px),
                   repeating-linear-gradient(90deg, rgba(27,42,74,0.02) 0, rgba(27,42,74,0.02) 1px, transparent 1px, transparent 56px);
-      animation: none;
+      animation:none;
     }
     
-    @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+    @keyframes pulse { 0%{transform:scale(1);} 100%{transform:scale(1.1);} }
 
-    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+    .container { max-width:1400px; margin:0 auto; padding:20px; }
 
     /* ============ HEADER ============ */
     .header {
-      display: flex; justify-content: space-between; align-items: center; gap: 16px;
-      padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; flex-wrap: wrap;
+      display:flex; justify-content:space-between; align-items:center; gap:16px;
+      padding:20px 0; border-bottom:1px solid var(--border); margin-bottom:20px; flex-wrap:wrap;
     }
-    .header-left { display: flex; align-items: center; gap: 14px; }
-    .lighthouse-svg { width: 32px; height: 56px; flex-shrink: 0; }
-    [data-theme="dark"] .lighthouse-svg { filter: brightness(1.2); }
+    .header-left { display:flex; align-items:center; gap:14px; }
+    .lighthouse-svg { width:32px; height:56px; flex-shrink:0; }
+    [data-theme="dark"] .lighthouse-svg { filter:brightness(1.2); }
     .header-text h1 {
-      font-family: var(--serif); font-size: 26px; font-weight: 700; letter-spacing: -0.5px;
-      display: flex; align-items: center; gap: 10px;
+      font-family:var(--serif); font-size:26px; font-weight:700; letter-spacing:-0.5px;
+      display:flex; align-items:center; gap:10px;
     }
-    .header-text h1 em { color: var(--tartan); font-style: normal; }
+    .header-text h1 em { color:var(--tartan); font-style:normal; }
     .header-text h1 .v-badge {
-      font-family: 'JetBrains Mono', monospace; font-size: 9px; background: var(--lighthouse); color: #fff;
-      padding: 3px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
+      font-family:'JetBrains Mono',monospace; font-size:9px; background:var(--lighthouse); color:#fff;
+      padding:3px 7px; border-radius:10px; text-transform:uppercase; letter-spacing:1px; font-weight:700;
     }
-    .header-sub { color: var(--text-muted); font-size: 12px; margin-top: 4px; font-weight: 400; }
-    .header-right { display: flex; gap: 10px; align-items: center; }
+    .header-sub { color:var(--text-muted); font-size:12px; margin-top:4px; font-weight:400; }
+    .header-right { display:flex; gap:10px; align-items:center; }
     
     .theme-toggle {
-      background: var(--surface); border: 1px solid var(--border); color: var(--text);
-      padding: 8px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer;
-      display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+      background:var(--surface); border:1px solid var(--border); color:var(--text);
+      padding:8px 14px; border-radius:20px; font-size:11px; font-weight:600; cursor:pointer;
+      display:flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;
     }
-    .theme-toggle:hover { border-color: var(--lighthouse); }
+    .theme-toggle:hover { border-color:var(--lighthouse); }
 
     /* ============ TABS ============ */
     .tabs {
-      display: flex; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-      padding: 5px; margin-bottom: 20px; overflow-x: auto;
+      display:flex; gap:6px; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+      padding:5px; margin-bottom:20px; overflow-x:auto;
     }
     .tab-btn {
-      flex: 1; min-width: 100px; padding: 12px 16px; background: transparent; border: none; color: var(--text-muted);
-      font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; border-radius: 8px;
-      transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap;
-      letter-spacing: 0.3px;
+      flex:1; min-width:100px; padding:12px 16px; background:transparent; border:none; color:var(--text-muted);
+      font-family:inherit; font-size:12px; font-weight:600; cursor:pointer; border-radius:8px;
+      transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:6px; white-space:nowrap;
+      letter-spacing:0.3px;
     }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active { background: var(--lighthouse); color: #fff; box-shadow: var(--shadow); }
+    .tab-btn:hover { color:var(--text); }
+    .tab-btn.active { background:var(--lighthouse); color:#fff; box-shadow:var(--shadow); }
     .tab-btn .step-num {
-      width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,0.15); color: inherit;
-      font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+      width:18px; height:18px; border-radius:50%; background:rgba(255,255,255,0.15); color:inherit;
+      font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center;
     }
-    .tab-btn.active .step-num { background: rgba(255,255,255,0.25); }
-    [data-theme="harbour"] .tab-btn:not(.active) .step-num { background: var(--border); }
+    .tab-btn.active .step-num { background:rgba(255,255,255,0.25); }
+    [data-theme="harbour"] .tab-btn:not(.active) .step-num { background:var(--border); }
 
     /* ============ PANELS ============ */
-    .panel { display: none; animation: fadeIn 0.3s ease; }
-    .panel.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .panel { display:none; animation:fadeIn 0.3s ease; }
+    .panel.active { display:block; }
+    @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
     /* ============ GUIDE TAB ============ */
     .guide-hero {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 32px;
-      text-align: center; margin-bottom: 20px; box-shadow: var(--shadow);
+      background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:32px;
+      text-align:center; margin-bottom:20px; box-shadow:var(--shadow);
     }
-    .guide-hero h2 { font-family: var(--serif); font-size: 28px; margin-bottom: 12px; color: var(--text); }
-    .guide-hero p { color: var(--text-muted); font-size: 14px; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+    .guide-hero h2 { font-family:var(--serif); font-size:28px; margin-bottom:12px; color:var(--text); }
+    .guide-hero p { color:var(--text-muted); font-size:14px; max-width:700px; margin:0 auto; line-height:1.6; }
 
-    .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .steps-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-bottom:24px; }
     .step-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px;
-      position: relative; transition: 0.2s; box-shadow: var(--shadow);
+      background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;
+      position:relative; transition:0.2s; box-shadow:var(--shadow);
     }
-    .step-card:hover { border-color: var(--lighthouse); transform: translateY(-2px); }
+    .step-card:hover { border-color:var(--lighthouse); transform:translateY(-2px); }
     .step-num-big {
-      position: absolute; top: -10px; left: 20px; background: var(--lighthouse); color: #fff;
-      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 13px; box-shadow: var(--shadow);
+      position:absolute; top:-10px; left:20px; background:var(--lighthouse); color:#fff;
+      width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      font-weight:700; font-family:'JetBrains Mono',monospace; font-size:13px; box-shadow:var(--shadow);
     }
-    .step-card h3 { font-size: 16px; font-weight: 700; margin: 8px 0 10px; color: var(--text); }
-    .step-card p { color: var(--text-muted); font-size: 12px; line-height: 1.6; }
+    .step-card h3 { font-size:16px; font-weight:700; margin:8px 0 10px; color:var(--text); }
+    .step-card p { color:var(--text-muted); font-size:12px; line-height:1.6; }
     .step-card .go-btn {
-      margin-top: 14px; background: transparent; border: 1px solid var(--lighthouse); color: var(--lighthouse);
-      padding: 8px 14px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+      margin-top:14px; background:transparent; border:1px solid var(--lighthouse); color:var(--lighthouse);
+      padding:8px 14px; border-radius:8px; font-size:11px; font-weight:700; cursor:pointer;
+      font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;
     }
-    .step-card .go-btn:hover { background: var(--lighthouse); color: #fff; }
+    .step-card .go-btn:hover { background:var(--lighthouse); color:#fff; }
 
     .metrics-ref {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px;
-      box-shadow: var(--shadow);
+      background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px;
+      box-shadow:var(--shadow);
     }
-    .metrics-ref h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-    .m-item { display: flex; gap: 10px; padding: 12px; background: var(--surface-3); border-radius: 10px; border: 1px solid var(--border); }
-    .m-icon { font-size: 18px; flex-shrink: 0; }
-    .m-text strong { display: block; margin-bottom: 3px; font-size: 12px; color: var(--text); letter-spacing: 0.3px; }
-    .m-text { color: var(--text-muted); font-size: 11px; line-height: 1.5; }
+    .metrics-ref h3 { font-family:var(--serif); font-size:18px; margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+    .metrics-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+    .m-item { display:flex; gap:10px; padding:12px; background:var(--surface-3); border-radius:10px; border:1px solid var(--border); }
+    .m-icon { font-size:18px; flex-shrink:0; }
+    .m-text strong { display:block; margin-bottom:3px; font-size:12px; color:var(--text); letter-spacing:0.3px; }
+    .m-text { color:var(--text-muted); font-size:11px; line-height:1.5; }
 
     /* ============ POOL TAB ============ */
-    .controls-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .controls-bar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:16px; }
     .search-box {
-      background: var(--surface); border: 1px solid var(--border); color: var(--text);
-      padding: 10px 14px; border-radius: 10px; font-size: 13px; width: 240px; outline: none; transition: 0.2s;
-      font-family: inherit;
+      background:var(--surface); border:1px solid var(--border); color:var(--text);
+      padding:10px 14px; border-radius:10px; font-size:13px; width:240px; outline:none; transition:0.2s;
+      font-family:inherit;
     }
-    .search-box:focus { border-color: var(--lighthouse); box-shadow: var(--glow); }
+    .search-box:focus { border-color:var(--lighthouse); box-shadow:var(--glow); }
     .filter-chip {
-      background: transparent; border: 1px solid var(--border); color: var(--text-muted);
-      padding: 9px 14px; border-radius: 18px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s;
-      font-family: 'JetBrains Mono', monospace; letter-spacing: 0.3px;
+      background:transparent; border:1px solid var(--border); color:var(--text-muted);
+      padding:9px 14px; border-radius:18px; font-size:11px; font-weight:600; cursor:pointer; transition:0.2s;
+      font-family:'JetBrains Mono',monospace; letter-spacing:0.3px;
     }
-    .filter-chip:hover { border-color: var(--text-muted); color: var(--text); }
-    .filter-chip.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .filter-chip:hover { border-color:var(--text-muted); color:var(--text); }
+    .filter-chip.active { background:var(--text); color:var(--bg); border-color:var(--text); }
     .sync-btn {
-      margin-left: auto; background: rgba(0,122,255,0.1); border: 1px solid rgba(0,122,255,0.3); color: var(--lighthouse);
-      padding: 9px 14px; border-radius: 18px; font-size: 11px; font-weight: 700; cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+      margin-left:auto; background:rgba(0,122,255,0.1); border:1px solid rgba(0,122,255,0.3); color:var(--lighthouse);
+      padding:9px 14px; border-radius:18px; font-size:11px; font-weight:700; cursor:pointer;
+      font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;
     }
-    [data-theme="harbour"] .sync-btn { background: rgba(27,42,74,0.08); }
-    .sync-btn:hover { background: var(--lighthouse); color: #fff; }
+    [data-theme="harbour"] .sync-btn { background:rgba(27,42,74,0.08); }
+    .sync-btn:hover { background:var(--lighthouse); color:#fff; }
 
     .table-wrap {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      background:var(--surface); border:1px solid var(--border); border-radius:14px;
       /* Contain scrolling box */
-      max-height: 70vh; overflow-y: auto; overflow-x: auto; 
-      -webkit-overflow-scrolling: touch; box-shadow: var(--shadow);
+      max-height:70vh; overflow-y:auto; overflow-x:auto; 
+      -webkit-overflow-scrolling:touch; box-shadow:var(--shadow);
     }
-    .table-wrap::-webkit-scrollbar { width: 8px; height: 8px; }
-    .table-wrap::-webkit-scrollbar-track { background: transparent; }
-    .table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .table-wrap::-webkit-scrollbar { width:8px; height:8px; }
+    .table-wrap::-webkit-scrollbar-track { background:transparent; }
+    .table-wrap::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
 
-    table { width: 100%; border-collapse: collapse; min-width: 800px; } /* Reduced min-width since headers are narrower */
+    table { width:100%; border-collapse:collapse; min-width:800px; }
     
     /* Dual-Axis Sticky Matrix + Emoji Styling */
     th {
-      padding: 10px 10px; font-size: 15px; font-weight: 700; color: var(--text-muted); /* Larger font for Emojis */
-      border-bottom: 2px solid var(--border);
-      cursor: pointer; user-select: none; transition: 0.2s; font-family: 'JetBrains Mono', monospace;
-      background: var(--surface); position: sticky; top: 0; z-index: 5; text-align: center;
+      padding:10px 10px; font-size:15px; font-weight:700; color:var(--text-muted); 
+      border-bottom:2px solid var(--border);
+      cursor:pointer; user-select:none; transition:0.2s; font-family:'JetBrains Mono',monospace;
+      background:var(--surface); position:sticky; top:0; z-index:5; text-align:center;
     }
-    th:hover { color: var(--text); }
-    th .sort { opacity: 0.3; margin-left: 3px; font-size: 9px; vertical-align: middle; }
-    th.active { color: var(--lighthouse); }
-    th.active .sort { opacity: 1; }
+    th:hover { color:var(--text); }
+    th .sort { opacity:0.3; margin-left:3px; font-size:9px; vertical-align:middle; }
+    th.active { color:var(--lighthouse); }
+    th.active .sort { opacity:1; }
     
     /* Pin Player Header to Top-Left */
-    th:first-child { left: 0; z-index: 10; border-right: 2px solid var(--border); text-align: left; }
+    th:first-child { left:0; z-index:10; border-right:2px solid var(--border); text-align:left; }
     
     td { 
-      padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 12px; 
-      font-weight: 500; vertical-align: middle; text-align: center; /* Center align data under emojis */
+      padding:6px 10px; border-bottom:1px solid var(--border); font-size:12px; 
+      font-weight:500; vertical-align:middle; text-align:center; 
     }
-    tr:last-child td { border-bottom: none; }
-    tbody tr { transition: background 0.15s; }
-    tbody tr:hover { background: var(--surface-hover); }
+    tr:last-child td { border-bottom:none; }
+    tbody tr { transition:background 0.15s; }
+    tbody tr:hover { background:var(--surface-hover); }
 
     /* Pin Player Column to Left */
     td:first-child {
-      position: sticky; left: 0; z-index: 4; text-align: left;
-      background: var(--surface); border-right: 2px solid var(--border);
+      position:sticky; left:0; z-index:4; text-align:left;
+      background:var(--surface); border-right:2px solid var(--border);
     }
-    tbody tr:hover td:first-child { background: var(--surface-hover); }
+    tbody tr:hover td:first-child { background:var(--surface-hover); }
 
     /* Solid fallbacks for locked rows */
-    [data-theme="dark"] .row-locked td:first-child { background: #191A1D; }
-    [data-theme="harbour"] .row-locked td:first-child { background: #F8F6EF; }
+    [data-theme="dark"] .row-locked td:first-child { background:#191A1D; }
+    [data-theme="harbour"] .row-locked td:first-child { background:#F8F6EF; }
 
-    .player-name { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--text); }
-    .tier-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .tier-dot.tartan { background: var(--tartan); box-shadow: 0 0 6px currentColor; }
-    .tier-dot.lighthouse { background: var(--lighthouse); }
-    .tier-dot.field { background: var(--text-dim); }
+    .player-name { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; color:var(--text); }
+    .tier-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .tier-dot.tartan { background:var(--tartan); box-shadow:0 0 6px currentColor; }
+    .tier-dot.lighthouse { background:var(--lighthouse); }
+    .tier-dot.field { background:var(--text-dim); }
     .wave-badge {
-      background: var(--border); color: var(--text-muted); font-size: 9px; padding: 2px 6px;
-      border-radius: 6px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
+      background:var(--border); color:var(--text-muted); font-size:9px; padding:2px 6px;
+      border-radius:6px; font-weight:700; font-family:'JetBrains Mono',monospace;
     }
 
-    .val-green { color: var(--accent-green); font-weight: 700; }
-    .val-red { color: var(--accent-red); }
-    .val-gold { color: var(--accent-gold); font-weight: 700; }
-    .mono { font-family: 'JetBrains Mono', monospace; }
+    .val-green { color:var(--accent-green); font-weight:700; }
+    .val-red { color:var(--accent-red); }
+    .val-gold { color:var(--accent-gold); font-weight:700; }
+    .mono { font-family:'JetBrains Mono',monospace; }
 
-    .actions { display: flex; gap: 6px; margin-top: 6px; }
+    .actions { display:flex; gap:6px; margin-top:6px; }
     .btn-icon {
-      width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border);
-      background: transparent; color: var(--text-muted); cursor: pointer;
-      display: flex; align-items: center; justify-content: center; transition: 0.15s; font-size: 11px;
+      width:22px; height:22px; border-radius:6px; border:1px solid var(--border);
+      background:transparent; color:var(--text-muted); cursor:pointer;
+      display:flex; align-items:center; justify-content:center; transition:0.15s; font-size:11px;
     }
-    .btn-icon:hover { background: var(--border); color: var(--text); }
-    .btn-icon.locked { background: rgba(255,214,10,0.15); border-color: var(--accent-gold); color: var(--accent-gold); }
-    .btn-icon.excluded { background: rgba(255,51,102,0.15); border-color: var(--accent-red); color: var(--accent-red); }
-    .row-excluded td { opacity: 0.35; }
-    .row-excluded .player-name { text-decoration: line-through; }
-    .row-excluded .btn-icon { opacity: 1; }
-    .row-locked td { background: rgba(255,214,10,0.04); }
-    [data-theme="harbour"] .row-locked td { background: rgba(184,134,11,0.05); }
+    .btn-icon:hover { background:var(--border); color:var(--text); }
+    .btn-icon.locked { background:rgba(255,214,10,0.15); border-color:var(--accent-gold); color:var(--accent-gold); }
+    .btn-icon.excluded { background:rgba(255,51,102,0.15); border-color:var(--accent-red); color:var(--accent-red); }
+    .row-excluded td { opacity:0.35; }
+    .row-excluded .player-name { text-decoration:line-through; }
+    .row-excluded .btn-icon { opacity:1; }
+    .row-locked td { background:rgba(255,214,10,0.04); }
+    [data-theme="harbour"] .row-locked td { background:rgba(184,134,11,0.05); }
 
     /* ============ BUILD TAB ============ */
-    .build-wrap { display: grid; grid-template-columns: 1fr 380px; gap: 20px; }
-    @media (max-width: 900px) { .build-wrap { grid-template-columns: 1fr; } }
+    .build-wrap { display:grid; grid-template-columns:1fr 380px; gap:20px; }
+    @media (max-width:900px) { .build-wrap { grid-template-columns:1fr; } }
 
     .build-main {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px;
-      box-shadow: var(--shadow);
+      background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px;
+      box-shadow:var(--shadow);
     }
-    .build-main h3 { font-family: var(--serif); font-size: 18px; margin-bottom: 6px; }
-    .build-main > p { color: var(--text-muted); font-size: 12px; margin-bottom: 16px; }
+    .build-main h3 { font-family:var(--serif); font-size:18px; margin-bottom:6px; }
+    .build-main > p { color:var(--text-muted); font-size:12px; margin-bottom:16px; }
 
-    .build-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+    .build-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
     .build-btn {
-      background: var(--surface-3); border: 1px solid var(--border); color: var(--text);
-      padding: 18px; border-radius: 12px; cursor: pointer; transition: 0.2s; text-align: left;
-      font-family: inherit;
+      background:var(--surface-3); border:1px solid var(--border); color:var(--text);
+      padding:18px; border-radius:12px; cursor:pointer; transition:0.2s; text-align:left;
+      font-family:inherit;
     }
-    .build-btn:hover { border-color: var(--lighthouse); transform: translateY(-1px); }
-    .build-btn.cash { border-left: 3px solid var(--accent-green); }
-    .build-btn.gpp { border-left: 3px solid var(--lighthouse); }
-    .build-btn .btn-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
-    .build-btn .btn-sub { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+    .build-btn:hover { border-color:var(--lighthouse); transform:translateY(-1px); }
+    .build-btn.cash { border-left:3px solid var(--accent-green); }
+    .build-btn.gpp { border-left:3px solid var(--lighthouse); }
+    .build-btn .btn-title { font-size:14px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:8px; }
+    .build-btn .btn-sub { font-size:11px; color:var(--text-muted); line-height:1.4; }
 
     .locks-display {
-      background: var(--surface-3); border: 1px solid var(--border); border-radius: 10px; padding: 14px;
+      background:var(--surface-3); border:1px solid var(--border); border-radius:10px; padding:14px;
     }
     .locks-header {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;
+      display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
     }
     .locks-header h4 {
-      font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
-      margin-bottom: 0; text-transform: uppercase;
+      font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;
+      margin-bottom:0; text-transform:uppercase;
     }
     .clear-btn {
-      background: transparent; border: 1px solid var(--text-dim); color: var(--text-muted);
-      padding: 4px 8px; border-radius: 6px; font-size: 9px; font-weight: 700; cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; transition: 0.2s; letter-spacing: 0.5px;
+      background:transparent; border:1px solid var(--text-dim); color:var(--text-muted);
+      padding:4px 8px; border-radius:6px; font-size:9px; font-weight:700; cursor:pointer;
+      font-family:'JetBrains Mono',monospace; transition:0.2s; letter-spacing:0.5px;
     }
     .clear-btn:hover {
-      border-color: var(--accent-red); color: var(--accent-red); background: rgba(255,51,102,0.1);
+      border-color:var(--accent-red); color:var(--accent-red); background:rgba(255,51,102,0.1);
     }
     
     .lock-item {
-      display: flex; justify-content: space-between; align-items: center; padding: 8px 0;
-      border-bottom: 1px dashed var(--border); font-size: 12px;
+      display:flex; justify-content:space-between; align-items:center; padding:8px 0;
+      border-bottom:1px dashed var(--border); font-size:12px;
     }
-    .lock-item:last-child { border-bottom: none; }
-    .lock-empty { color: var(--text-dim); font-size: 11px; font-style: italic; text-align: center; padding: 10px 0; }
+    .lock-item:last-child { border-bottom:none; }
+    .lock-empty { color:var(--text-dim); font-size:11px; font-style:italic; text-align:center; padding:10px 0; }
 
     .build-side {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px;
-      box-shadow: var(--shadow); height: fit-content;
+      background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px;
+      box-shadow:var(--shadow); height:fit-content;
     }
-    .build-side h4 { font-family: var(--serif); font-size: 16px; margin-bottom: 14px; }
-    .side-stat { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border); }
-    .side-stat:last-child { border-bottom: none; }
-    .side-stat .lbl { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.3px; }
-    .side-stat .val { font-weight: 700; font-size: 13px; font-family: 'JetBrains Mono', monospace; }
+    .build-side h4 { font-family:var(--serif); font-size:16px; margin-bottom:14px; }
+    .side-stat { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px dashed var(--border); }
+    .side-stat:last-child { border-bottom:none; }
+    .side-stat .lbl { font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono',monospace; letter-spacing:0.3px; }
+    .side-stat .val { font-weight:700; font-size:13px; font-family:'JetBrains Mono',monospace; }
 
     .output-card {
-      background: var(--surface); border: 2px solid var(--lighthouse); border-radius: 14px; margin-top: 20px;
-      overflow: hidden; display: none; box-shadow: var(--shadow);
+      background:var(--surface); border:2px solid var(--lighthouse); border-radius:14px; margin-top:20px;
+      overflow:hidden; display:none; box-shadow:var(--shadow);
     }
-    .output-card.show { display: block; }
+    .output-card.show { display:block; }
     .output-header {
-      background: var(--lighthouse); color: #fff; padding: 16px 20px; display: flex; justify-content: space-between;
-      align-items: center; flex-wrap: wrap; gap: 10px;
+      background:var(--lighthouse); color:#fff; padding:16px 20px; display:flex; justify-content:space-between;
+      align-items:center; flex-wrap:wrap; gap:10px;
     }
-    .output-header h4 { font-family: var(--serif); font-size: 17px; }
-    .output-stats { font-family: 'JetBrains Mono', monospace; font-size: 12px; display: flex; gap: 14px; }
-    .output-list { list-style: none; padding: 0; margin: 0; }
+    .output-header h4 { font-family:var(--serif); font-size:17px; }
+    .output-stats { font-family:'JetBrains Mono',monospace; font-size:12px; display:flex; gap:14px; }
+    .output-list { list-style:none; padding:0; margin:0; }
     .output-list li {
-      padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex;
-      justify-content: space-between; align-items: center;
+      padding:12px 20px; border-bottom:1px solid var(--border); display:flex;
+      justify-content:space-between; align-items:center;
     }
-    .output-list li:last-child { border-bottom: none; }
+    .output-list li:last-child { border-bottom:none; }
 
     /* ============ PRE-BUILT TAB ============ */
     .prebuilt-hero {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px;
-      margin-bottom: 20px; box-shadow: var(--shadow); text-align: center;
+      background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px;
+      margin-bottom:20px; box-shadow:var(--shadow); text-align:center;
     }
-    .prebuilt-hero h2 { font-family: var(--serif); font-size: 24px; margin-bottom: 8px; }
-    .prebuilt-hero p { color: var(--text-muted); font-size: 13px; margin-bottom: 18px; }
+    .prebuilt-hero h2 { font-family:var(--serif); font-size:24px; margin-bottom:8px; }
+    .prebuilt-hero p { color:var(--text-muted); font-size:13px; margin-bottom:18px; }
     .sim-btn {
-      background: var(--lighthouse); color: #fff; border: none; padding: 14px 28px; border-radius: 10px;
-      font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: 0.5px;
-      transition: 0.2s; box-shadow: var(--shadow);
+      background:var(--lighthouse); color:#fff; border:none; padding:14px 28px; border-radius:10px;
+      font-family:inherit; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:0.5px;
+      transition:0.2s; box-shadow:var(--shadow);
     }
-    .sim-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
-    .sim-btn:disabled { opacity: 0.7; cursor: wait; }
+    .sim-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.3); }
+    .sim-btn:disabled { opacity:0.7; cursor:wait; }
 
-    .progress-wrap { margin-top: 20px; display: none; }
-    .progress-wrap.show { display: block; }
-    .progress-bar-bg { height: 8px; background: var(--surface-3); border-radius: 4px; overflow: hidden; margin-bottom: 8px; border: 1px solid var(--border); }
+    .progress-wrap { margin-top:20px; display:none; }
+    .progress-wrap.show { display:block; }
+    .progress-bar-bg { height:8px; background:var(--surface-3); border-radius:4px; overflow:hidden; margin-bottom:8px; border:1px solid var(--border); }
     .progress-bar-fill {
-      height: 100%; background: linear-gradient(90deg, var(--lighthouse), var(--accent-green));
-      width: 0%; transition: width 0.2s; border-radius: 4px;
+      height:100%; background:linear-gradient(90deg, var(--lighthouse), var(--accent-green));
+      width:0%; transition:width 0.2s; border-radius:4px;
     }
-    .progress-text { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+    .progress-text { font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono',monospace; }
 
-    .prebuilt-section { margin-bottom: 24px; }
+    .prebuilt-section { margin-bottom:24px; }
     .prebuilt-section h3 {
-      font-family: var(--serif); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+      font-family:var(--serif); font-size:18px; margin-bottom:12px; display:flex; align-items:center; gap:10px;
     }
     .prebuilt-section h3 .count {
-      background: var(--lighthouse); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 10px;
-      font-family: 'JetBrains Mono', monospace; font-weight: 700;
+      background:var(--lighthouse); color:#fff; font-size:10px; padding:3px 8px; border-radius:10px;
+      font-family:'JetBrains Mono',monospace; font-weight:700;
     }
-    .prebuilt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+    .prebuilt-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:12px; }
     .lineup-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
-      transition: 0.2s; box-shadow: var(--shadow);
+      background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden;
+      transition:0.2s; box-shadow:var(--shadow);
     }
-    .lineup-card:hover { transform: translateY(-2px); border-color: var(--lighthouse); }
-    .lineup-card.cash { border-left: 3px solid var(--accent-green); }
-    .lineup-card.gpp { border-left: 3px solid var(--lighthouse); }
+    .lineup-card:hover { transform:translateY(-2px); border-color:var(--lighthouse); }
+    .lineup-card.cash { border-left:3px solid var(--accent-green); }
+    .lineup-card.gpp { border-left:3px solid var(--lighthouse); }
     .lc-header {
-      padding: 12px 14px; background: var(--surface-3); display: flex; justify-content: space-between;
-      align-items: center; border-bottom: 1px solid var(--border);
+      padding:12px 14px; background:var(--surface-3); display:flex; justify-content:space-between;
+      align-items:center; border-bottom:1px solid var(--border);
     }
-    .lc-rank { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--text-muted); }
-    .lc-stats { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); display: flex; gap: 8px; }
-    .lc-stats strong { color: var(--text); }
-    .lc-body { padding: 10px 14px; }
+    .lc-rank { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--text-muted); }
+    .lc-stats { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted); display:flex; gap:8px; }
+    .lc-stats strong { color:var(--text); }
+    .lc-body { padding:10px 14px; }
     .lc-row {
-      display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 12px;
+      display:flex; justify-content:space-between; align-items:center; padding:5px 0; font-size:12px;
     }
-    .lc-name { font-weight: 600; }
-    .lc-price { color: var(--accent-green); font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+    .lc-name { font-weight:600; }
+    .lc-price { color:var(--accent-green); font-family:'JetBrains Mono',monospace; font-weight:700; }
     .lc-footer {
-      padding: 10px 14px; background: var(--surface-3); border-top: 1px solid var(--border);
-      font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);
-      display: flex; justify-content: space-between; gap: 6px; flex-wrap: wrap;
+      padding:10px 14px; background:var(--surface-3); border-top:1px solid var(--border);
+      font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--text-muted);
+      display:flex; justify-content:space-between; gap:6px; flex-wrap:wrap;
     }
-    .lc-footer strong { color: var(--text); }
+    .lc-footer strong { color:var(--text); }
 
     /* ============ FLOATING BAR ============ */
     .fab-container {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      width: 92%; max-width: 760px; z-index: 100;
+      position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+      width:92%; max-width:760px; z-index:100;
     }
     .fab-bar {
-      background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border); border-radius: 20px; padding: 14px 20px;
-      display: flex; justify-content: space-between; align-items: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3); cursor: pointer; transition: 0.3s;
+      background:var(--glass); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+      border:1px solid var(--border); border-radius:20px; padding:14px 20px;
+      display:flex; justify-content:space-between; align-items:center;
+      box-shadow:0 20px 40px rgba(0,0,0,0.3); cursor:pointer; transition:0.3s;
     }
-    .fab-stats { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-    .stat-block { display: flex; flex-direction: column; }
-    .stat-val { font-size: 15px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-    .stat-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+    .fab-stats { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .stat-block { display:flex; flex-direction:column; }
+    .stat-val { font-size:15px; font-weight:700; font-family:'JetBrains Mono',monospace; }
+    .stat-lbl { font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-top:2px; font-family:'JetBrains Mono',monospace; }
 
     /* ============ RESPONSIVE DE-ZOOM ============ */
-    @media (max-width: 768px) {
-      .container { padding: 8px; }
-      .header { flex-direction: column; align-items: flex-start; }
-      .search-box { width: 100%; }
-      .filter-chip { flex: 1 1 auto; text-align: center; }
-      .sync-btn { width: 100%; margin-left: 0; }
-      .tab-btn { min-width: auto; padding: 10px 10px; font-size: 10px; }
-      .tab-btn .step-num { display: none; }
+    @media (max-width:768px) {
+      .container { padding:8px; }
+      .header { flex-direction:column; align-items:flex-start; }
+      .search-box { width:100%; }
+      .filter-chip { flex:1 1 auto; text-align:center; }
+      .sync-btn { width:100%; margin-left:0; }
+      .tab-btn { min-width:auto; padding:10px 10px; font-size:10px; }
+      .tab-btn .step-num { display:none; }
       
-      /* De-zoom table for Pro mobile scanning */
-      th, td { padding: 8px 8px; font-size: 10px; }
-      .player-name { font-size: 11px; }
-      .btn-icon { width: 20px; height: 20px; font-size: 10px; }
+      th, td { padding:8px 8px; font-size:10px; }
+      .player-name { font-size:11px; }
+      .btn-icon { width:20px; height:20px; font-size:10px; }
       
-      .build-actions { grid-template-columns: 1fr; }
-      .fab-stats { gap: 12px; }
-      .stat-val { font-size: 13px; }
+      .build-actions { grid-template-columns:1fr; }
+      .fab-stats { gap:12px; }
+      .stat-val { font-size:13px; }
     }
   </style>
 </head>
@@ -443,7 +440,7 @@
         <svg class="lighthouse-svg" style="color:var(--text-muted)"><use href="#lighthouse-icon"/></svg>
         <div class="header-text">
           <h1>Plaid Genie <em>2026 RBC Heritage</em> <span class="v-badge">v4 Pro</span></h1>
-          <div class="header-sub">Harbour Town Golf Links · Hilton Head Island · 100% Local Engine</div>
+          <div class="header-sub">Harbour Town Golf Links · 100% Local Engine · Sentiment Bias Active</div>
         </div>
       </div>
       <div class="header-right">
@@ -454,18 +451,10 @@
     </header>
 
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('guide', this)">
-        <span class="step-num">1</span> GUIDE
-      </button>
-      <button class="tab-btn" onclick="switchTab('pool', this)">
-        <span class="step-num">2</span> POOL
-      </button>
-      <button class="tab-btn" onclick="switchTab('build', this)">
-        <span class="step-num">3</span> BUILD
-      </button>
-      <button class="tab-btn" onclick="switchTab('prebuilt', this)">
-        <span class="step-num">4</span> PRE-BUILT
-      </button>
+      <button class="tab-btn active" onclick="switchTab('guide', this)"><span class="step-num">1</span> GUIDE</button>
+      <button class="tab-btn" onclick="switchTab('pool', this)"><span class="step-num">2</span> POOL</button>
+      <button class="tab-btn" onclick="switchTab('build', this)"><span class="step-num">3</span> BUILD</button>
+      <button class="tab-btn" onclick="switchTab('prebuilt', this)"><span class="step-num">4</span> PRE-BUILT</button>
     </div>
 
     <div class="panel active" id="panel-guide">
@@ -484,7 +473,7 @@
         <div class="step-card">
           <div class="step-num-big">2</div>
           <h3>🏌️ Scan the Pool</h3>
-          <p>Review all 81 players with live odds, sharp steam, and local engine rankings. Lock players you love, exclude players you hate. The engine recalibrates on every action.</p>
+          <p>Review all 82 players with live odds, sharp steam, and local engine rankings. Lock players you love, exclude players you hate. The engine recalibrates on every action.</p>
           <button class="go-btn" onclick="switchTabByName('pool')">OPEN POOL →</button>
         </div>
         <div class="step-card">
@@ -504,42 +493,14 @@
       <div class="metrics-ref" id="metricsRef">
         <h3>📊 Metric Reference</h3>
         <div class="metrics-grid">
-          <div class="m-item">
-            <div class="m-icon">💵</div>
-            <div class="m-text"><strong>SALARY</strong>DraftKings roster cost. $50,000 cap across 6 players.</div>
-          </div>
-          <div class="m-item">
-            <div class="m-icon">🎲</div>
-            <div class="m-text"><strong>ODDS (Sun → Cur)</strong>Sunday opening line versus current live line. Arrow direction = sharp money flow.</div>
-          </div>
-          <div class="m-item">
-            <div class="m-icon">⚖️</div>
-            <div class="m-text"><strong>$DLTA (Arbitrage)</strong>Salary Rank minus Odds Rank. Positive = DK mispriced vs Vegas. Our #1 edge signal.</div>
-          </div>
-          <div class="m-item">
-            <div class="m-icon">🚂</div>
-            <div class="m-text"><strong>STEAM (wVEL)</strong>% velocity of win-probability shift since line open. Tracks syndicate money.</div>
-          </div>
-          <div class="m-item">
-            <div class="m-icon">🏛️</div>
-            <div class="m-text"><strong>COURSE HIST</strong>Weighted avg finish at Harbour Town. Lower is better. MC/DNP = 75.</div>
-          </div>
-          <div class="m-item">
-            <div class="m-icon">🎯</div>
-            <div class="m-text"><strong>PROFILE FIT (1-100)</strong>Local engine grade vs Harbour Town winning DNA. Heavy SG:APP + SG:ARG.</div>
-          </div>
-          <div class="m-item">
-            <div class="m-icon">👥</div>
-            <div class="m-text"><strong>pOWN% (Projected)</strong>Projected DraftKings contest ownership. Lower = more unique in GPPs.</div>
-          </div>
-          <div class="m-item">
-            <div class="m-icon">📈</div>
-            <div class="m-text"><strong>LEVERAGE (1-100)</strong>Elite Fit × Low Ownership. The GPP winner signal. 80+ = target.</div>
-          </div>
-          <div class="m-item">
-            <div class="m-icon">●</div>
-            <div class="m-text"><strong>TIER DOT</strong>Red = Tartan (Top 8), Navy = Lighthouse (9–25), Grey = Field (rest).</div>
-          </div>
+          <div class="m-item"><div class="m-icon">💵</div><div class="m-text"><strong>SALARY</strong>DraftKings roster cost. $50,000 cap across 6 players.</div></div>
+          <div class="m-item"><div class="m-icon">🎲</div><div class="m-text"><strong>ODDS (Sun → Cur)</strong>Sunday opening line versus current live line.</div></div>
+          <div class="m-item"><div class="m-icon">⚖️</div><div class="m-text"><strong>$DLTA (Arbitrage)</strong>Salary Rank minus Odds Rank. Positive = DK mispriced.</div></div>
+          <div class="m-item"><div class="m-icon">🚂</div><div class="m-text"><strong>STEAM (wVEL)</strong>% velocity of win-probability shift since line open.</div></div>
+          <div class="m-item"><div class="m-icon">🏛️</div><div class="m-text"><strong>COURSE HIST</strong>Weighted avg finish at Harbour Town. Lower is better.</div></div>
+          <div class="m-item"><div class="m-icon">🎯</div><div class="m-text"><strong>PROFILE FIT (1-100)</strong>Local engine grade vs Harbour Town winning DNA.</div></div>
+          <div class="m-item"><div class="m-icon">👥</div><div class="m-text"><strong>pOWN% (Projected)</strong>Projected DraftKings contest ownership. Total sums to exactly 600%.</div></div>
+          <div class="m-item"><div class="m-icon">📈</div><div class="m-text"><strong>LEVERAGE (1-100)</strong>Elite Fit × Low Ownership. The GPP winner signal.</div></div>
         </div>
       </div>
     </div>
@@ -663,14 +624,14 @@
   </div>
 
   <script>
-    // ============ DATA ============
+    // ============ DATA (Full 80+ Player Field Updated) ============
     const db = [
-      { name: "Scottie Scheffler", sunWin: 350, monWin: 370, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5 },
+      { name: "Scottie Scheffler", sunWin: 350, monWin: 320, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5, sentiment: "good_chalk" },
       { name: "Xander Schauffele", sunWin: 1450, monWin: 1450, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 22.00, sgArg: 0.009, prox150: 20.9, girRough: 59.1 },
-      { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1750, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2 },
-      { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1600, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4 },
-      { name: "Cameron Young", sunWin: 1700, monWin: 1750, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9 },
-      { name: "Russell Henley", sunWin: 2100, monWin: 1700, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1 },
+      { name: "Tommy Fleetwood", sunWin: 1700, monWin: 1750, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2, sentiment: "bad_chalk" },
+      { name: "Matt Fitzpatrick", sunWin: 1950, monWin: 1600, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4, sentiment: "good_chalk" },
+      { name: "Cameron Young", sunWin: 1700, monWin: 1750, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9, sentiment: "bad_chalk" },
+      { name: "Russell Henley", sunWin: 2100, monWin: 1700, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1, sentiment: "good_chalk" },
       { name: "Ludvig Åberg", sunWin: 2050, monWin: 2100, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0 },
       { name: "Collin Morikawa", sunWin: 2350, monWin: 2250, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 20.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5 },
       { name: "Patrick Cantlay", sunWin: 2150, monWin: 2400, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.50, sgArg: 0.247, prox150: 20.0, girRough: 61.4 },
@@ -682,9 +643,9 @@
       { name: "Viktor Hovland", sunWin: 3900, monWin: 3500, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8 },
       { name: "Maverick McNealy", sunWin: 3500, monWin: 3600, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7 },
       { name: "Shane Lowry", sunWin: 3900, monWin: 5000, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 46.60, sgArg: -0.085, prox150: 19.6, girRough: 61.2 },
-      { name: "Justin Thomas", sunWin: 3700, monWin: 4100, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9 },
+      { name: "Justin Thomas", sunWin: 3700, monWin: 4100, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9, sentiment: "bad_chalk" },
       { name: "Jacob Bridgeman", sunWin: 4400, monWin: 4600, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4 },
-      { name: "Chris Gotterup", sunWin: 4500, monWin: 5100, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6 },
+      { name: "Chris Gotterup", sunWin: 4500, monWin: 5100, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6, sentiment: "sleeper" },
       { name: "Jason Day", sunWin: 4100, monWin: 4600, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4 },
       { name: "Sepp Straka", sunWin: 5200, monWin: 4800, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 32.10, sgArg: 0.128, prox150: 19.1, girRough: 42.0 },
       { name: "Harris English", sunWin: 5000, monWin: 5200, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5 },
@@ -699,10 +660,10 @@
       { name: "Harry Hall", sunWin: 6400, monWin: 7600, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3 },
       { name: "Ryan Gerard", sunWin: 7600, monWin: 7600, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4 },
       { name: "Wyndham Clark", sunWin: 1600, monWin: 10500, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 19.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0 },
-      { name: "Daniel Berger", sunWin: 9400, monWin: 9000, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1 },
+      { name: "Daniel Berger", sunWin: 9400, monWin: 9000, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1, sentiment: "sleeper" },
       { name: "J.T. Poston", sunWin: 8800, monWin: 8400, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 36.60, sgArg: -0.299, prox150: 22.4, girRough: 53.8 },
       { name: "Sam Stevens", sunWin: 8200, monWin: 7600, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6 },
-      { name: "S. Yellamaraju", sunWin: 11500, monWin: 12000, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7 },
+      { name: "Sudarshan Yellamaraju", sunWin: 11500, monWin: 12000, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7, sentiment: "sleeper" },
       { name: "Alex Noren", sunWin: 6400, monWin: 5700, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1 },
       { name: "Kurt Kitayama", sunWin: 7200, monWin: 7600, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5 },
       { name: "Nick Taylor", sunWin: 8200, monWin: 9000, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 48.10, sgArg: 0.503, prox150: 20.6, girRough: 53.4 },
@@ -713,6 +674,7 @@
       { name: "Max Homa", sunWin: 12000, monWin: 12000, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 51.00, sgArg: -0.210, prox150: 21.3, girRough: 56.1 },
       { name: "Taylor Pendrith", sunWin: 12000, monWin: 15500, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9 },
       { name: "Gary Woodland", sunWin: 16000, monWin: 16000, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0 },
+      { name: "Michael Thorbjornsen", sunWin: 10000, monWin: 9000, price: 6800, sgApp: 0.450, birdiePct: 24.00, courseHistory: 75.00, sgArg: 0.100, prox150: 22.5, girRough: 57.0, sentiment: "sleeper" },
       { name: "Matt McCarty", sunWin: 20000, monWin: 13000, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0 },
       { name: "Nico Echavarria", sunWin: 20000, monWin: 28000, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0 },
       { name: "Sungjae Im", sunWin: 11000, monWin: 10000, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 10.60, sgArg: 0.307, prox150: 23.2, girRough: 57.3 },
@@ -731,7 +693,7 @@
       { name: "Andrew Putnam", sunWin: 30000, monWin: 17000, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0 },
       { name: "Austin Smotherman", sunWin: 21000, monWin: 19500, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0 },
       { name: "Ryan Fox", sunWin: 20000, monWin: 26000, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0 },
-      { name: "John Keefer", sunWin: 28000, monWin: 37000, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0 },
+      { name: "Johnny Keefer", sunWin: 28000, monWin: 37000, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0 },
       { name: "Sami Valimaki", sunWin: 34000, monWin: 27000, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0 },
       { name: "Chandler Blanchet", sunWin: 60000, monWin: 42000, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0 },
       { name: "William Mouw", sunWin: 35000, monWin: 43000, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0 },
@@ -756,7 +718,6 @@
 
     window.onload = () => processData();
 
-    // ============ THEME ============
     function toggleTheme() {
       const html = document.documentElement;
       const cur = html.getAttribute('data-theme');
@@ -766,7 +727,6 @@
       document.getElementById('themeLabel').textContent = next === 'dark' ? 'HARBOUR' : 'DARK';
     }
 
-    // ============ TABS ============
     function switchTab(name, btn) {
       document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -784,7 +744,6 @@
       document.getElementById('metricsRef').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // ============ ENGINE ============
     function runLocalSync() {
       processData();
       const btn = event.target;
@@ -812,37 +771,44 @@
         const prox = (30 - p.prox150) * (fitWeights.prox150 / 15);
         const rgh = p.girRough * (fitWeights.girRough / 20);
         const bird = p.birdiePct * (fitWeights.birdiePct / 20);
+        
         p.rawFit = app + arg + prox + rgh + bird;
+        
+        if(p.sentiment === 'good_chalk') p.rawFit *= 1.15;
+        if(p.sentiment === 'bad_chalk') p.rawFit *= 0.85;
       });
 
       const fits = players.map(p => p.rawFit);
       const maxFit = Math.max(...fits), minFit = Math.min(...fits);
-      players.forEach(p => p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100);
-
+      
       players.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
       players.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
 
-      // PASS 1: Calculate Raw Ownership
       players.forEach(p => {
+        p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100;
         p.dlta = p.salRank - p.oddsRank;
+        
         let baseOwn = p.price >= 10000 ? 15 : (p.price >= 9000 ? 13 : (p.price >= 8000 ? 10 : 12));
         let dltaBump = p.dlta * 1.2;
         let histBump = p.courseHistory <= 20 ? 5 : (p.courseHistory <= 40 ? 2 : 0);
         p.rawOwn = Math.max(0.5, baseOwn + dltaBump + histBump + (p.isSteam ? 4 : 0));
+        
         totalRawOwn += p.rawOwn;
       });
 
-      // PASS 2: Normalize to 600%
       const normalizer = 600 / totalRawOwn;
       players.forEach(p => {
         p.pOwn = Math.min(45, p.rawOwn * normalizer);
         p.rawLev = p.profileFit - (p.pOwn * 1.5);
-        p.composite = p.profileFit + ((80 - p.courseHistory) * 0.5);
+        if(p.sentiment === 'sleeper') p.rawLev *= 1.3;
       });
 
       const levs = players.map(p => p.rawLev);
       const maxLev = Math.max(...levs), minLev = Math.min(...levs);
-      players.forEach(p => p.leverage = ((p.rawLev - minLev) / (maxLev - minLev)) * 100);
+      players.forEach(p => {
+        p.leverage = ((p.rawLev - minLev) / (maxLev - minLev)) * 100;
+        p.composite = p.profileFit + ((80 - p.courseHistory) * 0.5);
+      });
 
       players.sort((a,b) => b.composite - a.composite).forEach((p, i) => {
         p.tier = i < 8 ? 'Tartan' : (i < 25 ? 'Lighthouse' : 'Field');
@@ -852,7 +818,6 @@
       updateSideStats();
     }
 
-    // ============ TABLE ============
     function setFilter(f, btn) {
       currentFilter = f;
       document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
@@ -939,7 +904,6 @@
       }).join('');
     }
 
-    // ============ BUILD ============
     function updateSideStats() {
       const locked = players.filter(p => p.locked);
       const excluded = players.filter(p => p.excluded);
@@ -972,6 +936,7 @@
       }
     }
 
+    // Dynamic Programming Knapsack Algorithm
     function generateLineup(type) {
       const locked = players.filter(p => p.locked);
       if (locked.length > 6) return alert("Max 6 locked players.");
@@ -1049,7 +1014,6 @@
       document.getElementById('outOwn').textContent = own.toFixed(1) + '%';
     }
 
-    // ============ MONTE CARLO (Web Worker) ============
     let worker = null;
 
     function runMonteCarloSim() {
@@ -1074,22 +1038,13 @@
           const pool = players.filter(p => !p.excluded);
           const locked = players.filter(p => p.locked);
           const lockedSal = locked.reduce((s,p)=>s+p.price,0);
-          const lockedOwn = locked.reduce((s,p)=>s+p.pOwn,0);
           const avail = pool.filter(p => !p.locked);
-          const reqRoster = 6 - locked.length;
 
-          // Build cumulative weights for each pool (tartan, lighthouse, field)
-          const tartans = avail.filter(p => p.tier === 'Tartan');
-          const lighthouses = avail.filter(p => p.tier === 'Lighthouse');
-          const fields = avail.filter(p => p.tier === 'Field');
-
-          // Simulation outcome model — each player has mean + variance
           avail.forEach(p => {
             p.simMean = p.composite * 0.9;
             p.simStd = p.tier === 'Tartan' ? 18 : (p.tier === 'Lighthouse' ? 22 : 28);
           });
 
-          // Generate candidate lineups stochastically — weighted by projection
           const weights = avail.map(p => Math.max(1, Math.pow(p.composite, 2)));
           const totalW = weights.reduce((s,w)=>s+w, 0);
           const cumW = [];
@@ -1113,7 +1068,6 @@
             return mean + z * std;
           }
 
-          // Build lineup via sampling
           function buildLineup() {
             const picked = new Set();
             const roster = [...locked];
@@ -1125,9 +1079,8 @@
               if (picked.has(idx)) { attempts++; continue; }
               if (sal + p.price > 50000) { attempts++; continue; }
               const remSlots = 6 - roster.length - 1;
-              const salAfter = sal + p.price;
               const minNeeded = remSlots * 6000;
-              if (50000 - salAfter < minNeeded) { attempts++; continue; }
+              if (50000 - (sal + p.price) < minNeeded) { attempts++; continue; }
               roster.push(p);
               picked.add(idx);
               sal += p.price;
@@ -1136,55 +1089,39 @@
             return roster.length === 6 && sal >= 49000 ? { roster, sal } : null;
           }
 
-          // Track top lineups — use a keyed map to dedupe
           const lineupStats = new Map();
           const BATCH = 100000;
           const batches = totalSims / BATCH;
           
           for (let b = 0; b < batches; b++) {
-            // Apply a slate-level covariance for this batch of simulations
-            // Models AM vs PM wave advantage based on shifting weather
             const amAdvantage = (Math.random() - 0.5) * 10; 
             
             for (let i = 0; i < BATCH; i++) {
               const built = buildLineup();
               if (!built) continue;
               
-              // Simulate tournament score for this lineup
               let score = 0;
               for (let p of built.roster) {
-                // Convert 1-100 composite to a rough DK Point projection
                 let dkMean = (p.simMean * 0.8) + 20; 
-                // Apply covariance
                 let waveModifier = p.wave === 'AM' ? amAdvantage : -amAdvantage;
                 score += boxMuller(dkMean + waveModifier, p.simStd * 0.5); 
               }
               
-              // Key by sorted names
               const key = built.roster.map(p => p.name).sort().join('|');
               const existing = lineupStats.get(key);
               if (existing) {
                 existing.simCount++;
                 existing.totalScore += score;
                 existing.maxScore = Math.max(existing.maxScore, score);
-                existing.min20 = Math.min(existing.min20 || score, score);
-                if (score > existing.p90) existing.p90 = score;
               } else {
                 lineupStats.set(key, {
-                  roster: built.roster,
-                  sal: built.sal,
-                  simCount: 1,
-                  totalScore: score,
-                  maxScore: score,
-                  p90: score,
-                  min20: score
+                  roster: built.roster, sal: built.sal, simCount: 1, totalScore: score, maxScore: score
                 });
               }
             }
             self.postMessage({ type: 'progress', pct: ((b+1)/batches)*100, current: (b+1)*BATCH });
           }
 
-          // Rank lineups
           const all = Array.from(lineupStats.values()).filter(l => l.simCount >= 3);
           all.forEach(l => {
             l.avgScore = l.totalScore / l.simCount;
@@ -1192,22 +1129,18 @@
             l.avgLev = l.roster.reduce((s,p)=>s+p.leverage,0) / 6;
           });
 
-          // Cash: high mean + low variance + good history
           const cashSorted = [...all].sort((a,b) => {
             const aHist = a.roster.reduce((s,p)=>s+(80-p.courseHistory),0);
             const bHist = b.roster.reduce((s,p)=>s+(80-p.courseHistory),0);
             return (b.avgScore + bHist * 0.3) - (a.avgScore + aHist * 0.3);
           });
 
-          // GPP: high ceiling + leverage + ownership cap
-          const gppSorted = [...all]
-            .filter(l => l.totalOwn <= 90)
-            .sort((a,b) => (b.maxScore + b.avgLev * 0.8) - (a.maxScore + a.avgLev * 0.8));
+          const gppSorted = [...all].filter(l => l.totalOwn <= 90).sort((a,b) => (b.maxScore + b.avgLev * 0.8) - (a.maxScore + a.avgLev * 0.8));
 
           self.postMessage({
             type: 'done',
             cash: cashSorted.slice(0, 5),
-            gpp: gppSorted.slice(0, 3), // <-- SLICED TO TOP 3
+            gpp: gppSorted.slice(0, 3),
             totalUnique: all.length
           });
         };
@@ -1222,20 +1155,16 @@
           text.textContent = `Running simulation ${e.data.current.toLocaleString()} of 10,000,000 (${e.data.pct.toFixed(1)}%)`;
         } else if (e.data.type === 'done') {
           fill.style.width = '100%';
-          text.textContent = `✓ Complete. Evaluated ${e.data.totalUnique.toLocaleString()} unique lineups from 10M simulations.`;
+          text.textContent = `✓ Complete. Evaluated ${e.data.totalUnique.toLocaleString()} unique lineups.`;
           renderPrebuilt(e.data.cash, e.data.gpp);
           btn.disabled = false;
           btn.textContent = '▶ RUN 10M SIMULATIONS';
           results.style.display = 'block';
-          setTimeout(() => results.scrollIntoView({ behavior: 'smooth' }), 200);
           worker.terminate(); worker = null;
         }
       };
 
-      worker.postMessage({
-        players: JSON.parse(JSON.stringify(players)),
-        totalSims: 10000000
-      });
+      worker.postMessage({ players: JSON.parse(JSON.stringify(players)), totalSims: 10000000 });
     }
 
     function renderPrebuilt(cash, gpp) {
