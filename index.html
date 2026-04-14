@@ -15,7 +15,7 @@
   }
   
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:'DM Mono', monospace; font-size:11px; min-height:100vh; padding-bottom:60px; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Mono', monospace; font-size:12px; min-height:100vh; padding-bottom:60px; }
   
   body::before {
     content:''; position:fixed; inset:0; z-index:-1; opacity:0.03;
@@ -23,23 +23,22 @@
                 repeating-linear-gradient(90deg, var(--plaid-navy) 0px, var(--plaid-navy) 1px, transparent 1px, transparent 56px);
   }
 
-  .container { max-width:1250px; margin:0 auto; padding:16px; }
+  .container { max-width:1300px; margin:0 auto; padding:20px; }
 
   /* ── HEADER ── */
-  .header { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:16px; box-shadow:var(--shadow); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; position:relative; overflow:hidden; }
+  .header { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:20px 24px; margin-bottom:20px; box-shadow:var(--shadow); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; position:relative; overflow:hidden; }
   .header-text { display:flex; align-items:center; gap:16px; z-index:2; }
-  .header-text h1 { font-family:'Libre Baskerville', serif; font-size:24px; color:var(--plaid-navy); letter-spacing:-0.5px; }
+  .header-text h1 { font-family:'Libre Baskerville', serif; font-size:26px; color:var(--plaid-navy); letter-spacing:-0.5px; }
   .header-text h1 em { color:var(--plaid-red); font-style:normal; }
-  .header-sub { font-size:11px; color:var(--text2); margin-top:6px; letter-spacing:0.2px; font-weight: 500; }
-  .status-badge { background:var(--surface2); padding:6px 12px; border-radius:20px; font-size:10px; font-weight:700; color:var(--plaid-green); display:flex; align-items:center; gap:6px; border:1px solid var(--border); z-index:2; }
+  .header-sub { font-size:12px; color:var(--text2); margin-top:6px; letter-spacing:0.2px; font-weight: 500; }
+  .status-badge { background:var(--surface2); padding:8px 14px; border-radius:20px; font-size:11px; font-weight:700; color:var(--plaid-green); display:flex; align-items:center; gap:8px; border:1px solid var(--border); z-index:2; }
   .status-dot { width:8px; height:8px; background:var(--plaid-green); border-radius:50%; box-shadow:0 0 6px rgba(45,90,61,0.6); }
   
-  /* Harbour Town Lighthouse SVG styling */
-  .ht-svg { width:24px; height:48px; }
+  .ht-svg { width:28px; height:56px; }
   
   /* ── NAVIGATION ── */
-  .nav { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
-  .nav-btn { padding:12px 20px; background:var(--surface); border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; color:var(--text2); transition:0.2s; letter-spacing:0.5px; }
+  .nav { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+  .nav-btn { padding:14px 24px; background:var(--surface); border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:12px; font-weight:700; cursor:pointer; color:var(--text2); transition:0.2s; letter-spacing:0.5px; }
   .nav-btn:hover { border-color:var(--plaid-navy); color:var(--plaid-navy); }
   .nav-btn.active { background:var(--plaid-navy); color:#fff; border-color:var(--plaid-navy); box-shadow:var(--shadow); }
 
@@ -51,73 +50,83 @@
   .guide-wrap { padding:40px; display:grid; grid-template-columns:1fr 1fr; gap:24px; }
   .guide-hero { grid-column:1 / -1; text-align:center; padding:20px 0 40px 0; border-bottom:1px solid var(--surface2); margin-bottom:16px; }
   .guide-hero h2 { font-family:'Libre Baskerville', serif; font-size:32px; color:var(--plaid-navy); margin-bottom:16px; }
-  .guide-hero p { font-size:14px; color:var(--text2); max-width:750px; margin:0 auto; line-height:1.6; }
+  .guide-hero p { font-size:15px; color:var(--text2); max-width:750px; margin:0 auto; line-height:1.6; }
   .guide-card { background:#fafafa; border:1px solid var(--border); border-radius:8px; padding:24px; transition:0.2s; box-shadow:var(--shadow); }
   .guide-card h3 { color:var(--plaid-navy); font-family:sans-serif; margin-bottom:12px; font-size:16px; display:flex; align-items:center; gap:10px; }
   .guide-card h3 span { background:var(--plaid-navy); padding:4px 8px; border-radius:4px; font-size:11px; color:#fff; }
-  .guide-text { font-size:13px; color:var(--text2); line-height:1.7; }
+  .guide-text { font-size:14px; color:var(--text2); line-height:1.7; }
 
   /* ── ARB TABLE UI ── */
-  .toolbar { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:center; background:#fcfcfc; flex-wrap:wrap; }
-  .search-box { padding:8px 12px; border:1px solid var(--border); border-radius:4px; font-family:inherit; font-size:11px; outline:none; width:220px; }
+  .toolbar { padding:20px; border-bottom:1px solid var(--border); display:flex; gap:12px; align-items:center; background:#fcfcfc; flex-wrap:wrap; }
+  .search-box { padding:10px 14px; border:1px solid var(--border); border-radius:6px; font-family:inherit; font-size:12px; outline:none; width:240px; }
   .search-box:focus { border-color:var(--plaid-navy); }
-  .filter-chip { padding:6px 12px; font-size:10px; border-radius:12px; border:1px solid var(--border); cursor:pointer; background:var(--surface); color:var(--text2); transition:0.15s; font-weight:500; }
+  .filter-chip { padding:8px 14px; font-size:11px; border-radius:20px; border:1px solid var(--border); cursor:pointer; background:var(--surface); color:var(--text2); transition:0.15s; font-weight:700; letter-spacing:0.5px; }
   .filter-chip.active { background:var(--plaid-navy); color:#fff; border-color:var(--plaid-navy); }
 
-  /* ── STAT GLOSSARY ── */
-  .glossary-bar { background:rgba(27,42,74,0.03); border-bottom:1px solid var(--border); padding:12px 20px; display:flex; gap:16px; flex-wrap:wrap; font-size:10px; color:var(--text2); align-items:center; }
-  .glossary-title { font-weight:700; color:var(--plaid-navy); background:var(--lighthouse); padding:4px 8px; border-radius:4px; border:1px solid var(--border); }
+  .glossary-bar { background:rgba(27,42,74,0.02); border-bottom:1px solid var(--border); padding:16px 20px; display:flex; gap:20px; flex-wrap:wrap; font-size:11px; color:var(--text2); align-items:center; }
+  .glossary-title { font-weight:700; color:var(--plaid-navy); background:var(--lighthouse); padding:6px 10px; border-radius:4px; border:1px solid var(--border); }
   .glossary-item strong { color:var(--text); }
 
-  .table-wrap { overflow-x:auto; overflow-y:hidden; max-width:100%; padding-bottom:8px; }
-  .table-wrap::-webkit-scrollbar { height:8px; }
-  .table-wrap::-webkit-scrollbar-track { background:var(--surface2); border-radius:4px; }
-  .table-wrap::-webkit-scrollbar-thumb { background:var(--border); border-radius:4px; }
+  /* Modernized Table Styling with Sticky First Column */
+  .table-wrap { overflow-x:auto; overflow-y:visible; max-width:100%; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+  .table-wrap::-webkit-scrollbar { height:12px; }
+  .table-wrap::-webkit-scrollbar-track { background:var(--surface2); }
+  .table-wrap::-webkit-scrollbar-thumb { background:var(--border); border-radius:6px; border: 2px solid var(--surface2); }
   .table-wrap::-webkit-scrollbar-thumb:hover { background:var(--text2); }
 
-  table { width:100%; border-collapse:collapse; text-align:left; }
-  th { background:var(--plaid-navy); color:rgba(255,255,255,0.95); padding:8px 8px; font-size:9px; font-weight:500; cursor:pointer; white-space:nowrap; border-right:1px solid rgba(255,255,255,0.1); letter-spacing:0px; }
-  th:hover { background:#243858; }
-  td { padding:8px 8px; border-bottom:1px solid var(--surface2); white-space:nowrap; font-size:10px; }
-  tbody tr:hover { background:rgba(27,42,74,0.04); }
+  table { width:100%; border-collapse:separate; border-spacing:0; min-width:1200px; text-align:left; }
   
-  .name-cell { font-weight:700; color:var(--plaid-navy); font-size:11px; min-width:130px; }
+  th { background:var(--plaid-navy); color:rgba(255,255,255,0.95); padding:16px 16px; font-size:11px; font-weight:500; cursor:pointer; white-space:nowrap; letter-spacing:0.5px; border-bottom:1px solid var(--plaid-navy); }
+  th:hover { background:#243858; }
+  td { padding:14px 16px; border-bottom:1px solid var(--surface2); white-space:nowrap; font-size:12px; }
+  
+  /* Vertical Dividers for Grouping */
+  .col-div-header { border-right: 1px solid rgba(255,255,255,0.15); }
+  .col-div { border-right: 1px solid var(--surface2); }
+
+  /* Sticky Left Column */
+  th:first-child { position:sticky; left:0; z-index:20; border-right: 2px solid rgba(0,0,0,0.2); }
+  td:first-child { position:sticky; left:0; background:var(--surface); z-index:10; border-right: 2px solid var(--surface2); box-shadow: 2px 0 8px rgba(0,0,0,0.02); }
+  
+  /* Hover state needs to apply to sticky cell too */
+  tbody tr:hover td { background:rgba(27,42,74,0.03); }
+  
+  .name-cell { font-weight:700; color:var(--plaid-navy); font-size:13px; }
   .val-good { color:var(--plaid-green); font-weight:700; }
   .val-bad { color:var(--plaid-red); }
 
-  .badge { padding:3px 6px; border-radius:4px; font-size:8px; font-weight:700; display:inline-flex; align-items:center; gap:4px; margin-right:4px; }
+  .badge { padding:4px 8px; border-radius:4px; font-size:9px; font-weight:700; display:inline-flex; align-items:center; gap:4px; margin-right:4px; letter-spacing: 0.5px;}
   .b-tartan { background:var(--plaid-red); color:#fff; }
   .b-lighthouse { background:var(--plaid-navy); color:#fff; }
   .b-steam { background:rgba(196,30,58,0.1); color:var(--plaid-red); border:1px solid rgba(196,30,58,0.2); }
   .b-value { background:rgba(45,90,61,0.1); color:var(--plaid-green); border:1px solid rgba(45,90,61,0.2); }
 
-  /* ── LOCK / EXCLUDE BUTTON UI ── */
-  .btn-exclude, .btn-lock { background:transparent; border:1px solid var(--border); border-radius:4px; padding:2px 4px; font-size:8px; cursor:pointer; margin-left:4px; font-family:inherit; font-weight:700; transition:0.2s; }
-  .btn-exclude { color:var(--text2); }
-  .btn-exclude:hover { border-color:var(--plaid-red); color:var(--plaid-red); }
-  .btn-include { background:rgba(196,30,58,0.1); border:1px solid var(--plaid-red); color:var(--plaid-red); }
+  /* ── ICON BUTTON UI (LOCK/EXCLUDE) ── */
+  .action-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; min-width: 220px; }
+  .action-icons { display: flex; gap: 6px; }
+  .action-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; color: var(--text2); transition: 0.2s; font-size: 11px; }
+  .action-btn:hover { background: var(--surface2); }
   
-  .btn-lock { color:var(--text2); }
-  .btn-lock:hover { border-color:var(--gold); color:var(--gold); }
-  .btn-locked { background:rgba(184,134,11,0.1); border:1px solid var(--gold); color:var(--gold); }
+  .btn-lock.active { background: rgba(184,134,11,0.1); border-color: var(--gold); }
+  .btn-ex.active { background: rgba(196,30,58,0.1); border-color: var(--plaid-red); color: var(--plaid-red); }
   
-  .player-excluded { text-decoration:line-through; opacity:0.5; }
-  .player-row-locked { background-color: rgba(184,134,11,0.04); }
+  .player-excluded { text-decoration:line-through; opacity:0.4; }
+  .player-row-locked td { background-color: rgba(184,134,11,0.03); }
 
   /* ── OPTIMIZER UI ── */
-  .opt-wrap { padding:30px; text-align:center; }
-  .opt-btn { background:var(--plaid-navy); color:#fff; font-size:14px; font-weight:700; padding:16px 32px; border:none; border-radius:8px; cursor:pointer; box-shadow:var(--shadow); transition:0.2s; font-family:inherit; margin-bottom:30px; }
-  .opt-btn:hover { background:#243858; transform:translateY(-2px); }
-  .lineup-card { background:#fafafa; border:2px solid var(--plaid-navy); border-radius:8px; max-width:600px; margin:0 auto; overflow:hidden; text-align:left; display:none; }
-  .lineup-header { background:var(--plaid-navy); color:#fff; padding:16px; display:flex; justify-content:space-between; align-items:center; }
-  .lineup-header h3 { font-family:'Libre Baskerville', serif; font-size:18px; }
-  .lineup-stats { font-size:12px; font-weight:500; }
+  .opt-wrap { padding:40px; text-align:center; }
+  .opt-btn { background:var(--plaid-navy); color:#fff; font-size:16px; font-weight:700; padding:18px 36px; border:none; border-radius:8px; cursor:pointer; box-shadow:var(--shadow); transition:0.2s; font-family:inherit; margin-bottom:40px; }
+  .opt-btn:hover { background:#243858; transform:translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.1); }
+  .lineup-card { background:#fafafa; border:2px solid var(--plaid-navy); border-radius:8px; max-width:650px; margin:0 auto; overflow:hidden; text-align:left; display:none; box-shadow: var(--shadow); }
+  .lineup-header { background:var(--plaid-navy); color:#fff; padding:20px; display:flex; justify-content:space-between; align-items:center; }
+  .lineup-header h3 { font-family:'Libre Baskerville', serif; font-size:20px; }
+  .lineup-stats { font-size:13px; font-weight:500; }
   .roster-list { padding:0; margin:0; list-style:none; }
-  .roster-list li { padding:12px 16px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+  .roster-list li { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
   .roster-list li:last-child { border-bottom:none; }
-  .r-name { font-size:14px; font-weight:700; color:var(--plaid-navy); display:flex; align-items:center; gap:8px; }
-  .r-name .lock-icon { font-size:10px; }
-  .r-sal { color:var(--plaid-green); font-weight:700; }
+  .r-name { font-size:15px; font-weight:700; color:var(--plaid-navy); display:flex; align-items:center; gap:8px; }
+  .r-name .lock-icon { font-size:12px; }
+  .r-sal { color:var(--plaid-green); font-weight:700; font-size: 14px;}
 </style>
 </head>
 <body>
@@ -190,10 +199,6 @@
       <div class="glossary-item"><strong>$DLTA:</strong> Salary Rank vs Odds Rank (Positive = Underpriced)</div>
       <div class="glossary-item"><strong>wVEL:</strong> % shift in win probability since Sunday</div>
       <div class="glossary-item"><strong>CRSE HIST:</strong> Chronologically Weighted (2024: 40%, 2023: 30%, 2022: 20%, Base: 10%). MC/DNP = 75.</div>
-      <div class="glossary-item"><strong>SG:APP:</strong> Strokes Gained Approach</div>
-      <div class="glossary-item"><strong>PROX 150':</strong> Proximity to hole from 100-150 yds</div>
-      <div class="glossary-item"><strong>RGH <150:</strong> Greens in Regulation % from the rough under 150 yds</div>
-      <div class="glossary-item"><strong>SG:ARG:</strong> Strokes Gained Around the Green</div>
       <div class="glossary-item"><strong>TIER:</strong> Algorithmic Ranking mapped by top composite scores. Tartan (Top 8), Lighthouse (Ranks 9-25), Field (Rest).</div>
       <div class="glossary-item"><strong>SLEEPERS:</strong> &lt; $8k Salary + Positive Steam + Top 40 Course History</div>
     </div>
@@ -202,17 +207,17 @@
       <table id="arbTable">
         <thead>
           <tr>
-            <th onclick="sortData('name')">PLAYER</th>
+            <th class="col-div-header" onclick="sortData('name')">PLAYER</th>
             <th onclick="sortData('price')">SALARY</th>
             <th onclick="sortData('sunWin')">ODDS (SUN ➝ CUR)</th>
             <th onclick="sortData('dlta')">$DLTA</th>
-            <th onclick="sortData('velTotal')">wVEL</th>
+            <th class="col-div-header" onclick="sortData('velTotal')">wVEL (STEAM)</th>
             <th onclick="sortData('sgApp')">SG:APP</th>
             <th onclick="sortData('prox150')">PROX 150'</th>
-            <th onclick="sortData('girRough')">RGH <150</th>
-            <th onclick="sortData('birdiePct')">BIRDIE %</th>
-            <th onclick="sortData('courseHistory')">CRSE HIST</th>
+            <th class="col-div-header" onclick="sortData('girRough')">RGH <150</th>
             <th onclick="sortData('sgArg')">SG:ARG</th>
+            <th class="col-div-header" onclick="sortData('birdiePct')">BIRDIE %</th>
+            <th onclick="sortData('courseHistory')">CRSE HIST</th>
             <th onclick="sortData('composite')">TIER</th>
           </tr>
         </thead>
@@ -412,7 +417,7 @@ function toggleExclude(playerName) {
   const player = players.find(p => p.name === playerName);
   if (player) {
     player.excluded = !player.excluded;
-    if (player.excluded) player.locked = false; // Cannot be locked and excluded
+    if (player.excluded) player.locked = false; 
     renderTable(); 
     
     const card = document.getElementById('lineupCard');
@@ -424,7 +429,7 @@ function toggleLock(playerName) {
   const player = players.find(p => p.name === playerName);
   if (player) {
     player.locked = !player.locked;
-    if (player.locked) player.excluded = false; // Cannot be locked and excluded
+    if (player.locked) player.excluded = false; 
     renderTable(); 
     
     const card = document.getElementById('lineupCard');
@@ -462,22 +467,16 @@ function renderTable() {
     const tr = document.createElement('tr');
     if (p.locked) tr.classList.add('player-row-locked');
     
-    // Status Classes
     const excludedClass = p.excluded ? 'player-excluded' : '';
     
-    // Buttons
-    const btnExClass = p.excluded ? 'btn-exclude btn-include' : 'btn-exclude';
-    const btnExText = p.excluded ? '✕ RESTORE' : '✕ EXCLUDE';
-    
-    const btnLockClass = p.locked ? 'btn-lock btn-locked' : 'btn-lock';
-    const btnLockText = p.locked ? '🔒 UNLOCK' : '🔒 LOCK';
+    const btnExClass = p.excluded ? 'action-btn btn-ex active' : 'action-btn btn-ex';
+    const btnLockClass = p.locked ? 'action-btn btn-lock active' : 'action-btn btn-lock';
     
     const salStr = p.price ? `<span style="color:var(--plaid-green); font-weight:700;">$${(p.price/1000).toFixed(1)}k</span>` : '<span class="val-muted">—</span>';
     
-    // Updated Odds String
     const sunStr = p.sunWin ? fmtOdds(p.sunWin) : '—';
     const latestStr = fmtOdds(p.wedWin || p.tueWin || p.monWin || p.sunWin);
-    const oddsStr = `<span style="font-size:9px;color:var(--text2)">SUN ${sunStr} <span style="font-size:10px; margin:0 2px;">➝</span> </span><span style="font-weight:700; color:var(--text);">${latestStr}</span>`;
+    const oddsStr = `<span style="font-size:10px;color:var(--text2)">${sunStr} <span style="font-size:11px; margin:0 3px;">➝</span> </span><span style="font-weight:700; color:var(--text);">${latestStr}</span>`;
     
     let dltaStr = '<span class="val-muted">—</span>';
     if(p.dlta != null) {
@@ -496,24 +495,25 @@ function renderTable() {
     if(p.isSteam) tierBadge += '<span class="badge b-steam">STEAM</span>';
 
     tr.innerHTML = `
-      <td class="name-cell">
-        <span class="${excludedClass}">${p.name}</span>
-        <br>
-        <div style="margin-top:4px;">
-          <button class="${btnLockClass}" onclick="toggleLock('${p.name}')">${btnLockText}</button>
-          <button class="${btnExClass}" onclick="toggleExclude('${p.name}')">${btnExText}</button>
+      <td>
+        <div class="action-wrap">
+          <span class="${excludedClass} name-cell">${p.name}</span>
+          <div class="action-icons">
+            <button class="${btnLockClass}" onclick="toggleLock('${p.name}')" title="Lock Player">🔒</button>
+            <button class="${btnExClass}" onclick="toggleExclude('${p.name}')" title="Exclude Player">✕</button>
+          </div>
         </div>
       </td>
       <td class="${excludedClass}">${salStr}</td>
       <td class="${excludedClass}">${oddsStr}</td>
       <td class="${excludedClass}">${dltaStr}</td>
-      <td class="${excludedClass}">${velStr}</td>
+      <td class="${excludedClass} col-div">${velStr}</td>
       <td class="${excludedClass}">${fmtNum(p.sgApp)}</td>
       <td class="${excludedClass}">${fmtNum(p.prox150)}'</td>
-      <td class="${excludedClass}">${fmtNum(p.girRough)}%</td>
-      <td class="${excludedClass}">${fmtNum(p.birdiePct)}%</td>
-      <td class="${excludedClass}">${fmtNum(p.courseHistory)}</td>
+      <td class="${excludedClass} col-div">${fmtNum(p.girRough)}%</td>
       <td class="${excludedClass}">${fmtNum(p.sgArg)}</td>
+      <td class="${excludedClass} col-div">${fmtNum(p.birdiePct)}%</td>
+      <td class="${excludedClass}">${fmtNum(p.courseHistory)}</td>
       <td class="${excludedClass}">${tierBadge}</td>
     `;
     tbody.appendChild(tr);
@@ -625,7 +625,7 @@ function renderLineup(lineup) {
     li.innerHTML = `
       <div>
         <div class="r-name">${lockIndicator}${p.name}</div>
-        <div style="font-size:10px; color:var(--text2); margin-top:4px;">$DLTA: ${p.dlta > 0 ? '+'+p.dlta : p.dlta} | Tier: ${p.tier}</div>
+        <div style="font-size:11px; color:var(--text2); margin-top:4px; font-weight:500;">$DLTA: ${p.dlta > 0 ? '+'+p.dlta : p.dlta} | Tier: ${p.tier}</div>
       </div>
       <div class="r-sal">$${(p.price/1000).toFixed(1)}k</div>
     `;
