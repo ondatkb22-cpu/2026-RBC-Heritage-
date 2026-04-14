@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Plaid Genie v4 — Pro DFS Suite</title>
-  <link href="[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap)" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     /* ============ THEME SYSTEM ============ */
     :root[data-theme="dark"] {
@@ -180,8 +180,8 @@
 
     table { width: 100%; border-collapse: collapse; text-align: left; min-width: 1000px; }
     th {
-      padding: 14px 14px; font-size: 10px; font-weight: 700; color: var(--text-muted);
-      text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 1px solid var(--border);
+      padding: 10px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.6px; border-bottom: 2px solid var(--border);
       cursor: pointer; user-select: none; transition: 0.2s; font-family: 'JetBrains Mono', monospace;
       background: var(--surface); position: sticky; top: 0; z-index: 5;
     }
@@ -189,12 +189,12 @@
     th .sort { opacity: 0.3; margin-left: 3px; font-size: 9px; }
     th.active { color: var(--lighthouse); }
     th.active .sort { opacity: 1; }
-    td { padding: 12px 14px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 500; vertical-align: middle; }
+    td { padding: 6px 10px; border-bottom: 1px solid var(--border); font-size: 12px; font-weight: 500; vertical-align: middle; }
     tr:last-child td { border-bottom: none; }
     tbody tr { transition: background 0.15s; }
     tbody tr:hover { background: var(--surface-hover); }
 
-    .player-name { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text); }
+    .player-name { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--text); }
     .tier-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     .tier-dot.tartan { background: var(--tartan); box-shadow: 0 0 6px currentColor; }
     .tier-dot.lighthouse { background: var(--lighthouse); }
@@ -211,7 +211,7 @@
 
     .actions { display: flex; gap: 6px; margin-top: 6px; }
     .btn-icon {
-      width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--border);
+      width: 22px; height: 22px; border-radius: 6px; border: 1px solid var(--border);
       background: transparent; color: var(--text-muted); cursor: pointer;
       display: flex; align-items: center; justify-content: center; transition: 0.15s; font-size: 11px;
     }
@@ -756,6 +756,8 @@
       players.forEach(p => { existing[p.name] = { locked: p.locked, excluded: p.excluded }; });
       players = db.map(orig => ({ ...orig, ...(existing[orig.name] || { locked: false, excluded: false }) }));
 
+      let totalRawOwn = 0;
+
       players.forEach((p, i) => {
         const latest = p.monWin || p.sunWin;
         p.liveImp = latest ? (100 / (latest + 100)) : 0;
@@ -779,12 +781,20 @@
       players.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
       players.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
 
+      // PASS 1: Calculate Raw Ownership
       players.forEach(p => {
         p.dlta = p.salRank - p.oddsRank;
         let baseOwn = p.price >= 10000 ? 15 : (p.price >= 9000 ? 13 : (p.price >= 8000 ? 10 : 12));
         let dltaBump = p.dlta * 1.2;
         let histBump = p.courseHistory <= 20 ? 5 : (p.courseHistory <= 40 ? 2 : 0);
-        p.pOwn = Math.min(35, Math.max(0.5, baseOwn + dltaBump + histBump + (p.isSteam ? 4 : 0)));
+        p.rawOwn = Math.max(0.5, baseOwn + dltaBump + histBump + (p.isSteam ? 4 : 0));
+        totalRawOwn += p.rawOwn;
+      });
+
+      // PASS 2: Normalize to 600%
+      const normalizer = 600 / totalRawOwn;
+      players.forEach(p => {
+        p.pOwn = Math.min(45, p.rawOwn * normalizer);
         p.rawLev = p.profileFit - (p.pOwn * 1.5);
         p.composite = p.profileFit + ((80 - p.courseHistory) * 0.5);
       });
@@ -1027,7 +1037,6 @@
           const fields = avail.filter(p => p.tier === 'Field');
 
           // Simulation outcome model — each player has mean + variance
-          // Mean based on composite (fit + history), variance based on tier
           avail.forEach(p => {
             p.simMean = p.composite * 0.9;
             p.simStd = p.tier === 'Tartan' ? 18 : (p.tier === 'Lighthouse' ? 22 : 28);
@@ -1086,6 +1095,10 @@
           const batches = totalSims / BATCH;
           
           for (let b = 0; b < batches; b++) {
+            // Apply a slate-level covariance for this batch of simulations
+            // Models AM vs PM wave advantage based on shifting weather
+            const amAdvantage = (Math.random() - 0.5) * 10; 
+            
             for (let i = 0; i < BATCH; i++) {
               const built = buildLineup();
               if (!built) continue;
@@ -1093,7 +1106,11 @@
               // Simulate tournament score for this lineup
               let score = 0;
               for (let p of built.roster) {
-                score += boxMuller(p.simMean, p.simStd);
+                // Convert 1-100 composite to a rough DK Point projection
+                let dkMean = (p.simMean * 0.8) + 20; 
+                // Apply covariance
+                let waveModifier = p.wave === 'AM' ? amAdvantage : -amAdvantage;
+                score += boxMuller(dkMean + waveModifier, p.simStd * 0.5); 
               }
               
               // Key by sorted names
@@ -1185,8 +1202,8 @@
             <div class="lc-header">
               <span class="lc-rank">#${i+1} · ${type.toUpperCase()}</span>
               <div class="lc-stats">
-                <span>MEAN <strong>${l.avgScore.toFixed(1)}</strong></span>
-                <span>CEIL <strong>${l.maxScore.toFixed(1)}</strong></span>
+                <span title="Projected DK Points">MEAN <strong>${l.avgScore.toFixed(1)}</strong></span>
+                <span title="Ceiling DK Points">CEIL <strong>${l.maxScore.toFixed(1)}</strong></span>
               </div>
             </div>
             <div class="lc-body">
