@@ -67,44 +67,41 @@
   .glossary-title { font-weight:700; color:var(--plaid-navy); background:var(--lighthouse); padding:6px 10px; border-radius:4px; border:1px solid var(--border); }
   .glossary-item strong { color:var(--text); }
 
-  /* Modernized Table Styling with Sticky First Column */
-  .table-wrap { overflow-x:auto; overflow-y:visible; max-width:100%; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
+  .table-wrap { overflow-x:auto; overflow-y:visible; max-width:100%; padding-bottom:8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; }
   .table-wrap::-webkit-scrollbar { height:12px; }
   .table-wrap::-webkit-scrollbar-track { background:var(--surface2); }
   .table-wrap::-webkit-scrollbar-thumb { background:var(--border); border-radius:6px; border: 2px solid var(--surface2); }
   .table-wrap::-webkit-scrollbar-thumb:hover { background:var(--text2); }
 
-  table { width:100%; border-collapse:separate; border-spacing:0; min-width:1200px; text-align:left; }
+  table { width:100%; border-collapse:separate; border-spacing:0; min-width:900px; text-align:left; }
   
   th { background:var(--plaid-navy); color:rgba(255,255,255,0.95); padding:16px 16px; font-size:11px; font-weight:500; cursor:pointer; white-space:nowrap; letter-spacing:0.5px; border-bottom:1px solid var(--plaid-navy); }
   th:hover { background:#243858; }
-  td { padding:14px 16px; border-bottom:1px solid var(--surface2); white-space:nowrap; font-size:12px; }
+  td { padding:14px 16px; border-bottom:1px solid var(--surface2); white-space:nowrap; font-size:13px; }
   
-  /* Vertical Dividers for Grouping */
   .col-div-header { border-right: 1px solid rgba(255,255,255,0.15); }
   .col-div { border-right: 1px solid var(--surface2); }
 
-  /* Sticky Left Column */
   th:first-child { position:sticky; left:0; z-index:20; border-right: 2px solid rgba(0,0,0,0.2); }
   td:first-child { position:sticky; left:0; background:var(--surface); z-index:10; border-right: 2px solid var(--surface2); box-shadow: 2px 0 8px rgba(0,0,0,0.02); }
   
-  /* Hover state needs to apply to sticky cell too */
   tbody tr:hover td { background:rgba(27,42,74,0.03); }
   
-  .name-cell { font-weight:700; color:var(--plaid-navy); font-size:13px; }
+  .name-cell { font-weight:700; color:var(--plaid-navy); font-size:14px; min-width:150px; }
   .val-good { color:var(--plaid-green); font-weight:700; }
   .val-bad { color:var(--plaid-red); }
+  .val-elite { color:#B8860B; font-weight:700; } /* Gold for top tier fit */
 
-  .badge { padding:4px 8px; border-radius:4px; font-size:9px; font-weight:700; display:inline-flex; align-items:center; gap:4px; margin-right:4px; letter-spacing: 0.5px;}
+  .badge { padding:4px 8px; border-radius:4px; font-size:10px; font-weight:700; display:inline-flex; align-items:center; gap:4px; margin-right:4px; letter-spacing: 0.5px;}
   .b-tartan { background:var(--plaid-red); color:#fff; }
   .b-lighthouse { background:var(--plaid-navy); color:#fff; }
   .b-steam { background:rgba(196,30,58,0.1); color:var(--plaid-red); border:1px solid rgba(196,30,58,0.2); }
   .b-value { background:rgba(45,90,61,0.1); color:var(--plaid-green); border:1px solid rgba(45,90,61,0.2); }
 
   /* ── ICON BUTTON UI (LOCK/EXCLUDE) ── */
-  .action-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; min-width: 220px; }
+  .action-wrap { display: flex; align-items: center; justify-content: space-between; width: 100%; min-width: 240px; }
   .action-icons { display: flex; gap: 6px; }
-  .action-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; color: var(--text2); transition: 0.2s; font-size: 11px; }
+  .action-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; color: var(--text2); transition: 0.2s; font-size: 13px; }
   .action-btn:hover { background: var(--surface2); }
   
   .btn-lock.active { background: rgba(184,134,11,0.1); border-color: var(--gold); }
@@ -174,8 +171,8 @@
         <div class="guide-text"><p>Books open their lines on Sunday night. By Wednesday, sharp bettors and syndicates have hammered the inefficiencies. Plaid Genie tracks this velocity. The <strong>wVEL Indicator</strong> flags players whose implied win probability has surged since the open.</p></div>
       </div>
       <div class="guide-card">
-        <h3><span>3</span> Harbour Town Course Logic</h3>
-        <div class="guide-text"><p>On a tight, short course like Harbour Town, the engine heavily weights <strong>Proximity from 100-150 Yards</strong> and dynamically blends results from 2024, 2023, and 2022 to mathematically surface the true course horses.</p></div>
+        <h3><span>3</span> Profile Fit Score</h3>
+        <div class="guide-text"><p>We collapsed all the noise. The <strong>Profile Fit</strong> score (1-100) dynamically weights SG: Approach and SG: Around-the-Green to match the historical winning profile of Harbour Town.</p></div>
       </div>
       <div class="guide-card">
         <h3><span>4</span> Dynamic Optimizer</h3>
@@ -198,9 +195,9 @@
       <div class="glossary-title">📊 METRIC KEY</div>
       <div class="glossary-item"><strong>$DLTA:</strong> Salary Rank vs Odds Rank (Positive = Underpriced)</div>
       <div class="glossary-item"><strong>wVEL:</strong> % shift in win probability since Sunday</div>
-      <div class="glossary-item"><strong>CRSE HIST:</strong> Chronologically Weighted (2024: 40%, 2023: 30%, 2022: 20%, Base: 10%). MC/DNP = 75.</div>
-      <div class="glossary-item"><strong>TIER:</strong> Algorithmic Ranking mapped by top composite scores. Tartan (Top 8), Lighthouse (Ranks 9-25), Field (Rest).</div>
-      <div class="glossary-item"><strong>SLEEPERS:</strong> &lt; $8k Salary + Positive Steam + Top 40 Course History</div>
+      <div class="glossary-item"><strong>CRSE HIST (AVG FINISH):</strong> Chronologically Weighted (2025: 40%, 2024: 30%, 2022: 20%, Base: 10%). MC/DNP = 75. <strong>(Lower is Better)</strong></div>
+      <div class="glossary-item"><strong>PROFILE FIT (1-100):</strong> Algorithmic grade heavily weighting SG:APP & SG:ARG. <strong>(Higher is Better)</strong></div>
+      <div class="glossary-item"><strong>TIER:</strong> Algorithmic Ranking mapped by composite scores. Tartan (Top 8), Lighthouse (Ranks 9-25), Field (Rest).</div>
     </div>
 
     <div class="table-wrap">
@@ -212,12 +209,8 @@
             <th onclick="sortData('sunWin')">ODDS (SUN ➝ CUR)</th>
             <th onclick="sortData('dlta')">$DLTA</th>
             <th class="col-div-header" onclick="sortData('velTotal')">wVEL (STEAM)</th>
-            <th onclick="sortData('sgApp')">SG:APP</th>
-            <th onclick="sortData('prox150')">PROX 150'</th>
-            <th class="col-div-header" onclick="sortData('girRough')">RGH <150</th>
-            <th onclick="sortData('sgArg')">SG:ARG</th>
-            <th class="col-div-header" onclick="sortData('birdiePct')">BIRDIE %</th>
-            <th onclick="sortData('courseHistory')">CRSE HIST</th>
+            <th onclick="sortData('courseHistory')">CRSE HIST (AVG FINISH)</th>
+            <th class="col-div-header" onclick="sortData('profileFit')">PROFILE FIT (1-100)</th>
             <th onclick="sortData('composite')">TIER</th>
           </tr>
         </thead>
@@ -246,7 +239,7 @@
 
 <script>
 // ==========================================
-// MASTER DATABASE 
+// MASTER DATABASE
 // ==========================================
 const db = [
   { name: "Scottie Scheffler", sunWin: 350, monWin: 370, tueWin: null, wedWin: null, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5 },
@@ -364,6 +357,24 @@ function processData() {
     p.isSteam = p.velTotal > 0.02;
     p.locked = false;
     p.excluded = false;
+    
+    // Calculate Raw Profile Fit Score based on Harbour Town Winning Profile
+    let app = p.sgApp ? p.sgApp * 30 : 0; 
+    let arg = p.sgArg ? p.sgArg * 20 : 0; 
+    let prox = p.prox150 ? (30 - p.prox150) * 2 : 0;
+    let rgh = p.girRough ? p.girRough * 0.5 : 0;
+    let bird = p.birdiePct ? p.birdiePct * 0.5 : 0;
+    
+    p.rawFit = app + arg + prox + rgh + bird;
+  });
+
+  // Normalize Profile Fit to 1-100 scale
+  const validFits = players.filter(p => p.price).map(p => p.rawFit);
+  const maxFit = Math.max(...validFits);
+  const minFit = Math.min(...validFits);
+  
+  players.forEach(p => {
+      p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100;
   });
 
   const priced = players.filter(p => p.price);
@@ -376,15 +387,10 @@ function processData() {
       });
   }
 
+  // Calculate overall composite combining Course History and Profile Fit
   players.forEach(p => {
-    let appScore = p.sgApp ? p.sgApp * 20 : 0;
-    let birdScore = p.birdiePct ? p.birdiePct : 0;
     let histScore = p.courseHistory ? (80 - p.courseHistory) * 0.5 : 0; 
-    let argScore = p.sgArg ? p.sgArg * 15 : 0;
-    let proxScore = p.prox150 ? (30 - p.prox150) * 2 : 0; 
-    let girRoughScore = p.girRough ? p.girRough * 0.5 : 0;
-
-    p.composite = appScore + birdScore + histScore + argScore + proxScore + girRoughScore;
+    p.composite = p.profileFit + histScore;
   });
 
   players.sort((a,b) => b.composite - a.composite);
@@ -408,7 +414,7 @@ function sortData(col) {
   if (sortCol === col) sortAsc = !sortAsc;
   else { 
       sortCol = col; 
-      sortAsc = (col === 'name' || col === 'courseHistory' || col === 'prox150'); 
+      sortAsc = (col === 'name' || col === 'courseHistory'); 
   }
   renderTable();
 }
@@ -476,7 +482,7 @@ function renderTable() {
     
     const sunStr = p.sunWin ? fmtOdds(p.sunWin) : '—';
     const latestStr = fmtOdds(p.wedWin || p.tueWin || p.monWin || p.sunWin);
-    const oddsStr = `<span style="font-size:10px;color:var(--text2)">${sunStr} <span style="font-size:11px; margin:0 3px;">➝</span> </span><span style="font-weight:700; color:var(--text);">${latestStr}</span>`;
+    const oddsStr = `<span style="font-size:10px;color:var(--text2)">SUN ${sunStr} <span style="font-size:11px; margin:0 3px;">➝</span> </span><span style="font-weight:700; color:var(--text);">${latestStr}</span>`;
     
     let dltaStr = '<span class="val-muted">—</span>';
     if(p.dlta != null) {
@@ -494,6 +500,9 @@ function renderTable() {
     if(p.dlta > 3) tierBadge += '<span class="badge b-value">$DLTA+</span>';
     if(p.isSteam) tierBadge += '<span class="badge b-steam">STEAM</span>';
 
+    const fitVal = p.profileFit != null ? p.profileFit.toFixed(1) : '—';
+    const fitClass = p.profileFit > 85 ? 'val-elite' : (p.profileFit > 65 ? 'val-good' : (p.profileFit < 30 ? 'val-bad' : ''));
+
     tr.innerHTML = `
       <td>
         <div class="action-wrap">
@@ -508,12 +517,8 @@ function renderTable() {
       <td class="${excludedClass}">${oddsStr}</td>
       <td class="${excludedClass}">${dltaStr}</td>
       <td class="${excludedClass} col-div">${velStr}</td>
-      <td class="${excludedClass}">${fmtNum(p.sgApp)}</td>
-      <td class="${excludedClass}">${fmtNum(p.prox150)}'</td>
-      <td class="${excludedClass} col-div">${fmtNum(p.girRough)}%</td>
-      <td class="${excludedClass}">${fmtNum(p.sgArg)}</td>
-      <td class="${excludedClass} col-div">${fmtNum(p.birdiePct)}%</td>
       <td class="${excludedClass}">${fmtNum(p.courseHistory)}</td>
+      <td class="${excludedClass} col-div"><strong class="${fitClass}">${fitVal}</strong></td>
       <td class="${excludedClass}">${tierBadge}</td>
     `;
     tbody.appendChild(tr);
