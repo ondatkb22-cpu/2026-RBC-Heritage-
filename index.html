@@ -1,479 +1,530 @@
-"use client";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Plaid Genie V5.1 — Heritage Optimizer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050507;--sf:#0E0E12;--sf2:#151519;--sf3:#1B1B21;--gl:rgba(14,14,18,.88);--bd:#27272F;--bd2:#35353F;--tx:#EAEAEF;--tx2:#9898A6;--tx3:#5E5E6E;--grn:#34D399;--red:#F87171;--gld:#FBBF24;--blu:#60A5FA;--pur:#A78BFA;--fn:'DM Sans',sans-serif;--mn:'DM Mono',monospace}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--tx);font-family:var(--fn);font-size:13px;min-height:100vh;padding-bottom:120px;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(96,165,250,.06) 0%,transparent 60%);z-index:-1;pointer-events:none}
+.c{max-width:1340px;margin:0 auto;padding:16px}
+.hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 0 20px;border-bottom:1px solid var(--bd);margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.hdr h1{font-size:24px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
+.hdr .tag{font-size:9px;background:var(--grn);color:#000;padding:3px 8px;border-radius:10px;font-weight:700;letter-spacing:1px}
+.hdr-sub{color:var(--tx2);font-size:12px;margin-top:4px}
+.hdr-wx{font-size:11px;color:var(--tx3);background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:6px 12px}
+.tabs{display:flex;gap:6px;margin-bottom:20px}
+.tab{flex:1;padding:12px;background:transparent;border:1px solid var(--bd);color:var(--tx3);font-family:var(--fn);font-size:12px;font-weight:600;cursor:pointer;border-radius:12px;transition:.2s;text-align:center}
+.tab:hover{color:var(--tx2);border-color:var(--tx3)}
+.tab.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.pnl{display:none;animation:fi .3s ease}
+.pnl.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.srch{background:var(--sf);border:1px solid var(--bd);color:var(--tx);padding:9px 14px;border-radius:10px;font-size:13px;width:220px;outline:none;font-family:var(--fn)}
+.srch:focus{border-color:var(--blu);box-shadow:0 0 16px rgba(96,165,250,.12)}
+.chip{background:transparent;border:1px solid var(--bd);color:var(--tx3);padding:8px 13px;border-radius:16px;font-size:10px;font-weight:600;cursor:pointer;transition:.2s;letter-spacing:.4px;font-family:var(--fn)}
+.chip:hover{border-color:var(--tx2);color:var(--tx2)}
+.chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.cg{border-color:rgba(52,211,153,.4);color:var(--grn)}
+.cr{border-color:rgba(248,113,113,.4);color:var(--red)}
+.tw{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow-x:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);max-height:70vh;overflow-y:auto}
+.tw::-webkit-scrollbar{width:6px;height:6px}.tw::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
+table{width:100%;border-collapse:collapse;min-width:1000px}
+th{padding:10px 8px;font-size:12px;font-weight:600;color:var(--tx3);border-bottom:1px solid var(--bd);cursor:pointer;text-align:center;user-select:none;position:sticky;top:0;background:var(--sf);z-index:5}
+th:first-child{text-align:left;padding-left:14px;left:0;z-index:10;border-right:1px solid var(--bd)}
+th.act{color:var(--blu)}
+th .s{opacity:.3;font-size:8px;margin-left:2px}
+th.act .s{opacity:1}
+td{padding:7px 8px;border-bottom:1px solid var(--bd);font-size:11px;text-align:center;vertical-align:middle}
+td:first-child{text-align:left;padding-left:14px;position:sticky;left:0;background:var(--sf);z-index:4;border-right:1px solid var(--bd)}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:var(--sf2)}
+tbody tr:hover td:first-child{background:var(--sf2)}
+.pn{display:flex;align-items:center;gap:6px;font-weight:600;color:#fff;font-size:11px}
+.wv{font-size:7px;padding:1px 4px;border-radius:4px;font-weight:700;font-family:var(--mn)}
+.wam{color:var(--gld);background:rgba(251,191,36,.08)}
+.wpm{color:var(--blu);background:rgba(96,165,250,.08)}
+.acts{display:flex;gap:4px;margin-top:2px}
+.bi{width:24px;height:24px;border-radius:5px;border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;transition:.15s}
+.bi:hover{background:var(--bd);color:#fff}
+.bi.lk{background:rgba(251,191,36,.12);border-color:var(--gld);color:var(--gld)}
+.bi.ex{background:rgba(248,113,113,.12);border-color:var(--red);color:var(--red)}
+.row-ex td{opacity:.25}.row-ex td:first-child{opacity:1}
+.row-lk td{background:rgba(251,191,36,.02)}
+.vg{color:var(--grn);font-weight:700}.vr{color:var(--red)}.vgl{color:var(--gld);font-weight:700}
+.mn{font-family:var(--mn)}
+.na{color:var(--tx3);font-style:italic;font-size:9px}
+.ct{font-size:7px;background:rgba(248,113,113,.12);color:var(--red);padding:1px 4px;border-radius:3px;font-weight:700;margin-left:3px;font-family:var(--mn)}
+.sp{display:inline-flex;align-items:flex-end;gap:1px;height:16px}
+.sb{width:4px;border-radius:1px 1px 0 0}
+.oc{font-family:var(--mn);font-size:10px;line-height:1.4}
+.oo{color:var(--tx3);font-size:8px}
+.os{color:var(--grn)}.od{color:var(--red)}
+/* BUILD */
+.bw{display:grid;grid-template-columns:1fr 340px;gap:16px}
+@media(max-width:900px){.bw{grid-template-columns:1fr}}
+.bm{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px}
+.bm h3{font-size:16px;font-weight:700;margin-bottom:4px}
+.bm>p{color:var(--tx2);font-size:11px;margin-bottom:14px}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.bb{background:var(--sf2);border:1px solid var(--bd);color:var(--tx);padding:14px;border-radius:10px;cursor:pointer;transition:.2s;text-align:left;font-family:var(--fn)}
+.bb:hover{border-color:var(--blu);transform:translateY(-1px)}
+.bb.ca{border-left:3px solid var(--grn)}.bb.gp{border-left:3px solid var(--blu)}
+.bt{font-size:13px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.bs2{font-size:10px;color:var(--tx2);line-height:1.3}
+.ld{background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:12px}
+.lh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.lh h4{font-size:10px;color:var(--tx2);font-family:var(--mn);letter-spacing:.5px;text-transform:uppercase}
+.clr{background:transparent;border:1px solid var(--tx3);color:var(--tx2);padding:3px 7px;border-radius:5px;font-size:8px;font-weight:700;cursor:pointer;font-family:var(--mn);transition:.2s}
+.clr:hover{border-color:var(--red);color:var(--red)}
+.li{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed var(--bd);font-size:11px}
+.li:last-child{border:none}
+.le{color:var(--tx3);font-size:10px;font-style:italic;text-align:center;padding:8px 0}
+.bsd{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:16px;height:fit-content}
+.bsd h4{font-size:14px;font-weight:700;margin-bottom:12px}
+.ss{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--bd)}
+.ss:last-child{border:none}
+.sl{font-size:10px;color:var(--tx2);font-family:var(--mn)}
+.sv2{font-weight:700;font-size:12px;font-family:var(--mn)}
+.oc2{background:var(--sf);border:2px solid var(--blu);border-radius:14px;margin-top:16px;overflow:hidden;display:none}
+.oc2.show{display:block}
+.oh{background:var(--blu);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.oh h4{font-size:15px;font-weight:700}
+.ost{font-family:var(--mn);font-size:11px;display:flex;gap:12px}
+.ol{list-style:none;padding:0;margin:0}
+.ol li{padding:10px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.ol li:last-child{border:none}
+.xb{margin:8px 16px 12px;background:transparent;border:1px solid var(--grn);color:var(--grn);padding:8px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mn);width:calc(100% - 32px);text-align:center;transition:.2s}
+.xb:hover{background:var(--grn);color:#000}
+/* PREBUILT */
+.ph{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center}
+.ph h2{font-size:20px;font-weight:700;margin-bottom:6px}
+.ph p{color:var(--tx2);font-size:12px;margin-bottom:14px}
+.sib{background:var(--blu);color:#fff;border:none;padding:12px 24px;border-radius:10px;font-family:var(--fn);font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
+.sib:hover{transform:translateY(-2px)}.sib:disabled{opacity:.6;cursor:wait}
+.pw{margin-top:16px;display:none}.pw.show{display:block}
+.pbg{height:6px;background:var(--sf2);border-radius:3px;overflow:hidden;margin-bottom:6px;border:1px solid var(--bd)}
+.pbf{height:100%;background:linear-gradient(90deg,var(--blu),var(--grn));width:0%;transition:width .2s;border-radius:3px}
+.pt{font-size:10px;color:var(--tx2);font-family:var(--mn)}
+.ps{margin-bottom:20px}
+.ps h3{font-size:16px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ps h3 .cn{background:var(--blu);color:#fff;font-size:9px;padding:2px 7px;border-radius:8px;font-family:var(--mn);font-weight:700}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.lc{background:var(--sf);border:1px solid var(--bd);border-radius:10px;overflow:hidden;transition:.2s}
+.lc:hover{transform:translateY(-2px);border-color:var(--blu)}
+.lc.ca{border-left:3px solid var(--grn)}.lc.gp{border-left:3px solid var(--blu)}
+.lch{padding:10px 12px;background:var(--sf2);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);font-size:10px;font-family:var(--mn);color:var(--tx2)}
+.lch strong{color:var(--tx)}
+.lcb{padding:8px 12px}
+.lcr{display:flex;justify-content:space-between;padding:4px 0;font-size:11px}
+.lcn{font-weight:600}
+.lcp{color:var(--grn);font-family:var(--mn);font-weight:700}
+.lcf{padding:8px 12px;background:var(--sf2);border-top:1px solid var(--bd);font-family:var(--mn);font-size:9px;color:var(--tx2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.lcf strong{color:var(--tx)}
+.lcx{padding:6px 12px;border-top:1px solid var(--bd);text-align:center}
+.lcx button{background:transparent;border:1px solid var(--grn);color:var(--grn);padding:5px 10px;border-radius:5px;font-size:9px;font-weight:700;cursor:pointer;font-family:var(--mn);transition:.2s}
+.lcx button:hover{background:var(--grn);color:#000}
+/* FAB */
+.fc{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);width:92%;max-width:700px;z-index:100}
+.fab{background:var(--gl);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 16px 48px rgba(0,0,0,.5);cursor:pointer;transition:.3s}
+.fab:hover{border-color:rgba(255,255,255,.15)}
+.fs{display:flex;gap:18px}
+.fb{display:flex;flex-direction:column}
+.fv{font-size:13px;font-weight:700;font-family:var(--mn)}
+.fl{font-size:8px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+@media(max-width:768px){.c{padding:8px}.hdr{flex-direction:column;align-items:flex-start}.srch{width:100%}.chip{flex:1;text-align:center}table{min-width:850px}th,td{padding:6px 5px;font-size:10px}.pn{font-size:10px}.bi{width:28px;height:28px;font-size:11px}.ba{grid-template-columns:1fr}.fs{gap:10px}.fv{font-size:11px}.bw{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="c">
+<header class="hdr">
+<div><h1>Plaid Genie <span class="tag">V5.1</span></h1><div class="hdr-sub">RBC Heritage · Harbour Town GL · Tout Chalk Parsed · 4-Point Steam</div></div>
+<div class="hdr-wx">R1 Thu: 74°F · E 10-15 mph AM → SSE 5-10 mph PM · 0% rain · PM wave edge</div>
+</header>
+<div class="tabs">
+<button class="tab on" onclick="sw('pool',this)">📊 POOL</button>
+<button class="tab" onclick="sw('build',this)">🛠️ BUILD</button>
+<button class="tab" onclick="sw('pre',this)">🎰 PRE-BUILT</button>
+</div>
+<!-- POOL -->
+<div class="pnl on" id="p-pool">
+<div class="toolbar">
+<input class="srch" id="srch" placeholder="Search..." oninput="ren()">
+<button class="chip on" onclick="flt('all',this)">ALL</button>
+<button class="chip" onclick="flt('am',this)">☀️ AM</button>
+<button class="chip" onclick="flt('pm',this)">🌥️ PM</button>
+<button class="chip cg" onclick="flt('steam',this)">🚂 STEAM</button>
+<button class="chip cg" onclick="flt('lev',this)">📈 LEV</button>
+<button class="chip cr" onclick="flt('chalk',this)">🐑 CHALK</button>
+</div>
+<div class="tw"><table><thead><tr>
+<th onclick="so('name')" data-c="name">🏌️ Player <span class="s">▼</span></th>
+<th onclick="so('price')" data-c="price">💵 <span class="s">▼</span></th>
+<th onclick="so('liveImp')" data-c="liveImp">🎲 <span class="s">▼</span></th>
+<th data-c="spark" style="cursor:default">📊</th>
+<th onclick="so('dlta')" data-c="dlta">⚖️ <span class="s">▼</span></th>
+<th onclick="so('steamAbs')" data-c="steamAbs">🚂 <span class="s">▼</span></th>
+<th onclick="so('courseHistory')" data-c="courseHistory">🏛️ <span class="s">▼</span></th>
+<th onclick="so('profileFit')" data-c="profileFit">🎯 <span class="s">▼</span></th>
+<th onclick="so('pOwn')" data-c="pOwn">👥 <span class="s">▼</span></th>
+<th onclick="so('leverage')" data-c="leverage">📈 <span class="s">▼</span></th>
+</tr></thead><tbody id="tb"></tbody></table></div>
+</div>
+<!-- BUILD -->
+<div class="pnl" id="p-build">
+<div class="bw">
+<div class="bm"><h3>🛠️ Lineup Builder</h3><p>Lock players in the Pool tab, then generate. Knapsack DP finds optimal 6-man roster ($49k-$50k).</p>
+<div class="ba">
+<button class="bb ca" onclick="gen('cash')"><div class="bt">🛡️ CASH</div><div class="bs2">Max median floor. Weights history + fit. Ignores ownership.</div></button>
+<button class="bb gp" onclick="gen('gpp')"><div class="bt">🚀 GPP MILLY</div><div class="bs2">Max leverage. Caps pOWN at 85%. Targets contrarian ceiling.</div></button>
+</div>
+<div class="ld"><div class="lh"><h4>🔒 Locked Players</h4><button class="clr" onclick="clrL()">CLEAR ALL</button></div><div id="ll"><div class="le">No players locked.</div></div></div>
+<div class="oc2" id="oc"><div class="oh"><h4 id="ot">Optimal Lineup</h4><div class="ost" id="os"></div></div><ul class="ol" id="olist"></ul><button class="xb" onclick="xCSV()">📥 EXPORT DRAFTKINGS CSV</button></div>
+</div>
+<div class="bsd"><h4>📋 Roster State</h4>
+<div class="ss"><span class="sl">LOCKED</span><span class="sv2" id="sL">0/6</span></div>
+<div class="ss"><span class="sl">EXCLUDED</span><span class="sv2" id="sE">0</span></div>
+<div class="ss"><span class="sl">CAP USED</span><span class="sv2 vg" id="sS">$0</span></div>
+<div class="ss"><span class="sl">CAP LEFT</span><span class="sv2" id="sR">$50,000</span></div>
+<div class="ss"><span class="sl">PROJECTED</span><span class="sv2" id="sP">0.0</span></div>
+<div class="ss"><span class="sl">TOTAL OWN</span><span class="sv2 vgl" id="sO">0.0%</span></div>
+</div></div>
+</div>
+<!-- PREBUILT -->
+<div class="pnl" id="p-pre">
+<div class="ph"><h2>🎰 Monte Carlo Pre-Built</h2><p>Runs 5M tournament simulations with wave-correlated scoring. Surfaces Top 5 Cash + Top 3 GPP lineups.</p>
+<button class="sib" id="simB" onclick="runSim()">▶ RUN 5M SIMULATIONS</button>
+<div class="pw" id="pw"><div class="pbg"><div class="pbf" id="pf"></div></div><div class="pt" id="ptt">Initializing...</div></div>
+</div>
+<div id="simR" style="display:none">
+<div class="ps"><h3 id="ch" style="display:none">🛡️ CASH <span class="cn">HIGH FLOOR</span></h3><div class="pg" id="cg"></div></div>
+<div class="ps"><h3 id="gh" style="display:none">🚀 GPP <span class="cn">LEVERAGE</span></h3><div class="pg" id="gg"></div></div>
+</div>
+</div>
+</div>
+<div class="fc"><div class="fab" onclick="sw('build',document.querySelectorAll('.tab')[1])">
+<div class="fs">
+<div class="fb"><span class="fv" id="fC">0/6</span><span class="fl">Roster</span></div>
+<div class="fb"><span class="fv vg" id="fS">$50,000</span><span class="fl">Rem Cap</span></div>
+<div class="fb"><span class="fv" id="fP">0.0</span><span class="fl">Proj</span></div>
+<div class="fb"><span class="fv vgl" id="fO">0.0%</span><span class="fl">pOWN</span></div>
+</div>
+<div style="color:var(--tx3);font-size:11px;font-family:var(--mn)">BUILD →</div>
+</div></div>
 
-import React, { useEffect, useState } from 'react';
-import { create } from 'zustand';
-import { Lock, X, Search, Info, Rocket, Shield, Scale } from 'lucide-react';
+<script>
+const NH=75;
+// TOUT CHALK: Parsed from Pat Mayo, Blickle, RotoWire, FanDuel expert transcripts
+// These players will get +10% ownership inflation to model real-world DFS field behavior
+const CHALK=["Scottie Scheffler","Matt Fitzpatrick","Russell Henley","Patrick Cantlay","Cameron Young","Xander Schauffele","Jacob Bridgeman","S. Yellamaraju","Ryo Hisatsune","Tommy Fleetwood"];
+// CONTENTION PERFORMANCE: Top scorers from Blickle's new CPS metric
+const CPS_GOOD=["Billy Horschel","Chris Gotterup","Viktor Hovland","Gary Woodland","Matt Wallace","Matt Fitzpatrick","Xander Schauffele","Jason Day","Justin Thomas"];
 
-// ==========================================
-// 1. DATA & MATH (The Brain)
-// ==========================================
-const RAW_DB = [
-  { name: "Scottie Scheffler", sunWin: 350, tueWin: 385, price: 13500, sgApp: 0.080, birdiePct: 30.79, courseHistory: 19.70, sgArg: 0.618, prox150: 18.4, girRough: 58.5, wave: "PM" },
-  { name: "Xander Schauffele", sunWin: 1450, tueWin: 1500, price: 10500, sgApp: 0.662, birdiePct: 23.50, courseHistory: 22.00, sgArg: 0.009, prox150: 20.9, girRough: 59.1, wave: "PM" },
-  { name: "Matt Fitzpatrick", sunWin: 1950, tueWin: 1700, price: 10000, sgApp: 0.810, birdiePct: 26.79, courseHistory: 23.80, sgArg: 0.309, prox150: 22.9, girRough: 59.4, wave: "PM" },
-  { name: "Cameron Young", sunWin: 1700, tueWin: 1750, price: 9800, sgApp: 0.499, birdiePct: 26.16, courseHistory: 26.80, sgArg: 0.063, prox150: 21.0, girRough: 58.9, wave: "AM" },
-  { name: "Russell Henley", sunWin: 2100, tueWin: 1800, price: 9600, sgApp: 0.313, birdiePct: 25.23, courseHistory: 26.20, sgArg: 0.199, prox150: 19.5, girRough: 63.1, wave: "PM" },
-  { name: "Tommy Fleetwood", sunWin: 1700, tueWin: 1800, price: 10100, sgApp: 0.459, birdiePct: 24.44, courseHistory: 22.70, sgArg: 0.712, prox150: 19.5, girRough: 62.2, wave: "PM" },
-  { name: "Ludvig Åberg", sunWin: 2050, tueWin: 2100, price: 9400, sgApp: 0.397, birdiePct: 27.31, courseHistory: 51.20, sgArg: 0.420, prox150: 20.7, girRough: 56.0, wave: "AM" },
-  { name: "Collin Morikawa", sunWin: 2350, tueWin: 2350, price: 9300, sgApp: 1.066, birdiePct: 27.47, courseHistory: 20.30, sgArg: 0.039, prox150: 18.7, girRough: 63.5, wave: "PM" },
-  { name: "Patrick Cantlay", sunWin: 2150, tueWin: 2500, price: 9200, sgApp: 0.146, birdiePct: 22.45, courseHistory: 3.50, sgArg: 0.247, prox150: 20.0, girRough: 61.4, wave: "PM" },
-  { name: "Si Woo Kim", sunWin: 3700, tueWin: 2800, price: 8900, sgApp: 0.912, birdiePct: 26.08, courseHistory: 41.10, sgArg: 0.142, prox150: 19.6, girRough: 53.9, wave: "PM" },
-  { name: "Robert MacIntyre", sunWin: 2900, tueWin: 2900, price: 8700, sgApp: -0.247, birdiePct: 26.19, courseHistory: 58.50, sgArg: 0.120, prox150: 21.9, girRough: 60.9, wave: "AM" },
-  { name: "Jordan Spieth", sunWin: 3700, tueWin: 3000, price: 8800, sgApp: 0.412, birdiePct: 22.22, courseHistory: 14.20, sgArg: 0.129, prox150: 22.2, girRough: 61.2, wave: "AM" },
-  { name: "Viktor Hovland", sunWin: 3900, tueWin: 3400, price: 8600, sgApp: 0.575, birdiePct: 21.21, courseHistory: 40.10, sgArg: 0.240, prox150: 19.4, girRough: 63.8, wave: "AM" },
-  { name: "Sam Burns", sunWin: 2500, tueWin: 3500, price: 9000, sgApp: -0.012, birdiePct: 25.00, courseHistory: 37.90, sgArg: -0.350, prox150: 20.5, girRough: 56.8, wave: "PM" },
-  { name: "Maverick McNealy", sunWin: 3500, tueWin: 3700, price: 8500, sgApp: 0.176, birdiePct: 25.19, courseHistory: 38.00, sgArg: 0.221, prox150: 21.1, girRough: 55.7, wave: "PM" },
-  { name: "Jake Knapp", sunWin: 3000, tueWin: 3800, price: 9100, sgApp: 0.342, birdiePct: 26.07, courseHistory: 44.80, sgArg: 0.111, prox150: 22.4, girRough: 59.5, wave: "PM" },
-  { name: "Justin Thomas", sunWin: 3700, tueWin: 4000, price: 8300, sgApp: 0.325, birdiePct: 24.50, courseHistory: 18.50, sgArg: 0.259, prox150: 18.9, girRough: 54.9, wave: "AM" },
-  { name: "Sepp Straka", sunWin: 5200, tueWin: 4500, price: 7900, sgApp: 0.568, birdiePct: 24.67, courseHistory: 32.10, sgArg: 0.128, prox150: 19.1, girRough: 42.0, wave: "AM" },
-  { name: "Jacob Bridgeman", sunWin: 4400, tueWin: 4500, price: 8200, sgApp: 0.501, birdiePct: 28.30, courseHistory: 51.10, sgArg: -0.152, prox150: 21.0, girRough: 54.4, wave: "AM" },
-  { name: "Jason Day", sunWin: 4100, tueWin: 4800, price: 8000, sgApp: -0.352, birdiePct: 22.92, courseHistory: 55.30, sgArg: 0.457, prox150: 20.6, girRough: 56.4, wave: "PM" },
-  { name: "J.J. Spaun", sunWin: 5300, tueWin: 4900, price: 7500, sgApp: 0.587, birdiePct: 22.45, courseHistory: 67.50, sgArg: 0.013, prox150: 19.9, girRough: 56.7, wave: "AM" },
-  { name: "Min Woo Lee", sunWin: 5500, tueWin: 5200, price: 7800, sgApp: 0.266, birdiePct: 28.97, courseHistory: 64.60, sgArg: 0.294, prox150: 20.2, girRough: 38.9, wave: "AM" },
-  { name: "Chris Gotterup", sunWin: 4500, tueWin: 5300, price: 8100, sgApp: 0.436, birdiePct: 25.19, courseHistory: 44.30, sgArg: 0.296, prox150: 23.0, girRough: 61.6, wave: "AM" },
-  { name: "Ben Griffin", sunWin: 4100, tueWin: 5300, price: 7800, sgApp: -0.115, birdiePct: 23.15, courseHistory: 43.40, sgArg: 0.454, prox150: 22.2, girRough: 55.3, wave: "AM" },
-  { name: "Shane Lowry", sunWin: 3900, tueWin: 5500, price: 8400, sgApp: 0.474, birdiePct: 24.17, courseHistory: 46.60, sgArg: -0.085, prox150: 19.6, girRough: 61.2, wave: "PM" },
-  { name: "Harris English", sunWin: 5000, tueWin: 5800, price: 7900, sgApp: -0.214, birdiePct: 25.74, courseHistory: 55.20, sgArg: -0.146, prox150: 23.8, girRough: 50.5, wave: "AM" },
-  { name: "Alex Noren", sunWin: 6400, tueWin: 6000, price: 7100, sgApp: -0.073, birdiePct: 24.44, courseHistory: 42.60, sgArg: 0.498, prox150: 22.2, girRough: 56.1, wave: "AM" },
-  { name: "Akshay Bhatia", sunWin: 5300, tueWin: 6000, price: 7700, sgApp: 0.792, birdiePct: 28.22, courseHistory: 40.70, sgArg: 0.168, prox150: 19.9, girRough: 39.3, wave: "PM" },
-  { name: "Rickie Fowler", sunWin: 5700, tueWin: 6500, price: 7600, sgApp: 0.111, birdiePct: 24.21, courseHistory: 45.80, sgArg: -0.318, prox150: 21.2, girRough: 58.6, wave: "AM" },
-  { name: "Ryan Gerard", sunWin: 7600, tueWin: 7600, price: 7400, sgApp: 0.712, birdiePct: 25.87, courseHistory: 58.10, sgArg: -0.276, prox150: 21.1, girRough: 57.4, wave: "AM" },
-  { name: "Sahith Theegala", sunWin: 8200, tueWin: 7800, price: 7600, sgApp: 0.258, birdiePct: 23.39, courseHistory: 16.60, sgArg: 0.358, prox150: 21.8, girRough: 55.6, wave: "AM" },
-  { name: "Sam Stevens", sunWin: 8200, tueWin: 8000, price: 7200, sgApp: 0.328, birdiePct: 23.69, courseHistory: 50.40, sgArg: -0.006, prox150: 22.9, girRough: 64.6, wave: "AM" },
-  { name: "Harry Hall", sunWin: 6400, tueWin: 8000, price: 7400, sgApp: -0.152, birdiePct: 24.79, courseHistory: 38.50, sgArg: 0.538, prox150: 21.0, girRough: 54.3, wave: "PM" },
-  { name: "Nicolai Højgaard", sunWin: 6900, tueWin: 8400, price: 7500, sgApp: 0.712, birdiePct: 23.41, courseHistory: 60.50, sgArg: 0.113, prox150: 21.0, girRough: 60.7, wave: "AM" },
-  { name: "J.T. Poston", sunWin: 8800, tueWin: 8600, price: 7200, sgApp: -0.066, birdiePct: 22.22, courseHistory: 36.60, sgArg: -0.299, prox150: 22.4, girRough: 53.8, wave: "AM" },
-  { name: "Ryo Hisatsune", sunWin: 8800, tueWin: 8800, price: 7700, sgApp: 0.576, birdiePct: 25.88, courseHistory: 41.30, sgArg: 0.181, prox150: 21.9, girRough: 62.5, wave: "AM" },
-  { name: "Nick Taylor", sunWin: 8200, tueWin: 8800, price: 7100, sgApp: 0.408, birdiePct: 21.41, courseHistory: 48.10, sgArg: 0.503, prox150: 20.6, girRough: 53.4, wave: "AM" },
-  { name: "Michael Thorbjornsen", sunWin: 6700, tueWin: 8800, price: 6200, sgApp: -0.078, birdiePct: 22.58, courseHistory: 58.50, sgArg: 0.229, prox150: 22.8, girRough: 59.1, wave: "AM" },
-  { name: "Kurt Kitayama", sunWin: 7200, tueWin: 8800, price: 7100, sgApp: 0.728, birdiePct: 21.65, courseHistory: 62.40, sgArg: -0.239, prox150: 20.5, girRough: 58.5, wave: "AM" },
-  { name: "Daniel Berger", sunWin: 9400, tueWin: 9000, price: 7300, sgApp: 0.849, birdiePct: 24.07, courseHistory: 44.10, sgArg: -0.415, prox150: 20.4, girRough: 57.1, wave: "AM" },
-  { name: "Corey Conners", sunWin: 9000, tueWin: 9000, price: 7000, sgApp: 0.622, birdiePct: 20.73, courseHistory: 28.00, sgArg: -0.136, prox150: 19.4, girRough: 50.8, wave: "PM" },
-  { name: "Keegan Bradley", sunWin: 10000, tueWin: 9200, price: 6900, sgApp: -0.469, birdiePct: 22.98, courseHistory: 55.50, sgArg: 0.272, prox150: 19.4, girRough: 60.2, wave: "PM" },
-  { name: "Brian Harman", sunWin: 12000, tueWin: 9600, price: 7000, sgApp: -0.108, birdiePct: 21.26, courseHistory: 15.50, sgArg: 0.132, prox150: 20.5, girRough: 57.8, wave: "AM" },
-  { name: "Sungjae Im", sunWin: 11000, tueWin: 9800, price: 6700, sgApp: -0.240, birdiePct: 23.12, courseHistory: 10.60, sgArg: 0.307, prox150: 23.2, girRough: 57.3, wave: "AM" },
-  { name: "Wyndham Clark", sunWin: 1600, tueWin: 11500, price: 7300, sgApp: 0.542, birdiePct: 24.00, courseHistory: 19.50, sgArg: 0.153, prox150: 20.5, girRough: 57.0, wave: "PM" },
-  { name: "S. Yellamaraju", sunWin: 11500, tueWin: 12000, price: 7200, sgApp: 0.474, birdiePct: 26.19, courseHistory: 75.00, sgArg: -0.188, prox150: 19.8, girRough: 56.7, wave: "PM" },
-  { name: "Max Homa", sunWin: 12000, tueWin: 12500, price: 6900, sgApp: 0.250, birdiePct: 23.08, courseHistory: 51.00, sgArg: -0.210, prox150: 21.3, girRough: 56.1, wave: "PM" },
-  { name: "Matt McCarty", sunWin: 20000, tueWin: 13000, price: 6800, sgApp: -0.100, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.297, prox150: 23.5, girRough: 57.0, wave: "AM" },
-  { name: "Andrew Novak", sunWin: 16000, tueWin: 14000, price: 6700, sgApp: -0.051, birdiePct: 22.00, courseHistory: 52.40, sgArg: 0.139, prox150: 22.5, girRough: 57.0, wave: "PM" },
-  { name: "Gary Woodland", sunWin: 16000, tueWin: 15500, price: 6800, sgApp: -0.031, birdiePct: 22.00, courseHistory: 42.30, sgArg: -0.397, prox150: 23.3, girRough: 57.0, wave: "AM" },
-  { name: "Marco Penge", sunWin: 30000, tueWin: 15500, price: 7000, sgApp: -0.378, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.246, prox150: 22.5, girRough: 57.0, wave: "AM" },
-  { name: "Matt Wallace", sunWin: 13000, tueWin: 16000, price: 6600, sgApp: 0.159, birdiePct: 20.29, courseHistory: 67.50, sgArg: 0.190, prox150: 22.6, girRough: 62.1, wave: "AM" },
-  { name: "Denny McCarthy", sunWin: 15000, tueWin: 16500, price: 6500, sgApp: -0.002, birdiePct: 22.00, courseHistory: 39.20, sgArg: -0.087, prox150: 22.5, girRough: 57.0, wave: "AM" },
-  { name: "Taylor Pendrith", sunWin: 12000, tueWin: 16500, price: 6900, sgApp: -0.184, birdiePct: 21.65, courseHistory: 65.20, sgArg: 0.183, prox150: 22.3, girRough: 58.9, wave: "AM" },
-  { name: "Jordan Smith", sunWin: 14500, tueWin: 17000, price: 6500, sgApp: 0.454, birdiePct: 22.22, courseHistory: 75.00, sgArg: -0.216, prox150: 23.9, girRough: 58.7, wave: "AM" },
-  { name: "Bud Cauley", sunWin: 16000, tueWin: 17000, price: 6500, sgApp: 0.287, birdiePct: 22.00, courseHistory: 58.20, sgArg: 0.196, prox150: 22.5, girRough: 57.0, wave: "PM" },
-  { name: "Pierceson Coody", sunWin: 11500, tueWin: 18000, price: 6500, sgApp: 0.314, birdiePct: 25.93, courseHistory: 65.10, sgArg: -0.399, prox150: 22.1, girRough: 56.7, wave: "AM" },
-  { name: "Andrew Putnam", sunWin: 30000, tueWin: 18000, price: 6400, sgApp: 0.240, birdiePct: 22.00, courseHistory: 44.80, sgArg: 0.515, prox150: 22.5, girRough: 57.0, wave: "AM" },
-  { name: "Ricky Castillo", sunWin: 13500, tueWin: 18500, price: 6700, sgApp: -0.301, birdiePct: 24.48, courseHistory: 75.00, sgArg: 0.227, prox150: 23.7, girRough: 65.6, wave: "PM" },
-  { name: "Austin Smotherman", sunWin: 21000, tueWin: 21000, price: 6300, sgApp: 0.874, birdiePct: 22.00, courseHistory: 66.50, sgArg: -0.254, prox150: 22.5, girRough: 57.0, wave: "PM" },
-  { name: "Michael Brennan", sunWin: 22000, tueWin: 22500, price: 6400, sgApp: 0.150, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.593, prox150: 22.4, girRough: 57.0, wave: "AM" },
-  { name: "Billy Horschel", sunWin: 15000, tueWin: 22500, price: 6600, sgApp: 0.110, birdiePct: 22.00, courseHistory: 56.70, sgArg: -0.147, prox150: 20.3, girRough: 57.0, wave: "AM" },
-  { name: "Tony Finau", sunWin: 21000, tueWin: 22500, price: 6600, sgApp: 0.180, birdiePct: 22.00, courseHistory: 31.00, sgArg: 0.300, prox150: 21.6, girRough: 57.0, wave: "AM" },
-  { name: "Michael Kim", sunWin: 22500, tueWin: 23000, price: 6400, sgApp: -0.114, birdiePct: 22.00, courseHistory: 68.30, sgArg: 0.121, prox150: 22.5, girRough: 57.0, wave: "AM" },
-  { name: "Ryan Fox", sunWin: 20000, tueWin: 28000, price: 6300, sgApp: -0.083, birdiePct: 22.00, courseHistory: 75.00, sgArg: 0.172, prox150: 22.5, girRough: 57.0, wave: "AM" },
-  { name: "Sami Valimaki", sunWin: 34000, tueWin: 29000, price: 6300, sgApp: -0.088, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.121, prox150: 22.3, girRough: 57.0, wave: "AM" },
-  { name: "Nico Echavarria", sunWin: 20000, tueWin: 29000, price: 6800, sgApp: 0.073, birdiePct: 22.00, courseHistory: 60.50, sgArg: -0.421, prox150: 22.5, girRough: 57.0, wave: "PM" },
-  { name: "Patrick Rodgers", sunWin: 24000, tueWin: 30000, price: 6400, sgApp: 0.173, birdiePct: 22.00, courseHistory: 22.40, sgArg: 0.163, prox150: 22.3, girRough: 57.0, wave: "AM" },
-  { name: "John Keefer", sunWin: 28000, tueWin: 36000, price: 6300, sgApp: 0.331, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.430, prox150: 21.2, girRough: 57.0, wave: "AM" },
-  { name: "Chandler Blanchet", sunWin: 60000, tueWin: 44000, price: 6200, sgApp: -0.097, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.436, prox150: 22.5, girRough: 57.0, wave: "AM" },
-  { name: "William Mouw", sunWin: 35000, tueWin: 47500, price: 6200, sgApp: -0.013, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.414, prox150: 23.1, girRough: 57.0, wave: "AM" },
-  { name: "Steven Fisk", sunWin: 40000, tueWin: 50000, price: 6100, sgApp: -0.207, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.060, prox150: 22.9, girRough: 57.0, wave: "AM" },
-  { name: "Lucas Glover", sunWin: 57500, tueWin: 52500, price: 6200, sgApp: -0.349, birdiePct: 22.00, courseHistory: 55.98, sgArg: -0.118, prox150: 19.5, girRough: 57.0, wave: "AM" },
-  { name: "David Lipsky", sunWin: 62500, tueWin: 55000, price: 6000, sgApp: 0.192, birdiePct: 22.00, courseHistory: 60.00, sgArg: 0.524, prox150: 20.8, girRough: 57.0, wave: "AM" },
-  { name: "Karl Vilips", sunWin: 55000, tueWin: 67500, price: 6100, sgApp: 0.147, birdiePct: 22.00, courseHistory: 65.50, sgArg: -0.351, prox150: 22.3, girRough: 57.0, wave: "AM" },
-  { name: "Garrick Higgo", sunWin: 57500, tueWin: 67500, price: 6100, sgApp: -0.967, birdiePct: 22.00, courseHistory: 51.80, sgArg: -0.248, prox150: 23.6, girRough: 57.0, wave: "AM" },
-  { name: "Jhonattan Vegas", sunWin: 57500, tueWin: 77500, price: 6000, sgApp: -0.455, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.265, prox150: 22.6, girRough: 57.0, wave: "AM" },
-  { name: "Brian Campbell", sunWin: 170000, tueWin: 87500, price: 6000, sgApp: -0.753, birdiePct: 22.00, courseHistory: 64.25, sgArg: -0.364, prox150: 23.6, girRough: 57.0, wave: "AM" },
-  { name: "Tom Hoge", sunWin: 80000, tueWin: 87500, price: 6200, sgApp: 0.159, birdiePct: 22.00, courseHistory: 56.48, sgArg: -0.399, prox150: 18.4, girRough: 57.0, wave: "AM" },
-  { name: "Aldrich Potgieter", sunWin: 67500, tueWin: 90000, price: 6100, sgApp: -0.304, birdiePct: 22.00, courseHistory: 75.00, sgArg: -0.456, prox150: 22.0, girRough: 57.0, wave: "PM" },
-  { name: "Joe Highsmith", sunWin: 200000, tueWin: 190000, price: 6000, sgApp: -0.112, birdiePct: 22.00, courseHistory: 74.25, sgArg: -0.338, prox150: 22.5, girRough: 57.0, wave: "AM" },
-  { name: "Adam Schenk", sunWin: 180000, tueWin: 200000, price: 6000, sgApp: -0.436, birdiePct: 22.00, courseHistory: 45.10, sgArg: 0.034, prox150: 22.5, girRough: 57.0, wave: "AM" }
+const db=[
+{n:"Scottie Scheffler",s:350,m:370,t:385,w:"PM",p:13500,sa:.08,bp:30.79,ch:19.7,sr:.618,px:18.4,gr:58.5},
+{n:"Xander Schauffele",s:1450,m:1450,t:1500,w:"PM",p:10500,sa:.662,bp:23.5,ch:22,sr:.009,px:20.9,gr:59.1},
+{n:"Tommy Fleetwood",s:1700,m:1750,t:1800,w:"PM",p:10100,sa:.459,bp:24.44,ch:22.7,sr:.712,px:19.5,gr:62.2},
+{n:"Matt Fitzpatrick",s:1950,m:1600,t:1700,w:"PM",p:10000,sa:.81,bp:26.79,ch:23.8,sr:.309,px:22.9,gr:59.4},
+{n:"Cameron Young",s:1700,m:1750,t:1750,w:"AM",p:9800,sa:.499,bp:26.16,ch:26.8,sr:.063,px:21,gr:58.9},
+{n:"Russell Henley",s:2100,m:1700,t:1800,w:"PM",p:9600,sa:.313,bp:25.23,ch:26.2,sr:.199,px:19.5,gr:63.1},
+{n:"Ludvig Åberg",s:2050,m:2100,t:2100,w:"AM",p:9400,sa:.397,bp:27.31,ch:51.2,sr:.42,px:20.7,gr:56},
+{n:"Collin Morikawa",s:2350,m:2250,t:2350,w:"PM",p:9300,sa:1.066,bp:27.47,ch:20.3,sr:.039,px:18.7,gr:63.5},
+{n:"Patrick Cantlay",s:2150,m:2400,t:2500,w:"PM",p:9200,sa:.146,bp:22.45,ch:3.5,sr:.247,px:20,gr:61.4},
+{n:"Jake Knapp",s:3000,m:3300,t:3800,w:"PM",p:9100,sa:.342,bp:26.07,ch:44.8,sr:.111,px:22.4,gr:59.5},
+{n:"Sam Burns",s:2500,m:3000,t:3500,w:"PM",p:9000,sa:-.012,bp:25,ch:37.9,sr:-.35,px:20.5,gr:56.8},
+{n:"Si Woo Kim",s:3700,m:2700,t:2800,w:"AM",p:8900,sa:.912,bp:26.08,ch:41.1,sr:.142,px:19.6,gr:53.9},
+{n:"Jordan Spieth",s:3700,m:3000,t:3000,w:"AM",p:8800,sa:.412,bp:22.22,ch:14.2,sr:.129,px:22.2,gr:61.2},
+{n:"Robert MacIntyre",s:2900,m:3000,t:2900,w:"AM",p:8700,sa:-.247,bp:26.19,ch:58.5,sr:.12,px:21.9,gr:60.9},
+{n:"Viktor Hovland",s:3900,m:3500,t:3400,w:"AM",p:8600,sa:.575,bp:21.21,ch:40.1,sr:.24,px:19.4,gr:63.8},
+{n:"Maverick McNealy",s:3500,m:3600,t:3700,w:"AM",p:8500,sa:.176,bp:25.19,ch:38,sr:.221,px:21.1,gr:55.7},
+{n:"Shane Lowry",s:3900,m:5000,t:5500,w:"PM",p:8400,sa:.474,bp:24.17,ch:46.6,sr:-.085,px:19.6,gr:61.2},
+{n:"Justin Thomas",s:3700,m:4100,t:4000,w:"AM",p:8300,sa:.325,bp:24.5,ch:18.5,sr:.259,px:18.9,gr:54.9},
+{n:"Jacob Bridgeman",s:4400,m:4600,t:4500,w:"AM",p:8200,sa:.501,bp:28.3,ch:51.1,sr:-.152,px:21,gr:54.4},
+{n:"Chris Gotterup",s:4500,m:5100,t:5300,w:"AM",p:8100,sa:.436,bp:25.19,ch:44.3,sr:.296,px:23,gr:61.6},
+{n:"Jason Day",s:4100,m:4600,t:4800,w:"PM",p:8000,sa:-.352,bp:22.92,ch:55.3,sr:.457,px:20.6,gr:56.4},
+{n:"Sepp Straka",s:5200,m:4800,t:4500,w:"AM",p:7900,sa:.568,bp:24.67,ch:32.1,sr:.128,px:19.1,gr:42},
+{n:"Harris English",s:5000,m:5200,t:5800,w:"AM",p:7900,sa:-.214,bp:25.74,ch:55.2,sr:-.146,px:23.8,gr:50.5},
+{n:"Ben Griffin",s:4100,m:4900,t:5300,w:"AM",p:7800,sa:-.115,bp:23.15,ch:43.4,sr:.454,px:22.2,gr:55.3},
+{n:"Min Woo Lee",s:5500,m:5200,t:5200,w:"AM",p:7800,sa:.266,bp:28.97,ch:64.6,sr:.294,px:20.2,gr:38.9},
+{n:"Akshay Bhatia",s:5300,m:5800,t:6000,w:"AM",p:7700,sa:.792,bp:28.22,ch:40.7,sr:.168,px:19.9,gr:39.3},
+{n:"Ryo Hisatsune",s:8800,m:9000,t:8800,w:"AM",p:7700,sa:.576,bp:25.88,ch:41.3,sr:.181,px:21.9,gr:62.5},
+{n:"Rickie Fowler",s:5700,m:6100,t:6500,w:"PM",p:7600,sa:.111,bp:24.21,ch:45.8,sr:-.318,px:21.2,gr:58.6},
+{n:"Sahith Theegala",s:8200,m:8600,t:7800,w:"AM",p:7600,sa:.258,bp:23.39,ch:16.6,sr:.358,px:21.8,gr:55.6},
+{n:"J.J. Spaun",s:5300,m:5000,t:4900,w:"AM",p:7500,sa:.587,bp:22.45,ch:67.5,sr:.013,px:19.9,gr:56.7},
+{n:"Nicolai Højgaard",s:6900,m:7800,t:8400,w:"PM",p:7500,sa:.712,bp:23.41,ch:60.5,sr:.113,px:21,gr:60.7},
+{n:"Harry Hall",s:6400,m:7600,t:8000,w:"AM",p:7400,sa:-.152,bp:24.79,ch:38.5,sr:.538,px:21,gr:54.3},
+{n:"Ryan Gerard",s:7600,m:7600,t:7600,w:"AM",p:7400,sa:.712,bp:25.87,ch:58.1,sr:-.276,px:21.1,gr:57.4},
+{n:"Wyndham Clark",s:1600,m:10500,t:11500,w:"PM",p:7300,sa:.542,bp:24,ch:19.5,sr:.153,px:20.5,gr:57},
+{n:"Daniel Berger",s:9400,m:9000,t:9000,w:"PM",p:7300,sa:.849,bp:24.07,ch:44.1,sr:-.415,px:20.4,gr:57.1},
+{n:"J.T. Poston",s:8800,m:8400,t:8600,w:"AM",p:7200,sa:-.066,bp:22.22,ch:36.6,sr:-.299,px:22.4,gr:53.8},
+{n:"Sam Stevens",s:8200,m:7600,t:8000,w:"PM",p:7200,sa:.328,bp:23.69,ch:50.4,sr:-.006,px:22.9,gr:64.6},
+{n:"S. Yellamaraju",s:11500,m:12000,t:12000,w:"PM",p:7200,sa:.474,bp:26.19,ch:75,sr:-.188,px:19.8,gr:56.7},
+{n:"Alex Noren",s:6400,m:5700,t:6000,w:"PM",p:7100,sa:-.073,bp:24.44,ch:42.6,sr:.498,px:22.2,gr:56.1},
+{n:"Kurt Kitayama",s:7200,m:7600,t:8800,w:"PM",p:7100,sa:.728,bp:21.65,ch:62.4,sr:-.239,px:20.5,gr:58.5},
+{n:"Nick Taylor",s:8200,m:9000,t:8800,w:"AM",p:7100,sa:.408,bp:21.41,ch:48.1,sr:.503,px:20.6,gr:53.4},
+{n:"Brian Harman",s:12000,m:9600,t:9600,w:"AM",p:7000,sa:-.108,bp:21.26,ch:15.5,sr:.132,px:20.5,gr:57.8},
+{n:"Marco Penge",s:30000,m:15500,t:15500,w:"AM",p:7000,sa:-.378,bp:22,ch:75,sr:-.246,px:22.5,gr:57},
+{n:"Corey Conners",s:9000,m:8600,t:9000,w:"PM",p:7000,sa:.622,bp:20.73,ch:28,sr:-.136,px:19.4,gr:50.8},
+{n:"Keegan Bradley",s:10000,m:8600,t:9200,w:"AM",p:6900,sa:-.469,bp:22.98,ch:55.5,sr:.272,px:19.4,gr:60.2},
+{n:"Max Homa",s:12000,m:12000,t:12500,w:"PM",p:6900,sa:.25,bp:23.08,ch:51,sr:-.21,px:21.3,gr:56.1},
+{n:"Taylor Pendrith",s:12000,m:15500,t:16500,w:"AM",p:6900,sa:-.184,bp:21.65,ch:65.2,sr:.183,px:22.3,gr:58.9},
+{n:"Gary Woodland",s:16000,m:16000,t:15500,w:"AM",p:6800,sa:-.031,bp:22,ch:42.3,sr:-.397,px:23.3,gr:57},
+{n:"Michael Thorbjornsen",s:6700,m:8400,t:8800,w:"AM",p:7300,sa:-.078,bp:22.58,ch:75,sr:.229,px:22.8,gr:59.1},
+{n:"Matt McCarty",s:20000,m:13000,t:13000,w:"AM",p:6800,sa:-.1,bp:22,ch:75,sr:-.297,px:23.5,gr:57},
+{n:"Nico Echavarria",s:20000,m:28000,t:29000,w:"AM",p:6800,sa:.073,bp:22,ch:60.5,sr:-.421,px:22.5,gr:57},
+{n:"Sungjae Im",s:11000,m:10000,t:9800,w:"AM",p:6700,sa:-.24,bp:23.12,ch:10.6,sr:.307,px:23.2,gr:57.3},
+{n:"Andrew Novak",s:16000,m:13500,t:14000,w:"AM",p:6700,sa:-.051,bp:22,ch:52.4,sr:.139,px:22.5,gr:57},
+{n:"Ricky Castillo",s:13500,m:18000,t:18500,w:"AM",p:6700,sa:-.301,bp:24.48,ch:75,sr:.227,px:23.7,gr:65.6},
+{n:"Billy Horschel",s:15000,m:23000,t:22500,w:"AM",p:6600,sa:.11,bp:22,ch:56.7,sr:-.147,px:20.3,gr:57},
+{n:"Matt Wallace",s:13000,m:15500,t:16000,w:"AM",p:6600,sa:.159,bp:20.29,ch:67.5,sr:.19,px:22.6,gr:62.1},
+{n:"Tony Finau",s:21000,m:22500,t:22500,w:"AM",p:6600,sa:.18,bp:22,ch:31,sr:.3,px:21.6,gr:57},
+{n:"Pierceson Coody",s:11500,m:16500,t:18000,w:"PM",p:6500,sa:.314,bp:25.93,ch:65.1,sr:-.399,px:22.1,gr:56.7},
+{n:"Jordan Smith",s:14500,m:16000,t:17000,w:"AM",p:6500,sa:.454,bp:22.22,ch:75,sr:-.216,px:23.9,gr:58.7},
+{n:"Bud Cauley",s:16000,m:16000,t:17000,w:"PM",p:6500,sa:.287,bp:22,ch:58.2,sr:.196,px:22.5,gr:57},
+{n:"Denny McCarthy",s:15000,m:16000,t:16500,w:"AM",p:6500,sa:-.002,bp:22,ch:39.2,sr:-.087,px:22.5,gr:57},
+{n:"Michael Brennan",s:22000,m:22000,t:22500,w:"AM",p:6400,sa:.15,bp:22,ch:75,sr:-.593,px:22.4,gr:57},
+{n:"Michael Kim",s:22500,m:21000,t:23000,w:"PM",p:6400,sa:-.114,bp:22,ch:68.3,sr:.121,px:22.5,gr:57},
+{n:"Patrick Rodgers",s:24000,m:30000,t:30000,w:"AM",p:6400,sa:.173,bp:22,ch:22.4,sr:.163,px:22.3,gr:57},
+{n:"Andrew Putnam",s:30000,m:17000,t:18000,w:"PM",p:6400,sa:.24,bp:22,ch:44.8,sr:.515,px:22.5,gr:57},
+{n:"Austin Smotherman",s:21000,m:19500,t:21000,w:"PM",p:6300,sa:.874,bp:22,ch:66.5,sr:-.254,px:22.5,gr:57},
+{n:"Ryan Fox",s:20000,m:26000,t:28000,w:"PM",p:6300,sa:-.083,bp:22,ch:75,sr:.172,px:22.5,gr:57},
+{n:"Johnny Keefer",s:28000,m:37000,t:36000,w:"AM",p:6300,sa:.331,bp:22,ch:75,sr:-.43,px:21.2,gr:57},
+{n:"Sami Valimaki",s:34000,m:27000,t:29000,w:"PM",p:6300,sa:-.088,bp:22,ch:65.5,sr:-.121,px:22.3,gr:57},
+{n:"Chandler Blanchet",s:60000,m:42000,t:44000,w:"AM",p:6200,sa:-.097,bp:22,ch:75,sr:-.436,px:22.5,gr:57},
+{n:"William Mouw",s:35000,m:43000,t:47500,w:"PM",p:6200,sa:-.013,bp:22,ch:75,sr:-.414,px:23.1,gr:57},
+{n:"Lucas Glover",s:57500,m:50000,t:52500,w:"AM",p:6200,sa:-.349,bp:22,ch:55.98,sr:-.118,px:19.5,gr:57},
+{n:"Tom Hoge",s:80000,m:87500,t:87500,w:"AM",p:6200,sa:.159,bp:22,ch:56.48,sr:-.399,px:18.4,gr:57},
+{n:"Steven Fisk",s:40000,m:48000,t:50000,w:"AM",p:6100,sa:-.207,bp:22,ch:75,sr:-.06,px:22.9,gr:57},
+{n:"Karl Vilips",s:55000,m:67500,t:67500,w:"AM",p:6100,sa:.147,bp:22,ch:65.5,sr:-.351,px:22.3,gr:57},
+{n:"Garrick Higgo",s:57500,m:62500,t:67500,w:"PM",p:6100,sa:-.967,bp:22,ch:51.8,sr:-.248,px:23.6,gr:57},
+{n:"Aldrich Potgieter",s:67500,m:80000,t:90000,w:"PM",p:6100,sa:-.304,bp:22,ch:75,sr:-.456,px:22,gr:57},
+{n:"Jhonattan Vegas",s:57500,m:70000,t:77500,w:"PM",p:6000,sa:-.455,bp:22,ch:75,sr:-.265,px:22.6,gr:57},
+{n:"David Lipsky",s:62500,m:52500,t:55000,w:"AM",p:6000,sa:.192,bp:22,ch:60,sr:.524,px:20.8,gr:57},
+{n:"Brian Campbell",s:170000,m:82500,t:87500,w:"AM",p:6000,sa:-.753,bp:22,ch:64.25,sr:-.364,px:23.6,gr:57},
+{n:"Adam Schenk",s:180000,m:190000,t:200000,w:"AM",p:6000,sa:-.436,bp:22,ch:45.1,sr:.034,px:22.5,gr:57},
+{n:"Joe Highsmith",s:200000,m:170000,t:190000,w:"AM",p:6000,sa:-.112,bp:22,ch:74.25,sr:-.338,px:22.5,gr:57}
 ];
 
-const CHALK_TOUTS = [
-  "Tommy Fleetwood", "Matt Fitzpatrick", "Russell Henley", 
-  "Jacob Bridgeman", "Maverick McNealy", "Justin Thomas", 
-  "J.J. Spaun", "Gary Woodland", "Sungjae Im"
-];
+let P=[],CF='all',SC='composite',SA=false,lastLU=null;
+window.onload=()=>{proc()};
 
-const FIT_WEIGHTS = { sgApp: 30, sgArg: 20, prox150: 30, girRough: 10, birdiePct: 10 };
+function sw(t,b){document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+t).classList.add('on');b.classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
 
-const initializePlayers = () => {
-  let processed = RAW_DB.map(p => {
-    const latest = p.tueWin || p.sunWin;
-    const liveImp = latest ? (100 / (latest + 100)) : 0;
-    const baseImp = p.sunWin ? (100 / (p.sunWin + 100)) : 0;
-    
-    let app = p.sgApp ? p.sgApp * (FIT_WEIGHTS.sgApp / 10) : 0;
-    let arg = p.sgArg ? p.sgArg * (FIT_WEIGHTS.sgArg / 10) : 0;
-    let prox = p.prox150 ? (30 - p.prox150) * (FIT_WEIGHTS.prox150 / 15) : 0;
-    let rgh = p.girRough ? p.girRough * (FIT_WEIGHTS.girRough / 20) : 0;
-    let bird = p.birdiePct ? p.birdiePct * (FIT_WEIGHTS.birdiePct / 20) : 0;
-
-    return {
-      ...p,
-      liveImp,
-      velTotal: baseImp > 0 ? (liveImp - baseImp) / baseImp : 0,
-      isSteam: (baseImp > 0 ? (liveImp - baseImp) / baseImp : 0) > 0.02,
-      rawFit: app + arg + prox + rgh + bird,
-      locked: false,
-      excluded: false
-    };
-  });
-
-  const maxFit = Math.max(...processed.map(p => p.rawFit));
-  const minFit = Math.min(...processed.map(p => p.rawFit));
-  
-  processed.sort((a,b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
-  processed.sort((a,b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
-
-  processed = processed.map(p => {
-    p.profileFit = ((p.rawFit - minFit) / (maxFit - minFit)) * 100;
-    p.dlta = p.salRank - p.oddsRank;
-    
-    let baseOwn = p.price >= 10000 ? 15 : (p.price >= 9000 ? 13 : (p.price >= 8000 ? 10 : 12));
-    p.isChalk = CHALK_TOUTS.includes(p.name);
-    
-    p.pOwn = Math.min(40, Math.max(0.5, 
-      baseOwn + (p.dlta * 1.2) + (p.courseHistory <= 20 ? 5 : 0) + (p.isSteam ? 4 : 0) + (p.isChalk ? 10 : 0)
-    ));
-    
-    p.rawLev = p.profileFit - (p.pOwn * 1.5);
-    p.composite = p.profileFit + (80 - p.courseHistory) * 0.5 - (p.wave === 'PM' ? 2.5 : 0);
-    return p;
-  });
-
-  const maxLev = Math.max(...processed.map(p => p.rawLev));
-  const minLev = Math.min(...processed.map(p => p.rawLev));
-  
-  processed.sort((a,b) => b.composite - a.composite).forEach((p, i) => {
-    p.leverage = ((p.rawLev - minLev) / (maxLev - minLev)) * 100;
-    p.tier = i < 8 ? 'Tartan' : (i < 25 ? 'Lighthouse' : 'Field');
-  });
-
-  return processed;
-};
-
-// ==========================================
-// 2. ZUSTAND GLOBAL STORE
-// ==========================================
-const useDfsStore = create((set, get) => ({
-  players: initializePlayers(),
-  searchQuery: '',
-  activeFilter: 'all',
-  sortCol: 'composite',
-  sortAsc: false,
-  customLineup: null,
-  
-  setSearch: (query) => set({ searchQuery: query }),
-  setFilter: (filter) => set({ activeFilter: filter }),
-  setSort: (col) => set((state) => ({
-    sortAsc: state.sortCol === col ? !state.sortAsc : (col === 'name' || col === 'pOwn'),
-    sortCol: col
-  })),
-  
-  toggleLock: (name) => set((state) => ({
-    players: state.players.map(p => p.name === name ? { ...p, locked: !p.locked, excluded: false } : p)
-  })),
-  
-  toggleExclude: (name) => set((state) => ({
-    players: state.players.map(p => p.name === name ? { ...p, excluded: !p.excluded, locked: false } : p)
-  })),
-
-  generateKnapsack: (type, pool, locked) => {
-    let lockedSal = locked.reduce((s,p)=>s+p.price,0);
-    const maxSal = 50000 - lockedSal;
-    const req = 6 - locked.length;
-    if (req === 0) return locked;
-
-    let dp = Array(req + 1).fill(null).map(() => Array(maxSal + 1).fill(null));
-    dp[0][0] = { score: 0, roster: [] };
-
-    for (let p of pool) {
-      let weight = p.price;
-      let val = type === 'cash' ? (p.courseHistory<30 ? p.composite*1.2 : p.composite) : 
-                type === 'gpp' ? p.composite + (p.leverage * 0.6) : p.composite;
-
-      for (let k = req - 1; k >= 0; k--) {
-        for (let w = maxSal - weight; w >= 0; w--) {
-          if (dp[k][w] !== null) {
-            let ns = dp[k][w].score + val, nw = w + weight;
-            if (!dp[k+1][nw] || dp[k+1][nw].score < ns) {
-              dp[k+1][nw] = { score: ns, roster: [...dp[k][w].roster, p] };
-            }
-          }
-        }
-      }
-    }
-
-    let best = null;
-    for (let w = maxSal; w >= 49000 - lockedSal; w--) {
-      if (dp[req][w]) {
-        let candidate = dp[req][w];
-        let totalOwn = locked.reduce((s,p)=>s+p.pOwn,0) + candidate.roster.reduce((s,p)=>s+p.pOwn,0);
-        if (type === 'gpp' && totalOwn > 80) continue; 
-        if (type === 'cash' && totalOwn < 60) continue; 
-        if (!best || candidate.score > best.score) best = candidate;
-      }
-    }
-    return best ? [...locked, ...best.roster] : null;
-  },
-
-  generateCustom: (type) => {
-    const { players, generateKnapsack } = get();
-    const locked = players.filter(p => p.locked);
-    const pool = players.filter(p => !p.excluded && !p.locked);
-    if (locked.length > 6) return alert("Max 6 locked players.");
-    if (locked.reduce((s,p)=>s+p.price,0) > 50000) return alert("Locked exceeds cap.");
-    
-    const result = generateKnapsack(type, pool, locked);
-    if (!result) return alert("Failed to find lineup matching strict $49k+ constraint.");
-    set({ customLineup: result });
-  }
-}));
-
-// ==========================================
-// 3. UI COMPONENTS
-// ==========================================
-
-export default function PlaidGenieV5() {
-  const [activeTab, setActiveTab] = useState('market');
-
-  return (
-    <div className="min-h-screen bg-[#0F172A] text-slate-100 font-sans selection:bg-blue-500/30 flex flex-col">
-      {/* Header */}
-      <header className="flex-shrink-0 border-b border-slate-800 bg-[#0B1121] p-4 px-6 flex justify-between items-center">
-        <div>
-          <h1 className="text-xl font-bold flex items-center gap-3">
-            Plaid Genie <span className="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded font-mono uppercase tracking-wider">V5.0 Inst</span>
-          </h1>
-          <p className="text-xs text-slate-400 mt-1">RBC Heritage · Tue Odds · Lighthouse Theme</p>
-        </div>
-        <div className="flex bg-slate-900 rounded-lg p-1 border border-slate-800">
-          <button onClick={() => setActiveTab('market')} className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${activeTab === 'market' ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Market Board</button>
-          <button onClick={() => setActiveTab('build')} className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${activeTab === 'build' ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Build Hub</button>
-          <button onClick={() => setActiveTab('guide')} className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${activeTab === 'guide' ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-white'}`}>Methodology</button>
-        </div>
-      </header>
-
-      {/* Main Content Area */}
-      <main className="flex-1 overflow-hidden relative">
-        {activeTab === 'market' && <MarketBoard />}
-        {activeTab === 'build' && <BuildHub />}
-        {activeTab === 'guide' && <GuideTab />}
-      </main>
-    </div>
-  );
+function proc(){
+let tRO=0;
+P=db.map(d=>{
+let o={...d,name:d.n,price:d.p,wave:d.w,courseHistory:d.ch,locked:false,excluded:false};
+const cur=d.t||d.m||d.s; o.curOdds=cur;
+o.liveImp=100/(cur+100);
+const sunImp=100/(d.s+100);
+o.steamRaw=(o.liveImp-sunImp)/sunImp;
+o.steamAbs=Math.abs(o.steamRaw)*100;
+o.isSteam=o.steamRaw>0.02;
+o.isDrift=o.steamRaw<-0.05;
+o.hasHistory=d.ch<NH;
+o.isChalk=CHALK.includes(d.n);
+o.hasCPS=CPS_GOOD.includes(d.n);
+o.spark=[100/(d.s+100),100/(d.m+100),100/((d.t||d.m)+100)];
+let app=d.sa*3,arg=(d.sr||0)*2,prox=(30-(d.px||22))*2,rgh=(d.gr||57)/20,bird=(d.bp||22)/20;
+o.rawFit=app+arg+prox+rgh+bird;
+return o;
+});
+const fs=P.map(x=>x.rawFit),mxF=Math.max(...fs),mnF=Math.min(...fs);
+P.forEach(p=>p.profileFit=((p.rawFit-mnF)/(mxF-mnF))*100);
+P.sort((a,b)=>b.price-a.price).forEach((p,i)=>p.salRank=i+1);
+P.sort((a,b)=>b.liveImp-a.liveImp).forEach((p,i)=>p.oddsRank=i+1);
+P.forEach(p=>{
+p.dlta=p.salRank-p.oddsRank;
+let base=p.price>=10000?15:(p.price>=9000?13:(p.price>=8000?10:12));
+let bump=p.dlta*1.2;
+let hist=p.hasHistory&&p.courseHistory<=20?5:(p.hasHistory&&p.courseHistory<=40?2:0);
+let steam=p.isSteam?4:0;
+let chalk=p.isChalk?10:0;
+p.rawOwn=Math.max(0.5,base+bump+hist+steam+chalk);
+tRO+=p.rawOwn;
+});
+const norm=600/tRO;
+P.forEach(p=>{
+p.pOwn=Math.min(42,p.rawOwn*norm);
+const logOwn=Math.log2(Math.max(1,p.pOwn));
+p.rawLev=p.profileFit-(logOwn*8);
+if(p.hasCPS)p.rawLev*=1.1; // CPS bonus
+});
+const lv=P.map(x=>x.rawLev),mxL=Math.max(...lv),mnL=Math.min(...lv);
+P.forEach(p=>{
+p.leverage=((p.rawLev-mnL)/(mxL-mnL))*100;
+const histB=p.hasHistory?((80-p.courseHistory)*0.5):0;
+const oddsB=p.liveImp*120;
+p.composite=p.profileFit+histB+oddsB;
+});
+P.sort((a,b)=>b.composite-a.composite);
+ren();upd();
 }
 
-function MarketBoard() {
-  const { players, searchQuery, activeFilter, sortCol, sortAsc, setSearch, setFilter, setSort, toggleLock, toggleExclude } = useDfsStore();
+function flt(f,b){CF=f;document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');ren()}
+function so(c){SA=SC===c?!SA:false;SC=c;ren()}
+function tL(n){const p=P.find(x=>x.name===n);if(p){p.locked=!p.locked;if(p.locked)p.excluded=false}ren();upd()}
+function tE(n){const p=P.find(x=>x.name===n);if(p){p.excluded=!p.excluded;if(p.excluded)p.locked=false}ren();upd()}
+function clrL(){P.forEach(p=>p.locked=false);ren();upd()}
 
-  const filteredPlayers = players.filter(p => {
-    if (searchQuery && !p.name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-    if (activeFilter === 'tartan') return p.tier === 'Tartan';
-    if (activeFilter === 'leverage') return p.leverage > 65;
-    if (activeFilter === 'chalk') return p.isChalk;
-    if (activeFilter === 'am') return p.wave === 'AM';
-    if (activeFilter === 'pm') return p.wave === 'PM';
-    return true;
-  }).sort((a, b) => {
-    const valA = a[sortCol]; const valB = b[sortCol];
-    if (typeof valA === 'string') return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
-    return sortAsc ? valA - valB : valB - valA;
-  });
-
-  const SortIcon = ({ col }) => sortCol === col ? <span className="text-blue-500 ml-1 text-[10px]">{sortAsc ? '▲' : '▼'}</span> : <span className="text-slate-600 ml-1 text-[10px]">▼</span>;
-
-  return (
-    <div className="h-full flex flex-col p-4 px-6 max-w-[1600px] mx-auto">
-      {/* Toolbar */}
-      <div className="flex gap-3 mb-4 items-center flex-wrap flex-shrink-0">
-        <div className="relative">
-          <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-500" />
-          <input type="text" placeholder="Search pool..." value={searchQuery} onChange={(e) => setSearch(e.target.value)} className="bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500 w-64 transition-all" />
-        </div>
-        {['all', 'tartan', 'am', 'pm', 'leverage', 'chalk'].map(f => (
-          <button key={f} onClick={() => setFilter(f)} className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border ${activeFilter === f ? 'bg-white text-slate-900 border-white' : 'bg-transparent text-slate-400 border-slate-700 hover:border-slate-400'}`}>
-            {f === 'am' ? '☀️ ' : f === 'pm' ? '🌥️ ' : ''}{f}
-          </button>
-        ))}
-      </div>
-
-      {/* Table */}
-      <div className="flex-1 overflow-auto rounded-xl border border-slate-800 bg-[#151E32] shadow-2xl">
-        <table className="w-full text-left border-collapse min-w-[900px]">
-          <thead className="bg-[#0B1121] sticky top-0 z-20 shadow-md">
-            <tr>
-              <th className="p-4 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white sticky left-0 bg-[#0B1121] z-30 border-b border-slate-800 border-r" onClick={() => setSort('name')}>Player <SortIcon col="name"/></th>
-              <th className="p-4 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white border-b border-slate-800 text-center" onClick={() => setSort('price')}>Salary <SortIcon col="price"/></th>
-              <th className="p-4 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white border-b border-slate-800 text-center" onClick={() => setSort('liveImp')}>Odds <SortIcon col="liveImp"/></th>
-              <th className="p-4 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white border-b border-slate-800 text-center" onClick={() => setSort('dlta')}>$DLTA <SortIcon col="dlta"/></th>
-              <th className="p-4 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white border-b border-slate-800 text-center" onClick={() => setSort('velTotal')}>Steam <SortIcon col="velTotal"/></th>
-              <th className="p-4 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white border-b border-slate-800 text-center" onClick={() => setSort('profileFit')}>Fit <SortIcon col="profileFit"/></th>
-              <th className="p-4 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white border-b border-slate-800 text-center" onClick={() => setSort('pOwn')}>pOWN <SortIcon col="pOwn"/></th>
-              <th className="p-4 text-xs font-semibold text-slate-400 uppercase tracking-wider cursor-pointer hover:text-white border-b border-slate-800 text-center" onClick={() => setSort('leverage')}>Lev <SortIcon col="leverage"/></th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/50">
-            {filteredPlayers.map(p => (
-              <tr key={p.name} className={`hover:bg-slate-800/30 transition-colors ${p.excluded ? 'opacity-30' : ''} ${p.locked ? 'bg-amber-900/10' : ''}`}>
-                <td className="p-3 sticky left-0 bg-[#151E32] z-10 border-r border-slate-800/50 group-hover:bg-[#1E293B]">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="font-semibold text-sm text-slate-100 flex items-center gap-2">
-                      <span className={p.excluded ? 'line-through' : ''}>{p.name}</span>
-                      <span className="text-[9px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400 font-mono">{p.wave}</span>
-                    </div>
-                    <div className="flex gap-1">
-                      <button onClick={() => toggleLock(p.name)} className={`p-1 rounded transition-colors ${p.locked ? 'bg-amber-500/20 text-amber-500' : 'text-slate-500 hover:bg-slate-700 hover:text-white'}`}><Lock size={12} /></button>
-                      <button onClick={() => toggleExclude(p.name)} className={`p-1 rounded transition-colors ${p.excluded ? 'bg-red-500/20 text-red-500' : 'text-slate-500 hover:bg-slate-700 hover:text-white'}`}><X size={12} /></button>
-                    </div>
-                  </div>
-                </td>
-                <td className="p-3 text-center font-mono text-sm text-emerald-400 font-bold">${p.price/1000}k</td>
-                <td className="p-3 text-center font-mono text-xs"><span className="text-slate-500">{p.sunWin ? `+${p.sunWin}` : '—'} ➝</span> +{p.tueWin || p.sunWin}</td>
-                <td className={`p-3 text-center font-bold text-sm ${p.dlta > 2 ? 'text-emerald-400' : p.dlta < -2 ? 'text-red-400' : 'text-slate-300'}`}>{p.dlta > 0 ? `+${p.dlta}` : p.dlta}</td>
-                <td className={`p-3 text-center font-mono text-sm ${p.velTotal > 0.02 ? 'text-emerald-400' : 'text-slate-400'}`}>{p.sunWin ? `${(p.velTotal*100).toFixed(1)}%` : '—'}</td>
-                <td className="p-3 text-center font-bold text-sm text-slate-200">{p.profileFit.toFixed(1)}</td>
-                <td className={`p-3 text-center font-mono font-bold text-sm ${p.isChalk ? 'text-red-400' : p.pOwn > 20 ? 'text-amber-400' : 'text-slate-300'}`}>{p.pOwn.toFixed(1)}%</td>
-                <td className={`p-3 text-center font-bold text-sm ${p.leverage > 80 ? 'text-amber-400' : 'text-slate-300'}`}>{p.leverage.toFixed(1)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+function ren(){
+const q=document.getElementById('srch').value.toLowerCase();
+let d=P.filter(p=>{
+if(q&&!p.name.toLowerCase().includes(q))return false;
+if(CF==='am')return p.wave==='AM';if(CF==='pm')return p.wave==='PM';
+if(CF==='steam')return p.isSteam;if(CF==='lev')return p.leverage>65;if(CF==='chalk')return p.isChalk;
+return true;
+});
+d.sort((a,b)=>{let va=a[SC],vb=b[SC];if(typeof va==='string')return SA?va.localeCompare(vb):vb.localeCompare(va);return SA?va-vb:vb-va});
+document.querySelectorAll('th[data-c]').forEach(th=>{th.classList.toggle('act',th.dataset.c===SC);const s=th.querySelector('.s');if(s)s.textContent=th.dataset.c===SC?(SA?'▲':'▼'):'▼'});
+document.getElementById('tb').innerHTML=d.map(p=>{
+const rc=p.locked?'row-lk':(p.excluded?'row-ex':'');
+const cur=p.curOdds;
+let oc='',oa='';if(cur<p.s){oc='os';oa=' ▼'}else if(cur>p.s){oc='od';oa=' ▲'}
+const spMax=Math.max(...p.spark);
+const bars=p.spark.map((v,i)=>{const h=Math.max(2,Math.round((v/spMax)*16));const c=i===p.spark.length-1?(v>=p.spark[0]?'var(--grn)':'var(--red)'):'var(--tx3)';return`<div class="sb" style="height:${h}px;background:${c}"></div>`}).join('');
+const stC=p.isSteam?'vg':(p.isDrift?'vr':'');
+const hist=p.hasHistory?p.courseHistory.toFixed(1):'<span class="na">N/A</span>';
+const dC=p.dlta>2?'vg':(p.dlta<-2?'vr':'');
+const chk=p.isChalk?'<span class="ct">CHALK</span>':'';
+const cps=p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>':'';
+const wc=p.wave==='AM'?'wam':'wpm';
+return`<tr class="${rc}"><td><div class="pn">${p.name}<span class="wv ${wc}">${p.wave}</span>${chk}${cps}</div><div class="acts"><button class="bi ${p.locked?'lk':''}" onclick="tL('${p.name.replace(/'/g,"\\'")}')">🔒</button><button class="bi ${p.excluded?'ex':''}" onclick="tE('${p.name.replace(/'/g,"\\'")}')">✕</button></div></td><td class="vg mn" style="font-size:12px">$${p.price/1000}k</td><td class="oc"><div class="oo">+${p.s}→+${p.m}→</div><div class="${oc}" style="font-weight:700">+${cur}${oa}</div></td><td><div class="sp">${bars}</div></td><td class="${dC} mn" style="font-weight:600">${p.dlta>0?'+'+p.dlta:p.dlta}</td><td class="${stC} mn">${p.steamAbs.toFixed(1)}%</td><td class="mn">${hist}</td><td><strong style="color:${p.profileFit>75?'var(--grn)':'inherit'}">${p.profileFit.toFixed(1)}</strong></td><td class="mn ${p.isChalk?'vr':''}" style="font-weight:700">${p.pOwn.toFixed(1)}%</td><td class="mn ${p.leverage>80?'vgl':''}" style="font-weight:700">${p.leverage.toFixed(1)}</td></tr>`}).join('');
 }
 
-function BuildHub() {
-  const { players, generateKnapsack, customLineup, generateCustom } = useDfsStore();
-  const [preBuilts, setPreBuilts] = useState({ cash: null, gpp: null, balanced: null });
-
-  useEffect(() => {
-    const pool = players.filter(p => !p.excluded);
-    setPreBuilts({
-      cash: generateKnapsack('cash', pool, []),
-      gpp: generateKnapsack('gpp', pool, []),
-      balanced: generateKnapsack('balanced', pool, [])
-    });
-  }, [players, generateKnapsack]);
-
-  const locked = players.filter(p => p.locked);
-  const lockedSal = locked.reduce((s,p) => s+p.price, 0);
-
-  const LineupCard = ({ title, icon, lineup, desc }) => (
-    <div className="bg-[#151E32] border border-slate-800 rounded-xl overflow-hidden shadow-lg flex flex-col">
-      <div className="bg-[#0B1121] p-4 border-b border-slate-800 flex justify-between items-center">
-        <h3 className="font-bold text-sm flex items-center gap-2"><span className="text-lg">{icon}</span> {title}</h3>
-        {lineup && <div className="text-right font-mono text-xs">
-          <span className="text-emerald-400 font-bold">${lineup.reduce((s,p)=>s+p.price,0).toLocaleString()}</span><br/>
-          <span className="text-slate-400">{lineup.reduce((s,p)=>s+p.pOwn,0).toFixed(1)}% Own</span>
-        </div>}
-      </div>
-      <div className="p-3 bg-slate-900/50 text-[10px] text-slate-400 uppercase tracking-widest text-center border-b border-slate-800/50">{desc}</div>
-      <div className="p-2 flex-1 overflow-y-auto">
-        {lineup ? lineup.sort((a,b)=>b.price-a.price).map(p => (
-          <div key={p.name} className="flex justify-between items-center p-2 hover:bg-slate-800/50 rounded-lg group">
-            <div>
-              <div className="font-semibold text-xs text-slate-200">{p.name} <span className="text-[9px] text-slate-500 ml-1">{p.wave}</span></div>
-              <div className="text-[10px] text-slate-500 font-mono mt-0.5">Lev: {p.leverage.toFixed(0)} | Own: <span className={p.isChalk?'text-red-400':''}>{p.pOwn.toFixed(1)}%</span></div>
-            </div>
-            <div className="font-mono text-xs font-bold text-emerald-400/90">${p.price/1000}k</div>
-          </div>
-        )) : <div className="p-8 text-center text-slate-500 text-xs">Algorithm processing constraints...</div>}
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="h-full overflow-y-auto p-4 px-6 max-w-[1600px] mx-auto">
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 h-full">
-        
-        {/* Pre-Builts */}
-        <div className="xl:col-span-8 flex flex-col h-full">
-          <div className="flex items-center gap-2 mb-4 text-sm font-bold uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-2">
-            <Rocket className="w-4 h-4 text-blue-500" /> Instant Pre-Builts
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
-            <LineupCard title="Optimal Cash" icon="🛡️" lineup={preBuilts.cash} desc="Maximizes Median Floor. Safe Chalk." />
-            <LineupCard title="GPP Milly Maker" icon="🚀" lineup={preBuilts.gpp} desc="Maximizes Leverage. Strict 80% pOWN Cap." />
-            <LineupCard title="Balanced Core" icon="⚖️" lineup={preBuilts.balanced} desc="Single Entry Hybrid. High Ceiling/Floor." />
-          </div>
-        </div>
-
-        {/* Custom Builder */}
-        <div className="xl:col-span-4 flex flex-col h-full">
-          <div className="flex items-center gap-2 mb-4 text-sm font-bold uppercase tracking-widest text-slate-400 border-b border-slate-800 pb-2">
-            <Lock className="w-4 h-4 text-amber-500" /> Custom Build Hub
-          </div>
-          <div className="bg-[#151E32] border border-slate-800 rounded-xl p-5 shadow-lg flex-1 flex flex-col">
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="bg-[#0B1121] rounded-lg p-3 text-center border border-slate-800/50">
-                <div className="text-2xl font-bold font-mono text-white">{locked.length}/6</div>
-                <div className="text-[10px] uppercase tracking-wider text-slate-500 mt-1">Locked Core</div>
-              </div>
-              <div className="bg-[#0B1121] rounded-lg p-3 text-center border border-slate-800/50">
-                <div className="text-xl font-bold font-mono text-emerald-400 mt-1">${(50000 - lockedSal).toLocaleString()}</div>
-                <div className="text-[10px] uppercase tracking-wider text-slate-500 mt-1">Rem. Salary</div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-3 mb-6">
-              <button onClick={() => generateCustom('cash')} className="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-lg text-xs transition-colors border border-slate-700">Run Custom Cash Build</button>
-              <button onClick={() => generateCustom('gpp')} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg text-xs shadow-[0_0_15px_rgba(37,99,235,0.3)] transition-all">Run Custom GPP Build</button>
-            </div>
-
-            <div className="flex-1 overflow-hidden flex flex-col">
-              {customLineup ? (
-                 <div className="flex-1 overflow-y-auto pr-2">
-                    <div className="text-xs font-bold text-slate-300 mb-3 border-b border-slate-700 pb-2">Your Optimized Roster</div>
-                    {customLineup.sort((a,b)=>b.price-a.price).map(p => (
-                      <div key={p.name} className="flex justify-between items-center py-2 border-b border-slate-800/50 last:border-0">
-                        <div>
-                          <div className="font-semibold text-xs text-white">{p.locked?'🔒 ':''}{p.name}</div>
-                          <div className="text-[10px] text-slate-500 font-mono mt-0.5">Own: {p.pOwn.toFixed(1)}%</div>
-                        </div>
-                        <div className="font-mono text-xs font-bold text-emerald-400">${p.price/1000}k</div>
-                      </div>
-                    ))}
-                 </div>
-              ) : (
-                <div className="flex-1 flex flex-col items-center justify-center text-center text-slate-500 p-6 border-2 border-dashed border-slate-800 rounded-xl">
-                  <Lock className="w-8 h-8 mb-3 opacity-20" />
-                  <p className="text-xs leading-relaxed">Lock players on the Market Board, then run the optimizer.<br/><br/>Algorithm forces strict $49k+ spend constraint.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  );
+function upd(){
+const lk=P.filter(x=>x.locked),ex=P.filter(x=>x.excluded);
+const sal=lk.reduce((s,p)=>s+p.price,0),own=lk.reduce((s,p)=>s+p.pOwn,0),pts=lk.reduce((s,p)=>s+p.composite,0);
+document.getElementById('sL').textContent=`${lk.length}/6`;
+document.getElementById('sE').textContent=ex.length;
+document.getElementById('sS').textContent='$'+sal.toLocaleString();
+document.getElementById('sR').textContent='$'+(50000-sal).toLocaleString();
+document.getElementById('sP').textContent=pts.toFixed(1);
+document.getElementById('sO').textContent=own.toFixed(1)+'%';
+document.getElementById('fC').textContent=`${lk.length}/6`;
+document.getElementById('fS').textContent='$'+(50000-sal).toLocaleString();
+document.getElementById('fP').textContent=pts.toFixed(1);
+document.getElementById('fO').textContent=own.toFixed(1)+'%';
+const ll=document.getElementById('ll');
+if(!lk.length){ll.innerHTML='<div class="le">No players locked.</div>'}
+else{ll.innerHTML=lk.map(p=>`<div class="li"><span>🔒 <strong>${p.name}</strong> <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span></span><span class="mn vg">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}
 }
 
-function GuideTab() {
-  return (
-    <div className="h-full overflow-y-auto p-8 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6 flex items-center gap-3"><Info className="text-blue-500"/> Institutional Methodology</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {[
-          { icon: '⚖️', title: '$DLTA (Arbitrage)', desc: 'Ranks a player based on their DFS Salary and subtracts their rank based on Live Win Probability. A positive number indicates the player is underpriced by DraftKings compared to Vegas.' },
-          { icon: '🚂', title: 'STEAM (wVEL)', desc: 'The velocity of odds movement from Sunday open to current Tuesday lines. Highly correlated with sharp money. We track any movement > 2%.' },
-          { icon: '🎯', title: 'PROFILE FIT', desc: 'A 1-100 quantitative grade matching a player\'s recent stats (Heavily weighted to SG:APP and SG:ARG) against the historical winning profile of Harbour Town.' },
-          { icon: '👥', title: 'pOWN% & LEVERAGE', desc: 'Projected ownership accounts for the "Tout Bump" (inflated chalk). The Leverage score (1-100) finds players with elite Profile Fits that the public is ignoring.' },
-          { icon: '⏱️', title: 'TEE TIME WAVE', desc: 'AM/PM tags derived from official Thursday tee times. The engine mathematically applies a -2.5 pt penalty to the PM wave to account for historically higher coastal afternoon winds.' },
-          { icon: '🧮', title: 'KNAPSACK OPTIMIZER', desc: 'A dynamic programming algorithm that evaluates millions of combinations. It strictly forces a total spend between $49,000 and $50,000 to maximize structural ceiling.' }
-        ].map(item => (
-          <div key={item.title} className="bg-[#151E32] border border-slate-800 p-6 rounded-xl">
-            <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2"><span>{item.icon}</span> {item.title}</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+// KNAPSACK
+function gen(type){
+const lk=P.filter(x=>x.locked);
+if(lk.length>6)return alert("Max 6 locks.");
+let lkS=lk.reduce((s,p)=>s+p.price,0);
+if(lkS>50000)return alert("Locks exceed $50k.");
+const pool=P.filter(x=>!x.excluded&&!x.locked);
+const req=6-lk.length;
+if(req===0){lastLU={roster:lk,type};return showLU(lk,type)}
+const unit=100,maxU=Math.floor((50000-lkS)/unit);
+let dp=Array(req+1).fill(null).map(()=>Array(maxU+1).fill(null));
+dp[0][0]={score:0,r:[]};
+for(const p of pool){
+const wt=Math.floor(p.price/unit);
+const val=type==='cash'?p.composite:(p.composite+p.leverage*0.5);
+for(let k=req-1;k>=0;k--){for(let w=maxU-wt;w>=0;w--){
+if(dp[k][w]!==null){const ns=dp[k][w].score+val,nw=w+wt;
+if(!dp[k+1][nw]||dp[k+1][nw].score<ns)dp[k+1][nw]={score:ns,r:[...dp[k][w].r,p]}}
+}}}
+let best=null;
+const minU=Math.max(0,Math.ceil((49000-lkS)/unit));
+for(let w=maxU;w>=minU;w--){if(dp[req][w]){
+const c=dp[req][w];
+const tO=lk.reduce((s,p)=>s+p.pOwn,0)+c.r.reduce((s,p)=>s+p.pOwn,0);
+if(type==='gpp'&&tO>85)continue;
+if(!best||c.score>best.score)best=c;
+}}
+if(!best){for(let w=maxU;w>=minU;w--){if(dp[req][w]&&(!best||dp[req][w].score>best.score))best=dp[req][w]}}
+if(!best)return alert("Can't build lineup ≥$49k. Clear some locks.");
+const full=[...lk,...best.r];lastLU={roster:full,type};showLU(full,type);
 }
+
+function showLU(roster,type){
+const card=document.getElementById('oc');card.style.display='block';
+document.getElementById('ot').innerHTML=type==='cash'?'🛡️ OPTIMAL CASH':'🚀 OPTIMAL GPP';
+let sal=0,own=0,pts=0;roster.forEach(p=>{sal+=p.price;own+=p.pOwn;pts+=p.composite});
+document.getElementById('os').innerHTML=`<span>SAL: <strong>$${sal.toLocaleString()}</strong></span><span>PROJ: <strong>${pts.toFixed(1)}</strong></span><span>OWN: <strong style="color:${own>85?'var(--red)':'inherit'}">${own.toFixed(1)}%</strong></span>`;
+document.getElementById('olist').innerHTML=roster.sort((a,b)=>b.price-a.price).map(p=>`<li><div><div style="font-weight:700">${p.locked?'🔒 ':''}${p.name} <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span>${p.isChalk?'<span class="ct">CHALK</span>':''}${p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>':''}</div><div style="font-size:9px;color:var(--tx2);font-family:var(--mn);margin-top:2px">pOWN ${p.pOwn.toFixed(1)}% · LEV ${p.leverage.toFixed(0)} · FIT ${p.profileFit.toFixed(0)}</div></div><div class="vg mn" style="font-weight:700;font-size:13px">$${(p.price/1000).toFixed(1)}k</div></li>`).join('');
+}
+
+function xCSV(){
+if(!lastLU)return;
+const h='G,G,G,G,G,G';const n=lastLU.roster.sort((a,b)=>b.price-a.price).map(p=>p.name).join(',');
+const blob=new Blob([h+'\n'+n],{type:'text/csv'});const a=document.createElement('a');
+a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${lastLU.type}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+
+// MONTE CARLO (main thread, chunked)
+let simOn=false;
+function runSim(){
+if(simOn)return;simOn=true;
+const btn=document.getElementById('simB'),pw=document.getElementById('pw'),pf=document.getElementById('pf'),ptt=document.getElementById('ptt'),sr=document.getElementById('simR');
+btn.disabled=true;btn.textContent='⏳ SIMULATING...';
+pw.style.display='block';sr.style.display='none';
+document.getElementById('ch').style.display='none';document.getElementById('gh').style.display='none';
+document.getElementById('cg').innerHTML='';document.getElementById('gg').innerHTML='';
+pf.style.width='0%';ptt.textContent='Initializing 5,000,000 simulations...';
+const pool=P.filter(p=>!p.excluded);
+const locked=pool.filter(p=>p.locked);
+const lkS=locked.reduce((s,p)=>s+p.price,0);
+const avail=pool.filter(p=>!p.locked);
+const minP=Math.min(...pool.map(p=>p.price));
+avail.forEach(p=>{p.simMean=p.composite*0.85+20;p.simStd=p.price>9000?15:22});
+const wts=avail.map(p=>Math.max(1,Math.pow(p.composite,2)));
+const tW=wts.reduce((s,w)=>s+w,0);const cW=[];let ac=0;
+for(let i=0;i<wts.length;i++){ac+=wts[i];cW.push(ac)}
+function wP(){const r=Math.random()*tW;let lo=0,hi=cW.length-1;while(lo<hi){const m=(lo+hi)>>1;if(cW[m]<r)lo=m+1;else hi=m}return lo}
+function bM(mean,std){const u1=Math.max(1e-10,Math.random()),u2=Math.random();return mean+Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2)*std}
+function bL(){const pk=new Set(),ros=[...locked];let sal=lkS,att=0;
+while(ros.length<6&&att<80){const i=wP(),p=avail[i];
+if(pk.has(i)){att++;continue}if(sal+p.price>50000){att++;continue}
+const rem=6-ros.length-1;if(50000-(sal+p.price)<rem*minP){att++;continue}
+ros.push(p);pk.add(i);sal+=p.price;att++}
+return(ros.length===6&&sal>=49000)?{roster:ros,sal}:null}
+const lS=new Map(),TOT=5000000,CHK=100000;let done=0;
+function chunk(){
+const amAdv=(Math.random()-0.5)*8;
+for(let i=0;i<CHK;i++){const b=bL();if(!b)continue;
+let sc=0,am=0,pm=0;
+for(const p of b.roster){const wm=p.wave==='AM'?amAdv:-amAdv;sc+=bM(p.simMean+wm,p.simStd*0.6);if(p.wave==='AM')am++;else pm++}
+if(Math.abs(am-pm)>=4)sc+=Math.abs(amAdv)*0.3;
+const k=b.roster.map(p=>p.name).sort().join('|');const ex=lS.get(k);
+if(ex){ex.sc++;ex.ts+=sc;if(sc>ex.mx)ex.mx=sc}
+else lS.set(k,{roster:b.roster,sal:b.sal,sc:1,ts:sc,mx:sc})}
+done+=CHK;const pct=(done/TOT)*100;
+pf.style.width=pct+'%';ptt.textContent=`${done.toLocaleString()} / ${TOT.toLocaleString()} (${pct.toFixed(1)}%)`;
+if(done<TOT)setTimeout(chunk,0);else fin()
+}
+function fin(){
+const all=Array.from(lS.values()).filter(l=>l.sc>=2);
+all.forEach(l=>{l.avg=l.ts/l.sc;l.tOwn=l.roster.reduce((s,p)=>s+p.pOwn,0);l.aLev=l.roster.reduce((s,p)=>s+p.leverage,0)/6});
+const cash=[...all].sort((a,b)=>b.avg-a.avg).slice(0,5);
+const gpp=[...all].filter(l=>l.tOwn<=90).sort((a,b)=>(b.mx+b.aLev*.5)-(a.mx+a.aLev*.5)).slice(0,3);
+pf.style.width='100%';ptt.textContent=`✓ Done. ${all.length.toLocaleString()} unique lineups evaluated.`;
+sr.style.display='block';document.getElementById('ch').style.display='flex';document.getElementById('gh').style.display='flex';
+const rc=(l,i,t)=>{const s=[...l.roster].sort((a,b)=>b.price-a.price);const id=`pb_${t}_${i}`;window[`_lu_${id}`]=s;
+return`<div class="lc ${t}"><div class="lch"><span>#${i+1} · ${t.toUpperCase()}</span><span>MEAN <strong>${l.avg.toFixed(1)}</strong> · CEIL <strong>${l.mx.toFixed(1)}</strong></span></div><div class="lcb">${s.map(p=>`<div class="lcr"><span class="lcn">${p.name} <span class="wv ${p.wave==='AM'?'wam':'wpm'}" style="font-size:7px">${p.wave}</span>${p.isChalk?'<span class="ct">CH</span>':''}</span><span class="lcp">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}</div><div class="lcf"><span>SAL <strong>$${l.sal.toLocaleString()}</strong></span><span>OWN <strong>${l.tOwn.toFixed(1)}%</strong></span><span>LEV <strong>${l.aLev.toFixed(0)}</strong></span><span>SIMS <strong>${l.sc}</strong></span></div><div class="lcx"><button onclick="xPB('${id}','${t}',${i+1})">📥 CSV</button></div></div>`};
+document.getElementById('cg').innerHTML=cash.map((l,i)=>rc(l,i,'cash')).join('');
+document.getElementById('gg').innerHTML=gpp.map((l,i)=>rc(l,i,'gpp')).join('');
+btn.disabled=false;btn.textContent='▶ RUN 5M SIMULATIONS';simOn=false;
+setTimeout(()=>document.getElementById('ch').scrollIntoView({behavior:'smooth'}),200);
+}
+setTimeout(chunk,50);
+}
+function xPB(id,t,i){
+const r=window[`_lu_${id}`];if(!r)return;
+const h='G,G,G,G,G,G',n=r.map(p=>p.name).join(',');
+const blob=new Blob([h+'\n'+n],{type:'text/csv'});const a=document.createElement('a');
+a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${t}_${i}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);
+}
+</script>
+</body>
+</html>
