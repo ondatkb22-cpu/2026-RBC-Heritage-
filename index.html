@@ -4,10 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Plaid Genie V5.3 — Heritage Optimizer</title>
+<title>Plaid Genie V5.4 — Heritage Optimizer</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#050507;--sf:#0E0E12;--sf2:#151519;--sf3:#1B1B21;--gl:rgba(14,14,18,.88);--bd:#27272F;--bd2:#35353F;--tx:#EAEAEF;--tx2:#9898A6;--tx3:#5E5E6E;--grn:#34D399;--red:#F87171;--gld:#FBBF24;--blu:#60A5FA;--pur:#A78BFA;--fn:'DM Sans',sans-serif;--mn:'DM Mono',monospace}
+:root{--bg:#050507;--sf:#0E0E12;--sf2:#151519;--gl:rgba(14,14,18,.88);--bd:#27272F;--bd2:#35353F;--tx:#EAEAEF;--tx2:#9898A6;--tx3:#5E5E6E;--grn:#34D399;--red:#F87171;--gld:#FBBF24;--blu:#60A5FA;--pur:#A78BFA;--fn:'DM Sans',sans-serif;--mn:'DM Mono',monospace}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--tx);font-family:var(--fn);font-size:13px;min-height:100vh;padding-bottom:120px;-webkit-font-smoothing:antialiased}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(96,165,250,.06) 0%,transparent 60%);z-index:-1;pointer-events:none}
@@ -33,31 +33,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .cg{border-color:rgba(52,211,153,.4);color:var(--grn)}
 .cr{border-color:rgba(248,113,113,.4);color:var(--red)}
 .cp{border-color:rgba(167,139,250,.4);color:var(--pur)}
-/* COLUMN KEY */
-.ck{background:var(--sf);border:1px solid var(--bd);border-radius:12px;margin-bottom:14px;overflow:hidden}
-.ck-h{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;font-weight:600;font-size:11px;color:var(--tx2);transition:background .15s}
-.ck-h:hover{background:var(--sf2)}
-.ck-arr{font-size:9px;transition:transform .3s;color:var(--tx3)}
-.ck.open .ck-arr{transform:rotate(180deg)}
-.ck-b{max-height:0;opacity:0;overflow:hidden;transition:max-height .4s cubic-bezier(.25,1,.5,1),opacity .3s,padding .3s;padding:0 16px}
-.ck.open .ck-b{max-height:900px;opacity:1;padding:0 16px 16px}
-.ck-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
-.ck-item{display:flex;gap:10px;padding:10px 12px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;align-items:flex-start}
-.ck-icon{font-size:16px;flex-shrink:0;line-height:1}
-.ck-label{font-size:11px;font-weight:700;color:var(--tx);margin-bottom:2px}
-.ck-desc{font-size:10px;color:var(--tx2);line-height:1.5}
-.ck-spark-demo{display:inline-flex;align-items:flex-end;gap:2px;height:16px;vertical-align:middle;margin:0 2px}
-.ck-spark-demo .sb{width:6px;border-radius:1px 1px 0 0}
-.ck-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;padding-top:8px;border-top:1px dashed var(--bd)}
-.ck-tag{font-size:9px;font-family:var(--mn);padding:2px 6px;border-radius:4px;font-weight:700}
-.ck-tag-chalk{background:rgba(248,113,113,.12);color:var(--red)}
-.ck-tag-cps{background:rgba(167,139,250,.12);color:var(--pur)}
-.ck-tag-exp{background:rgba(251,191,36,.12);color:var(--gld)}
-.ck-tag-wave-am{background:rgba(251,191,36,.08);color:var(--gld)}
-.ck-tag-wave-pm{background:rgba(96,165,250,.08);color:var(--blu)}
-/* LIGHTHOUSE */
-.lh-icon{display:inline-block;width:12px;height:12px;flex-shrink:0;vertical-align:middle;margin-right:2px}
 .cd{border-color:rgba(96,165,250,.4);color:var(--blu)}
+/* TABLE */
 .tw{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow-x:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);max-height:70vh;overflow-y:auto}
 .tw::-webkit-scrollbar{width:6px;height:6px}.tw::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
 table{width:100%;border-collapse:collapse;min-width:1050px}
@@ -88,10 +65,10 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .na{color:var(--tx3);font-style:italic;font-size:9px}
 .ct{font-size:7px;background:rgba(248,113,113,.12);color:var(--red);padding:1px 4px;border-radius:3px;font-weight:700;margin-left:3px;font-family:var(--mn)}
 .ce{font-size:7px;background:rgba(251,191,36,.15);color:var(--gld);padding:1px 4px;border-radius:3px;font-weight:700;margin-left:3px;font-family:var(--mn);border:1px solid rgba(251,191,36,.3)}
-.sp{display:inline-flex;align-items:flex-end;gap:1px;height:16px}
+.sp{display:inline-flex;align-items:flex-end;gap:1px;height:18px}
 .sb{width:4px;border-radius:1px 1px 0 0}
-.oc{font-family:var(--mn);font-size:10px;line-height:1.4}
-.oo{color:var(--tx3);font-size:8px}
+.oc-cell{font-family:var(--mn);font-size:10px;line-height:1.4}
+.oo{color:var(--tx3);font-size:7px;line-height:1.3}
 .os{color:var(--grn)}.od{color:var(--red)}
 .fit-cell{display:flex;flex-direction:column;align-items:center;gap:1px}
 .fit-raw{font-size:8px;color:var(--tx3);font-family:var(--mn)}
@@ -104,7 +81,8 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .bb{background:var(--sf2);border:1px solid var(--bd);color:var(--tx);padding:14px;border-radius:10px;cursor:pointer;transition:.2s;text-align:left;font-family:var(--fn)}
 .bb:hover{border-color:var(--blu);transform:translateY(-1px)}
-.bb.ca{border-left:3px solid var(--grn)}.bb.gp{border-left:3px solid var(--blu)}
+.bb.gp{border-left:3px solid var(--blu)}
+.bb.df{border-left:3px solid var(--gld)}
 .bt{font-size:13px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px}
 .bs2{font-size:10px;color:var(--tx2);line-height:1.3}
 .ld{background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:12px}
@@ -122,38 +100,45 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .sl{font-size:10px;color:var(--tx2);font-family:var(--mn)}
 .sv2{font-weight:700;font-size:12px;font-family:var(--mn)}
 .oc2{background:var(--sf);border:2px solid var(--blu);border-radius:14px;margin-top:16px;overflow:hidden;display:none}
-.oc2.show{display:block}
 .oh{background:var(--blu);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .oh h4{font-size:15px;font-weight:700}
-.ost{font-family:var(--mn);font-size:11px;display:flex;gap:12px}
+.ost{font-family:var(--mn);font-size:11px;display:flex;gap:12px;flex-wrap:wrap}
 .ol{list-style:none;padding:0;margin:0}
 .ol li{padding:10px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:12px}
 .ol li:last-child{border:none}
 .xb{margin:8px 16px 12px;background:transparent;border:1px solid var(--grn);color:var(--grn);padding:8px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mn);width:calc(100% - 32px);text-align:center;transition:.2s}
 .xb:hover{background:var(--grn);color:#000}
-/* PREBUILT */
+/* PRE-BUILT */
 .ph{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center}
 .ph h2{font-size:20px;font-weight:700;margin-bottom:6px}
 .ph p{color:var(--tx2);font-size:12px;margin-bottom:14px}
-.sib{background:var(--blu);color:#fff;border:none;padding:12px 24px;border-radius:10px;font-family:var(--fn);font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
-.sib:hover{transform:translateY(-2px)}.sib:disabled{opacity:.6;cursor:wait}
-.pw{margin-top:16px;display:none}.pw.show{display:block}
+.pre-modes{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:8px}
+.pre-btn{border:none;padding:12px 22px;border-radius:10px;font-family:var(--fn);font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
+.pre-btn:disabled{opacity:.5;cursor:wait}
+.pre-btn.gpp{background:var(--blu);color:#fff}
+.pre-btn.gpp:hover:not(:disabled){transform:translateY(-2px);background:#3b8fef}
+.pre-btn.delta{background:rgba(251,191,36,.15);border:1px solid var(--gld);color:var(--gld)}
+.pre-btn.delta:hover:not(:disabled){background:rgba(251,191,36,.25);transform:translateY(-2px)}
+.pw{margin-top:14px;display:none}
 .pbg{height:6px;background:var(--sf2);border-radius:3px;overflow:hidden;margin-bottom:6px;border:1px solid var(--bd)}
-.pbf{height:100%;background:linear-gradient(90deg,var(--blu),var(--grn));width:0%;transition:width .2s;border-radius:3px}
-.pt{font-size:10px;color:var(--tx2);font-family:var(--mn)}
-.ps{margin-bottom:20px}
-.ps h3{font-size:16px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.ps h3 .cn{background:var(--blu);color:#fff;font-size:9px;padding:2px 7px;border-radius:8px;font-family:var(--mn);font-weight:700}
-.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.pbf{height:100%;background:linear-gradient(90deg,var(--blu),var(--grn));width:0%;transition:width .15s;border-radius:3px}
+.ptt{font-size:10px;color:var(--tx2);font-family:var(--mn)}
+.sim-section{margin-bottom:24px}
+.sim-section h3{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sim-section h3 .cn{font-size:9px;padding:2px 8px;border-radius:8px;font-family:var(--mn);font-weight:700}
+.cn-gpp{background:var(--blu);color:#fff}
+.cn-df{background:rgba(251,191,36,.2);color:var(--gld);border:1px solid rgba(251,191,36,.4)}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
 .lc{background:var(--sf);border:1px solid var(--bd);border-radius:10px;overflow:hidden;transition:.2s}
 .lc:hover{transform:translateY(-2px);border-color:var(--blu)}
-.lc.ca{border-left:3px solid var(--grn)}.lc.gp{border-left:3px solid var(--blu)}
+.lc.gpp{border-left:3px solid var(--blu)}
+.lc.delta{border-left:3px solid var(--gld)}
 .lch{padding:10px 12px;background:var(--sf2);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);font-size:10px;font-family:var(--mn);color:var(--tx2)}
 .lch strong{color:var(--tx)}
 .lcb{padding:8px 12px}
-.lcr{display:flex;justify-content:space-between;padding:4px 0;font-size:11px}
-.lcn{font-weight:600}
-.lcp{color:var(--grn);font-family:var(--mn);font-weight:700}
+.lcr{display:flex;justify-content:space-between;padding:4px 0;font-size:11px;align-items:center}
+.lcn{font-weight:600;display:flex;align-items:center;gap:4px}
+.lcp{color:var(--grn);font-family:var(--mn);font-weight:700;font-size:12px}
 .lcf{padding:8px 12px;background:var(--sf2);border-top:1px solid var(--bd);font-family:var(--mn);font-size:9px;color:var(--tx2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
 .lcf strong{color:var(--tx)}
 .lcx{padding:6px 12px;border-top:1px solid var(--bd);text-align:center}
@@ -164,16 +149,16 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .g-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(96,165,250,.04) 0%,transparent 50%,rgba(52,211,153,.03) 100%);pointer-events:none}
 .g-hero h2{font-size:22px;font-weight:700;margin-bottom:8px;position:relative}
 .g-hero p{color:var(--tx2);font-size:13px;line-height:1.6;max-width:680px;margin:0 auto;position:relative}
-.g-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:16px}
+.g-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px}
 .g-card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:18px;transition:.2s;position:relative;overflow:hidden}
 .g-card:hover{border-color:var(--blu);transform:translateY(-2px)}
-.g-card h3{font-size:14px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.g-card h3{font-size:14px;font-weight:700;margin-bottom:6px}
 .g-card p{color:var(--tx2);font-size:11px;line-height:1.6}
 .g-card .g-num{position:absolute;top:-6px;right:12px;font-size:48px;font-weight:700;color:rgba(255,255,255,.03);font-family:var(--mn);pointer-events:none}
 .g-section{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:12px}
 .g-section h3{font-size:15px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.g-section h3 .g-badge{font-size:9px;background:var(--blu);color:#fff;padding:2px 7px;border-radius:8px;font-family:var(--mn);font-weight:700}
-.g-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.g-badge{font-size:9px;background:var(--blu);color:#fff;padding:2px 7px;border-radius:8px;font-family:var(--mn);font-weight:700}
+.g-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .g-stat{padding:10px 12px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px}
 .g-stat-label{font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;font-family:var(--mn);margin-bottom:3px}
 .g-stat-val{font-size:16px;font-weight:700;font-family:var(--mn)}
@@ -186,10 +171,9 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .g-champs .sc{color:var(--grn);font-family:var(--mn);font-weight:700}
 .g-edge{padding:12px;background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.15);border-radius:8px;margin-top:10px}
 .g-edge-title{font-size:11px;font-weight:700;color:var(--grn);margin-bottom:6px}
-.g-edge p{font-size:11px;color:var(--tx2);line-height:1.6}
+.g-edge p,.g-fade p{font-size:11px;color:var(--tx2);line-height:1.6}
 .g-fade{padding:12px;background:rgba(248,113,113,.04);border:1px solid rgba(248,113,113,.15);border-radius:8px;margin-top:10px}
 .g-fade-title{font-size:11px;font-weight:700;color:var(--red);margin-bottom:6px}
-.g-fade p{font-size:11px;color:var(--tx2);line-height:1.6}
 .g-go{margin-top:12px;background:transparent;border:1px solid var(--blu);color:var(--blu);padding:8px 14px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--mn);transition:.2s}
 .g-go:hover{background:var(--blu);color:#fff}
 /* FAB */
@@ -200,15 +184,22 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .fb{display:flex;flex-direction:column}
 .fv{font-size:13px;font-weight:700;font-family:var(--mn)}
 .fl{font-size:8px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
-
-/* BADGE POPUP */
-.bp-wrap{position:relative;display:inline}
-.bp-dot{display:none;width:6px;height:6px;border-radius:50%;background:var(–gld);margin-left:4px;flex-shrink:0;cursor:pointer;vertical-align:middle}
-.bp-pop{display:none;position:absolute;left:0;top:100%;margin-top:4px;background:var(–sf2);border:1px solid var(–bd2);border-radius:8px;padding:6px 8px;z-index:50;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.6);min-width:90px}
+.bp-dot{display:none;width:6px;height:6px;border-radius:50%;background:var(--gld);margin-left:4px;flex-shrink:0;cursor:pointer}
+.bp-pop{display:none;position:absolute;left:0;top:100%;margin-top:4px;background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;padding:6px 8px;z-index:50;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.6)}
 .bp-pop.show{display:flex;gap:4px;flex-wrap:wrap}
-@media(max-width:768px){.c{padding:6px}.hdr{flex-direction:column;align-items:flex-start}.srch{width:100%}.chip{flex:1;text-align:center;padding:6px 6px;font-size:9px}table{min-width:0;width:100%;table-layout:fixed}th,td{padding:4px 3px;font-size:9px;overflow:hidden;text-overflow:ellipsis}th:first-child,td:first-child{width:100px;min-width:100px;max-width:120px;padding-left:6px;padding-right:4px}.pn{font-size:9px;gap:3px}.acts{gap:2px}.bi{width:20px;height:20px;font-size:8px}.ba{grid-template-columns:1fr}.fs{gap:10px}.fv{font-size:11px}.bw{grid-template-columns:1fr}.bp-dot{display:inline-block}.ce,.ct{display:none}.oo{display:none}.sp{display:none}.hide-m{display:none}.fit-raw{display:none}.oc{font-size:9px}}
+@media(max-width:768px){
+.c{padding:6px}.hdr{flex-direction:column;align-items:flex-start}.srch{width:100%}
+.chip{flex:1;text-align:center;padding:6px 4px;font-size:9px}
+table{min-width:0;width:100%;table-layout:fixed}
+th,td{padding:4px 3px;font-size:9px;overflow:hidden;text-overflow:ellipsis}
+th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
+.pn{font-size:9px;gap:3px}.acts{gap:2px}.bi{width:20px;height:20px;font-size:8px}
+.ba{grid-template-columns:1fr}.fs{gap:10px}.fv{font-size:11px}
+.bw{grid-template-columns:1fr}.bp-dot{display:inline-block}
+.ce,.ct{display:none}.oo{display:none}.sp{display:none}.hide-m{display:none}
+.fit-raw{display:none}.oc-cell{font-size:9px}.pre-modes{flex-direction:column;align-items:center}
+}
 </style>
-
 </head>
 <body>
 <div class="c">
@@ -228,12 +219,13 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <path d="M16 9 L26 5 L26 14 L16 10 Z" fill="var(--gld)" opacity=".12"/>
 </svg>
 <div>
-<h1>Plaid Genie <span class="tag">V5.3</span></h1>
-<div class="hdr-sub">RBC Heritage · Harbour Town GL · Reddit Model Fit · Tout Chalk Parsed · 4-Point Steam</div>
+<h1>Plaid Genie <span class="tag">V5.4</span></h1>
+<div class="hdr-sub">RBC Heritage · 4-Point Steam · Reddit Fit · Δ/Fit Pre-Build · Wed Odds Live</div>
 </div>
 </div>
-<div class="hdr-wx">R1 Thu: 74°F · E 10-15 mph AM → SSE 5-10 mph PM · 0% rain · PM wave edge</div>
+<div class="hdr-wx">R1 Thu: 74°F · E 10-15 mph AM → SSE 5-10 mph PM · 0% rain</div>
 </header>
+
 <div class="tabs">
 <button class="tab on" onclick="sw('guide',this)">📚 GUIDE</button>
 <button class="tab" onclick="sw('pool',this)">📊 POOL</button>
@@ -244,49 +236,45 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <!-- GUIDE -->
 
 <div class="pnl on" id="p-guide">
-
 <div class="g-hero">
-<h2>🏌️ Welcome to Harbour Town</h2>
-<p>The RBC Heritage is back on Hilton Head Island — freshly renovated greens, the smallest targets on Tour, and a $20M purse with no cut. This is a shot-maker's paradise where bombers go to die and iron savants feast. Course Fit is now driven by the Reddit Model (24-stat weighted composite, Pete Dye-specific). Here's your cheat sheet.</p>
+<h2>🏌️ Harbour Town — V5.4</h2>
+<p>4-Point Steam (Sun/Mon/Tue/Wed), Reddit Model Fit (24-stat, 0-1000), and a new <strong>Δ/Fit Pre-Build</strong> mode that optimizes purely on salary-odds arbitrage × course fit. The algorithm rewards players the market undervalues at their DK salary with strong Harbour Town profiles.</p>
 </div>
-
 <div class="g-cards">
 <div class="g-card"><div class="g-num">01</div>
-<h3>🎯 Second-Shot Course</h3>
-<p>Four of the last five winners finished top-7 in SG: Approach during the tournament. Harbour Town's greens average just 3,700 sq ft — the second smallest on Tour. You can leave the driver in the bag and outscore the bombers. This is the week where precision beats power.</p>
-<button class="g-go" onclick="sw('pool',document.querySelectorAll('.tab')[1])">SCAN THE POOL →</button>
+<h3>⚖️ Δ/Fit Pre-Build</h3>
+<p>New in V5.4. Ranks every player by <strong>Delta × Fit score</strong> — salary-odds arbitrage multiplied by Reddit course fit. Finds the 6-man roster under $50k that maximizes this combined signal. Best for identifying market inefficiencies the touts haven't caught yet.</p>
+<button class="g-go" onclick="sw('pre',document.querySelectorAll('.tab')[3])">RUN Δ/FIT BUILD →</button>
 </div>
 <div class="g-card"><div class="g-num">02</div>
-<h3>🧠 Reddit Model Integration</h3>
-<p>Course Fit (🎯) is now powered by the Reddit Google Sheet's Overall Model Score — a 0-1000 composite of 24 course-specific metrics including Pete Dye history, small greens GIR, ARG proximity on short grass, difficult SG approach, and opps to 10ft from 175-200. Top 15 get the 🧠 EXPERT badge. This replaces the legacy 5-stat raw fit calculation.</p>
-<button class="g-go" onclick="sw('pool',document.querySelectorAll('.tab')[1]);setTimeout(()=>{flt('expert',document.querySelectorAll('.chip')[7])},200)">VIEW EXPERT TOP 15 →</button>
-</div>
-<div class="g-card"><div class="g-num">03</div>
-<h3>🚂 Follow the Sharp Money</h3>
-<p>We track odds from Sunday open through Tuesday. When a player's line shortens (e.g. +5200 → +4500), that's "steam" — sharp bettors are backing him. The touts won't catch this until Wednesday. You have it now. Combine steam with high fit and low ownership for the optimal GPP play.</p>
+<h3>🚂 4-Point Steam</h3>
+<p>Tracks implied win probability across all 4 snapshots: Sun → Mon → Tue → Wed. Sustained shortening across all 4 days = the strongest sharp signal available before lock. Combined with positive Delta = the sharpest plays in the pool.</p>
 <button class="g-go" onclick="sw('pool',document.querySelectorAll('.tab')[1]);setTimeout(()=>{flt('steam',document.querySelectorAll('.chip')[3])},200)">VIEW STEAM →</button>
 </div>
+<div class="g-card"><div class="g-num">03</div>
+<h3>🧠 Reddit Model Top 15</h3>
+<p>24-stat Pete Dye specific composite. Weighted Proximity, SG:APP, Small Greens GIR%, SG:ARG, ARG Proximity, Pete Dye History, Opps to 10ft from 175-200 and more. Top 15 scores get 🧠 EXPERT badge.</p>
+<button class="g-go" onclick="sw('pool',document.querySelectorAll('.tab')[1]);setTimeout(()=>{flt('expert',document.querySelectorAll('.chip')[7])},200)">VIEW EXPERT 15 →</button>
+</div>
 <div class="g-card"><div class="g-num">04</div>
-<h3>🎰 Studs & Duds Strategy</h3>
-<p>No cut means your $6,000 guys get all four rounds. The expert consensus (Pat Mayo, Blickle, RotoWire) is unanimous: load 3 studs above $9k, then fill with high-upside values below $7k. The middle tier ($7.5k-$8.5k) is a trap — not enough ceiling, too much ownership. Let the optimizer find the edges.</p>
+<h3>🚀 GPP Optimizer</h3>
+<p>Knapsack DP optimizer targeting $49k-$50k, 6 players, max 85% total pOWN. Maximizes composite + leverage score. Lock players in the Pool tab first to force them into any build.</p>
 <button class="g-go" onclick="sw('build',document.querySelectorAll('.tab')[2])">BUILD LINEUPS →</button>
 </div>
 </div>
-
 <div class="g-section">
 <h3>⛳ Course DNA <span class="g-badge">HARBOUR TOWN GL</span></h3>
 <div class="g-grid">
-<div class="g-stat"><div class="g-stat-label">Par / Yards</div><div class="g-stat-val">71 · 7,243 yds</div><div class="g-stat-note">Stretched 30 yds via renovation</div></div>
-<div class="g-stat"><div class="g-stat-label">Greens</div><div class="g-stat-val">3,700 sq ft avg</div><div class="g-stat-note">2nd smallest on Tour (Pebble = #1)</div></div>
-<div class="g-stat"><div class="g-stat-label">Stimpmeter</div><div class="g-stat-val">12.5 ft</div><div class="g-stat-note">New Bermuda greens, fresh contours</div></div>
-<div class="g-stat"><div class="g-stat-label">Purse</div><div class="g-stat-val">$20,000,000</div><div class="g-stat-note">$3.6M to winner · 700 FedEx pts</div></div>
-<div class="g-stat"><div class="g-stat-label">Field</div><div class="g-stat-val">82 players</div><div class="g-stat-note">No cut — everyone plays 4 rounds</div></div>
-<div class="g-stat"><div class="g-stat-label">Key Stats</div><div class="g-stat-val">SG:APP · SG:ARG</div><div class="g-stat-note">Driving accuracy 100%+ boost in model</div></div>
+<div class="g-stat"><div class="g-stat-label">Par / Yards</div><div class="g-stat-val">71 · 7,243</div><div class="g-stat-note">+30 yds via renovation</div></div>
+<div class="g-stat"><div class="g-stat-label">Greens</div><div class="g-stat-val">3,700 sq ft</div><div class="g-stat-note">2nd smallest on Tour</div></div>
+<div class="g-stat"><div class="g-stat-label">Purse</div><div class="g-stat-val">$20,000,000</div><div class="g-stat-note">$3.6M to winner</div></div>
+<div class="g-stat"><div class="g-stat-label">Format</div><div class="g-stat-val">No Cut</div><div class="g-stat-note">82 players · 4 rounds</div></div>
+<div class="g-stat"><div class="g-stat-label">Key Stats</div><div class="g-stat-val">SG:APP · ARG</div><div class="g-stat-note">Precision beats power</div></div>
+<div class="g-stat"><div class="g-stat-label">DK Cap</div><div class="g-stat-val">$50,000</div><div class="g-stat-note">6 golfers · target $49k+</div></div>
 </div>
 </div>
-
 <div class="g-section">
-<h3>🏆 Recent Champions <span class="g-badge">PATTERN ALERT</span></h3>
+<h3>🏆 Recent Champions</h3>
 <ul class="g-champs">
 <li><span class="yr">2025</span><span class="nm">Justin Thomas</span><span class="sc">-17 (playoff)</span></li>
 <li><span class="yr">2024</span><span class="nm">Scottie Scheffler</span><span class="sc">-19</span></li>
@@ -295,42 +283,25 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <li><span class="yr">2021</span><span class="nm">Stewart Cink</span><span class="sc">-19</span></li>
 <li><span class="yr">2020</span><span class="nm">Webb Simpson</span><span class="sc">-22</span></li>
 </ul>
-<p style="font-size:10px;color:var(--tx3);margin-top:8px;line-height:1.5">📌 Pattern: 3 of the last 4 winners have elite short games (Spieth, Fitz, JT). All 4 finished top-10 in SG:ARG during the tournament week. The renovation expanded greens slightly but added contours — around-the-green play matters even more now.</p>
 </div>
-
 <div class="g-section">
-<h3>🌤️ R1 Thursday Weather <span class="g-badge">WAVE EDGE</span></h3>
-<div class="g-grid">
-<div class="g-stat"><div class="g-stat-label">High / Low</div><div class="g-stat-val">74°F / 57°F</div></div>
-<div class="g-stat"><div class="g-stat-label">Precip</div><div class="g-stat-val">0%</div><div class="g-stat-note">Bone dry all day</div></div>
-<div class="g-stat"><div class="g-stat-label">AM Wind (6-10 AM)</div><div class="g-stat-val">E 10-15 mph</div><div class="g-stat-note">Stiffer off the ocean</div></div>
-<div class="g-stat"><div class="g-stat-label">PM Wind (11 AM+)</div><div class="g-stat-val">SSE 5-10 mph</div><div class="g-stat-note">Calmer, shifting south</div></div>
-</div>
+<h3>💡 Sharp vs. Sheep</h3>
 <div class="g-edge">
-<div class="g-edge-title">📈 DFS Edge: PM Wave Advantage</div>
-<p>The early AM wave faces the stiffest easterly wind off the Atlantic. By late morning the wind shifts SSE and drops to 5-10 mph. The PM wave (Scheffler, Schauffele, Fitzpatrick, Henley, Cantlay, Morikawa, Burns) gets significantly calmer conditions. However — those guys are also the highest owned. The sharps will stack PM wave because it's easier scoring, but every tout is already there. The counter-play: AM wave leverage plays (Straka, Gotterup, Min Woo Lee, Hovland) who can handle the wind with low ball flights.</p>
-</div>
-</div>
-
-<div class="g-section">
-<h3>💡 Sharp vs. Sheep This Week</h3>
-<div class="g-edge">
-<div class="g-edge-title">✅ Sharp Plays (Contrarian, High Leverage)</div>
-<p><strong>Min Woo Lee ($7,800)</strong> — Pat Mayo's "first click of the week." Masters hangover discount, but his chipping and putting are elite for Harbour Town. More accurate off the tee than people think.<br>
-<strong>Sepp Straka ($7,900)</strong> — Odds shortened from +5200 to +4500. Should have won this tournament in 2022. SG:APP specialist, perfect fit.<br>
-<strong>Chris Gotterup ($8,100)</strong> — Low ball flight beats the wind. #5 in Contention Performance Score. Only player with 2 wins this season. Under-owned because he doesn't fit the "short accurate" prototype, but he doesn't need to.<br>
-<strong>Billy Horschel ($6,600)</strong> — #1 Contention Performance Score in this entire field. If he sniffs the leaderboard on Friday, fire everything.<br>
-<strong>Andrew Putnam ($6,400)</strong> — "$6,400 mispriced value" per multiple analysts. Course history improving each year. Second-highest SG projection under $6,900.</p>
+<div class="g-edge-title">✅ Sharp Plays</div>
+<p><strong>Sepp Straka ($7,900)</strong> — 4-point steam confirmed. +5200→+4800→+4500→+4500. Sharp all week.<br>
+<strong>Min Woo Lee ($7,800)</strong> — Pat Mayo's first click. Elite ARG, under-owned.<br>
+<strong>Chris Gotterup ($8,100)</strong> — Low ball flight, #5 CPS, 2 wins this season.<br>
+<strong>Billy Horschel ($6,600)</strong> — #1 Contention Performance Score in field.<br>
+<strong>Andrew Putnam ($6,400)</strong> — Mispriced value. Course history improving each year.</p>
 </div>
 <div class="g-fade">
-<div class="g-fade-title">⚠️ Sheep Chalk (Over-Owned, Leverage Killers)</div>
-<p><strong>Russell Henley ($9,600)</strong> — Every single tout is pounding the table. Elite Masters week but his great-round rate in contention is historically very low. He'll be 25%+ owned.<br>
-<strong>Patrick Cantlay ($9,200)</strong> — "Easiest DFS click" per RotoWire. Seven top-15s at Harbour Town but ZERO wins. The field knows this. Over-owned for a guy who hasn't won since 2022.<br>
-<strong>S. Yellamaraju ($7,200)</strong> — "Clearly too cheap" is the consensus. Which means everyone will play him. Zero course history. Not a specialist profile for this track.<br>
-<strong>Jacob Bridgeman ($8,200)</strong> — Worst Contention Performance Score per Blickle's new metric. He won Genesis on Thursday/Friday, not Saturday/Sunday. If he's in the mix, history says he folds.</p>
+<div class="g-fade-title">⚠️ Sheep Chalk</div>
+<p><strong>Russell Henley ($9,600)</strong> — 25%+ ownership projected. Low great-round rate in contention.<br>
+<strong>Patrick Cantlay ($9,200)</strong> — 7 top-15s at Harbour Town, zero wins. Can't close.<br>
+<strong>S. Yellamaraju ($7,200)</strong> — Zero course history. Every tout is on him.<br>
+<strong>Jacob Bridgeman ($8,200)</strong> — Worst CPS in field. Folds on weekends.</p>
 </div>
 </div>
-
 </div>
 
 <!-- POOL -->
@@ -347,121 +318,80 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <button class="chip cr" onclick="flt('chalk',this)">🐑 CHALK</button>
 <button class="chip cp" onclick="flt('expert',this)">🧠 EXPERT 15</button>
 </div>
-
-<div class="ck" id="colKey">
-<div class="ck-h" onclick="document.getElementById('colKey').classList.toggle('open')">
-<span>📖 COLUMN KEY — What Every Number Means</span>
-<span class="ck-arr">▼</span>
-</div>
-<div class="ck-b">
-<div class="ck-grid">
-
-<div class="ck-item">
-<div class="ck-icon">🏌️</div>
-<div><div class="ck-label">Player</div><div class="ck-desc">Player name with R1 tee-time wave (<span class="ck-tag ck-tag-wave-am">AM</span> = early morning, stiffer wind · <span class="ck-tag ck-tag-wave-pm">PM</span> = late morning/afternoon, calmer). Lock 🔒 to include in your build. Exclude ✕ to remove from the optimizer pool entirely.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">💵</div>
-<div><div class="ck-label">Salary</div><div class="ck-desc">DraftKings price. You have a $50,000 cap across 6 golfers. The optimizer targets lineups between $49k–$50k to maximize spend efficiency.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">🎲</div>
-<div><div class="ck-label">Odds</div><div class="ck-desc">Outright win odds tracked across 3 snapshots: <strong>Sunday open → Monday → Tuesday</strong>. Displayed as American odds (+2500 means $100 bet wins $2,500). <span style="color:var(--grn)">Green ▼</span> = odds shortened. <span style="color:var(--red)">Red ▲</span> = odds drifted out.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">📊</div>
-<div><div class="ck-label">Spark (Odds Movement Chart)</div><div class="ck-desc">Three vertical bars showing <strong>implied win probability</strong> at each odds snapshot (Sun, Mon, Tue). Taller bar = higher implied probability. Example: <span class="ck-spark-demo"><span class="sb" style="height:8px;background:var(--tx3)"></span><span class="sb" style="height:12px;background:var(--tx3)"></span><span class="sb" style="height:16px;background:var(--grn)"></span></span> means steam (sharp money). The final bar is colored green or red to show overall direction vs. Sunday open.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">⚖️</div>
-<div><div class="ck-label">$DLTA (Salary-Odds Arbitrage)</div><div class="ck-desc">Salary Rank minus Odds Rank. <span style="color:var(--grn)">Positive</span> = DK overpriced this player relative to the betting market (good value). <span style="color:var(--red)">Negative</span> = the market is lower on him than his DK price implies.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">🚂</div>
-<div><div class="ck-label">Steam</div><div class="ck-desc">Absolute % change in implied win probability from Sunday open to current odds. <span style="color:var(--grn)">Green</span> = odds shortened. <span style="color:var(--red)">Red</span> = odds drifted. The 🚂 STEAM filter shows only players where odds shortened by >2%.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">🏛️</div>
-<div><div class="ck-label">Course History</div><div class="ck-desc">Weighted average finish position at Harbour Town Golf Links. <strong>Lower is better</strong> (e.g. 3.5 = nearly won every time). "N/A" means no starts at this course — these players receive a 75.0 penalty which hurts their composite score but can create leverage value if their Reddit fit is strong.</div></div>
-</div>
-
-<div class="ck-item" style="border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.04)">
-<div class="ck-icon">🎯</div>
-<div><div class="ck-label">Fit — Reddit Model Score <span class="ck-tag ck-tag-exp">V5.3 UPDATE</span></div><div class="ck-desc"><strong>NEW: Now driven by the Reddit Google Sheet Overall Model Score (0-1000 scale).</strong> The Reddit model weights 24 course-specific metrics for Harbour Town: Weighted Proximity (6%), SG: Approach (5%), Small Greens GIR% (5%), Difficult GIR (5%), SG: ARG (4%), ARG Proximity (7%), SG: Putting Overseed (2%), Short Courses (10%), Difficult SG: APP (5%), Pete Dye History (7%), Opps to 10ft from 175-200 (4%), ARG Prox Short Grass (3%), Opps to 5ft (5%), and more. Score shown in small text below the normalized 0-100 value. Top 15 get the <span class="ck-tag ck-tag-exp">EXPERT</span> badge.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">👥</div>
-<div><div class="ck-label">pOWN% (Projected Ownership)</div><div class="ck-desc">Model-estimated ownership in DK contests. Normalized so all players sum to exactly 600% (6 roster spots × 100%). Players tagged <span class="ck-tag ck-tag-chalk">CHALK</span> get a +10% ownership inflation because multiple expert analysts (Pat Mayo, Blickle, RotoWire) are recommending them.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">📈</div>
-<div><div class="ck-label">Leverage</div><div class="ck-desc">1-100 score measuring GPP edge: <strong>Reddit Fit × Low Ownership</strong>. Now uses the Reddit Model Score as the skill input instead of legacy stat calcs. Players tagged <span class="ck-tag ck-tag-cps">CPS+</span> get a 10% leverage bonus — these players have the best Contention Performance Scores.</div></div>
-</div>
-
-</div>
-
-<div class="ck-tags">
-<span style="font-size:10px;color:var(--tx3);margin-right:4px">Tags:</span>
-<span class="ck-tag ck-tag-exp">EXPERT</span><span style="font-size:9px;color:var(--tx3)">Reddit Top 15 Model Score</span>
-<span class="ck-tag ck-tag-chalk">CHALK</span><span style="font-size:9px;color:var(--tx3)">Tout-hyped, own inflated</span>
-<span class="ck-tag ck-tag-cps">CPS+</span><span style="font-size:9px;color:var(--tx3)">Strong contention closer</span>
-<span class="ck-tag ck-tag-wave-am">AM</span><span style="font-size:9px;color:var(--tx3)">Early wave (windier)</span>
-<span class="ck-tag ck-tag-wave-pm">PM</span><span style="font-size:9px;color:var(--tx3)">Late wave (calmer)</span>
-</div>
-</div>
-</div>
 <div class="tw"><table><thead><tr>
 <th onclick="so('name')" data-c="name">🏌️ Player <span class="s">▼</span></th>
 <th onclick="so('price')" data-c="price">💵 <span class="s">▼</span></th>
-<th onclick="so('liveImp')" data-c="liveImp">🎲 <span class="s">▼</span></th>
-<th data-c="spark" style="cursor:default" class="hide-m">📊</th>
-<th onclick="so('dlta')" data-c="dlta">⚖️ <span class="s">▼</span></th>
+<th onclick="so('liveImp')" data-c="liveImp">🎲 Wed <span class="s">▼</span></th>
+<th data-c="spark" style="cursor:default" class="hide-m">📊 S/M/T/W</th>
+<th onclick="so('dlta')" data-c="dlta">⚖️ Δ <span class="s">▼</span></th>
 <th onclick="so('steamAbs')" data-c="steamAbs">🚂 <span class="s">▼</span></th>
 <th onclick="so('courseHistory')" data-c="courseHistory">🏛️ <span class="s">▼</span></th>
 <th onclick="so('profileFit')" data-c="profileFit">🎯 FIT <span class="s">▼</span></th>
+<th onclick="so('dfScore')" data-c="dfScore">⚡ Δ/FIT <span class="s">▼</span></th>
 <th onclick="so('pOwn')" data-c="pOwn">👥 <span class="s">▼</span></th>
-<th onclick="so('leverage')" data-c="leverage">📈 <span class="s">▼</span></th>
+<th onclick="so('leverage')" data-c="leverage">📈 LEV <span class="s">▼</span></th>
 </tr></thead><tbody id="tb"></tbody></table></div>
 </div>
+
 <!-- BUILD -->
+
 <div class="pnl" id="p-build">
 <div class="bw">
-<div class="bm"><h3>🛠️ Lineup Builder</h3><p>Lock players in the Pool tab, then generate. Knapsack DP finds optimal 6-man roster ($49k-$50k).</p>
+<div class="bm">
+<h3>🛠️ Lineup Builder</h3>
+<p>Lock players in the Pool tab, then generate. Knapsack DP · 6 players · $49k–$50k cap.</p>
 <div class="ba">
-<button class="bb gp" onclick="gen('gpp')" style="grid-column:1/-1"><div class="bt">🚀 GPP</div><div class="bs2">Max leverage. Caps pOWN at 85%. Targets contrarian ceiling.</div></button>
+<button class="bb gp" onclick="gen('gpp')"><div class="bt">🚀 GPP</div><div class="bs2">Max composite + leverage. Caps pOWN at 85%.</div></button>
+<button class="bb df" onclick="gen('delta')"><div class="bt">⚡ Δ/FIT</div><div class="bs2">Max delta × fit arbitrage. Market value + course fit.</div></button>
 </div>
 <div class="ld"><div class="lh"><h4>🔒 Locked Players</h4><button class="clr" onclick="clrL()">CLEAR ALL</button></div><div id="ll"><div class="le">No players locked.</div></div></div>
-<div class="oc2" id="oc"><div class="oh"><h4 id="ot">Optimal Lineup</h4><div class="ost" id="os"></div></div><ul class="ol" id="olist"></ul><button class="xb" onclick="xCSV()">📥 EXPORT DRAFTKINGS CSV</button></div>
+<div class="oc2" id="oc">
+<div class="oh"><h4 id="ot">Optimal Lineup</h4><div class="ost" id="os"></div></div>
+<ul class="ol" id="olist"></ul>
+<button class="xb" onclick="xCSV()">📥 EXPORT DRAFTKINGS CSV</button>
+</div>
 </div>
 <div class="bsd"><h4>📋 Roster State</h4>
 <div class="ss"><span class="sl">LOCKED</span><span class="sv2" id="sL">0/6</span></div>
 <div class="ss"><span class="sl">EXCLUDED</span><span class="sv2" id="sE">0</span></div>
 <div class="ss"><span class="sl">CAP USED</span><span class="sv2 vg" id="sS">$0</span></div>
 <div class="ss"><span class="sl">CAP LEFT</span><span class="sv2" id="sR">$50,000</span></div>
-<div class="ss"><span class="sl">PROJECTED</span><span class="sv2" id="sP">0.0</span></div>
+<div class="ss"><span class="sl">PROJ SCORE</span><span class="sv2" id="sP">0.0</span></div>
+<div class="ss"><span class="sl">Δ/FIT SCORE</span><span class="sv2 vgl" id="sDF">0.0</span></div>
 <div class="ss"><span class="sl">TOTAL OWN</span><span class="sv2 vgl" id="sO">0.0%</span></div>
-</div></div>
 </div>
-<!-- PREBUILT -->
+</div>
+</div>
+
+<!-- PRE-BUILT -->
+
 <div class="pnl" id="p-pre">
-<div class="ph"><h2>🎰 Monte Carlo Pre-Built</h2><p>Runs 5M tournament simulations with wave-correlated scoring. Surfaces Top 5 GPP lineups.</p>
-<button class="sib" id="simB" onclick="runSim()">▶ RUN 5M SIMULATIONS</button>
-<div class="pw" id="pw"><div class="pbg"><div class="pbf" id="pf"></div></div><div class="pt" id="ptt">Initializing...</div></div>
+<div class="ph">
+<h2>🎰 Pre-Built Lineups</h2>
+<p>Two engines. <strong>Monte Carlo GPP</strong> runs 5M simulations for ceiling plays. <strong>Δ/Fit Optimizer</strong> uses pure delta × fit knapsack for market-value lineups. Both output 5 ready-to-export lineups.</p>
+<div class="pre-modes">
+<button class="pre-btn gpp" id="simB" onclick="runSim()">▶ RUN 5M GPP SIMS</button>
+<button class="pre-btn delta" id="dfB" onclick="runDeltaFit()">⚡ RUN Δ/FIT OPTIMIZER</button>
+</div>
+<div class="pw" id="pw">
+<div class="pbg"><div class="pbf" id="pf"></div></div>
+<div class="ptt" id="ptt">Initializing...</div>
+</div>
 </div>
 <div id="simR" style="display:none">
-<div class="ps" style="display:none"><h3 id="ch" style="display:none">🛡️ CASH <span class="cn">HIGH FLOOR</span></h3><div class="pg" id="cg"></div></div>
-<div class="ps"><h3 id="gh" style="display:none">🚀 GPP <span class="cn">LEVERAGE</span></h3><div class="pg" id="gg"></div></div>
+<div class="sim-section" id="gpp-sec" style="display:none">
+<h3>🚀 GPP Lineups <span class="cn cn-gpp">MONTE CARLO · 5M SIMS</span></h3>
+<div class="pg" id="gg"></div>
+</div>
+<div class="sim-section" id="df-sec" style="display:none">
+<h3>⚡ Δ/Fit Lineups <span class="cn cn-df">DELTA × FIT ARBITRAGE</span></h3>
+<p style="font-size:11px;color:var(--tx2);margin-bottom:10px">Optimized on salary-odds arbitrage × Reddit course fit. Players DK underpriced vs. betting market with strong Harbour Town profiles. Max $50k · 6 players.</p>
+<div class="pg" id="dg"></div>
 </div>
 </div>
 </div>
+</div>
+
 <div class="fc"><div class="fab" onclick="sw('build',document.querySelectorAll('.tab')[2])">
 <div class="fs">
 <div class="fb"><span class="fv" id="fC">0/6</span><span class="fl">Roster</span></div>
@@ -474,23 +404,8 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 
 <script>
 const NH=75;
-// TOUT CHALK: Parsed from Pat Mayo, Blickle, RotoWire, FanDuel expert transcripts
 const CHALK=["Scottie Scheffler","Matt Fitzpatrick","Russell Henley","Patrick Cantlay","Cameron Young","Xander Schauffele","Jacob Bridgeman","S. Yellamaraju","Ryo Hisatsune","Tommy Fleetwood"];
-// CONTENTION PERFORMANCE: Top scorers from Blickle's CPS metric
 const CPS_GOOD=["Billy Horschel","Chris Gotterup","Viktor Hovland","Gary Woodland","Matt Wallace","Matt Fitzpatrick","Xander Schauffele","Jason Day","Justin Thomas"];
-// LIGHTHOUSE: Top composite picks
-const LIGHTHOUSE=["Scottie Scheffler","Matt Fitzpatrick","Collin Morikawa","Patrick Cantlay","Xander Schauffele","Jordan Spieth","Sepp Straka","Si Woo Kim","Cameron Young","Russell Henley","Tommy Fleetwood","Viktor Hovland","Justin Thomas","Sahith Theegala","Brian Harman","Sungjae Im"];
-
-// ========== REDDIT GOOGLE SHEET INTEGRATION (V5.3) ==========
-// Overall Model Score from RBC Heritage 2026 Reddit Sheet
-// 24-stat weighted composite: Weighted Proximity 6%, SG:OTT<Driver 5%,
-// SG:APP 5%, Small Greens GIR% 5%, Difficult GIR 4%, SG:ARG 7%, No Diff ARG 2%,
-// ARG Prox 10%, SG:Putt Overseed 7%, SG:Ball Striking 3%, Short Courses 1%,
-// SG:Total Strong Fields 5%, L1Y SG:OTT 4%, Difficult OTT 5%, Par 3 Scoring 5%,
-// Difficult SG:APP 7%, L18M Scrambling 4%, L6M No Diff SG:T2G 3%, Pete Dye 5%,
-// Opps to 10ft 175-200 7%, ARG Prox Short Grass 4%, Opps to 5ft 3%,
-// Difficult GIR Bogey Avoid 5%, High Water Danger 7%.
-// Scale: 0-1000. Only players present in master DB are mapped.
 const REDDIT_MS={
 "Scottie Scheffler":1000,"Russell Henley":987,"Collin Morikawa":977,"Tommy Fleetwood":953,
 "Xander Schauffele":916,"Matt Fitzpatrick":889,"Si Woo Kim":879,"Ludvig Åberg":876,
@@ -513,182 +428,200 @@ const REDDIT_MS={
 "Max Homa":145,"William Mouw":142,"Brian Campbell":138,"Steven Fisk":128,
 "Garrick Higgo":98,"Chandler Blanchet":51,"Joe Highsmith":48,"Aldrich Potgieter":38,
 "Adam Schenk":8
-// Note: Michael Thorbjornsen is in master DB but not in Reddit sheet —
-// he receives a fallback fit computed from legacy stat model.
 };
-// Top 15 Expert picks by Reddit Model Score
 const EXPERT_TOP=Object.entries(REDDIT_MS).sort((a,b)=>b[1]-a[1]).slice(0,15).map(e=>e[0]);
-// ========== END REDDIT INTEGRATION ==========
 
+// s=Sunday, m=Monday, tu=Tuesday, t=Wednesday (live)
 const db=[
-// s=Sunday open, m=Monday/prev, t=Wednesday DK live (from screenshots)
-{n:"Scottie Scheffler",s:350,m:370,t:385,w:"PM",p:13500,sa:.08,bp:30.79,ch:19.7,sr:.618,px:18.4,gr:58.5},
-{n:"Xander Schauffele",s:1450,m:1450,t:1500,w:"PM",p:10500,sa:.662,bp:23.5,ch:22,sr:.009,px:20.9,gr:59.1},
-{n:"Tommy Fleetwood",s:1700,m:1750,t:1800,w:"PM",p:10100,sa:.459,bp:24.44,ch:22.7,sr:.712,px:19.5,gr:62.2},
-{n:"Matt Fitzpatrick",s:1950,m:1600,t:1700,w:"PM",p:10000,sa:.81,bp:26.79,ch:23.8,sr:.309,px:22.9,gr:59.4},
-{n:"Cameron Young",s:1700,m:1750,t:1750,w:"AM",p:9800,sa:.499,bp:26.16,ch:26.8,sr:.063,px:21,gr:58.9},
-{n:"Russell Henley",s:2100,m:1700,t:1800,w:"PM",p:9600,sa:.313,bp:25.23,ch:26.2,sr:.199,px:19.5,gr:63.1},
-{n:"Ludvig Åberg",s:2050,m:2100,t:2100,w:"AM",p:9400,sa:.397,bp:27.31,ch:51.2,sr:.42,px:20.7,gr:56},
-{n:"Collin Morikawa",s:2350,m:2250,t:2350,w:"PM",p:9300,sa:1.066,bp:27.47,ch:20.3,sr:.039,px:18.7,gr:63.5},
-{n:"Patrick Cantlay",s:2150,m:2400,t:2500,w:"PM",p:9200,sa:.146,bp:22.45,ch:3.5,sr:.247,px:20,gr:61.4},
-{n:"Jake Knapp",s:3000,m:3300,t:3800,w:"PM",p:9100,sa:.342,bp:26.07,ch:44.8,sr:.111,px:22.4,gr:59.5},
-{n:"Sam Burns",s:2500,m:3000,t:3500,w:"PM",p:9000,sa:-.012,bp:25,ch:37.9,sr:-.35,px:20.5,gr:56.8},
-{n:"Si Woo Kim",s:3700,m:2700,t:2800,w:"AM",p:8900,sa:.912,bp:26.08,ch:41.1,sr:.142,px:19.6,gr:53.9},
-{n:"Jordan Spieth",s:3700,m:3000,t:3000,w:"AM",p:8800,sa:.412,bp:22.22,ch:14.2,sr:.129,px:22.2,gr:61.2},
-{n:"Robert MacIntyre",s:2900,m:3000,t:2900,w:"AM",p:8700,sa:-.247,bp:26.19,ch:58.5,sr:.12,px:21.9,gr:60.9},
-{n:"Viktor Hovland",s:3900,m:3500,t:3400,w:"AM",p:8600,sa:.575,bp:21.21,ch:40.1,sr:.24,px:19.4,gr:63.8},
-{n:"Maverick McNealy",s:3500,m:3600,t:3700,w:"AM",p:8500,sa:.176,bp:25.19,ch:38,sr:.221,px:21.1,gr:55.7},
-{n:"Shane Lowry",s:3900,m:5000,t:5500,w:"PM",p:8400,sa:.474,bp:24.17,ch:46.6,sr:-.085,px:19.6,gr:61.2},
-{n:"Justin Thomas",s:3700,m:4100,t:4000,w:"AM",p:8300,sa:.325,bp:24.5,ch:18.5,sr:.259,px:18.9,gr:54.9},
-{n:"Jacob Bridgeman",s:4400,m:4600,t:4500,w:"AM",p:8200,sa:.501,bp:28.3,ch:51.1,sr:-.152,px:21,gr:54.4},
-{n:"Chris Gotterup",s:4500,m:5100,t:5300,w:"AM",p:8100,sa:.436,bp:25.19,ch:44.3,sr:.296,px:23,gr:61.6},
-{n:"Jason Day",s:4100,m:4600,t:4800,w:"PM",p:8000,sa:-.352,bp:22.92,ch:55.3,sr:.457,px:20.6,gr:56.4},
-{n:"Sepp Straka",s:5200,m:4800,t:4500,w:"AM",p:7900,sa:.568,bp:24.67,ch:32.1,sr:.128,px:19.1,gr:42},
-{n:"Harris English",s:5000,m:5200,t:5800,w:"AM",p:7900,sa:-.214,bp:25.74,ch:55.2,sr:-.146,px:23.8,gr:50.5},
-{n:"Ben Griffin",s:4100,m:4900,t:5300,w:"AM",p:7800,sa:-.115,bp:23.15,ch:43.4,sr:.454,px:22.2,gr:55.3},
-{n:"Min Woo Lee",s:5500,m:5200,t:5200,w:"AM",p:7800,sa:.266,bp:28.97,ch:64.6,sr:.294,px:20.2,gr:38.9},
-{n:"Akshay Bhatia",s:5300,m:5800,t:6000,w:"AM",p:7700,sa:.792,bp:28.22,ch:40.7,sr:.168,px:19.9,gr:39.3},
-{n:"Ryo Hisatsune",s:8800,m:9000,t:8800,w:"AM",p:7700,sa:.576,bp:25.88,ch:41.3,sr:.181,px:21.9,gr:62.5},
-{n:"Rickie Fowler",s:5700,m:6100,t:6500,w:"PM",p:7600,sa:.111,bp:24.21,ch:45.8,sr:-.318,px:21.2,gr:58.6},
-{n:"Sahith Theegala",s:8200,m:8600,t:7800,w:"AM",p:7600,sa:.258,bp:23.39,ch:16.6,sr:.358,px:21.8,gr:55.6},
-{n:"J.J. Spaun",s:5300,m:5000,t:4900,w:"AM",p:7500,sa:.587,bp:22.45,ch:67.5,sr:.013,px:19.9,gr:56.7},
-{n:"Nicolai Højgaard",s:6900,m:7800,t:8400,w:"PM",p:7500,sa:.712,bp:23.41,ch:60.5,sr:.113,px:21,gr:60.7},
-{n:"Harry Hall",s:6400,m:7600,t:8000,w:"AM",p:7400,sa:-.152,bp:24.79,ch:38.5,sr:.538,px:21,gr:54.3},
-{n:"Ryan Gerard",s:7600,m:7600,t:7600,w:"AM",p:7400,sa:.712,bp:25.87,ch:58.1,sr:-.276,px:21.1,gr:57.4},
-{n:"Wyndham Clark",s:1600,m:10500,t:11500,w:"PM",p:7300,sa:.542,bp:24,ch:19.5,sr:.153,px:20.5,gr:57},
-{n:"Daniel Berger",s:9400,m:9000,t:9000,w:"PM",p:7300,sa:.849,bp:24.07,ch:44.1,sr:-.415,px:20.4,gr:57.1},
-{n:"J.T. Poston",s:8800,m:8400,t:8600,w:"AM",p:7200,sa:-.066,bp:22.22,ch:36.6,sr:-.299,px:22.4,gr:53.8},
-{n:"Sam Stevens",s:8200,m:7600,t:8000,w:"PM",p:7200,sa:.328,bp:23.69,ch:50.4,sr:-.006,px:22.9,gr:64.6},
-{n:"S. Yellamaraju",s:11500,m:12000,t:12000,w:"PM",p:7200,sa:.474,bp:26.19,ch:75,sr:-.188,px:19.8,gr:56.7},
-{n:"Alex Noren",s:6400,m:5700,t:6000,w:"PM",p:7100,sa:-.073,bp:24.44,ch:42.6,sr:.498,px:22.2,gr:56.1},
-{n:"Kurt Kitayama",s:7200,m:7600,t:8800,w:"PM",p:7100,sa:.728,bp:21.65,ch:62.4,sr:-.239,px:20.5,gr:58.5},
-{n:"Nick Taylor",s:8200,m:9000,t:8800,w:"AM",p:7100,sa:.408,bp:21.41,ch:48.1,sr:.503,px:20.6,gr:53.4},
-{n:"Brian Harman",s:12000,m:9600,t:9600,w:"AM",p:7000,sa:-.108,bp:21.26,ch:15.5,sr:.132,px:20.5,gr:57.8},
-{n:"Marco Penge",s:30000,m:15500,t:15500,w:"AM",p:7000,sa:-.378,bp:22,ch:75,sr:-.246,px:22.5,gr:57},
-{n:"Corey Conners",s:9000,m:8600,t:9000,w:"PM",p:7000,sa:.622,bp:20.73,ch:28,sr:-.136,px:19.4,gr:50.8},
-{n:"Keegan Bradley",s:10000,m:8600,t:9000,w:"AM",p:6900,sa:-.469,bp:22.98,ch:55.5,sr:.272,px:19.4,gr:60.2},
-{n:"Max Homa",s:12000,m:12000,t:12500,w:"PM",p:6900,sa:.25,bp:23.08,ch:51,sr:-.21,px:21.3,gr:56.1},
-{n:"Taylor Pendrith",s:12000,m:15500,t:16500,w:"AM",p:6900,sa:-.184,bp:21.65,ch:65.2,sr:.183,px:22.3,gr:58.9},
-{n:"Gary Woodland",s:16000,m:16000,t:15500,w:"AM",p:6800,sa:-.031,bp:22,ch:42.3,sr:-.397,px:23.3,gr:57},
-{n:"Michael Thorbjornsen",s:6700,m:8400,t:8800,w:"AM",p:7300,sa:-.078,bp:22.58,ch:75,sr:.229,px:22.8,gr:59.1},
-{n:"Matt McCarty",s:20000,m:13000,t:13000,w:"AM",p:6800,sa:-.1,bp:22,ch:75,sr:-.297,px:23.5,gr:57},
-{n:"Nico Echavarria",s:20000,m:28000,t:29000,w:"AM",p:6800,sa:.073,bp:22,ch:60.5,sr:-.421,px:22.5,gr:57},
-{n:"Sungjae Im",s:11000,m:10000,t:9800,w:"AM",p:6700,sa:-.24,bp:23.12,ch:10.6,sr:.307,px:23.2,gr:57.3},
-{n:"Andrew Novak",s:16000,m:13500,t:14000,w:"AM",p:6700,sa:-.051,bp:22,ch:52.4,sr:.139,px:22.5,gr:57},
-{n:"Ricky Castillo",s:13500,m:18000,t:18500,w:"AM",p:6700,sa:-.301,bp:24.48,ch:75,sr:.227,px:23.7,gr:65.6},
-{n:"Billy Horschel",s:15000,m:23000,t:22500,w:"AM",p:6600,sa:.11,bp:22,ch:56.7,sr:-.147,px:20.3,gr:57},
-{n:"Matt Wallace",s:13000,m:15500,t:16000,w:"AM",p:6600,sa:.159,bp:20.29,ch:67.5,sr:.19,px:22.6,gr:62.1},
-{n:"Tony Finau",s:21000,m:22500,t:22500,w:"AM",p:6600,sa:.18,bp:22,ch:31,sr:.3,px:21.6,gr:57},
-{n:"Pierceson Coody",s:11500,m:16500,t:18000,w:"PM",p:6500,sa:.314,bp:25.93,ch:65.1,sr:-.399,px:22.1,gr:56.7},
-{n:"Jordan Smith",s:14500,m:16000,t:17000,w:"AM",p:6500,sa:.454,bp:22.22,ch:75,sr:-.216,px:23.9,gr:58.7},
-{n:"Bud Cauley",s:16000,m:16000,t:17000,w:"PM",p:6500,sa:.287,bp:22,ch:58.2,sr:.196,px:22.5,gr:57},
-{n:"Denny McCarthy",s:15000,m:16000,t:16500,w:"AM",p:6500,sa:-.002,bp:22,ch:39.2,sr:-.087,px:22.5,gr:57},
-{n:"Michael Brennan",s:22000,m:22000,t:22500,w:"AM",p:6400,sa:.15,bp:22,ch:75,sr:-.593,px:22.4,gr:57},
-{n:"Michael Kim",s:22500,m:21000,t:23000,w:"PM",p:6400,sa:-.114,bp:22,ch:68.3,sr:.121,px:22.5,gr:57},
-{n:"Patrick Rodgers",s:24000,m:30000,t:30000,w:"AM",p:6400,sa:.173,bp:22,ch:22.4,sr:.163,px:22.3,gr:57},
-{n:"Andrew Putnam",s:30000,m:17000,t:18000,w:"PM",p:6400,sa:.24,bp:22,ch:44.8,sr:.515,px:22.5,gr:57},
-{n:"Austin Smotherman",s:21000,m:19500,t:21000,w:"PM",p:6300,sa:.874,bp:22,ch:66.5,sr:-.254,px:22.5,gr:57},
-{n:"Ryan Fox",s:20000,m:26000,t:28000,w:"PM",p:6300,sa:-.083,bp:22,ch:75,sr:.172,px:22.5,gr:57},
-{n:"Johnny Keefer",s:28000,m:37000,t:36000,w:"AM",p:6300,sa:.331,bp:22,ch:75,sr:-.43,px:21.2,gr:57},
-{n:"Sami Valimaki",s:34000,m:27000,t:29000,w:"PM",p:6300,sa:-.088,bp:22,ch:65.5,sr:-.121,px:22.3,gr:57},
-{n:"Chandler Blanchet",s:60000,m:42000,t:44000,w:"AM",p:6200,sa:-.097,bp:22,ch:75,sr:-.436,px:22.5,gr:57},
-{n:"William Mouw",s:35000,m:43000,t:47500,w:"PM",p:6200,sa:-.013,bp:22,ch:75,sr:-.414,px:23.1,gr:57},
-{n:"Lucas Glover",s:57500,m:50000,t:52500,w:"AM",p:6200,sa:-.349,bp:22,ch:55.98,sr:-.118,px:19.5,gr:57},
-{n:"Tom Hoge",s:80000,m:87500,t:87500,w:"AM",p:6200,sa:.159,bp:22,ch:56.48,sr:-.399,px:18.4,gr:57},
-{n:"Steven Fisk",s:40000,m:48000,t:50000,w:"AM",p:6100,sa:-.207,bp:22,ch:75,sr:-.06,px:22.9,gr:57},
-{n:"Karl Vilips",s:55000,m:67500,t:67500,w:"AM",p:6100,sa:.147,bp:22,ch:65.5,sr:-.351,px:22.3,gr:57},
-{n:"Garrick Higgo",s:57500,m:62500,t:67500,w:"PM",p:6100,sa:-.967,bp:22,ch:51.8,sr:-.248,px:23.6,gr:57},
-{n:"Aldrich Potgieter",s:67500,m:80000,t:90000,w:"PM",p:6100,sa:-.304,bp:22,ch:75,sr:-.456,px:22,gr:57},
-{n:"Jhonattan Vegas",s:57500,m:70000,t:77500,w:"PM",p:6000,sa:-.455,bp:22,ch:75,sr:-.265,px:22.6,gr:57},
-{n:"David Lipsky",s:62500,m:52500,t:55000,w:"AM",p:6000,sa:.192,bp:22,ch:60,sr:.524,px:20.8,gr:57},
-{n:"Brian Campbell",s:170000,m:82500,t:87500,w:"AM",p:6000,sa:-.753,bp:22,ch:64.25,sr:-.364,px:23.6,gr:57},
-{n:"Adam Schenk",s:180000,m:190000,t:200000,w:"AM",p:6000,sa:-.436,bp:22,ch:45.1,sr:.034,px:22.5,gr:57},
-{n:"Joe Highsmith",s:200000,m:170000,t:190000,w:"AM",p:6000,sa:-.112,bp:22,ch:74.25,sr:-.338,px:22.5,gr:57}
+{n:"Scottie Scheffler",  s:350,  m:370,  tu:385,  t:385,  w:"PM",p:13500,sa:.08,  bp:30.79,ch:19.7,sr:.618, px:18.4,gr:58.5},
+{n:"Xander Schauffele",  s:1450, m:1450, tu:1500, t:1500, w:"PM",p:10500,sa:.662, bp:23.5, ch:22,  sr:.009, px:20.9,gr:59.1},
+{n:"Tommy Fleetwood",    s:1700, m:1750, tu:1800, t:1800, w:"PM",p:10100,sa:.459, bp:24.44,ch:22.7,sr:.712, px:19.5,gr:62.2},
+{n:"Matt Fitzpatrick",   s:1950, m:1600, tu:1700, t:1700, w:"PM",p:10000,sa:.81,  bp:26.79,ch:23.8,sr:.309, px:22.9,gr:59.4},
+{n:"Cameron Young",      s:1700, m:1750, tu:1750, t:1750, w:"AM",p:9800, sa:.499, bp:26.16,ch:26.8,sr:.063, px:21,  gr:58.9},
+{n:"Russell Henley",     s:2100, m:1700, tu:1800, t:1800, w:"PM",p:9600, sa:.313, bp:25.23,ch:26.2,sr:.199, px:19.5,gr:63.1},
+{n:"Ludvig Åberg",       s:2050, m:2100, tu:2100, t:2100, w:"AM",p:9400, sa:.397, bp:27.31,ch:51.2,sr:.42,  px:20.7,gr:56},
+{n:"Collin Morikawa",    s:2350, m:2250, tu:2350, t:2350, w:"PM",p:9300, sa:1.066,bp:27.47,ch:20.3,sr:.039, px:18.7,gr:63.5},
+{n:"Patrick Cantlay",    s:2150, m:2400, tu:2500, t:2500, w:"PM",p:9200, sa:.146, bp:22.45,ch:3.5, sr:.247, px:20,  gr:61.4},
+{n:"Jake Knapp",         s:3000, m:3300, tu:3800, t:3800, w:"PM",p:9100, sa:.342, bp:26.07,ch:44.8,sr:.111, px:22.4,gr:59.5},
+{n:"Sam Burns",          s:2500, m:3000, tu:3500, t:3500, w:"PM",p:9000, sa:-.012,bp:25,   ch:37.9,sr:-.35, px:20.5,gr:56.8},
+{n:"Si Woo Kim",         s:3700, m:2700, tu:2800, t:2800, w:"AM",p:8900, sa:.912, bp:26.08,ch:41.1,sr:.142, px:19.6,gr:53.9},
+{n:"Jordan Spieth",      s:3700, m:3000, tu:3000, t:3000, w:"AM",p:8800, sa:.412, bp:22.22,ch:14.2,sr:.129, px:22.2,gr:61.2},
+{n:"Robert MacIntyre",   s:2900, m:3000, tu:2900, t:2900, w:"AM",p:8700, sa:-.247,bp:26.19,ch:58.5,sr:.12,  px:21.9,gr:60.9},
+{n:"Viktor Hovland",     s:3900, m:3500, tu:3400, t:3400, w:"AM",p:8600, sa:.575, bp:21.21,ch:40.1,sr:.24,  px:19.4,gr:63.8},
+{n:"Maverick McNealy",   s:3500, m:3600, tu:3700, t:3700, w:"AM",p:8500, sa:.176, bp:25.19,ch:38,  sr:.221, px:21.1,gr:55.7},
+{n:"Shane Lowry",        s:3900, m:5000, tu:5500, t:5500, w:"PM",p:8400, sa:.474, bp:24.17,ch:46.6,sr:-.085,px:19.6,gr:61.2},
+{n:"Justin Thomas",      s:3700, m:4100, tu:4000, t:4000, w:"AM",p:8300, sa:.325, bp:24.5, ch:18.5,sr:.259, px:18.9,gr:54.9},
+{n:"Jacob Bridgeman",    s:4400, m:4600, tu:4500, t:4500, w:"AM",p:8200, sa:.501, bp:28.3, ch:51.1,sr:-.152,px:21,  gr:54.4},
+{n:"Chris Gotterup",     s:4500, m:5100, tu:5300, t:5300, w:"AM",p:8100, sa:.436, bp:25.19,ch:44.3,sr:.296, px:23,  gr:61.6},
+{n:"Jason Day",          s:4100, m:4600, tu:4800, t:4800, w:"PM",p:8000, sa:-.352,bp:22.92,ch:55.3,sr:.457, px:20.6,gr:56.4},
+{n:"Sepp Straka",        s:5200, m:4800, tu:4500, t:4500, w:"AM",p:7900, sa:.568, bp:24.67,ch:32.1,sr:.128, px:19.1,gr:42},
+{n:"Harris English",     s:5000, m:5200, tu:5800, t:5800, w:"AM",p:7900, sa:-.214,bp:25.74,ch:55.2,sr:-.146,px:23.8,gr:50.5},
+{n:"Ben Griffin",        s:4100, m:4900, tu:5300, t:5300, w:"AM",p:7800, sa:-.115,bp:23.15,ch:43.4,sr:.454, px:22.2,gr:55.3},
+{n:"Min Woo Lee",        s:5500, m:5200, tu:5200, t:5200, w:"AM",p:7800, sa:.266, bp:28.97,ch:64.6,sr:.294, px:20.2,gr:38.9},
+{n:"Akshay Bhatia",      s:5300, m:5800, tu:6000, t:6000, w:"AM",p:7700, sa:.792, bp:28.22,ch:40.7,sr:.168, px:19.9,gr:39.3},
+{n:"Ryo Hisatsune",      s:8800, m:9000, tu:8800, t:8800, w:"AM",p:7700, sa:.576, bp:25.88,ch:41.3,sr:.181, px:21.9,gr:62.5},
+{n:"Rickie Fowler",      s:5700, m:6100, tu:6500, t:6500, w:"PM",p:7600, sa:.111, bp:24.21,ch:45.8,sr:-.318,px:21.2,gr:58.6},
+{n:"Sahith Theegala",    s:8200, m:8600, tu:7800, t:7800, w:"AM",p:7600, sa:.258, bp:23.39,ch:16.6,sr:.358, px:21.8,gr:55.6},
+{n:"J.J. Spaun",         s:5300, m:5000, tu:4900, t:4900, w:"AM",p:7500, sa:.587, bp:22.45,ch:67.5,sr:.013, px:19.9,gr:56.7},
+{n:"Nicolai Højgaard",   s:6900, m:7800, tu:8400, t:8400, w:"PM",p:7500, sa:.712, bp:23.41,ch:60.5,sr:.113, px:21,  gr:60.7},
+{n:"Harry Hall",         s:6400, m:7600, tu:8000, t:8000, w:"AM",p:7400, sa:-.152,bp:24.79,ch:38.5,sr:.538, px:21,  gr:54.3},
+{n:"Ryan Gerard",        s:7600, m:7600, tu:7600, t:7600, w:"AM",p:7400, sa:.712, bp:25.87,ch:58.1,sr:-.276,px:21.1,gr:57.4},
+{n:"Wyndham Clark",      s:1600, m:10500,tu:11500,t:11500,w:"PM",p:7300, sa:.542, bp:24,   ch:19.5,sr:.153, px:20.5,gr:57},
+{n:"Daniel Berger",      s:9400, m:9000, tu:9000, t:9000, w:"PM",p:7300, sa:.849, bp:24.07,ch:44.1,sr:-.415,px:20.4,gr:57.1},
+{n:"J.T. Poston",        s:8800, m:8400, tu:8600, t:8600, w:"AM",p:7200, sa:-.066,bp:22.22,ch:36.6,sr:-.299,px:22.4,gr:53.8},
+{n:"Sam Stevens",        s:8200, m:7600, tu:8000, t:8000, w:"PM",p:7200, sa:.328, bp:23.69,ch:50.4,sr:-.006,px:22.9,gr:64.6},
+{n:"S. Yellamaraju",     s:11500,m:12000,tu:12000,t:12000,w:"PM",p:7200, sa:.474, bp:26.19,ch:75,  sr:-.188,px:19.8,gr:56.7},
+{n:"Alex Noren",         s:6400, m:5700, tu:6000, t:6000, w:"PM",p:7100, sa:-.073,bp:24.44,ch:42.6,sr:.498, px:22.2,gr:56.1},
+{n:"Kurt Kitayama",      s:7200, m:7600, tu:8800, t:8800, w:"PM",p:7100, sa:.728, bp:21.65,ch:62.4,sr:-.239,px:20.5,gr:58.5},
+{n:"Nick Taylor",        s:8200, m:9000, tu:8800, t:8800, w:"AM",p:7100, sa:.408, bp:21.41,ch:48.1,sr:.503, px:20.6,gr:53.4},
+{n:"Brian Harman",       s:12000,m:9600, tu:9600, t:9600, w:"AM",p:7000, sa:-.108,bp:21.26,ch:15.5,sr:.132, px:20.5,gr:57.8},
+{n:"Marco Penge",        s:30000,m:15500,tu:15500,t:15500,w:"AM",p:7000, sa:-.378,bp:22,   ch:75,  sr:-.246,px:22.5,gr:57},
+{n:"Corey Conners",      s:9000, m:8600, tu:9000, t:9000, w:"PM",p:7000, sa:.622, bp:20.73,ch:28,  sr:-.136,px:19.4,gr:50.8},
+{n:"Keegan Bradley",     s:10000,m:8600, tu:9200, t:9000, w:"AM",p:6900, sa:-.469,bp:22.98,ch:55.5,sr:.272, px:19.4,gr:60.2},
+{n:"Max Homa",           s:12000,m:12000,tu:12500,t:12500,w:"PM",p:6900, sa:.25,  bp:23.08,ch:51,  sr:-.21, px:21.3,gr:56.1},
+{n:"Taylor Pendrith",    s:12000,m:15500,tu:16500,t:16500,w:"AM",p:6900, sa:-.184,bp:21.65,ch:65.2,sr:.183, px:22.3,gr:58.9},
+{n:"Gary Woodland",      s:16000,m:16000,tu:15500,t:15500,w:"AM",p:6800, sa:-.031,bp:22,   ch:42.3,sr:-.397,px:23.3,gr:57},
+{n:"Michael Thorbjornsen",s:6700,m:8400, tu:8800, t:8800, w:"AM",p:7300, sa:-.078,bp:22.58,ch:75,  sr:.229, px:22.8,gr:59.1},
+{n:"Matt McCarty",       s:20000,m:13000,tu:13000,t:13000,w:"AM",p:6800, sa:-.1,  bp:22,   ch:75,  sr:-.297,px:23.5,gr:57},
+{n:"Nico Echavarria",    s:20000,m:28000,tu:29000,t:29000,w:"AM",p:6800, sa:.073, bp:22,   ch:60.5,sr:-.421,px:22.5,gr:57},
+{n:"Sungjae Im",         s:11000,m:10000,tu:9800, t:9800, w:"AM",p:6700, sa:-.24, bp:23.12,ch:10.6,sr:.307, px:23.2,gr:57.3},
+{n:"Andrew Novak",       s:16000,m:13500,tu:14000,t:14000,w:"AM",p:6700, sa:-.051,bp:22,   ch:52.4,sr:.139, px:22.5,gr:57},
+{n:"Ricky Castillo",     s:13500,m:18000,tu:18500,t:18500,w:"AM",p:6700, sa:-.301,bp:24.48,ch:75,  sr:.227, px:23.7,gr:65.6},
+{n:"Billy Horschel",     s:15000,m:23000,tu:22500,t:22500,w:"AM",p:6600, sa:.11,  bp:22,   ch:56.7,sr:-.147,px:20.3,gr:57},
+{n:"Matt Wallace",       s:13000,m:15500,tu:16000,t:16000,w:"AM",p:6600, sa:.159, bp:20.29,ch:67.5,sr:.19,  px:22.6,gr:62.1},
+{n:"Tony Finau",         s:21000,m:22500,tu:22500,t:22500,w:"AM",p:6600, sa:.18,  bp:22,   ch:31,  sr:.3,   px:21.6,gr:57},
+{n:"Pierceson Coody",    s:11500,m:16500,tu:18000,t:18000,w:"PM",p:6500, sa:.314, bp:25.93,ch:65.1,sr:-.399,px:22.1,gr:56.7},
+{n:"Jordan Smith",       s:14500,m:16000,tu:17000,t:17000,w:"AM",p:6500, sa:.454, bp:22.22,ch:75,  sr:-.216,px:23.9,gr:58.7},
+{n:"Bud Cauley",         s:16000,m:16000,tu:17000,t:17000,w:"PM",p:6500, sa:.287, bp:22,   ch:58.2,sr:.196, px:22.5,gr:57},
+{n:"Denny McCarthy",     s:15000,m:16000,tu:16500,t:16500,w:"AM",p:6500, sa:-.002,bp:22,   ch:39.2,sr:-.087,px:22.5,gr:57},
+{n:"Michael Brennan",    s:22000,m:22000,tu:22500,t:22500,w:"AM",p:6400, sa:.15,  bp:22,   ch:75,  sr:-.593,px:22.4,gr:57},
+{n:"Michael Kim",        s:22500,m:21000,tu:23000,t:23000,w:"PM",p:6400, sa:-.114,bp:22,   ch:68.3,sr:.121, px:22.5,gr:57},
+{n:"Patrick Rodgers",    s:24000,m:30000,tu:30000,t:30000,w:"AM",p:6400, sa:.173, bp:22,   ch:22.4,sr:.163, px:22.3,gr:57},
+{n:"Andrew Putnam",      s:30000,m:17000,tu:18000,t:18000,w:"PM",p:6400, sa:.24,  bp:22,   ch:44.8,sr:.515, px:22.5,gr:57},
+{n:"Austin Smotherman",  s:21000,m:19500,tu:21000,t:21000,w:"PM",p:6300, sa:.874, bp:22,   ch:66.5,sr:-.254,px:22.5,gr:57},
+{n:"Ryan Fox",           s:20000,m:26000,tu:28000,t:28000,w:"PM",p:6300, sa:-.083,bp:22,   ch:75,  sr:.172, px:22.5,gr:57},
+{n:"Johnny Keefer",      s:28000,m:37000,tu:36000,t:36000,w:"AM",p:6300, sa:.331, bp:22,   ch:75,  sr:-.43, px:21.2,gr:57},
+{n:"Sami Valimaki",      s:34000,m:27000,tu:29000,t:29000,w:"PM",p:6300, sa:-.088,bp:22,   ch:65.5,sr:-.121,px:22.3,gr:57},
+{n:"Chandler Blanchet",  s:60000,m:42000,tu:44000,t:44000,w:"AM",p:6200, sa:-.097,bp:22,   ch:75,  sr:-.436,px:22.5,gr:57},
+{n:"William Mouw",       s:35000,m:43000,tu:47500,t:47500,w:"PM",p:6200, sa:-.013,bp:22,   ch:75,  sr:-.414,px:23.1,gr:57},
+{n:"Lucas Glover",       s:57500,m:50000,tu:52500,t:52500,w:"AM",p:6200, sa:-.349,bp:22,   ch:55.98,sr:-.118,px:19.5,gr:57},
+{n:"Tom Hoge",           s:80000,m:87500,tu:87500,t:87500,w:"AM",p:6200, sa:.159, bp:22,   ch:56.48,sr:-.399,px:18.4,gr:57},
+{n:"Steven Fisk",        s:40000,m:48000,tu:50000,t:50000,w:"AM",p:6100, sa:-.207,bp:22,   ch:75,  sr:-.06, px:22.9,gr:57},
+{n:"Karl Vilips",        s:55000,m:67500,tu:67500,t:67500,w:"AM",p:6100, sa:.147, bp:22,   ch:65.5,sr:-.351,px:22.3,gr:57},
+{n:"Garrick Higgo",      s:57500,m:62500,tu:67500,t:67500,w:"PM",p:6100, sa:-.967,bp:22,   ch:51.8,sr:-.248,px:23.6,gr:57},
+{n:"Aldrich Potgieter",  s:67500,m:80000,tu:90000,t:90000,w:"PM",p:6100, sa:-.304,bp:22,   ch:75,  sr:-.456,px:22,  gr:57},
+{n:"Jhonattan Vegas",    s:57500,m:70000,tu:77500,t:77500,w:"PM",p:6000, sa:-.455,bp:22,   ch:75,  sr:-.265,px:22.6,gr:57},
+{n:"David Lipsky",       s:62500,m:52500,tu:55000,t:55000,w:"AM",p:6000, sa:.192, bp:22,   ch:60,  sr:.524, px:20.8,gr:57},
+{n:"Brian Campbell",     s:170000,m:82500,tu:87500,t:87500,w:"AM",p:6000,sa:-.753,bp:22,   ch:64.25,sr:-.364,px:23.6,gr:57},
+{n:"Adam Schenk",        s:180000,m:190000,tu:200000,t:200000,w:"AM",p:6000,sa:-.436,bp:22,ch:45.1,sr:.034, px:22.5,gr:57},
+{n:"Joe Highsmith",      s:200000,m:170000,tu:190000,t:190000,w:"AM",p:6000,sa:-.112,bp:22,ch:74.25,sr:-.338,px:22.5,gr:57}
 ];
 
 let P=[],CF='all',SC='composite',SA=false,lastLU=null;
 window.onload=()=>{proc()};
 
-function sw(t,b){document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+t).classList.add('on');b.classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
+function sw(t,b){
+  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.getElementById('p-'+t).classList.add('on');
+  b.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
 function proc(){
-let tRO=0;
-P=db.map(d=>{
-let o={...d,name:d.n,price:d.p,wave:d.w,courseHistory:d.ch,locked:false,excluded:false};
-// V5.3: abbreviated name for mobile
-const np=d.n.split(' ');o.sn=np.length>1?(np[0][0]+'. '+np.slice(1).join(' ')):d.n;
-const cur=d.t||d.m||d.s; o.curOdds=cur;
-o.liveImp=100/(cur+100);
-const sunImp=100/(d.s+100);
-o.steamRaw=(o.liveImp-sunImp)/sunImp;
-o.steamAbs=Math.abs(o.steamRaw)*100;
-o.isSteam=o.steamRaw>0.02;
-o.isDrift=o.steamRaw<-0.05;
-o.hasHistory=d.ch<NH;
-o.isChalk=CHALK.includes(d.n);
-o.hasCPS=CPS_GOOD.includes(d.n);
-o.isLighthouse=LIGHTHOUSE.includes(d.n);
-o.isExpert=EXPERT_TOP.includes(d.n);
-o.spark=[100/(d.s+100),100/(d.m+100),100/((d.t||d.m)+100)];
+  let tRO=0;
+  P=db.map(d=>{
+    let o={...d,name:d.n,price:d.p,wave:d.w,courseHistory:d.ch,locked:false,excluded:false};
+    const np=d.n.split(' ');
+    o.sn=np.length>1?(np[0][0]+'. '+np.slice(1).join(' ')):d.n;
 
-// ========== V5.3: REDDIT MODEL SCORE AS PRIMARY FIT ==========
-// Prior implementation: 5-factor raw stat calc (SG:APP, SG:ARG, Prox, GIR Rough, Birdie%)
-// New implementation: Reddit Sheet Overall Model Score (0-1000) mapped to 0-100
-// Fallback for players not in Reddit sheet (e.g. Michael Thorbjornsen):
-//   compute legacy rawFit and scale to Reddit distribution range.
-const rms=REDDIT_MS[d.n];
-o.redditScore=rms!==undefined?rms:null;
-o.hasReddit=rms!==undefined;
-if(o.hasReddit){
-  // Direct normalization: Reddit uses 0-1000, we use 0-100 for display
-  o.rawFit=rms;
-} else {
-  // Fallback: legacy 5-factor composite scaled to match Reddit distribution
-  let app=d.sa*3,arg=(d.sr||0)*2,prox=(30-(d.px||22))*2,rgh=(d.gr||57)/20,bird=(d.bp||22)/20;
-  const legacy=app+arg+prox+rgh+bird;
-  // Map legacy range (~-2 to +12) to Reddit median-ish range (200-600)
-  o.rawFit=Math.max(100,Math.min(700,300+legacy*30));
+    // 4-point odds snapshots
+    const impS=100/(d.s+100);
+    const impM=100/(d.m+100);
+    const impTu=100/((d.tu||d.m)+100);
+    const impW=100/(d.t+100);
+    o.liveImp=impW;
+    o.curOdds=d.t;
+    o.spark=[impS,impM,impTu,impW]; // 4-bar spark
+
+    // Steam: total movement Sun→Wed
+    o.steamRaw=(impW-impS)/impS;
+    o.steamAbs=Math.abs(o.steamRaw)*100;
+    o.isSteam=o.steamRaw>0.02;
+    o.isDrift=o.steamRaw<-0.05;
+
+    // Count positive transitions across 4 points (3 transitions total)
+    const t1=impM>impS?1:0;
+    const t2=impTu>impM?1:0;
+    const t3=impW>impTu?1:0;
+    o.steamPoints=t1+t2+t3; // 0-3
+
+    o.hasHistory=d.ch<NH;
+    o.isChalk=CHALK.includes(d.n);
+    o.hasCPS=CPS_GOOD.includes(d.n);
+    o.isExpert=EXPERT_TOP.includes(d.n);
+
+    // Reddit fit
+    const rms=REDDIT_MS[d.n];
+    o.redditScore=rms!==undefined?rms:null;
+    o.hasReddit=rms!==undefined;
+    o.rawFit=o.hasReddit?rms:(()=>{
+      let app=d.sa*3,arg=(d.sr||0)*2,prox=(30-(d.px||22))*2,rgh=(d.gr||57)/20,bird=(d.bp||22)/20;
+      return Math.max(100,Math.min(700,300+(app+arg+prox+rgh+bird)*30));
+    })();
+    return o;
+  });
+
+  // Normalize fit 0-100
+  P.forEach(p=>{p.profileFit=p.rawFit/10});
+
+  // Salary and odds ranks
+  P.sort((a,b)=>b.price-a.price).forEach((p,i)=>p.salRank=i+1);
+  P.sort((a,b)=>b.liveImp-a.liveImp).forEach((p,i)=>p.oddsRank=i+1);
+
+  let tRO2=0;
+  P.forEach(p=>{
+    p.dlta=p.salRank-p.oddsRank;
+
+    // pOwn
+    let base=p.price>=10000?15:(p.price>=9000?13:(p.price>=8000?10:12));
+    let bump=p.dlta*1.2;
+    let hist=p.hasHistory&&p.courseHistory<=20?5:(p.hasHistory&&p.courseHistory<=40?2:0);
+    let steam=p.isSteam?4:0;
+    let chalk=p.isChalk?10:0;
+    let expert=p.isExpert?4:0;
+    p.rawOwn=Math.max(0.5,base+bump+hist+steam+chalk+expert);
+    tRO2+=p.rawOwn;
+  });
+  const norm=600/tRO2;
+  P.forEach(p=>{
+    p.pOwn=Math.min(42,p.rawOwn*norm);
+    const logOwn=Math.log2(Math.max(1,p.pOwn));
+    p.rawLev=p.profileFit-(logOwn*8);
+    if(p.hasCPS)p.rawLev*=1.1;
+  });
+  const lv=P.map(x=>x.rawLev),mxL=Math.max(...lv),mnL=Math.min(...lv);
+  P.forEach(p=>{
+    p.leverage=((p.rawLev-mnL)/(mxL-mnL))*100;
+    const histB=p.hasHistory?((80-p.courseHistory)*0.5):0;
+    const oddsB=p.liveImp*120;
+    p.composite=p.profileFit+histB+oddsB;
+
+    // DELTA/FIT SCORE — core V5.4 signal
+    // delta (normalized 0-1 from rank diff) × profileFit (0-100)
+    // Use normalized delta: clamp dlta to [-20,+20] range, shift positive
+    const dltaNorm=Math.max(0,(p.dlta+20)/40); // 0-1, higher = more underpriced
+    p.dfScore=Math.round(dltaNorm*p.profileFit*100)/100;
+  });
+
+  // Normalize dfScore to 0-100
+  const dfVals=P.map(x=>x.dfScore),mxDF=Math.max(...dfVals),mnDF=Math.min(...dfVals);
+  P.forEach(p=>{p.dfScoreN=((p.dfScore-mnDF)/(mxDF-mnDF))*100});
+
+  P.sort((a,b)=>b.composite-a.composite);
+  ren();upd();
 }
-return o;
-});
 
-// Normalize rawFit to 0-100 profileFit using Reddit's natural 0-1000 range
-P.forEach(p=>{p.profileFit=p.rawFit/10});
-
-P.sort((a,b)=>b.price-a.price).forEach((p,i)=>p.salRank=i+1);
-P.sort((a,b)=>b.liveImp-a.liveImp).forEach((p,i)=>p.oddsRank=i+1);
-P.forEach(p=>{
-p.dlta=p.salRank-p.oddsRank;
-let base=p.price>=10000?15:(p.price>=9000?13:(p.price>=8000?10:12));
-let bump=p.dlta*1.2;
-let hist=p.hasHistory&&p.courseHistory<=20?5:(p.hasHistory&&p.courseHistory<=40?2:0);
-let steam=p.isSteam?4:0;
-let chalk=p.isChalk?10:0;
-// V5.3: Top-15 Reddit boost to ownership (field will chase the experts)
-let expert=p.isExpert?4:0;
-p.rawOwn=Math.max(0.5,base+bump+hist+steam+chalk+expert);
-tRO+=p.rawOwn;
-});
-const norm=600/tRO;
-P.forEach(p=>{
-p.pOwn=Math.min(42,p.rawOwn*norm);
-const logOwn=Math.log2(Math.max(1,p.pOwn));
-p.rawLev=p.profileFit-(logOwn*8);
-if(p.hasCPS)p.rawLev*=1.1;
-});
-const lv=P.map(x=>x.rawLev),mxL=Math.max(...lv),mnL=Math.min(...lv);
-P.forEach(p=>{
-p.leverage=((p.rawLev-mnL)/(mxL-mnL))*100;
-const histB=p.hasHistory?((80-p.courseHistory)*0.5):0;
-const oddsB=p.liveImp*120;
-p.composite=p.profileFit+histB+oddsB;
-});
-P.sort((a,b)=>b.composite-a.composite);
-ren();upd();
-}
-
-function toggleBP(id){const el=document.getElementById(id);if(!el)return;const show=!el.classList.contains('show');document.querySelectorAll('.bp-pop.show').forEach(x=>x.classList.remove('show'));if(show)el.classList.add('show')}
-document.addEventListener('click',()=>{document.querySelectorAll('.bp-pop.show').forEach(x=>x.classList.remove('show'))});
 function flt(f,b){CF=f;document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');ren()}
 function so(c){SA=SC===c?!SA:false;SC=c;ren()}
 function tL(n){const p=P.find(x=>x.name===n);if(p){p.locked=!p.locked;if(p.locked)p.excluded=false}ren();upd()}
@@ -696,166 +629,358 @@ function tE(n){const p=P.find(x=>x.name===n);if(p){p.excluded=!p.excluded;if(p.e
 function clrL(){P.forEach(p=>p.locked=false);ren();upd()}
 
 function ren(){
-const q=document.getElementById('srch').value.toLowerCase();
-let d=P.filter(p=>{
-if(q&&!p.name.toLowerCase().includes(q))return false;
-if(CF==='am')return p.wave==='AM';if(CF==='pm')return p.wave==='PM';
-if(CF==='steam')return p.isSteam;if(CF==='dlta')return p.dlta>3;if(CF==='lev')return p.leverage>65;if(CF==='chalk')return p.isChalk;
-if(CF==='expert')return p.isExpert;
-return true;
-});
-d.sort((a,b)=>{let va=a[SC],vb=b[SC];if(typeof va==='string')return SA?va.localeCompare(vb):vb.localeCompare(va);return SA?va-vb:vb-va});
-document.querySelectorAll('th[data-c]').forEach(th=>{th.classList.toggle('act',th.dataset.c===SC);const s=th.querySelector('.s');if(s)s.textContent=th.dataset.c===SC?(SA?'▲':'▼'):'▼'});
-document.getElementById('tb').innerHTML=d.map(p=>{
-const rc=p.locked?'row-lk':(p.excluded?'row-ex':'');
-const cur=p.curOdds;
-let oc='',oa='';if(cur<p.s){oc='os';oa=' ▼'}else if(cur>p.s){oc='od';oa=' ▲'}
-const spMax=Math.max(...p.spark);
-const bars=p.spark.map((v,i)=>{const h=Math.max(2,Math.round((v/spMax)*16));const c=i===p.spark.length-1?(v>=p.spark[0]?'var(--grn)':'var(--red)'):'var(--tx3)';return`<div class="sb" style="height:${h}px;background:${c}"></div>`}).join('');
-const stC=p.isSteam?'vg':(p.isDrift?'vr':'');
-const hist=p.hasHistory?p.courseHistory.toFixed(1):'<span class="na">N/A</span>';
-const dC=p.dlta>2?'vg':(p.dlta<-2?'vr':'');
-const chk=p.isChalk?'<span class="ct">CHALK</span>':'';
-const cps=p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>':'';
-const exp=p.isExpert?'<span class="ce">🧠 EXPERT</span>':'';
-const wc=p.wave==='AM'?'wam':'wpm';
-// V5.3: Fit cell now shows normalized score + raw Reddit Model Score
-const fitRaw=p.hasReddit?`<span class="fit-raw">RDT ${p.redditScore}</span>`:`<span class="fit-raw" style="color:var(--red);font-style:italic">no rdt</span>`;
-const fitColor=p.profileFit>75?'var(--grn)':(p.profileFit>50?'var(--tx)':(p.profileFit<25?'var(--red)':'inherit'));
-const hasBdg=p.isExpert||p.isChalk||p.hasCPS;
-const bpId='bp_'+p.name.replace(/[^a-zA-Z]/g,'');
-const bpDot=hasBdg?'<span class="bp-dot" onclick="event.stopPropagation();toggleBP(\''+bpId+'\')"></span>':'';
-const bpPop=hasBdg?'<div class="bp-pop" id="'+bpId+'">'+exp+chk+cps+'</div>':'';
-return`<tr class="${rc}"><td><div class="pn">${p.sn}<span class="wv ${wc}">${p.wave}</span>${exp}${chk}${cps}${bpDot}${bpPop}</div><div class="acts"><button class="bi ${p.locked?'lk':''}" onclick="tL('${p.name.replace(/'/g,"\\'")}')">🔒</button><button class="bi ${p.excluded?'ex':''}" onclick="tE('${p.name.replace(/'/g,"\\'")}')">✕</button></div></td><td class="vg mn" style="font-size:12px">$${p.price/1000}k</td><td class="oc"><div class="oo">+${p.s}→+${p.m}→</div><div class="${oc}" style="font-weight:700">+${cur}${oa}</div></td><td class="hide-m"><div class="sp">${bars}</div></td><td class="${dC} mn" style="font-weight:600">${p.dlta>0?'+'+p.dlta:p.dlta}</td><td class="${stC} mn">${p.steamAbs.toFixed(1)}%</td><td class="mn">${hist}</td><td><div class="fit-cell"><strong style="color:${fitColor}">${p.profileFit.toFixed(1)}</strong>${fitRaw}</div></td><td class="mn ${p.isChalk?'vr':''}" style="font-weight:700">${p.pOwn.toFixed(1)}%</td><td class="mn ${p.leverage>80?'vgl':''}" style="font-weight:700">${p.leverage.toFixed(1)}</td></tr>`}).join('');
+  const q=document.getElementById('srch').value.toLowerCase();
+  let d=P.filter(p=>{
+    if(q&&!p.name.toLowerCase().includes(q))return false;
+    if(CF==='am')return p.wave==='AM';
+    if(CF==='pm')return p.wave==='PM';
+    if(CF==='steam')return p.isSteam;
+    if(CF==='dlta')return p.dlta>3;
+    if(CF==='lev')return p.leverage>65;
+    if(CF==='chalk')return p.isChalk;
+    if(CF==='expert')return p.isExpert;
+    return true;
+  });
+  d.sort((a,b)=>{
+    let va=a[SC],vb=b[SC];
+    if(typeof va==='string')return SA?va.localeCompare(vb):vb.localeCompare(va);
+    return SA?va-vb:vb-va;
+  });
+  document.querySelectorAll('th[data-c]').forEach(th=>{
+    th.classList.toggle('act',th.dataset.c===SC);
+    const s=th.querySelector('.s');
+    if(s)s.textContent=th.dataset.c===SC?(SA?'▲':'▼'):'▼';
+  });
+
+  document.getElementById('tb').innerHTML=d.map(p=>{
+    const rc=p.locked?'row-lk':(p.excluded?'row-ex':'');
+    const cur=p.curOdds;
+    let oc='',oa='';
+    if(cur<p.s){oc='os';oa=' ▼';}else if(cur>p.s){oc='od';oa=' ▲';}
+    const spMax=Math.max(...p.spark);
+    // 4-bar spark
+    const bars=p.spark.map((v,i)=>{
+      const h=Math.max(2,Math.round((v/spMax)*18));
+      const c=i===p.spark.length-1?(v>=p.spark[0]?'var(--grn)':'var(--red)'):'var(--tx3)';
+      return`<div class="sb" style="height:${h}px;background:${c}"></div>`;
+    }).join('');
+
+    const stC=p.isSteam?'vg':(p.isDrift?'vr':'');
+    const hist=p.hasHistory?p.courseHistory.toFixed(1):'<span class="na">N/A</span>';
+    const dC=p.dlta>2?'vg':(p.dlta<-2?'vr':'');
+    const chk=p.isChalk?'<span class="ct">CHALK</span>':'';
+    const cps=p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>':'';
+    const exp=p.isExpert?'<span class="ce">🧠 EXPERT</span>':'';
+    const wc=p.wave==='AM'?'wam':'wpm';
+    const fitRaw=p.hasReddit?`<span class="fit-raw">RDT ${p.redditScore}</span>`:`<span class="fit-raw" style="color:var(--red);font-style:italic">~fit</span>`;
+    const fitColor=p.profileFit>75?'var(--grn)':(p.profileFit>50?'var(--tx)':(p.profileFit<25?'var(--red)':'inherit'));
+    const dfColor=p.dfScoreN>70?'var(--gld)':(p.dfScoreN>40?'var(--tx)':'var(--tx3)');
+    // Steam points badge
+    let spBadge='';
+    if(p.steamPoints===3&&p.isSteam)spBadge='<span style="font-size:7px;background:rgba(52,211,153,.2);color:var(--grn);border:1px solid rgba(52,211,153,.4);padding:1px 4px;border-radius:3px;font-family:var(--mn);font-weight:700;margin-left:2px">3/3🔥</span>';
+    else if(p.steamPoints===2&&p.isSteam)spBadge='<span style="font-size:7px;background:rgba(251,191,36,.12);color:var(--gld);border:1px solid rgba(251,191,36,.3);padding:1px 4px;border-radius:3px;font-family:var(--mn);font-weight:700;margin-left:2px">2/3</span>';
+
+    const hasBdg=p.isExpert||p.isChalk||p.hasCPS;
+    const bpId='bp_'+p.name.replace(/[^a-zA-Z]/g,'');
+    const bpDot=hasBdg?`<span class="bp-dot" onclick="event.stopPropagation();toggleBP('${bpId}')"></span>`:'';
+    const bpPop=hasBdg?`<div class="bp-pop" id="${bpId}">${exp}${chk}${cps}</div>`:'';
+
+    return`<tr class="${rc}">
+<td><div class="pn">${p.sn}<span class="wv ${wc}">${p.wave}</span>${exp}${chk}${cps}${spBadge}${bpDot}${bpPop}</div>
+<div class="acts"><button class="bi ${p.locked?'lk':''}" onclick="tL('${p.name.replace(/'/g,"\\'")}')">🔒</button><button class="bi ${p.excluded?'ex':''}" onclick="tE('${p.name.replace(/'/g,"\\'")}')">✕</button></div></td>
+<td class="vg mn" style="font-size:12px">$${p.price/1000}k</td>
+<td class="oc-cell"><div class="oo">Sun+${p.s} Mon+${p.m} Tue+${p.tu}</div><div class="${oc}" style="font-weight:700">+${cur}${oa}</div></td>
+<td class="hide-m"><div class="sp">${bars}</div></td>
+<td class="${dC} mn" style="font-weight:600">${p.dlta>0?'+'+p.dlta:p.dlta}</td>
+<td class="${stC} mn">${p.steamAbs.toFixed(1)}%</td>
+<td class="mn">${hist}</td>
+<td><div class="fit-cell"><strong style="color:${fitColor}">${p.profileFit.toFixed(1)}</strong>${fitRaw}</div></td>
+<td class="mn" style="font-weight:700;color:${dfColor}">${p.dfScoreN.toFixed(1)}</td>
+<td class="mn ${p.isChalk?'vr':''}" style="font-weight:700">${p.pOwn.toFixed(1)}%</td>
+<td class="mn ${p.leverage>80?'vgl':''}" style="font-weight:700">${p.leverage.toFixed(1)}</td>
+</tr>`;
+  }).join('');
 }
 
 function upd(){
-const lk=P.filter(x=>x.locked),ex=P.filter(x=>x.excluded);
-const sal=lk.reduce((s,p)=>s+p.price,0),own=lk.reduce((s,p)=>s+p.pOwn,0),pts=lk.reduce((s,p)=>s+p.composite,0);
-document.getElementById('sL').textContent=`${lk.length}/6`;
-document.getElementById('sE').textContent=ex.length;
-document.getElementById('sS').textContent='$'+sal.toLocaleString();
-document.getElementById('sR').textContent='$'+(50000-sal).toLocaleString();
-document.getElementById('sP').textContent=pts.toFixed(1);
-document.getElementById('sO').textContent=own.toFixed(1)+'%';
-document.getElementById('fC').textContent=`${lk.length}/6`;
-document.getElementById('fS').textContent='$'+(50000-sal).toLocaleString();
-document.getElementById('fP').textContent=pts.toFixed(1);
-document.getElementById('fO').textContent=own.toFixed(1)+'%';
-const ll=document.getElementById('ll');
-if(!lk.length){ll.innerHTML='<div class="le">No players locked.</div>'}
-else{ll.innerHTML=lk.map(p=>`<div class="li"><span>🔒 <strong>${p.name}</strong> <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span></span><span class="mn vg">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}
+  const lk=P.filter(x=>x.locked),ex=P.filter(x=>x.excluded);
+  const sal=lk.reduce((s,p)=>s+p.price,0);
+  const own=lk.reduce((s,p)=>s+p.pOwn,0);
+  const pts=lk.reduce((s,p)=>s+p.composite,0);
+  const df=lk.reduce((s,p)=>s+p.dfScoreN,0);
+  document.getElementById('sL').textContent=`${lk.length}/6`;
+  document.getElementById('sE').textContent=ex.length;
+  document.getElementById('sS').textContent='$'+sal.toLocaleString();
+  document.getElementById('sR').textContent='$'+(50000-sal).toLocaleString();
+  document.getElementById('sP').textContent=pts.toFixed(1);
+  document.getElementById('sDF').textContent=df.toFixed(1);
+  document.getElementById('sO').textContent=own.toFixed(1)+'%';
+  document.getElementById('fC').textContent=`${lk.length}/6`;
+  document.getElementById('fS').textContent='$'+(50000-sal).toLocaleString();
+  document.getElementById('fP').textContent=pts.toFixed(1);
+  document.getElementById('fO').textContent=own.toFixed(1)+'%';
+  const ll=document.getElementById('ll');
+  if(!lk.length)ll.innerHTML='<div class="le">No players locked.</div>';
+  else ll.innerHTML=lk.map(p=>`<div class="li"><span>🔒 <strong>${p.name}</strong> <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span></span><span class="mn vg">$${(p.price/1000).toFixed(1)}k</span></div>`).join('');
 }
 
-// KNAPSACK
+// ============================================================
+// KNAPSACK OPTIMIZER — supports 'gpp' and 'delta' modes
+// delta mode: maximizes dfScoreN (delta × fit)
+// gpp mode: maximizes composite + leverage*0.5
+// ============================================================
 function gen(type){
-const lk=P.filter(x=>x.locked);
-if(lk.length>6)return alert("Max 6 locks.");
-let lkS=lk.reduce((s,p)=>s+p.price,0);
-if(lkS>50000)return alert("Locks exceed $50k.");
-const pool=P.filter(x=>!x.excluded&&!x.locked);
-const req=6-lk.length;
-if(req===0){lastLU={roster:lk,type};return showLU(lk,type)}
-const unit=100,maxU=Math.floor((50000-lkS)/unit);
-let dp=Array(req+1).fill(null).map(()=>Array(maxU+1).fill(null));
-dp[0][0]={score:0,r:[]};
-for(const p of pool){
-const wt=Math.floor(p.price/unit);
-const val=type==='cash'?p.composite:(p.composite+p.leverage*0.5);
-for(let k=req-1;k>=0;k--){for(let w=maxU-wt;w>=0;w--){
-if(dp[k][w]!==null){const ns=dp[k][w].score+val,nw=w+wt;
-if(!dp[k+1][nw]||dp[k+1][nw].score<ns)dp[k+1][nw]={score:ns,r:[...dp[k][w].r,p]}}
-}}}
-let best=null;
-const minU=Math.max(0,Math.ceil((49000-lkS)/unit));
-for(let w=maxU;w>=minU;w--){if(dp[req][w]){
-const c=dp[req][w];
-const tO=lk.reduce((s,p)=>s+p.pOwn,0)+c.r.reduce((s,p)=>s+p.pOwn,0);
-if(type==='gpp'&&tO>85)continue;
-if(!best||c.score>best.score)best=c;
-}}
-if(!best){for(let w=maxU;w>=minU;w--){if(dp[req][w]&&(!best||dp[req][w].score>best.score))best=dp[req][w]}}
-if(!best)return alert("Can't build lineup ≥$49k. Clear some locks.");
-const full=[...lk,...best.r];lastLU={roster:full,type};showLU(full,type);
+  const lk=P.filter(x=>x.locked);
+  if(lk.length>6)return alert("Max 6 locks.");
+  const lkS=lk.reduce((s,p)=>s+p.price,0);
+  if(lkS>50000)return alert("Locks exceed $50k.");
+  const pool=P.filter(x=>!x.excluded&&!x.locked);
+  const req=6-lk.length;
+  if(req===0){lastLU={roster:lk,type};showLU(lk,type);return;}
+  const unit=100,maxU=Math.floor((50000-lkS)/unit);
+  const minU=Math.max(0,Math.ceil((49000-lkS)/unit));
+  const minP=Math.min(...pool.map(p=>p.price));
+  let dp=Array(req+1).fill(null).map(()=>Array(maxU+1).fill(null));
+  dp[0][0]={score:0,r:[]};
+  for(const p of pool){
+    const wt=Math.floor(p.price/unit);
+    const val=type==='delta'?p.dfScoreN:(p.composite+p.leverage*0.5);
+    for(let k=req-1;k>=0;k--){
+      for(let w=maxU-wt;w>=0;w--){
+        if(!dp[k][w])continue;
+        const ns=dp[k][w].score+val,nw=w+wt;
+        if(!dp[k+1][nw]||dp[k+1][nw].score<ns)dp[k+1][nw]={score:ns,r:[...dp[k][w].r,p]};
+      }
+    }
+  }
+  let best=null;
+  for(let w=maxU;w>=minU;w--){
+    if(!dp[req][w])continue;
+    const c=dp[req][w];
+    const tO=lk.reduce((s,p)=>s+p.pOwn,0)+c.r.reduce((s,p)=>s+p.pOwn,0);
+    if(type==='gpp'&&tO>85)continue;
+    if(!best||c.score>best.score)best=c;
+  }
+  if(!best){
+    for(let w=maxU;w>=minU;w--){
+      if(dp[req][w]&&(!best||dp[req][w].score>best.score))best=dp[req][w];
+    }
+  }
+  if(!best)return alert("Can't build a valid lineup ≥$49k. Try clearing locks or exclusions.");
+  const full=[...lk,...best.r];
+  lastLU={roster:full,type};
+  showLU(full,type);
 }
 
 function showLU(roster,type){
-const card=document.getElementById('oc');card.style.display='block';
-document.getElementById('ot').innerHTML=type==='cash'?'🛡️ OPTIMAL CASH':'🚀 OPTIMAL GPP';
-let sal=0,own=0,pts=0;roster.forEach(p=>{sal+=p.price;own+=p.pOwn;pts+=p.composite});
-document.getElementById('os').innerHTML=`<span>SAL: <strong>$${sal.toLocaleString()}</strong></span><span>PROJ: <strong>${pts.toFixed(1)}</strong></span><span>OWN: <strong style="color:${own>85?'var(--red)':'inherit'}">${own.toFixed(1)}%</strong></span>`;
-document.getElementById('olist').innerHTML=roster.sort((a,b)=>b.price-a.price).map(p=>`<li><div><div style="font-weight:700">${p.locked?'🔒 ':''}${p.sn} <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span>${p.isExpert?'<span class="ce">🧠</span>':''}${p.isChalk?'<span class="ct">CHALK</span>':''}${p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>':''}</div><div style="font-size:9px;color:var(--tx2);font-family:var(--mn);margin-top:2px">pOWN ${p.pOwn.toFixed(1)}% · LEV ${p.leverage.toFixed(0)} · RDT ${p.hasReddit?p.redditScore:'—'}</div></div><div class="vg mn" style="font-weight:700;font-size:13px">$${(p.price/1000).toFixed(1)}k</div></li>`).join('');
+  const card=document.getElementById('oc');
+  card.style.display='block';
+  const isDelta=type==='delta';
+  document.getElementById('ot').innerHTML=isDelta?'⚡ Δ/FIT OPTIMAL':'🚀 GPP OPTIMAL';
+  card.style.borderColor=isDelta?'var(--gld)':'var(--blu)';
+  card.querySelector('.oh').style.background=isDelta?'rgba(251,191,36,.8)':'var(--blu)';
+  card.querySelector('.oh').style.color=isDelta?'#000':'#fff';
+  let sal=0,own=0,pts=0,df=0;
+  roster.forEach(p=>{sal+=p.price;own+=p.pOwn;pts+=p.composite;df+=p.dfScoreN;});
+  document.getElementById('os').innerHTML=`<span>SAL: <strong>$${sal.toLocaleString()}</strong></span><span>PROJ: <strong>${pts.toFixed(1)}</strong></span><span>Δ/FIT: <strong>${df.toFixed(1)}</strong></span><span>OWN: <strong style="color:${own>85?'var(--red)':'inherit'}">${own.toFixed(1)}%</strong></span>`;
+  document.getElementById('olist').innerHTML=roster.sort((a,b)=>b.price-a.price).map(p=>`
+<li>
+<div>
+  <div style="font-weight:700">${p.locked?'🔒 ':''}${p.sn} <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span>${p.isExpert?'<span class="ce">🧠</span>':''}${p.isChalk?'<span class="ct">CHALK</span>':''}</div>
+  <div style="font-size:9px;color:var(--tx2);font-family:var(--mn);margin-top:2px">Δ/FIT ${p.dfScoreN.toFixed(1)} · FIT ${p.profileFit.toFixed(0)} · Δ ${p.dlta>0?'+'+p.dlta:p.dlta} · pOWN ${p.pOwn.toFixed(1)}%</div>
+</div>
+<div class="vg mn" style="font-weight:700;font-size:13px">$${(p.price/1000).toFixed(1)}k</div>
+</li>`).join('');
 }
 
 function xCSV(){
-if(!lastLU)return;
-const h='G,G,G,G,G,G';const n=lastLU.roster.sort((a,b)=>b.price-a.price).map(p=>p.name).join(',');
-const blob=new Blob([h+'\n'+n],{type:'text/csv'});const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${lastLU.type}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  if(!lastLU)return;
+  const h='G,G,G,G,G,G';
+  const n=lastLU.roster.sort((a,b)=>b.price-a.price).map(p=>p.name).join(',');
+  const blob=new Blob([h+'\n'+n],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`plaid_genie_${lastLU.type}.csv`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 
-// MONTE CARLO
+function toggleBP(id){
+  const el=document.getElementById(id);if(!el)return;
+  const show=!el.classList.contains('show');
+  document.querySelectorAll('.bp-pop.show').forEach(x=>x.classList.remove('show'));
+  if(show)el.classList.add('show');
+}
+document.addEventListener('click',()=>{document.querySelectorAll('.bp-pop.show').forEach(x=>x.classList.remove('show'))});
+
+// ============================================================
+// PRE-BUILT: Δ/FIT OPTIMIZER — generates 5 diverse lineups
+// ============================================================
+function runDeltaFit(){
+  const btn=document.getElementById('dfB'),simB=document.getElementById('simB');
+  btn.disabled=true;simB.disabled=true;
+  btn.textContent='⏳ OPTIMIZING...';
+  document.getElementById('pw').style.display='block';
+  document.getElementById('pf').style.width='0%';
+  document.getElementById('ptt').textContent='Running Δ/Fit optimizer — generating 5 diverse lineups...';
+  document.getElementById('simR').style.display='none';
+
+  setTimeout(()=>{
+    const pool=P.filter(p=>!p.excluded);
+    const locked=pool.filter(p=>p.locked);
+    const avail=pool.filter(p=>!p.locked);
+    const lkS=locked.reduce((s,p)=>s+p.price,0);
+    const unit=100;
+    const maxU=Math.floor((50000-lkS)/unit);
+    const minU=Math.max(0,Math.ceil((49000-lkS)/unit));
+    const req=6-locked.length;
+    const lineups=[];
+    const usedKeys=new Set();
+    // Generate diverse lineups by progressively penalizing used players
+    const penalties=new Map();
+
+    for(let attempt=0;attempt<20&&lineups.length<5;attempt++){
+      // Apply penalties
+      let dp=Array(req+1).fill(null).map(()=>Array(maxU+1).fill(null));
+      dp[0][0]={score:0,r:[]};
+      for(const p of avail){
+        const wt=Math.floor(p.price/unit);
+        const pen=penalties.get(p.name)||0;
+        const val=Math.max(0,p.dfScoreN-pen);
+        for(let k=req-1;k>=0;k--){
+          for(let w=maxU-wt;w>=0;w--){
+            if(!dp[k][w])continue;
+            const ns=dp[k][w].score+val,nw=w+wt;
+            if(!dp[k+1][nw]||dp[k+1][nw].score<ns)dp[k+1][nw]={score:ns,r:[...dp[k][w].r,p]};
+          }
+        }
+      }
+      let best=null;
+      for(let w=maxU;w>=minU;w--){
+        if(dp[req][w]&&(!best||dp[req][w].score>best.score))best=dp[req][w];
+      }
+      if(!best)break;
+      const full=[...locked,...best.r];
+      const key=full.map(p=>p.name).sort().join('|');
+      if(!usedKeys.has(key)){
+        usedKeys.add(key);
+        const sal=full.reduce((s,p)=>s+p.price,0);
+        const df=full.reduce((s,p)=>s+p.dfScoreN,0);
+        const own=full.reduce((s,p)=>s+p.pOwn,0);
+        const comp=full.reduce((s,p)=>s+p.composite,0);
+        lineups.push({roster:full,sal,df,own,comp});
+      }
+      // Penalize players in this lineup to diversify
+      best.r.forEach(p=>{penalties.set(p.name,(penalties.get(p.name)||0)+15)});
+    }
+
+    document.getElementById('pf').style.width='100%';
+    document.getElementById('ptt').textContent=`✓ Done. ${lineups.length} Δ/Fit lineups generated.`;
+    document.getElementById('simR').style.display='block';
+    document.getElementById('df-sec').style.display='block';
+
+    document.getElementById('dg').innerHTML=lineups.map((l,i)=>{
+      const id=`df_pre_${i}`;window[`_lu_${id}`]=l.roster;
+      const s=[...l.roster].sort((a,b)=>b.price-a.price);
+      return`<div class="lc delta">
+<div class="lch"><span>#${i+1} · Δ/FIT</span><span>SCORE <strong>${l.df.toFixed(1)}</strong></span></div>
+<div class="lcb">${s.map(p=>`<div class="lcr">
+<span class="lcn">${p.sn} <span class="wv ${p.wave==='AM'?'wam':'wpm'}" style="font-size:7px">${p.wave}</span>${p.isExpert?'<span class="ce" style="font-size:7px">🧠</span>':''}
+<span style="font-size:8px;font-family:var(--mn);color:var(--gld)">Δ/F ${p.dfScoreN.toFixed(0)}</span></span>
+<span class="lcp">$${(p.price/1000).toFixed(1)}k</span>
+</div>`).join('')}</div>
+<div class="lcf">
+<span>SAL <strong>$${l.sal.toLocaleString()}</strong></span>
+<span>Δ/FIT <strong>${l.df.toFixed(1)}</strong></span>
+<span>OWN <strong>${l.own.toFixed(1)}%</strong></span>
+<span>PROJ <strong>${l.comp.toFixed(0)}</strong></span>
+</div>
+<div class="lcx"><button onclick="xPB('${id}','delta',${i+1})">📥 CSV</button></div>
+</div>`;
+    }).join('');
+
+    btn.disabled=false;simB.disabled=false;
+    btn.textContent='⚡ RUN Δ/FIT OPTIMIZER';
+    setTimeout(()=>document.getElementById('df-sec').scrollIntoView({behavior:'smooth'}),200);
+  },60);
+}
+
+// ============================================================
+// MONTE CARLO GPP (5M sims)
+// ============================================================
 let simOn=false;
 function runSim(){
-if(simOn)return;simOn=true;
-const btn=document.getElementById('simB'),pw=document.getElementById('pw'),pf=document.getElementById('pf'),ptt=document.getElementById('ptt'),sr=document.getElementById('simR');
-btn.disabled=true;btn.textContent='⏳ SIMULATING...';
-pw.style.display='block';sr.style.display='none';
-document.getElementById('ch').style.display='none';document.getElementById('gh').style.display='none';
-document.getElementById('cg').innerHTML='';document.getElementById('gg').innerHTML='';
-pf.style.width='0%';ptt.textContent='Initializing 5,000,000 simulations...';
-const pool=P.filter(p=>!p.excluded);
-const locked=pool.filter(p=>p.locked);
-const lkS=locked.reduce((s,p)=>s+p.price,0);
-const avail=pool.filter(p=>!p.locked);
-const minP=Math.min(...pool.map(p=>p.price));
-avail.forEach(p=>{p.simMean=p.composite*0.85+20;p.simStd=p.price>9000?15:22});
-const wts=avail.map(p=>Math.max(1,Math.pow(p.composite,2)));
-const tW=wts.reduce((s,w)=>s+w,0);const cW=[];let ac=0;
-for(let i=0;i<wts.length;i++){ac+=wts[i];cW.push(ac)}
-function wP(){const r=Math.random()*tW;let lo=0,hi=cW.length-1;while(lo<hi){const m=(lo+hi)>>1;if(cW[m]<r)lo=m+1;else hi=m}return lo}
-function bM(mean,std){const u1=Math.max(1e-10,Math.random()),u2=Math.random();return mean+Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2)*std}
-function bL(){const pk=new Set(),ros=[...locked];let sal=lkS,att=0;
-while(ros.length<6&&att<80){const i=wP(),p=avail[i];
-if(pk.has(i)){att++;continue}if(sal+p.price>50000){att++;continue}
-const rem=6-ros.length-1;if(50000-(sal+p.price)<rem*minP){att++;continue}
-ros.push(p);pk.add(i);sal+=p.price;att++}
-return(ros.length===6&&sal>=49000)?{roster:ros,sal}:null}
-const lS=new Map(),TOT=5000000,CHK=100000;let done=0;
-function chunk(){
-const amAdv=(Math.random()-0.5)*8;
-for(let i=0;i<CHK;i++){const b=bL();if(!b)continue;
-let sc=0,am=0,pm=0;
-for(const p of b.roster){const wm=p.wave==='AM'?amAdv:-amAdv;sc+=bM(p.simMean+wm,p.simStd*0.6);if(p.wave==='AM')am++;else pm++}
-if(Math.abs(am-pm)>=4)sc+=Math.abs(amAdv)*0.3;
-const k=b.roster.map(p=>p.name).sort().join('|');const ex=lS.get(k);
-if(ex){ex.sc++;ex.ts+=sc;if(sc>ex.mx)ex.mx=sc}
-else lS.set(k,{roster:b.roster,sal:b.sal,sc:1,ts:sc,mx:sc})}
-done+=CHK;const pct=(done/TOT)*100;
-pf.style.width=pct+'%';ptt.textContent=`${done.toLocaleString()} / ${TOT.toLocaleString()} (${pct.toFixed(1)}%)`;
-if(done<TOT)setTimeout(chunk,0);else fin()
+  if(simOn)return;simOn=true;
+  const btn=document.getElementById('simB'),dfB=document.getElementById('dfB');
+  btn.disabled=true;dfB.disabled=true;btn.textContent='⏳ SIMULATING...';
+  const pw=document.getElementById('pw'),pf=document.getElementById('pf'),sr=document.getElementById('simR');
+  pw.style.display='block';sr.style.display='none';
+  document.getElementById('gpp-sec').style.display='none';
+  pf.style.width='0%';document.getElementById('ptt').textContent='Initializing 5,000,000 simulations...';
+
+  const pool=P.filter(p=>!p.excluded);
+  const locked=pool.filter(p=>p.locked);
+  const lkS=locked.reduce((s,p)=>s+p.price,0);
+  const avail=pool.filter(p=>!p.locked);
+  const minP=Math.min(...pool.map(p=>p.price));
+  avail.forEach(p=>{p.simMean=p.composite*0.85+20;p.simStd=p.price>9000?15:22});
+  const wts=avail.map(p=>Math.max(1,Math.pow(p.composite,2)));
+  const tW=wts.reduce((s,w)=>s+w,0);
+  const cW=[];let ac=0;
+  for(let i=0;i<wts.length;i++){ac+=wts[i];cW.push(ac);}
+  function wP(){const r=Math.random()*tW;let lo=0,hi=cW.length-1;while(lo<hi){const m=(lo+hi)>>1;if(cW[m]<r)lo=m+1;else hi=m;}return lo;}
+  function bM(mean,std){const u1=Math.max(1e-10,Math.random()),u2=Math.random();return mean+Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2)*std;}
+  function bL(){const pk=new Set(),ros=[...locked];let sal=lkS,att=0;
+    while(ros.length<6&&att<80){const i=wP(),p=avail[i];
+      if(pk.has(i)){att++;continue;}if(sal+p.price>50000){att++;continue;}
+      const rem=6-ros.length-1;if(50000-(sal+p.price)<rem*minP){att++;continue;}
+      ros.push(p);pk.add(i);sal+=p.price;att++;}
+    return(ros.length===6&&sal>=49000)?{roster:ros,sal}:null;}
+
+  const lS=new Map(),TOT=5000000,CHK=100000;let done=0;
+  function chunk(){
+    const amAdv=(Math.random()-0.5)*8;
+    for(let i=0;i<CHK;i++){
+      const b=bL();if(!b)continue;
+      let sc=0,am=0,pm=0;
+      for(const p of b.roster){const wm=p.wave==='AM'?amAdv:-amAdv;sc+=bM(p.simMean+wm,p.simStd*0.6);if(p.wave==='AM')am++;else pm++;}
+      if(Math.abs(am-pm)>=4)sc+=Math.abs(amAdv)*0.3;
+      const k=b.roster.map(p=>p.name).sort().join('|');const ex=lS.get(k);
+      if(ex){ex.sc++;ex.ts+=sc;if(sc>ex.mx)ex.mx=sc;}
+      else lS.set(k,{roster:b.roster,sal:b.sal,sc:1,ts:sc,mx:sc});}
+    done+=CHK;const pct=(done/TOT)*100;
+    pf.style.width=pct+'%';document.getElementById('ptt').textContent=`${done.toLocaleString()} / ${TOT.toLocaleString()} (${pct.toFixed(1)}%)`;
+    if(done<TOT)setTimeout(chunk,0);else fin();
+  }
+  function fin(){
+    const all=Array.from(lS.values()).filter(l=>l.sc>=2);
+    all.forEach(l=>{l.avg=l.ts/l.sc;l.tOwn=l.roster.reduce((s,p)=>s+p.pOwn,0);l.aLev=l.roster.reduce((s,p)=>s+p.leverage,0)/6;l.df=l.roster.reduce((s,p)=>s+p.dfScoreN,0);});
+    const gpp=[...all].filter(l=>l.tOwn<=90).sort((a,b)=>(b.mx+b.aLev*.5)-(a.mx+a.aLev*.5)).slice(0,5);
+    pf.style.width='100%';document.getElementById('ptt').textContent=`✓ Done. ${all.size||all.length} unique lineups evaluated.`;
+    sr.style.display='block';document.getElementById('gpp-sec').style.display='block';
+    const rc=(l,i)=>{
+      const s=[...l.roster].sort((a,b)=>b.price-a.price);
+      const id=`pb_gpp_${i}`;window[`_lu_${id}`]=s;
+      return`<div class="lc gpp">
+<div class="lch"><span>#${i+1} · GPP</span><span>MEAN <strong>${l.avg.toFixed(1)}</strong> · CEIL <strong>${l.mx.toFixed(1)}</strong></span></div>
+<div class="lcb">${s.map(p=>`<div class="lcr"><span class="lcn">${p.sn} <span class="wv ${p.wave==='AM'?'wam':'wpm'}" style="font-size:7px">${p.wave}</span>${p.isExpert?'<span class="ce" style="font-size:7px">🧠</span>':''}${p.isChalk?'<span class="ct">CH</span>':''}</span><span class="lcp">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}</div>
+<div class="lcf"><span>SAL <strong>$${l.sal.toLocaleString()}</strong></span><span>OWN <strong>${l.tOwn.toFixed(1)}%</strong></span><span>LEV <strong>${l.aLev.toFixed(0)}</strong></span><span>Δ/FIT <strong>${l.df.toFixed(0)}</strong></span></div>
+<div class="lcx"><button onclick="xPB('pb_gpp_${i}','gpp',${i+1})">📥 CSV</button></div>
+</div>`;
+    };
+    document.getElementById('gg').innerHTML=gpp.map((l,i)=>rc(l,i)).join('');
+    btn.disabled=false;dfB.disabled=false;btn.textContent='▶ RUN 5M GPP SIMS';simOn=false;
+    setTimeout(()=>document.getElementById('gpp-sec').scrollIntoView({behavior:'smooth'}),200);
+  }
+  setTimeout(chunk,50);
 }
-function fin(){
-const all=Array.from(lS.values()).filter(l=>l.sc>=2);
-all.forEach(l=>{l.avg=l.ts/l.sc;l.tOwn=l.roster.reduce((s,p)=>s+p.pOwn,0);l.aLev=l.roster.reduce((s,p)=>s+p.leverage,0)/6});
-const cash=[...all].sort((a,b)=>b.avg-a.avg).slice(0,5);
-const gpp=[...all].filter(l=>l.tOwn<=90).sort((a,b)=>(b.mx+b.aLev*.5)-(a.mx+a.aLev*.5)).slice(0,5);
-pf.style.width='100%';ptt.textContent=`✓ Done. ${all.length.toLocaleString()} unique lineups evaluated.`;
-sr.style.display='block';document.getElementById('ch').style.display='flex';document.getElementById('gh').style.display='flex';
-const rc=(l,i,t)=>{const s=[...l.roster].sort((a,b)=>b.price-a.price);const id=`pb_${t}_${i}`;window[`_lu_${id}`]=s;
-return`<div class="lc ${t}"><div class="lch"><span>#${i+1} · ${t.toUpperCase()}</span><span>MEAN <strong>${l.avg.toFixed(1)}</strong> · CEIL <strong>${l.mx.toFixed(1)}</strong></span></div><div class="lcb">${s.map(p=>`<div class="lcr"><span class="lcn">${p.sn} <span class="wv ${p.wave==='AM'?'wam':'wpm'}" style="font-size:7px">${p.wave}</span>${p.isExpert?'<span class="ce" style="font-size:7px">🧠</span>':''}${p.isChalk?'<span class="ct">CH</span>':''}</span><span class="lcp">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}</div><div class="lcf"><span>SAL <strong>$${l.sal.toLocaleString()}</strong></span><span>OWN <strong>${l.tOwn.toFixed(1)}%</strong></span><span>LEV <strong>${l.aLev.toFixed(0)}</strong></span><span>SIMS <strong>${l.sc}</strong></span></div><div class="lcx"><button onclick="xPB('${id}','${t}',${i+1})">📥 CSV</button></div></div>`};
-document.getElementById('cg').innerHTML=cash.map((l,i)=>rc(l,i,'cash')).join('');
-document.getElementById('gg').innerHTML=gpp.map((l,i)=>rc(l,i,'gpp')).join('');
-btn.disabled=false;btn.textContent='▶ RUN 5M SIMULATIONS';simOn=false;
-setTimeout(()=>document.getElementById('gh').scrollIntoView({behavior:'smooth'}),200);
-}
-setTimeout(chunk,50);
-}
+
 function xPB(id,t,i){
-const r=window[`_lu_${id}`];if(!r)return;
-const h='G,G,G,G,G,G',n=r.map(p=>p.name).join(',');
-const blob=new Blob([h+'\n'+n],{type:'text/csv'});const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${t}_${i}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  const r=window[`_lu_${id}`];if(!r)return;
+  const h='G,G,G,G,G,G',n=r.map(p=>p.name).join(',');
+  const blob=new Blob([h+'\n'+n],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${t}_${i}.csv`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 </script>
 
