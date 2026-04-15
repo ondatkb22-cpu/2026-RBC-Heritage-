@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -34,6 +33,26 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .cr{border-color:rgba(248,113,113,.4);color:var(--red)}
 .cp{border-color:rgba(167,139,250,.4);color:var(--pur)}
 .cd{border-color:rgba(96,165,250,.4);color:var(--blu)}
+/* COLUMN KEY COMPACT */
+.ck{background:var(--sf);border:1px solid var(--bd);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.ck-h{padding:8px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;font-size:10px;font-weight:600;color:var(--tx3);transition:background .15s}
+.ck-h:hover{background:var(--sf2)}
+.ck-arr{font-size:8px;transition:transform .3s}
+.ck.open .ck-arr{transform:rotate(180deg)}
+.ck-b{max-height:0;opacity:0;overflow:hidden;transition:max-height .35s cubic-bezier(.25,1,.5,1),opacity .25s;padding:0}
+.ck.open .ck-b{max-height:600px;opacity:1;overflow-y:auto;padding:8px 12px 10px}
+.ck-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:5px}
+.ck-item{display:flex;gap:7px;padding:6px 8px;background:var(--sf2);border:1px solid var(--bd);border-radius:6px;align-items:flex-start}
+.ck-icon{font-size:13px;flex-shrink:0;line-height:1.2}
+.ck-label{font-size:10px;font-weight:700;color:var(--tx);margin-bottom:1px}
+.ck-desc{font-size:9px;color:var(--tx2);line-height:1.4}
+.ck-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;padding-top:6px;border-top:1px dashed var(--bd);align-items:center}
+.ck-tag{font-size:8px;font-family:var(--mn);padding:1px 5px;border-radius:3px;font-weight:700}
+.ck-tag-chalk{background:rgba(248,113,113,.12);color:var(--red)}
+.ck-tag-cps{background:rgba(167,139,250,.12);color:var(--pur)}
+.ck-tag-exp{background:rgba(251,191,36,.12);color:var(--gld)}
+.ck-tag-wave-am{background:rgba(251,191,36,.08);color:var(--gld)}
+.ck-tag-wave-pm{background:rgba(96,165,250,.08);color:var(--blu)}
 /* TABLE */
 .tw{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow-x:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);max-height:70vh;overflow-y:auto}
 .tw::-webkit-scrollbar{width:6px;height:6px}.tw::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
@@ -234,7 +253,6 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 </div>
 
 <!-- GUIDE -->
-
 <div class="pnl on" id="p-guide">
 <div class="g-hero">
 <h2>🏌️ Harbour Town — V5.4</h2>
@@ -285,29 +303,37 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 </ul>
 </div>
 <div class="g-section">
-<h3>💡 Sharp vs. Sheep</h3>
+<h3>💡 Sharp vs. Sheep — Final Wednesday Reads</h3>
 <div class="g-edge">
-<div class="g-edge-title">✅ Sharp Plays</div>
-<p><strong>Sepp Straka ($7,900)</strong> — 4-point steam confirmed. +5200→+4800→+4500→+4500. Sharp all week.<br>
-<strong>Min Woo Lee ($7,800)</strong> — Pat Mayo's first click. Elite ARG, under-owned.<br>
-<strong>Chris Gotterup ($8,100)</strong> — Low ball flight, #5 CPS, 2 wins this season.<br>
-<strong>Billy Horschel ($6,600)</strong> — #1 Contention Performance Score in field.<br>
-<strong>Andrew Putnam ($6,400)</strong> — Mispriced value. Course history improving each year.</p>
+<div class="g-edge-title">✅ SHARP PLAYS — Back These</div>
+<p>
+<strong>🔥 Daniel Berger ($7,300)</strong> — Biggest late steam of the week. +9000 → +8200 Wednesday. Sharp money arrived late. High Reddit fit (742), positive delta, under the radar.<br><br>
+<strong>🔥 Brian Harman ($7,000)</strong> — Second biggest late move. +9600 → +8200. Won here in 2023, knows this course cold. Touts sleeping on him entirely.<br><br>
+<strong>🚂 Sepp Straka ($7,900)</strong> — The cleanest 4-point steam in the field. +5200 → +4800 → +4500 → +4400. Sharps backed him every single day. Elite SG:APP, fits Harbour Town perfectly.<br><br>
+<strong>⚡ Min Woo Lee ($7,800)</strong> — +5500 → +5100 sustained steam. Pat Mayo's first click. Elite chipping and putting for these small greens. Low ownership vs. upside.<br><br>
+<strong>💰 Andrew Putnam ($6,400)</strong> — +30000 → +18000 → +18500 massive early steam now stabilized. Multiple analysts call this the most mispriced salary on the board. Best Δ/Fit value under $6,500.<br><br>
+<strong>💰 Billy Horschel ($6,600)</strong> — #1 Contention Performance Score in the entire field. If he's near the lead on Friday the sharps will pile on. Low salary, high upside.<br><br>
+<strong>Si Woo Kim ($8,900)</strong> — Quietly shortened from +3700 to +2900 all week. Won here in 2021. #7 Reddit fit score in the entire field (879/1000). Under-discussed by touts.
+</p>
 </div>
 <div class="g-fade">
-<div class="g-fade-title">⚠️ Sheep Chalk</div>
-<p><strong>Russell Henley ($9,600)</strong> — 25%+ ownership projected. Low great-round rate in contention.<br>
-<strong>Patrick Cantlay ($9,200)</strong> — 7 top-15s at Harbour Town, zero wins. Can't close.<br>
-<strong>S. Yellamaraju ($7,200)</strong> — Zero course history. Every tout is on him.<br>
-<strong>Jacob Bridgeman ($8,200)</strong> — Worst CPS in field. Folds on weekends.</p>
+<div class="g-fade-title">⚠️ SHEEP CHALK — Fade or Limit Exposure</div>
+<p>
+<strong>❌ Russell Henley ($9,600)</strong> — Drifted +1700 → +1750 Wednesday despite tout hype. Every analyst is on him. He'll be 25%+ owned. His great-round rate when in contention is historically very low — he fades on weekends.<br><br>
+<strong>❌ Patrick Cantlay ($9,200)</strong> — Drifted +2400 → +2500 → +2450. Market isn't as high on him as DK's salary suggests. Seven top-15s here, zero wins. RotoWire's "easiest click" = everyone has him.<br><br>
+<strong>❌ Taylor Pendrith ($6,900)</strong> — Significant drift: +12000 → +16500 → +19500. The market is actively fading him. One of the worst steam signals in the field. Avoid.<br><br>
+<strong>❌ Jason Day ($8,000)</strong> — Drifted hard: +4100 → +4600 → +4800 → +5100. Four days of consistent backing out. The market is leaving him behind.<br><br>
+<strong>❌ Jacob Bridgeman ($8,200)</strong> — Worst Contention Performance Score in the field per Blickle. Won Genesis leading Thursday/Friday, folded Saturday/Sunday. Harbour Town rewards closers. He isn't one.<br><br>
+<strong>⚠️ S. Yellamaraju ($7,200)</strong> — "Clearly too cheap" consensus = massive ownership. Zero course history at Harbour Town. Being cheap doesn't mean being good here.
+</p>
 </div>
 </div>
 </div>
 
 <!-- POOL -->
-
 <div class="pnl" id="p-pool">
 <div class="toolbar">
+
 <input class="srch" id="srch" placeholder="Search..." oninput="ren()">
 <button class="chip on" onclick="flt('all',this)">ALL</button>
 <button class="chip" onclick="flt('am',this)">☀️ AM</button>
@@ -318,6 +344,35 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 <button class="chip cr" onclick="flt('chalk',this)">🐑 CHALK</button>
 <button class="chip cp" onclick="flt('expert',this)">🧠 EXPERT 15</button>
 </div>
+<div class="ck" id="colKey">
+<div class="ck-h" onclick="document.getElementById('colKey').classList.toggle('open')">
+<span>📖 COLUMN KEY</span><span class="ck-arr">▼</span>
+</div>
+<div class="ck-b">
+<div class="ck-grid">
+<div class="ck-item"><div class="ck-icon">🏌️</div><div><div class="ck-label">Player</div><div class="ck-desc"><span class="ck-tag ck-tag-wave-am">AM</span> windier · <span class="ck-tag ck-tag-wave-pm">PM</span> calmer · 🔒 lock · ✕ exclude</div></div></div>
+<div class="ck-item"><div class="ck-icon">💵</div><div><div class="ck-label">Salary</div><div class="ck-desc">DK cost. $50k cap / 6 players. Target $49k+.</div></div></div>
+<div class="ck-item"><div class="ck-icon">🎲</div><div><div class="ck-label">Wed Odds</div><div class="ck-desc">Live win odds. Tiny = Sun→Mon→Tue history. <span style="color:var(--grn)">▼</span> shorter = sharp money. <span style="color:var(--red)">▲</span> longer = fading.</div></div></div>
+<div class="ck-item"><div class="ck-icon">📊</div><div><div class="ck-label">Spark S/M/T/W</div><div class="ck-desc">4 bars = implied win % each day. Climbing bars = sharps backing him all week.</div></div></div>
+<div class="ck-item"><div class="ck-icon">⚖️</div><div><div class="ck-label">Δ Delta</div><div class="ck-desc"><span style="color:var(--grn)">+</span> = DK underpriced vs. market (value). <span style="color:var(--red)">−</span> = DK overpriced him.</div></div></div>
+<div class="ck-item"><div class="ck-icon">🚂</div><div><div class="ck-label">Steam %</div><div class="ck-desc">Odds shift Sun→Wed. <span style="color:var(--grn)">Green</span> = sharp money. <span style="color:var(--red)">Red</span> = fading. 3/3🔥 = shortened every day.</div></div></div>
+<div class="ck-item"><div class="ck-icon">🏛️</div><div><div class="ck-label">Course Hist.</div><div class="ck-desc">Avg finish at Harbour Town. Lower = better. N/A = never played here.</div></div></div>
+<div class="ck-item" style="border-color:rgba(251,191,36,.25)"><div class="ck-icon">🎯</div><div><div class="ck-label">Fit (0–100)</div><div class="ck-desc">Game fit for Harbour Town. 24-stat Reddit model. 80+ elite · under 30 poor.</div></div></div>
+<div class="ck-item" style="border-color:rgba(251,191,36,.25)"><div class="ck-icon">⚡</div><div><div class="ck-label">Δ/Fit — KEY SCORE</div><div class="ck-desc">Delta × Fit. <strong>High = underpriced + fits this course.</strong> <span style="color:var(--gld)">Gold = best value</span>. Drives Pre-Built optimizer.</div></div></div>
+<div class="ck-item"><div class="ck-icon">👥</div><div><div class="ck-label">pOWN%</div><div class="ck-desc">% of lineups owning him. High = over-owned = less GPP edge. Target &lt;15% with good Fit.</div></div></div>
+<div class="ck-item"><div class="ck-icon">📈</div><div><div class="ck-label">Leverage (0–100)</div><div class="ck-desc">High Fit + low ownership = GPP edge. <span style="color:var(--gld)">Gold = tournament plays</span>. <span class="ck-tag ck-tag-cps">CPS+</span> = proven closer.</div></div></div>
+</div>
+<div class="ck-tags">
+<span style="font-size:8px;color:var(--tx3);font-weight:600">BADGES:</span>
+<span class="ck-tag ck-tag-exp">🧠 EXPERT</span><span style="font-size:8px;color:var(--tx3)">Top 15 fit</span>
+<span class="ck-tag ck-tag-chalk">CHALK</span><span style="font-size:8px;color:var(--tx3)">Over-hyped</span>
+<span class="ck-tag ck-tag-cps">CPS+</span><span style="font-size:8px;color:var(--tx3)">Elite closer</span>
+<span style="font-size:8px;font-family:var(--mn);font-weight:700;background:rgba(52,211,153,.2);color:var(--grn);border:1px solid rgba(52,211,153,.4);padding:1px 4px;border-radius:3px">3/3🔥</span><span style="font-size:8px;color:var(--tx3)">Steam all 3 days</span>
+<span class="ck-tag ck-tag-wave-am">AM</span><span class="ck-tag ck-tag-wave-pm">PM</span><span style="font-size:8px;color:var(--tx3)">Tee wave</span>
+</div>
+</div>
+</div>
+
 <div class="tw"><table><thead><tr>
 <th onclick="so('name')" data-c="name">🏌️ Player <span class="s">▼</span></th>
 <th onclick="so('price')" data-c="price">💵 <span class="s">▼</span></th>
@@ -334,7 +389,6 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 </div>
 
 <!-- BUILD -->
-
 <div class="pnl" id="p-build">
 <div class="bw">
 <div class="bm">
@@ -364,7 +418,6 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 </div>
 
 <!-- PRE-BUILT -->
-
 <div class="pnl" id="p-pre">
 <div class="ph">
 <h2>🎰 Pre-Built Lineups</h2>
@@ -431,90 +484,82 @@ const REDDIT_MS={
 };
 const EXPERT_TOP=Object.entries(REDDIT_MS).sort((a,b)=>b[1]-a[1]).slice(0,15).map(e=>e[0]);
 
-// s=Sunday, m=Monday, tu=Tuesday, t=Wednesday (live)
+// s=Sunday, m=Monday, tu=Tuesday, t=Wednesday FINAL (DK live lock-in)
+// Wednesday odds sourced directly from DraftKings RBC Heritage 2026 board
 const db=[
-{n:"Scottie Scheffler",  s:350,  m:370,  tu:385,  t:385,  w:"PM",p:13500,sa:.08,  bp:30.79,ch:19.7,sr:.618, px:18.4,gr:58.5},
-{n:"Xander Schauffele",  s:1450, m:1450, tu:1500, t:1500, w:"PM",p:10500,sa:.662, bp:23.5, ch:22,  sr:.009, px:20.9,gr:59.1},
-{n:"Tommy Fleetwood",    s:1700, m:1750, tu:1800, t:1800, w:"PM",p:10100,sa:.459, bp:24.44,ch:22.7,sr:.712, px:19.5,gr:62.2},
-{n:"Matt Fitzpatrick",   s:1950, m:1600, tu:1700, t:1700, w:"PM",p:10000,sa:.81,  bp:26.79,ch:23.8,sr:.309, px:22.9,gr:59.4},
-{n:"Cameron Young",      s:1700, m:1750, tu:1750, t:1750, w:"AM",p:9800, sa:.499, bp:26.16,ch:26.8,sr:.063, px:21,  gr:58.9},
-{n:"Russell Henley",     s:2100, m:1700, tu:1800, t:1800, w:"PM",p:9600, sa:.313, bp:25.23,ch:26.2,sr:.199, px:19.5,gr:63.1},
-{n:"Ludvig Åberg",       s:2050, m:2100, tu:2100, t:2100, w:"AM",p:9400, sa:.397, bp:27.31,ch:51.2,sr:.42,  px:20.7,gr:56},
-{n:"Collin Morikawa",    s:2350, m:2250, tu:2350, t:2350, w:"PM",p:9300, sa:1.066,bp:27.47,ch:20.3,sr:.039, px:18.7,gr:63.5},
-{n:"Patrick Cantlay",    s:2150, m:2400, tu:2500, t:2500, w:"PM",p:9200, sa:.146, bp:22.45,ch:3.5, sr:.247, px:20,  gr:61.4},
-{n:"Jake Knapp",         s:3000, m:3300, tu:3800, t:3800, w:"PM",p:9100, sa:.342, bp:26.07,ch:44.8,sr:.111, px:22.4,gr:59.5},
-{n:"Sam Burns",          s:2500, m:3000, tu:3500, t:3500, w:"PM",p:9000, sa:-.012,bp:25,   ch:37.9,sr:-.35, px:20.5,gr:56.8},
-{n:"Si Woo Kim",         s:3700, m:2700, tu:2800, t:2800, w:"AM",p:8900, sa:.912, bp:26.08,ch:41.1,sr:.142, px:19.6,gr:53.9},
-{n:"Jordan Spieth",      s:3700, m:3000, tu:3000, t:3000, w:"AM",p:8800, sa:.412, bp:22.22,ch:14.2,sr:.129, px:22.2,gr:61.2},
-{n:"Robert MacIntyre",   s:2900, m:3000, tu:2900, t:2900, w:"AM",p:8700, sa:-.247,bp:26.19,ch:58.5,sr:.12,  px:21.9,gr:60.9},
-{n:"Viktor Hovland",     s:3900, m:3500, tu:3400, t:3400, w:"AM",p:8600, sa:.575, bp:21.21,ch:40.1,sr:.24,  px:19.4,gr:63.8},
-{n:"Maverick McNealy",   s:3500, m:3600, tu:3700, t:3700, w:"AM",p:8500, sa:.176, bp:25.19,ch:38,  sr:.221, px:21.1,gr:55.7},
-{n:"Shane Lowry",        s:3900, m:5000, tu:5500, t:5500, w:"PM",p:8400, sa:.474, bp:24.17,ch:46.6,sr:-.085,px:19.6,gr:61.2},
-{n:"Justin Thomas",      s:3700, m:4100, tu:4000, t:4000, w:"AM",p:8300, sa:.325, bp:24.5, ch:18.5,sr:.259, px:18.9,gr:54.9},
-{n:"Jacob Bridgeman",    s:4400, m:4600, tu:4500, t:4500, w:"AM",p:8200, sa:.501, bp:28.3, ch:51.1,sr:-.152,px:21,  gr:54.4},
-{n:"Chris Gotterup",     s:4500, m:5100, tu:5300, t:5300, w:"AM",p:8100, sa:.436, bp:25.19,ch:44.3,sr:.296, px:23,  gr:61.6},
-{n:"Jason Day",          s:4100, m:4600, tu:4800, t:4800, w:"PM",p:8000, sa:-.352,bp:22.92,ch:55.3,sr:.457, px:20.6,gr:56.4},
-{n:"Sepp Straka",        s:5200, m:4800, tu:4500, t:4500, w:"AM",p:7900, sa:.568, bp:24.67,ch:32.1,sr:.128, px:19.1,gr:42},
-{n:"Harris English",     s:5000, m:5200, tu:5800, t:5800, w:"AM",p:7900, sa:-.214,bp:25.74,ch:55.2,sr:-.146,px:23.8,gr:50.5},
-{n:"Ben Griffin",        s:4100, m:4900, tu:5300, t:5300, w:"AM",p:7800, sa:-.115,bp:23.15,ch:43.4,sr:.454, px:22.2,gr:55.3},
-{n:"Min Woo Lee",        s:5500, m:5200, tu:5200, t:5200, w:"AM",p:7800, sa:.266, bp:28.97,ch:64.6,sr:.294, px:20.2,gr:38.9},
-{n:"Akshay Bhatia",      s:5300, m:5800, tu:6000, t:6000, w:"AM",p:7700, sa:.792, bp:28.22,ch:40.7,sr:.168, px:19.9,gr:39.3},
-{n:"Ryo Hisatsune",      s:8800, m:9000, tu:8800, t:8800, w:"AM",p:7700, sa:.576, bp:25.88,ch:41.3,sr:.181, px:21.9,gr:62.5},
-{n:"Rickie Fowler",      s:5700, m:6100, tu:6500, t:6500, w:"PM",p:7600, sa:.111, bp:24.21,ch:45.8,sr:-.318,px:21.2,gr:58.6},
-{n:"Sahith Theegala",    s:8200, m:8600, tu:7800, t:7800, w:"AM",p:7600, sa:.258, bp:23.39,ch:16.6,sr:.358, px:21.8,gr:55.6},
-{n:"J.J. Spaun",         s:5300, m:5000, tu:4900, t:4900, w:"AM",p:7500, sa:.587, bp:22.45,ch:67.5,sr:.013, px:19.9,gr:56.7},
-{n:"Nicolai Højgaard",   s:6900, m:7800, tu:8400, t:8400, w:"PM",p:7500, sa:.712, bp:23.41,ch:60.5,sr:.113, px:21,  gr:60.7},
-{n:"Harry Hall",         s:6400, m:7600, tu:8000, t:8000, w:"AM",p:7400, sa:-.152,bp:24.79,ch:38.5,sr:.538, px:21,  gr:54.3},
-{n:"Ryan Gerard",        s:7600, m:7600, tu:7600, t:7600, w:"AM",p:7400, sa:.712, bp:25.87,ch:58.1,sr:-.276,px:21.1,gr:57.4},
-{n:"Wyndham Clark",      s:1600, m:10500,tu:11500,t:11500,w:"PM",p:7300, sa:.542, bp:24,   ch:19.5,sr:.153, px:20.5,gr:57},
-{n:"Daniel Berger",      s:9400, m:9000, tu:9000, t:9000, w:"PM",p:7300, sa:.849, bp:24.07,ch:44.1,sr:-.415,px:20.4,gr:57.1},
-{n:"J.T. Poston",        s:8800, m:8400, tu:8600, t:8600, w:"AM",p:7200, sa:-.066,bp:22.22,ch:36.6,sr:-.299,px:22.4,gr:53.8},
-{n:"Sam Stevens",        s:8200, m:7600, tu:8000, t:8000, w:"PM",p:7200, sa:.328, bp:23.69,ch:50.4,sr:-.006,px:22.9,gr:64.6},
-{n:"S. Yellamaraju",     s:11500,m:12000,tu:12000,t:12000,w:"PM",p:7200, sa:.474, bp:26.19,ch:75,  sr:-.188,px:19.8,gr:56.7},
-{n:"Alex Noren",         s:6400, m:5700, tu:6000, t:6000, w:"PM",p:7100, sa:-.073,bp:24.44,ch:42.6,sr:.498, px:22.2,gr:56.1},
-{n:"Kurt Kitayama",      s:7200, m:7600, tu:8800, t:8800, w:"PM",p:7100, sa:.728, bp:21.65,ch:62.4,sr:-.239,px:20.5,gr:58.5},
-{n:"Nick Taylor",        s:8200, m:9000, tu:8800, t:8800, w:"AM",p:7100, sa:.408, bp:21.41,ch:48.1,sr:.503, px:20.6,gr:53.4},
-{n:"Brian Harman",       s:12000,m:9600, tu:9600, t:9600, w:"AM",p:7000, sa:-.108,bp:21.26,ch:15.5,sr:.132, px:20.5,gr:57.8},
-{n:"Marco Penge",        s:30000,m:15500,tu:15500,t:15500,w:"AM",p:7000, sa:-.378,bp:22,   ch:75,  sr:-.246,px:22.5,gr:57},
-{n:"Corey Conners",      s:9000, m:8600, tu:9000, t:9000, w:"PM",p:7000, sa:.622, bp:20.73,ch:28,  sr:-.136,px:19.4,gr:50.8},
-{n:"Keegan Bradley",     s:10000,m:8600, tu:9200, t:9000, w:"AM",p:6900, sa:-.469,bp:22.98,ch:55.5,sr:.272, px:19.4,gr:60.2},
-{n:"Max Homa",           s:12000,m:12000,tu:12500,t:12500,w:"PM",p:6900, sa:.25,  bp:23.08,ch:51,  sr:-.21, px:21.3,gr:56.1},
-{n:"Taylor Pendrith",    s:12000,m:15500,tu:16500,t:16500,w:"AM",p:6900, sa:-.184,bp:21.65,ch:65.2,sr:.183, px:22.3,gr:58.9},
-{n:"Gary Woodland",      s:16000,m:16000,tu:15500,t:15500,w:"AM",p:6800, sa:-.031,bp:22,   ch:42.3,sr:-.397,px:23.3,gr:57},
-{n:"Michael Thorbjornsen",s:6700,m:8400, tu:8800, t:8800, w:"AM",p:7300, sa:-.078,bp:22.58,ch:75,  sr:.229, px:22.8,gr:59.1},
-{n:"Matt McCarty",       s:20000,m:13000,tu:13000,t:13000,w:"AM",p:6800, sa:-.1,  bp:22,   ch:75,  sr:-.297,px:23.5,gr:57},
-{n:"Nico Echavarria",    s:20000,m:28000,tu:29000,t:29000,w:"AM",p:6800, sa:.073, bp:22,   ch:60.5,sr:-.421,px:22.5,gr:57},
-{n:"Sungjae Im",         s:11000,m:10000,tu:9800, t:9800, w:"AM",p:6700, sa:-.24, bp:23.12,ch:10.6,sr:.307, px:23.2,gr:57.3},
-{n:"Andrew Novak",       s:16000,m:13500,tu:14000,t:14000,w:"AM",p:6700, sa:-.051,bp:22,   ch:52.4,sr:.139, px:22.5,gr:57},
-{n:"Ricky Castillo",     s:13500,m:18000,tu:18500,t:18500,w:"AM",p:6700, sa:-.301,bp:24.48,ch:75,  sr:.227, px:23.7,gr:65.6},
-{n:"Billy Horschel",     s:15000,m:23000,tu:22500,t:22500,w:"AM",p:6600, sa:.11,  bp:22,   ch:56.7,sr:-.147,px:20.3,gr:57},
-{n:"Matt Wallace",       s:13000,m:15500,tu:16000,t:16000,w:"AM",p:6600, sa:.159, bp:20.29,ch:67.5,sr:.19,  px:22.6,gr:62.1},
-{n:"Tony Finau",         s:21000,m:22500,tu:22500,t:22500,w:"AM",p:6600, sa:.18,  bp:22,   ch:31,  sr:.3,   px:21.6,gr:57},
-{n:"Pierceson Coody",    s:11500,m:16500,tu:18000,t:18000,w:"PM",p:6500, sa:.314, bp:25.93,ch:65.1,sr:-.399,px:22.1,gr:56.7},
-{n:"Jordan Smith",       s:14500,m:16000,tu:17000,t:17000,w:"AM",p:6500, sa:.454, bp:22.22,ch:75,  sr:-.216,px:23.9,gr:58.7},
-{n:"Bud Cauley",         s:16000,m:16000,tu:17000,t:17000,w:"PM",p:6500, sa:.287, bp:22,   ch:58.2,sr:.196, px:22.5,gr:57},
-{n:"Denny McCarthy",     s:15000,m:16000,tu:16500,t:16500,w:"AM",p:6500, sa:-.002,bp:22,   ch:39.2,sr:-.087,px:22.5,gr:57},
-{n:"Michael Brennan",    s:22000,m:22000,tu:22500,t:22500,w:"AM",p:6400, sa:.15,  bp:22,   ch:75,  sr:-.593,px:22.4,gr:57},
-{n:"Michael Kim",        s:22500,m:21000,tu:23000,t:23000,w:"PM",p:6400, sa:-.114,bp:22,   ch:68.3,sr:.121, px:22.5,gr:57},
-{n:"Patrick Rodgers",    s:24000,m:30000,tu:30000,t:30000,w:"AM",p:6400, sa:.173, bp:22,   ch:22.4,sr:.163, px:22.3,gr:57},
-{n:"Andrew Putnam",      s:30000,m:17000,tu:18000,t:18000,w:"PM",p:6400, sa:.24,  bp:22,   ch:44.8,sr:.515, px:22.5,gr:57},
-{n:"Austin Smotherman",  s:21000,m:19500,tu:21000,t:21000,w:"PM",p:6300, sa:.874, bp:22,   ch:66.5,sr:-.254,px:22.5,gr:57},
-{n:"Ryan Fox",           s:20000,m:26000,tu:28000,t:28000,w:"PM",p:6300, sa:-.083,bp:22,   ch:75,  sr:.172, px:22.5,gr:57},
-{n:"Johnny Keefer",      s:28000,m:37000,tu:36000,t:36000,w:"AM",p:6300, sa:.331, bp:22,   ch:75,  sr:-.43, px:21.2,gr:57},
-{n:"Sami Valimaki",      s:34000,m:27000,tu:29000,t:29000,w:"PM",p:6300, sa:-.088,bp:22,   ch:65.5,sr:-.121,px:22.3,gr:57},
-{n:"Chandler Blanchet",  s:60000,m:42000,tu:44000,t:44000,w:"AM",p:6200, sa:-.097,bp:22,   ch:75,  sr:-.436,px:22.5,gr:57},
-{n:"William Mouw",       s:35000,m:43000,tu:47500,t:47500,w:"PM",p:6200, sa:-.013,bp:22,   ch:75,  sr:-.414,px:23.1,gr:57},
-{n:"Lucas Glover",       s:57500,m:50000,tu:52500,t:52500,w:"AM",p:6200, sa:-.349,bp:22,   ch:55.98,sr:-.118,px:19.5,gr:57},
-{n:"Tom Hoge",           s:80000,m:87500,tu:87500,t:87500,w:"AM",p:6200, sa:.159, bp:22,   ch:56.48,sr:-.399,px:18.4,gr:57},
-{n:"Steven Fisk",        s:40000,m:48000,tu:50000,t:50000,w:"AM",p:6100, sa:-.207,bp:22,   ch:75,  sr:-.06, px:22.9,gr:57},
-{n:"Karl Vilips",        s:55000,m:67500,tu:67500,t:67500,w:"AM",p:6100, sa:.147, bp:22,   ch:65.5,sr:-.351,px:22.3,gr:57},
-{n:"Garrick Higgo",      s:57500,m:62500,tu:67500,t:67500,w:"PM",p:6100, sa:-.967,bp:22,   ch:51.8,sr:-.248,px:23.6,gr:57},
-{n:"Aldrich Potgieter",  s:67500,m:80000,tu:90000,t:90000,w:"PM",p:6100, sa:-.304,bp:22,   ch:75,  sr:-.456,px:22,  gr:57},
-{n:"Jhonattan Vegas",    s:57500,m:70000,tu:77500,t:77500,w:"PM",p:6000, sa:-.455,bp:22,   ch:75,  sr:-.265,px:22.6,gr:57},
-{n:"David Lipsky",       s:62500,m:52500,tu:55000,t:55000,w:"AM",p:6000, sa:.192, bp:22,   ch:60,  sr:.524, px:20.8,gr:57},
-{n:"Brian Campbell",     s:170000,m:82500,tu:87500,t:87500,w:"AM",p:6000,sa:-.753,bp:22,   ch:64.25,sr:-.364,px:23.6,gr:57},
-{n:"Adam Schenk",        s:180000,m:190000,tu:200000,t:200000,w:"AM",p:6000,sa:-.436,bp:22,ch:45.1,sr:.034, px:22.5,gr:57},
-{n:"Joe Highsmith",      s:200000,m:170000,tu:190000,t:190000,w:"AM",p:6000,sa:-.112,bp:22,ch:74.25,sr:-.338,px:22.5,gr:57}
+{n:"Scottie Scheffler",   s:350,  m:370,  tu:385,  t:380,  w:"PM",p:13500,sa:.08,  bp:30.79,ch:19.7, sr:.618, px:18.4,gr:58.5},
+{n:"Xander Schauffele",   s:1450, m:1450, tu:1500, t:1475, w:"PM",p:10500,sa:.662, bp:23.5, ch:22,   sr:.009, px:20.9,gr:59.1},
+{n:"Tommy Fleetwood",     s:1700, m:1750, tu:1800, t:1850, w:"PM",p:10100,sa:.459, bp:24.44,ch:22.7, sr:.712, px:19.5,gr:62.2},
+{n:"Matt Fitzpatrick",    s:1950, m:1600, tu:1700, t:1650, w:"PM",p:10000,sa:.81,  bp:26.79,ch:23.8, sr:.309, px:22.9,gr:59.4},
+{n:"Cameron Young",       s:1700, m:1750, tu:1750, t:1700, w:"AM",p:9800, sa:.499, bp:26.16,ch:26.8, sr:.063, px:21,  gr:58.9},
+{n:"Russell Henley",      s:2100, m:1700, tu:1800, t:1750, w:"PM",p:9600, sa:.313, bp:25.23,ch:26.2, sr:.199, px:19.5,gr:63.1},
+{n:"Ludvig Åberg",        s:2050, m:2100, tu:2100, t:2050, w:"AM",p:9400, sa:.397, bp:27.31,ch:51.2, sr:.42,  px:20.7,gr:56},
+{n:"Collin Morikawa",     s:2350, m:2250, tu:2350, t:2300, w:"PM",p:9300, sa:1.066,bp:27.47,ch:20.3, sr:.039, px:18.7,gr:63.5},
+{n:"Patrick Cantlay",     s:2150, m:2400, tu:2500, t:2450, w:"PM",p:9200, sa:.146, bp:22.45,ch:3.5,  sr:.247, px:20,  gr:61.4},
+{n:"Jake Knapp",          s:3000, m:3300, tu:3800, t:3800, w:"PM",p:9100, sa:.342, bp:26.07,ch:44.8, sr:.111, px:22.4,gr:59.5},
+{n:"Sam Burns",           s:2500, m:3000, tu:3500, t:3400, w:"PM",p:9000, sa:-.012,bp:25,   ch:37.9, sr:-.35, px:20.5,gr:56.8},
+{n:"Si Woo Kim",          s:3700, m:2700, tu:2800, t:2900, w:"AM",p:8900, sa:.912, bp:26.08,ch:41.1, sr:.142, px:19.6,gr:53.9},
+{n:"Jordan Spieth",       s:3700, m:3000, tu:3000, t:2900, w:"AM",p:8800, sa:.412, bp:22.22,ch:14.2, sr:.129, px:22.2,gr:61.2},
+{n:"Robert MacIntyre",    s:2900, m:3000, tu:2900, t:3100, w:"AM",p:8700, sa:-.247,bp:26.19,ch:58.5, sr:.12,  px:21.9,gr:60.9},
+{n:"Viktor Hovland",      s:3900, m:3500, tu:3400, t:3400, w:"AM",p:8600, sa:.575, bp:21.21,ch:40.1, sr:.24,  px:19.4,gr:63.8},
+{n:"Maverick McNealy",    s:3500, m:3600, tu:3700, t:3700, w:"AM",p:8500, sa:.176, bp:25.19,ch:38,   sr:.221, px:21.1,gr:55.7},
+{n:"Shane Lowry",         s:3900, m:5000, tu:5500, t:5300, w:"PM",p:8400, sa:.474, bp:24.17,ch:46.6, sr:-.085,px:19.6,gr:61.2},
+{n:"Justin Thomas",       s:3700, m:4100, tu:4000, t:4300, w:"AM",p:8300, sa:.325, bp:24.5, ch:18.5, sr:.259, px:18.9,gr:54.9},
+{n:"Jacob Bridgeman",     s:4400, m:4600, tu:4500, t:4400, w:"AM",p:8200, sa:.501, bp:28.3, ch:51.1, sr:-.152,px:21,  gr:54.4},
+{n:"Chris Gotterup",      s:4500, m:5100, tu:5300, t:5200, w:"AM",p:8100, sa:.436, bp:25.19,ch:44.3, sr:.296, px:23,  gr:61.6},
+{n:"Jason Day",           s:4100, m:4600, tu:4800, t:5100, w:"PM",p:8000, sa:-.352,bp:22.92,ch:55.3, sr:.457, px:20.6,gr:56.4},
+{n:"Sepp Straka",         s:5200, m:4800, tu:4500, t:4400, w:"AM",p:7900, sa:.568, bp:24.67,ch:32.1, sr:.128, px:19.1,gr:42},
+{n:"Harris English",      s:5000, m:5200, tu:5800, t:6000, w:"AM",p:7900, sa:-.214,bp:25.74,ch:55.2, sr:-.146,px:23.8,gr:50.5},
+{n:"Ben Griffin",         s:4100, m:4900, tu:5300, t:5400, w:"AM",p:7800, sa:-.115,bp:23.15,ch:43.4, sr:.454, px:22.2,gr:55.3},
+{n:"Min Woo Lee",         s:5500, m:5200, tu:5200, t:5100, w:"AM",p:7800, sa:.266, bp:28.97,ch:64.6, sr:.294, px:20.2,gr:38.9},
+{n:"Akshay Bhatia",       s:5300, m:5800, tu:6000, t:5900, w:"AM",p:7700, sa:.792, bp:28.22,ch:40.7, sr:.168, px:19.9,gr:39.3},
+{n:"Ryo Hisatsune",       s:8800, m:9000, tu:8800, t:8600, w:"AM",p:7700, sa:.576, bp:25.88,ch:41.3, sr:.181, px:21.9,gr:62.5},
+{n:"Rickie Fowler",       s:5700, m:6100, tu:6500, t:6300, w:"PM",p:7600, sa:.111, bp:24.21,ch:45.8, sr:-.318,px:21.2,gr:58.6},
+{n:"Sahith Theegala",     s:8200, m:8600, tu:7800, t:7800, w:"AM",p:7600, sa:.258, bp:23.39,ch:16.6, sr:.358, px:21.8,gr:55.6},
+{n:"J.J. Spaun",          s:5300, m:5000, tu:4900, t:5300, w:"AM",p:7500, sa:.587, bp:22.45,ch:67.5, sr:.013, px:19.9,gr:56.7},
+{n:"Nicolai Højgaard",    s:6900, m:7800, tu:8400, t:8600, w:"PM",p:7500, sa:.712, bp:23.41,ch:60.5, sr:.113, px:21,  gr:60.7},
+{n:"Harry Hall",          s:6400, m:7600, tu:8000, t:8400, w:"AM",p:7400, sa:-.152,bp:24.79,ch:38.5, sr:.538, px:21,  gr:54.3},
+{n:"Ryan Gerard",         s:7600, m:7600, tu:7600, t:7400, w:"AM",p:7400, sa:.712, bp:25.87,ch:58.1, sr:-.276,px:21.1,gr:57.4},
+{n:"Wyndham Clark",       s:1600, m:10500,tu:11500,t:11000,w:"PM",p:7300, sa:.542, bp:24,   ch:19.5, sr:.153, px:20.5,gr:57},
+{n:"Daniel Berger",       s:9400, m:9000, tu:9000, t:8200, w:"PM",p:7300, sa:.849, bp:24.07,ch:44.1, sr:-.415,px:20.4,gr:57.1},
+{n:"J.T. Poston",         s:8800, m:8400, tu:8600, t:8600, w:"AM",p:7200, sa:-.066,bp:22.22,ch:36.6, sr:-.299,px:22.4,gr:53.8},
+{n:"Sam Stevens",         s:8200, m:7600, tu:8000, t:7800, w:"PM",p:7200, sa:.328, bp:23.69,ch:50.4, sr:-.006,px:22.9,gr:64.6},
+{n:"S. Yellamaraju",      s:11500,m:12000,tu:12000,t:11500,w:"PM",p:7200, sa:.474, bp:26.19,ch:75,   sr:-.188,px:19.8,gr:56.7},
+{n:"Alex Noren",          s:6400, m:5700, tu:6000, t:6200, w:"PM",p:7100, sa:-.073,bp:24.44,ch:42.6, sr:.498, px:22.2,gr:56.1},
+{n:"Kurt Kitayama",       s:7200, m:7600, tu:8800, t:9400, w:"PM",p:7100, sa:.728, bp:21.65,ch:62.4, sr:-.239,px:20.5,gr:58.5},
+{n:"Nick Taylor",         s:8200, m:9000, tu:8800, t:9000, w:"AM",p:7100, sa:.408, bp:21.41,ch:48.1, sr:.503, px:20.6,gr:53.4},
+{n:"Brian Harman",        s:12000,m:9600, tu:9600, t:8200, w:"AM",p:7000, sa:-.108,bp:21.26,ch:15.5, sr:.132, px:20.5,gr:57.8},
+{n:"Marco Penge",         s:30000,m:15500,tu:15500,t:16500,w:"AM",p:7000, sa:-.378,bp:22,   ch:75,   sr:-.246,px:22.5,gr:57},
+{n:"Corey Conners",       s:9000, m:8600, tu:9000, t:8600, w:"PM",p:7000, sa:.622, bp:20.73,ch:28,   sr:-.136,px:19.4,gr:50.8},
+{n:"Keegan Bradley",      s:10000,m:8600, tu:9200, t:8800, w:"AM",p:6900, sa:-.469,bp:22.98,ch:55.5, sr:.272, px:19.4,gr:60.2},
+{n:"Max Homa",            s:12000,m:12000,tu:12500,t:12500,w:"PM",p:6900, sa:.25,  bp:23.08,ch:51,   sr:-.21, px:21.3,gr:56.1},
+{n:"Taylor Pendrith",     s:12000,m:15500,tu:16500,t:19500,w:"AM",p:6900, sa:-.184,bp:21.65,ch:65.2, sr:.183, px:22.3,gr:58.9},
+{n:"Gary Woodland",       s:16000,m:16000,tu:15500,t:15500,w:"AM",p:6800, sa:-.031,bp:22,   ch:42.3, sr:-.397,px:23.3,gr:57},
+{n:"Michael Thorbjornsen",s:6700, m:8400, tu:8800, t:8600, w:"AM",p:7300, sa:-.078,bp:22.58,ch:75,   sr:.229, px:22.8,gr:59.1},
+{n:"Matt McCarty",        s:20000,m:13000,tu:13000,t:14500,w:"AM",p:6800, sa:-.1,  bp:22,   ch:75,   sr:-.297,px:23.5,gr:57},
+{n:"Nico Echavarria",     s:20000,m:28000,tu:29000,t:33000,w:"AM",p:6800, sa:.073, bp:22,   ch:60.5, sr:-.421,px:22.5,gr:57},
+{n:"Sungjae Im",          s:11000,m:10000,tu:9800, t:9600, w:"AM",p:6700, sa:-.24, bp:23.12,ch:10.6, sr:.307, px:23.2,gr:57.3},
+{n:"Andrew Novak",        s:16000,m:13500,tu:14000,t:15000,w:"AM",p:6700, sa:-.051,bp:22,   ch:52.4, sr:.139, px:22.5,gr:57},
+{n:"Ricky Castillo",      s:13500,m:18000,tu:18500,t:18000,w:"AM",p:6700, sa:-.301,bp:24.48,ch:75,   sr:.227, px:23.7,gr:65.6},
+{n:"Billy Horschel",      s:15000,m:23000,tu:22500,t:25000,w:"AM",p:6600, sa:.11,  bp:22,   ch:56.7, sr:-.147,px:20.3,gr:57},
+{n:"Matt Wallace",        s:13000,m:15500,tu:16000,t:16500,w:"AM",p:6600, sa:.159, bp:20.29,ch:67.5, sr:.19,  px:22.6,gr:62.1},
+{n:"Tony Finau",          s:21000,m:22500,tu:22500,t:21000,w:"AM",p:6600, sa:.18,  bp:22,   ch:31,   sr:.3,   px:21.6,gr:57},
+{n:"Pierceson Coody",     s:11500,m:16500,tu:18000,t:17500,w:"PM",p:6500, sa:.314, bp:25.93,ch:65.1, sr:-.399,px:22.1,gr:56.7},
+{n:"Jordan Smith",        s:14500,m:16000,tu:17000,t:17500,w:"AM",p:6500, sa:.454, bp:22.22,ch:75,   sr:-.216,px:23.9,gr:58.7},
+{n:"Bud Cauley",          s:16000,m:16000,tu:17000,t:16500,w:"PM",p:6500, sa:.287, bp:22,   ch:58.2, sr:.196, px:22.5,gr:57},
+{n:"Denny McCarthy",      s:15000,m:16000,tu:16500,t:16000,w:"AM",p:6500, sa:-.002,bp:22,   ch:39.2, sr:-.087,px:22.5,gr:57},
+{n:"Michael Brennan",     s:22000,m:22000,tu:22500,t:25000,w:"AM",p:6400, sa:.15,  bp:22,   ch:75,   sr:-.593,px:22.4,gr:57},
+{n:"Michael Kim",         s:22500,m:21000,tu:23000,t:24000,w:"PM",p:6400, sa:-.114,bp:22,   ch:68.3, sr:.121, px:22.5,gr:57},
+{n:"Patrick Rodgers",     s:24000,m:30000,tu:30000,t:29000,w:"AM",p:6400, sa:.173, bp:22,   ch:22.4, sr:.163, px:22.3,gr:57},
+{n:"Andrew Putnam",       s:30000,m:17000,tu:18000,t:18500,w:"PM",p:6400, sa:.24,  bp:22,   ch:44.8, sr:.515, px:22.5,gr:57},
+{n:"Austin Smotherman",   s:21000,m:19500,tu:21000,t:20000,w:"PM",p:6300, sa:.874, bp:22,   ch:66.5, sr:-.254,px:22.5,gr:57},
+{n:"Ryan Fox",            s:20000,m:26000,tu:28000,t:30000,w:"PM",p:6300, sa:-.083,bp:22,   ch:75,   sr:.172, px:22.5,gr:57},
+{n:"Johnny Keefer",       s:28000,m:37000,tu:36000,t:38000,w:"AM",p:6300, sa:.331, bp:22,   ch:75,   sr:-.43, px:21.2,gr:57},
+{n:"Sami Valimaki",       s:34000,m:27000,tu:29000,t:29000,w:"PM",p:6300, sa:-.088,bp:22,   ch:65.5, sr:-.121,px:22.3,gr:57},
+{n:"William Mouw",        s:35000,m:43000,tu:47500,t:45000,w:"PM",p:6200, sa:-.013,bp:22,   ch:75,   sr:-.414,px:23.1,gr:57},
+{n:"Lucas Glover",        s:57500,m:50000,tu:52500,t:50000,w:"AM",p:6200, sa:-.349,bp:22,   ch:55.98,sr:-.118,px:19.5,gr:57},
+{n:"Steven Fisk",         s:40000,m:48000,tu:50000,t:50000,w:"AM",p:6100, sa:-.207,bp:22,   ch:75,   sr:-.06, px:22.9,gr:57},
+{n:"David Lipsky",        s:62500,m:52500,tu:55000,t:52500,w:"AM",p:6000, sa:.192, bp:22,   ch:60,   sr:.524, px:20.8,gr:57}
 ];
 
 let P=[],CF='all',SC='composite',SA=false,lastLU=null;
@@ -983,6 +1028,5 @@ function xPB(id,t,i){
   document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 </script>
-
 </body>
 </html>
