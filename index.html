@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Plaid Genie V5.1 — Heritage Optimizer</title>
+<title>Plaid Genie V5.2 — Heritage Optimizer</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#050507;--sf:#0E0E12;--sf2:#151519;--sf3:#1B1B21;--gl:rgba(14,14,18,.88);--bd:#27272F;--bd2:#35353F;--tx:#EAEAEF;--tx2:#9898A6;--tx3:#5E5E6E;--grn:#34D399;--red:#F87171;--gld:#FBBF24;--blu:#60A5FA;--pur:#A78BFA;--fn:'DM Sans',sans-serif;--mn:'DM Mono',monospace}
@@ -31,6 +32,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .chip.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
 .cg{border-color:rgba(52,211,153,.4);color:var(--grn)}
 .cr{border-color:rgba(248,113,113,.4);color:var(--red)}
+.cd{border-color:rgba(96,165,250,.4);color:var(--blu)}
 /* COLUMN KEY */
 .ck{background:var(--sf);border:1px solid var(--bd);border-radius:12px;margin-bottom:14px;overflow:hidden}
 .ck-h{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;font-weight:600;font-size:11px;color:var(--tx2);transition:background .15s}
@@ -38,7 +40,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ck-arr{font-size:9px;transition:transform .3s;color:var(--tx3)}
 .ck.open .ck-arr{transform:rotate(180deg)}
 .ck-b{max-height:0;opacity:0;overflow:hidden;transition:max-height .4s cubic-bezier(.25,1,.5,1),opacity .3s,padding .3s;padding:0 16px}
-.ck.open .ck-b{max-height:800px;opacity:1;padding:0 16px 16px}
+.ck.open .ck-b{max-height:1200px;opacity:1;padding:0 16px 16px}
 .ck-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
 .ck-item{display:flex;gap:10px;padding:10px 12px;background:var(--sf2);border:1px solid var(--bd);border-radius:8px;align-items:flex-start}
 .ck-icon{font-size:16px;flex-shrink:0;line-height:1}
@@ -52,29 +54,27 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ck-tag-cps{background:rgba(167,139,250,.12);color:var(--pur)}
 .ck-tag-wave-am{background:rgba(251,191,36,.08);color:var(--gld)}
 .ck-tag-wave-pm{background:rgba(96,165,250,.08);color:var(--blu)}
-/* LIGHTHOUSE */
-.lh-icon{display:inline-block;width:12px;height:12px;flex-shrink:0;vertical-align:middle;margin-right:2px}
-.cd{border-color:rgba(96,165,250,.4);color:var(--blu)}
 .tw{background:var(--sf);border:1px solid var(--bd);border-radius:14px;overflow-x:auto;box-shadow:0 12px 40px rgba(0,0,0,.5);max-height:70vh;overflow-y:auto}
 .tw::-webkit-scrollbar{width:6px;height:6px}.tw::-webkit-scrollbar-thumb{background:var(--bd);border-radius:3px}
-table{width:100%;border-collapse:collapse;min-width:1000px}
+table{width:100%;border-collapse:collapse;min-width:900px}
 th{padding:10px 8px;font-size:12px;font-weight:600;color:var(--tx3);border-bottom:1px solid var(--bd);cursor:pointer;text-align:center;user-select:none;position:sticky;top:0;background:var(--sf);z-index:5}
-th:first-child{text-align:left;padding-left:14px;left:0;z-index:10;border-right:1px solid var(--bd)}
+th:first-child{text-align:left;padding-left:12px;left:0;z-index:10;border-right:1px solid var(--bd)}
 th.act{color:var(--blu)}
 th .s{opacity:.3;font-size:8px;margin-left:2px}
 th.act .s{opacity:1}
 td{padding:7px 8px;border-bottom:1px solid var(--bd);font-size:11px;text-align:center;vertical-align:middle}
-td:first-child{text-align:left;padding-left:14px;position:sticky;left:0;background:var(--sf);z-index:4;border-right:1px solid var(--bd)}
+td:first-child{text-align:left;padding-left:12px;position:sticky;left:0;background:var(--sf);z-index:4;border-right:1px solid var(--bd)}
 tr:last-child td{border-bottom:none}
 tbody tr{transition:background .12s}
 tbody tr:hover{background:var(--sf2)}
 tbody tr:hover td:first-child{background:var(--sf2)}
-.pn{display:flex;align-items:center;gap:6px;font-weight:600;color:#fff;font-size:11px}
+.pn{display:flex;align-items:center;gap:5px;font-weight:600;color:#fff;font-size:11px;flex-wrap:wrap}
+.pname{white-space:nowrap}
 .wv{font-size:7px;padding:1px 4px;border-radius:4px;font-weight:700;font-family:var(--mn)}
 .wam{color:var(--gld);background:rgba(251,191,36,.08)}
 .wpm{color:var(--blu);background:rgba(96,165,250,.08)}
-.acts{display:flex;gap:4px;margin-top:2px}
-.bi{width:24px;height:24px;border-radius:5px;border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;transition:.15s}
+.acts{display:flex;gap:4px;margin-top:3px}
+.bi{width:22px;height:22px;border-radius:5px;border:1px solid var(--bd);background:transparent;color:var(--tx3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;transition:.15s}
 .bi:hover{background:var(--bd);color:#fff}
 .bi.lk{background:rgba(251,191,36,.12);border-color:var(--gld);color:var(--gld)}
 .bi.ex{background:rgba(248,113,113,.12);border-color:var(--red);color:var(--red)}
@@ -83,24 +83,29 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .vg{color:var(--grn);font-weight:700}.vr{color:var(--red)}.vgl{color:var(--gld);font-weight:700}
 .mn{font-family:var(--mn)}
 .na{color:var(--tx3);font-style:italic;font-size:9px}
-.ct{font-size:7px;background:rgba(248,113,113,.12);color:var(--red);padding:1px 4px;border-radius:3px;font-weight:700;margin-left:3px;font-family:var(--mn)}
+.ct{font-size:7px;background:rgba(248,113,113,.12);color:var(--red);padding:1px 4px;border-radius:3px;font-weight:700;font-family:var(--mn)}
 .sp{display:inline-flex;align-items:flex-end;gap:1px;height:16px}
 .sb{width:4px;border-radius:1px 1px 0 0}
-.oc{font-family:var(--mn);font-size:10px;line-height:1.4}
-.oo{color:var(--tx3);font-size:8px}
-.os{color:var(--grn)}.od{color:var(--red)}
+.os{color:var(--grn);font-weight:700}.od{color:var(--red);font-weight:700}.oflat{color:var(--tx2)}
 /* BUILD */
 .bw{display:grid;grid-template-columns:1fr 340px;gap:16px}
 @media(max-width:900px){.bw{grid-template-columns:1fr}}
 .bm{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px}
 .bm h3{font-size:16px;font-weight:700;margin-bottom:4px}
 .bm>p{color:var(--tx2);font-size:11px;margin-bottom:14px}
-.ba{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.bb{background:var(--sf2);border:1px solid var(--bd);color:var(--tx);padding:14px;border-radius:10px;cursor:pointer;transition:.2s;text-align:left;font-family:var(--fn)}
-.bb:hover{border-color:var(--blu);transform:translateY(-1px)}
-.bb.ca{border-left:3px solid var(--grn)}.bb.gp{border-left:3px solid var(--blu)}
-.bt{font-size:13px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px}
-.bs2{font-size:10px;color:var(--tx2);line-height:1.3}
+.bb{background:linear-gradient(135deg,var(--blu),var(--pur));border:none;color:#fff;padding:16px;border-radius:12px;cursor:pointer;transition:.2s;text-align:center;font-family:var(--fn);width:100%;margin-bottom:14px;font-weight:700;font-size:14px;letter-spacing:.5px}
+.bb:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(96,165,250,.3)}
+.bbt{font-size:15px;font-weight:700;margin-bottom:2px}
+.bbs{font-size:10px;opacity:.85;font-weight:500}
+/* RAG BAR */
+.ragwrap{margin-top:10px;margin-bottom:14px;background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;display:none}
+.ragwrap.on{display:block}
+.raghd{font-size:9px;color:var(--tx3);font-family:var(--mn);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between}
+.ragbar{display:flex;flex-wrap:wrap;gap:5px}
+.rag{font-size:9px;padding:3px 7px;border-radius:5px;font-family:var(--mn);font-weight:600;display:inline-flex;align-items:center;gap:4px}
+.rag.rg{background:rgba(52,211,153,.1);color:var(--grn);border:1px solid rgba(52,211,153,.3)}
+.rag.rr{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.4)}
+.rag.ra{background:rgba(251,191,36,.1);color:var(--gld);border:1px solid rgba(251,191,36,.3)}
 .ld{background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:12px}
 .lh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .lh h4{font-size:10px;color:var(--tx2);font-family:var(--mn);letter-spacing:.5px;text-transform:uppercase}
@@ -119,7 +124,7 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .oc2.show{display:block}
 .oh{background:var(--blu);color:#fff;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .oh h4{font-size:15px;font-weight:700}
-.ost{font-family:var(--mn);font-size:11px;display:flex;gap:12px}
+.ost{font-family:var(--mn);font-size:11px;display:flex;gap:12px;flex-wrap:wrap}
 .ol{list-style:none;padding:0;margin:0}
 .ol li{padding:10px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:12px}
 .ol li:last-child{border:none}
@@ -194,7 +199,23 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 .fb{display:flex;flex-direction:column}
 .fv{font-size:13px;font-weight:700;font-family:var(--mn)}
 .fl{font-size:8px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
-@media(max-width:768px){.c{padding:8px}.hdr{flex-direction:column;align-items:flex-start}.srch{width:100%}.chip{flex:1;text-align:center}table{min-width:850px}th,td{padding:6px 5px;font-size:10px}.pn{font-size:10px}.bi{width:28px;height:28px;font-size:11px}.ba{grid-template-columns:1fr}.fs{gap:10px}.fv{font-size:11px}.bw{grid-template-columns:1fr}}
+@media(max-width:768px){
+  .c{padding:8px}
+  .hdr{flex-direction:column;align-items:flex-start}
+  .srch{width:100%}
+  .chip{flex:1;text-align:center}
+  table{min-width:720px}
+  th,td{padding:6px 5px;font-size:10px}
+  th:first-child,td:first-child{padding-left:8px;padding-right:6px;min-width:118px;max-width:135px}
+  .pn{font-size:10px;gap:3px}
+  .pname{max-width:85px;overflow:hidden;text-overflow:ellipsis}
+  .bi{width:26px;height:26px;font-size:10px}
+  .wv{font-size:6px;padding:1px 3px}
+  .ct{font-size:6px;padding:1px 3px}
+  .fs{gap:10px}
+  .fv{font-size:11px}
+  .bw{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -202,7 +223,6 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <header class="hdr">
 <div style="display:flex;align-items:center;gap:14px">
 <svg width="28" height="52" viewBox="0 0 28 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-<!-- Harbour Town Lighthouse - Iconic red & white stripes -->
 <rect x="9" y="44" width="10" height="8" rx="1" fill="#555" opacity=".6"/>
 <polygon points="10,44 18,44 17,14 11,14" fill="#E8E8EC"/>
 <polygon points="10.5,44 17.5,44 17,32 11,32" fill="#CC2936"/>
@@ -213,12 +233,11 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <polygon points="14,2 8,7 20,7" fill="#CC2936"/>
 <circle cx="14" cy="9.5" r="1.5" fill="var(--gld)" opacity=".9"/>
 <line x1="14" y1="2" x2="14" y2="0" stroke="var(--tx3)" stroke-width=".8"/>
-<!-- Light beam -->
 <path d="M16 9 L26 5 L26 14 L16 10 Z" fill="var(--gld)" opacity=".12"/>
 </svg>
 <div>
-<h1>Plaid Genie <span class="tag">V5.1</span></h1>
-<div class="hdr-sub">RBC Heritage · Harbour Town GL · Tout Chalk Parsed · 4-Point Steam</div>
+<h1>Plaid Genie <span class="tag">V5.2</span></h1>
+<div class="hdr-sub">RBC Heritage · Harbour Town GL · GPP-Tuned · RAG-Verified</div>
 </div>
 </div>
 <div class="hdr-wx">R1 Thu: 74°F · E 10-15 mph AM → SSE 5-10 mph PM · 0% rain · PM wave edge</div>
@@ -231,13 +250,12 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 </div>
 
 <!-- GUIDE -->
-<div class="pnl on" id="p-guide">
 
+<div class="pnl on" id="p-guide">
 <div class="g-hero">
 <h2>🏌️ Welcome to Harbour Town</h2>
 <p>The RBC Heritage is back on Hilton Head Island — freshly renovated greens, the smallest targets on Tour, and a $20M purse with no cut. This is a shot-maker's paradise where bombers go to die and iron savants feast. Here's your cheat sheet.</p>
 </div>
-
 <div class="g-cards">
 <div class="g-card"><div class="g-num">01</div>
 <h3>🎯 Second-Shot Course</h3>
@@ -257,22 +275,20 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <div class="g-card"><div class="g-num">04</div>
 <h3>🎰 Studs & Duds Strategy</h3>
 <p>No cut means your $6,000 guys get all four rounds. The expert consensus (Pat Mayo, Blickle, RotoWire) is unanimous: load 3 studs above $9k, then fill with high-upside values below $7k. The middle tier ($7.5k-$8.5k) is a trap — not enough ceiling, too much ownership. Let the optimizer find the edges.</p>
-<button class="g-go" onclick="sw('build',document.querySelectorAll('.tab')[2])">BUILD LINEUPS →</button>
+<button class="g-go" onclick="sw('build',document.querySelectorAll('.tab')[2])">BUILD LINEUP →</button>
 </div>
 </div>
-
 <div class="g-section">
 <h3>⛳ Course DNA <span class="g-badge">HARBOUR TOWN GL</span></h3>
 <div class="g-grid">
 <div class="g-stat"><div class="g-stat-label">Par / Yards</div><div class="g-stat-val">71 · 7,243 yds</div><div class="g-stat-note">Stretched 30 yds via renovation</div></div>
-<div class="g-stat"><div class="g-stat-label">Greens</div><div class="g-stat-val">3,700 sq ft avg</div><div class="g-stat-note">2nd smallest on Tour (Pebble = #1)</div></div>
-<div class="g-stat"><div class="g-stat-label">Stimpmeter</div><div class="g-stat-val">12.5 ft</div><div class="g-stat-note">New Bermuda greens, fresh contours</div></div>
-<div class="g-stat"><div class="g-stat-label">Purse</div><div class="g-stat-val">$20,000,000</div><div class="g-stat-note">$3.6M to winner · 700 FedEx pts</div></div>
+<div class="g-stat"><div class="g-stat-label">Greens</div><div class="g-stat-val">3,700 sq ft avg</div><div class="g-stat-note">2nd smallest on Tour</div></div>
+<div class="g-stat"><div class="g-stat-label">Stimpmeter</div><div class="g-stat-val">12.5 ft</div><div class="g-stat-note">New Bermuda, fresh contours</div></div>
+<div class="g-stat"><div class="g-stat-label">Purse</div><div class="g-stat-val">$20,000,000</div><div class="g-stat-note">$3.6M to winner · 700 FedEx</div></div>
 <div class="g-stat"><div class="g-stat-label">Field</div><div class="g-stat-val">82 players</div><div class="g-stat-note">No cut — everyone plays 4 rounds</div></div>
-<div class="g-stat"><div class="g-stat-label">Key Stats</div><div class="g-stat-val">SG:APP · SG:ARG</div><div class="g-stat-note">Driving accuracy 100%+ boost in model</div></div>
+<div class="g-stat"><div class="g-stat-label">Key Stats</div><div class="g-stat-val">SG:APP · SG:ARG</div><div class="g-stat-note">Accuracy 100%+ boost in model</div></div>
 </div>
 </div>
-
 <div class="g-section">
 <h3>🏆 Recent Champions <span class="g-badge">PATTERN ALERT</span></h3>
 <ul class="g-champs">
@@ -283,45 +299,25 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <li><span class="yr">2021</span><span class="nm">Stewart Cink</span><span class="sc">-19</span></li>
 <li><span class="yr">2020</span><span class="nm">Webb Simpson</span><span class="sc">-22</span></li>
 </ul>
-<p style="font-size:10px;color:var(--tx3);margin-top:8px;line-height:1.5">📌 Pattern: 3 of the last 4 winners have elite short games (Spieth, Fitz, JT). All 4 finished top-10 in SG:ARG during the tournament week. The renovation expanded greens slightly but added contours — around-the-green play matters even more now.</p>
+<p style="font-size:10px;color:var(--tx3);margin-top:8px;line-height:1.5">📌 Pattern: 3 of the last 4 winners have elite short games (Spieth, Fitz, JT). All 4 finished top-10 in SG:ARG during tournament week.</p>
 </div>
-
 <div class="g-section">
 <h3>🌤️ R1 Thursday Weather <span class="g-badge">WAVE EDGE</span></h3>
 <div class="g-grid">
 <div class="g-stat"><div class="g-stat-label">High / Low</div><div class="g-stat-val">74°F / 57°F</div></div>
 <div class="g-stat"><div class="g-stat-label">Precip</div><div class="g-stat-val">0%</div><div class="g-stat-note">Bone dry all day</div></div>
-<div class="g-stat"><div class="g-stat-label">AM Wind (6-10 AM)</div><div class="g-stat-val">E 10-15 mph</div><div class="g-stat-note">Stiffer off the ocean</div></div>
-<div class="g-stat"><div class="g-stat-label">PM Wind (11 AM+)</div><div class="g-stat-val">SSE 5-10 mph</div><div class="g-stat-note">Calmer, shifting south</div></div>
+<div class="g-stat"><div class="g-stat-label">AM Wind</div><div class="g-stat-val">E 10-15 mph</div><div class="g-stat-note">Stiffer off the ocean</div></div>
+<div class="g-stat"><div class="g-stat-label">PM Wind</div><div class="g-stat-val">SSE 5-10 mph</div><div class="g-stat-note">Calmer, shifting south</div></div>
 </div>
 <div class="g-edge">
 <div class="g-edge-title">📈 DFS Edge: PM Wave Advantage</div>
-<p>The early AM wave faces the stiffest easterly wind off the Atlantic. By late morning the wind shifts SSE and drops to 5-10 mph. The PM wave (Scheffler, Schauffele, Fitzpatrick, Henley, Cantlay, Morikawa, Burns) gets significantly calmer conditions. However — those guys are also the highest owned. The sharps will stack PM wave because it's easier scoring, but every tout is already there. The counter-play: AM wave leverage plays (Straka, Gotterup, Min Woo Lee, Hovland) who can handle the wind with low ball flights.</p>
+<p>The early AM wave faces the stiffest easterly wind off the Atlantic. By late morning the wind shifts SSE and drops to 5-10 mph. The PM wave (Scheffler, Schauffele, Fitzpatrick, Henley, Cantlay, Morikawa, Burns) gets significantly calmer conditions. However — those guys are also the highest owned. The counter-play: AM wave leverage plays (Straka, Gotterup, Min Woo Lee, Hovland) who handle wind with low ball flights.</p>
 </div>
 </div>
-
-<div class="g-section">
-<h3>💡 Sharp vs. Sheep This Week</h3>
-<div class="g-edge">
-<div class="g-edge-title">✅ Sharp Plays (Contrarian, High Leverage)</div>
-<p><strong>Min Woo Lee ($7,800)</strong> — Pat Mayo's "first click of the week." Masters hangover discount, but his chipping and putting are elite for Harbour Town. More accurate off the tee than people think.<br>
-<strong>Sepp Straka ($7,900)</strong> — Odds shortened from +5200 to +4500. Should have won this tournament in 2022. SG:APP specialist, perfect fit.<br>
-<strong>Chris Gotterup ($8,100)</strong> — Low ball flight beats the wind. #5 in Contention Performance Score. Only player with 2 wins this season. Under-owned because he doesn't fit the "short accurate" prototype, but he doesn't need to.<br>
-<strong>Billy Horschel ($6,600)</strong> — #1 Contention Performance Score in this entire field. If he sniffs the leaderboard on Friday, fire everything.<br>
-<strong>Andrew Putnam ($6,400)</strong> — "$6,400 mispriced value" per multiple analysts. Course history improving each year. Second-highest SG projection under $6,900.</p>
-</div>
-<div class="g-fade">
-<div class="g-fade-title">⚠️ Sheep Chalk (Over-Owned, Leverage Killers)</div>
-<p><strong>Russell Henley ($9,600)</strong> — Every single tout is pounding the table. Elite Masters week but his great-round rate in contention is historically very low. He'll be 25%+ owned.<br>
-<strong>Patrick Cantlay ($9,200)</strong> — "Easiest DFS click" per RotoWire. Seven top-15s at Harbour Town but ZERO wins. The field knows this. Over-owned for a guy who hasn't won since 2022.<br>
-<strong>S. Yellamaraju ($7,200)</strong> — "Clearly too cheap" is the consensus. Which means everyone will play him. Zero course history. Not a specialist profile for this track.<br>
-<strong>Jacob Bridgeman ($8,200)</strong> — Worst Contention Performance Score per Blickle's new metric. He won Genesis on Thursday/Friday, not Saturday/Sunday. If he's in the mix, history says he folds.</p>
-</div>
-</div>
-
 </div>
 
 <!-- POOL -->
+
 <div class="pnl" id="p-pool">
 <div class="toolbar">
 <input class="srch" id="srch" placeholder="Search..." oninput="ren()">
@@ -340,60 +336,9 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <span class="ck-arr">▼</span>
 </div>
 <div class="ck-b">
-<div class="ck-grid">
-
-<div class="ck-item">
-<div class="ck-icon">🏌️</div>
-<div><div class="ck-label">Player</div><div class="ck-desc">Player name with R1 tee-time wave (<span class="ck-tag ck-tag-wave-am">AM</span> = early morning, stiffer wind · <span class="ck-tag ck-tag-wave-pm">PM</span> = late morning/afternoon, calmer). Lock 🔒 to include in your build. Exclude ✕ to remove from the optimizer pool entirely.</div></div>
+<div class="ck-grid" id="ckGrid">
+<!-- Populated by buildColKey() — guarantees every column has an entry -->
 </div>
-
-<div class="ck-item">
-<div class="ck-icon">💵</div>
-<div><div class="ck-label">Salary</div><div class="ck-desc">DraftKings price. You have a $50,000 cap across 6 golfers. The optimizer targets lineups between $49k–$50k to maximize spend efficiency.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">🎲</div>
-<div><div class="ck-label">Odds</div><div class="ck-desc">Outright win odds tracked across 3 snapshots: <strong>Sunday open → Monday → Tuesday</strong>. Displayed as American odds (+2500 means $100 bet wins $2,500). <span style="color:var(--grn)">Green ▼</span> = odds shortened (market thinks player got MORE likely to win — sharp money moved in). <span style="color:var(--red)">Red ▲</span> = odds drifted out (player got LESS likely — money moved away).</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">📊</div>
-<div><div class="ck-label">Spark (Odds Movement Chart)</div><div class="ck-desc">Three vertical bars showing <strong>implied win probability</strong> at each odds snapshot (Sun, Mon, Tue). Taller bar = higher implied probability = player is more likely to win. Example: <span class="ck-spark-demo"><span class="sb" style="height:8px;background:var(--tx3)"></span><span class="sb" style="height:12px;background:var(--tx3)"></span><span class="sb" style="height:16px;background:var(--grn)"></span></span> means implied probability increased each day (steam — sharp money). <span class="ck-spark-demo"><span class="sb" style="height:14px;background:var(--tx3)"></span><span class="sb" style="height:10px;background:var(--tx3)"></span><span class="sb" style="height:6px;background:var(--red)"></span></span> means probability dropped each day (drift — fading). The final bar is colored green or red to show the overall direction vs. Sunday open.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">⚖️</div>
-<div><div class="ck-label">$DLTA (Salary-Odds Arbitrage)</div><div class="ck-desc">Salary Rank minus Odds Rank. <span style="color:var(--grn)">Positive</span> = DraftKings overpriced this player relative to the betting market (good value — the market thinks he's better than his salary suggests). <span style="color:var(--red)">Negative</span> = the market is lower on him than his DK price implies.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">🚂</div>
-<div><div class="ck-label">Steam</div><div class="ck-desc">Absolute % change in implied win probability from Sunday open to current odds. Measures the <strong>magnitude</strong> of market movement regardless of direction. Higher = more sharp money action. <span style="color:var(--grn)">Green</span> = odds shortened (steam in). <span style="color:var(--red)">Red</span> = odds drifted out. The 🚂 STEAM filter shows only players where odds shortened by >2%.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">🏛️</div>
-<div><div class="ck-label">Course History</div><div class="ck-desc">Weighted average finish position at Harbour Town Golf Links. <strong>Lower is better</strong> (e.g. 3.5 = nearly won every time). "N/A" means no starts at this course — these players receive a 75.0 penalty in the model, which hurts their composite score but can create leverage value if their skill fit is strong.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">🎯</div>
-<div><div class="ck-label">Fit (Course Architecture Grade)</div><div class="ck-desc">1–100 score grading how well a player's statistical profile matches Harbour Town's demands. Built from: SG: Approach (30%), Proximity 150yds (30%), SG: Around the Green (20%), GIR from Rough (10%), Birdie % (10%). Higher = better fit for this specific course.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">👥</div>
-<div><div class="ck-label">pOWN% (Projected Ownership)</div><div class="ck-desc">Model-estimated ownership in DraftKings contests. Normalized so all players sum to exactly 600% (6 roster spots × 100%). Players tagged <span class="ck-tag ck-tag-chalk">CHALK</span> get a +10% ownership inflation because multiple expert analysts (Pat Mayo, Blickle, RotoWire, etc.) are recommending them — meaning the real DFS field will be overweight on these names.</div></div>
-</div>
-
-<div class="ck-item">
-<div class="ck-icon">📈</div>
-<div><div class="ck-label">Leverage</div><div class="ck-desc">1–100 score measuring GPP tournament edge: <strong>High Fit × Low Ownership</strong>. Uses log-scaled ownership penalty so high-owned elite players aren't killed unfairly. Players tagged <span class="ck-tag ck-tag-cps">CPS+</span> get a 10% leverage bonus — these players have the best "Contention Performance Scores" (a new metric from DFS analyst Blickle measuring how well they perform under pressure in Rounds 3-4).</div></div>
-</div>
-
-</div>
-
 <div class="ck-tags">
 <span style="font-size:10px;color:var(--tx3);margin-right:4px">Tags:</span>
 <span class="ck-tag ck-tag-chalk">CHALK</span><span style="font-size:9px;color:var(--tx3)">Tout-hyped, ownership inflated</span>
@@ -403,29 +348,38 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 </div>
 </div>
 </div>
+
 <div class="tw"><table><thead><tr>
-<th onclick="so('name')" data-c="name">🏌️ Player <span class="s">▼</span></th>
-<th onclick="so('price')" data-c="price">💵 <span class="s">▼</span></th>
-<th onclick="so('liveImp')" data-c="liveImp">🎲 <span class="s">▼</span></th>
-<th data-c="spark" style="cursor:default">📊</th>
-<th onclick="so('dlta')" data-c="dlta">⚖️ <span class="s">▼</span></th>
-<th onclick="so('steamAbs')" data-c="steamAbs">🚂 <span class="s">▼</span></th>
-<th onclick="so('courseHistory')" data-c="courseHistory">🏛️ <span class="s">▼</span></th>
-<th onclick="so('profileFit')" data-c="profileFit">🎯 <span class="s">▼</span></th>
-<th onclick="so('pOwn')" data-c="pOwn">👥 <span class="s">▼</span></th>
-<th onclick="so('leverage')" data-c="leverage">📈 <span class="s">▼</span></th>
+<th onclick="so('name')" data-c="name" data-k="player">🏌️ Player <span class="s">▼</span></th>
+<th onclick="so('price')" data-c="price" data-k="salary">💵 Sal <span class="s">▼</span></th>
+<th onclick="so('liveImp')" data-c="liveImp" data-k="odds">🎲 Odds <span class="s">▼</span></th>
+<th data-c="spark" data-k="spark" style="cursor:default">📊 Trend</th>
+<th onclick="so('dlta')" data-c="dlta" data-k="dlta">⚖️ Δ <span class="s">▼</span></th>
+<th onclick="so('steamAbs')" data-c="steamAbs" data-k="steam">🚂 Steam <span class="s">▼</span></th>
+<th onclick="so('courseHistory')" data-c="courseHistory" data-k="hist">🏛️ Hist <span class="s">▼</span></th>
+<th onclick="so('profileFit')" data-c="profileFit" data-k="fit">🎯 Fit <span class="s">▼</span></th>
+<th onclick="so('pOwn')" data-c="pOwn" data-k="pown">👥 Own <span class="s">▼</span></th>
+<th onclick="so('leverage')" data-c="leverage" data-k="lev">📈 Lev <span class="s">▼</span></th>
 </tr></thead><tbody id="tb"></tbody></table></div>
 </div>
+
 <!-- BUILD -->
+
 <div class="pnl" id="p-build">
 <div class="bw">
-<div class="bm"><h3>🛠️ Lineup Builder</h3><p>Lock players in the Pool tab, then generate. Knapsack DP finds optimal 6-man roster ($49k-$50k).</p>
-<div class="ba">
-<button class="bb ca" onclick="gen('cash')"><div class="bt">🛡️ CASH</div><div class="bs2">Max median floor. Weights history + fit. Ignores ownership.</div></button>
-<button class="bb gp" onclick="gen('gpp')"><div class="bt">🚀 GPP MILLY</div><div class="bs2">Max leverage. Caps pOWN at 85%. Targets contrarian ceiling.</div></button>
+<div class="bm"><h3>🛠️ GPP Lineup Builder</h3><p>Lock players in the Pool tab, then optimize. Knapsack DP finds the best leverage-weighted 6-man roster ($49k–$50k, ≤90% total ownership).</p>
+<button class="bb" onclick="gen()">
+<div class="bbt">🎯 OPTIMIZE LINEUP</div>
+<div class="bbs">Max leverage · Ownership-capped · Fit-weighted</div>
+</button>
+
+<div class="ragwrap" id="ragwrap">
+<div class="raghd"><span>🧪 TDD · RED/GREEN STATUS</span><span id="ragSummary"></span></div>
+<div class="ragbar" id="ragBar"></div>
 </div>
+
 <div class="ld"><div class="lh"><h4>🔒 Locked Players</h4><button class="clr" onclick="clrL()">CLEAR ALL</button></div><div id="ll"><div class="le">No players locked.</div></div></div>
-<div class="oc2" id="oc"><div class="oh"><h4 id="ot">Optimal Lineup</h4><div class="ost" id="os"></div></div><ul class="ol" id="olist"></ul><button class="xb" onclick="xCSV()">📥 EXPORT DRAFTKINGS CSV</button></div>
+<div class="oc2" id="oc"><div class="oh"><h4 id="ot">Optimal GPP Lineup</h4><div class="ost" id="os"></div></div><ul class="ol" id="olist"></ul><button class="xb" onclick="xCSV()">📥 EXPORT DRAFTKINGS CSV</button></div>
 </div>
 <div class="bsd"><h4>📋 Roster State</h4>
 <div class="ss"><span class="sl">LOCKED</span><span class="sv2" id="sL">0/6</span></div>
@@ -436,7 +390,9 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 <div class="ss"><span class="sl">TOTAL OWN</span><span class="sv2 vgl" id="sO">0.0%</span></div>
 </div></div>
 </div>
+
 <!-- PREBUILT -->
+
 <div class="pnl" id="p-pre">
 <div class="ph"><h2>🎰 Monte Carlo Pre-Built</h2><p>Runs 5M tournament simulations with wave-correlated scoring. Surfaces Top 5 Cash + Top 3 GPP lineups.</p>
 <button class="sib" id="simB" onclick="runSim()">▶ RUN 5M SIMULATIONS</button>
@@ -448,6 +404,7 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 </div>
 </div>
 </div>
+
 <div class="fc"><div class="fab" onclick="sw('build',document.querySelectorAll('.tab')[2])">
 <div class="fs">
 <div class="fb"><span class="fv" id="fC">0/6</span><span class="fl">Roster</span></div>
@@ -460,12 +417,23 @@ tbody tr:hover td:first-child{background:var(--sf2)}
 
 <script>
 const NH=75;
-// TOUT CHALK: Parsed from Pat Mayo, Blickle, RotoWire, FanDuel expert transcripts
-// These players will get +10% ownership inflation to model real-world DFS field behavior
 const CHALK=["Scottie Scheffler","Matt Fitzpatrick","Russell Henley","Patrick Cantlay","Cameron Young","Xander Schauffele","Jacob Bridgeman","S. Yellamaraju","Ryo Hisatsune","Tommy Fleetwood"];
-// CONTENTION PERFORMANCE: Top scorers from Blickle's new CPS metric
 const CPS_GOOD=["Billy Horschel","Chris Gotterup","Viktor Hovland","Gary Woodland","Matt Wallace","Matt Fitzpatrick","Xander Schauffele","Jason Day","Justin Thomas"];
-// LIGHTHOUSE: Top composite picks — engine's best plays get the 🏠 icon
+
+// Column key definitions — keyed by th[data-k] attribute. Audited at load time.
+const COL_KEYS={
+  player:   {icon:'🏌️',label:'Player',desc:'Player name (shortened as "S. Scheffler" on narrow screens) with R1 tee-time wave (<span class="ck-tag ck-tag-wave-am">AM</span> = early, stiffer wind · <span class="ck-tag ck-tag-wave-pm">PM</span> = late, calmer). Lock 🔒 to force into build. Exclude ✕ to remove from pool.'},
+  salary:   {icon:'💵',label:'Salary',desc:'DraftKings price. $50,000 cap across 6 golfers. Optimizer targets $49k–$50k.'},
+  odds:     {icon:'🎲',label:'Odds',desc:'Current outright win odds (American). <span class="os">▼ green</span> = line shortened since Sunday open (sharp money in). <span class="od">▲ red</span> = drifted out. See sparkline for 3-day trend.'},
+  spark:    {icon:'📊',label:'Trend (Spark)',desc:'Three bars = implied win probability at Sun/Mon/Tue. Taller bar = more likely to win. Example: <span class="ck-spark-demo"><span class="sb" style="height:8px;background:var(--tx3)"></span><span class="sb" style="height:12px;background:var(--tx3)"></span><span class="sb" style="height:16px;background:var(--grn)"></span></span> rising = steam. <span class="ck-spark-demo"><span class="sb" style="height:14px;background:var(--tx3)"></span><span class="sb" style="height:10px;background:var(--tx3)"></span><span class="sb" style="height:6px;background:var(--red)"></span></span> falling = drift.'},
+  dlta:     {icon:'⚖️',label:'$DLTA (Salary-Odds Arbitrage)',desc:'Salary Rank minus Odds Rank. <span class="vg">Positive</span> = DK overpriced vs. betting market (good value). <span class="vr">Negative</span> = market lower on him than DK price implies.'},
+  steam:    {icon:'🚂',label:'Steam',desc:'Absolute % change in implied win probability from Sunday open to now. <span class="vg">Green</span> = shortened (sharps in). <span class="vr">Red</span> = drifted. STEAM filter shows >2% moves.'},
+  hist:     {icon:'🏛️',label:'Course History',desc:'Weighted average finish at Harbour Town. Lower = better. "N/A" means no starts — 75.0 penalty applied in model.'},
+  fit:      {icon:'🎯',label:'Fit (Course Architecture Grade)',desc:'1–100 score grading how well a player\'s stat profile matches Harbour Town: SG:APP (30%), Proximity 150yds (30%), SG:ARG (20%), GIR from Rough (10%), Birdie % (10%). Higher = better fit.'},
+  pown:     {icon:'👥',label:'pOWN% (Projected Ownership)',desc:'Model-estimated DK ownership. Normalized so all players sum to exactly 600% (6 × 100%). <span class="ck-tag ck-tag-chalk">CHALK</span> players get +10% inflation since touts are hammering them.'},
+  lev:      {icon:'📈',label:'Leverage',desc:'1–100 GPP edge score: <strong>High Fit × Low Ownership</strong> (log-scaled). <span class="ck-tag ck-tag-cps">CPS+</span> players get a 10% bonus (Blickle\'s contention-closer metric). This is what the optimizer maximizes.'}
+};
+
 const LIGHTHOUSE=["Scottie Scheffler","Matt Fitzpatrick","Collin Morikawa","Patrick Cantlay","Xander Schauffele","Jordan Spieth","Sepp Straka","Si Woo Kim","Cameron Young","Russell Henley","Tommy Fleetwood","Viktor Hovland","Justin Thomas","Sahith Theegala","Brian Harman","Sungjae Im"];
 
 const db=[
@@ -553,61 +521,85 @@ const db=[
 {n:"Joe Highsmith",s:200000,m:170000,t:190000,w:"AM",p:6000,sa:-.112,bp:22,ch:74.25,sr:-.338,px:22.5,gr:57}
 ];
 
-let P=[],CF='all',SC='composite',SA=false,lastLU=null;
-window.onload=()=>{proc()};
+let P=[],CF='all',SC='leverage',SA=false,lastLU=null;
+
+window.onload=()=>{buildColKey();proc();runStartupTests()};
+
+function shortName(n){
+  const parts=n.trim().split(/\s+/);
+  if(parts.length<2) return n;
+  if(parts[0].includes('.')) return n; // J.T., J.J., S. already initials
+  return parts[0][0]+'. '+parts.slice(1).join(' ');
+}
+
+function buildColKey(){
+  const grid=document.getElementById('ckGrid');
+  const ths=document.querySelectorAll('th[data-k]');
+  const frags=[];
+  const missing=[];
+  ths.forEach(th=>{
+    const k=th.dataset.k;
+    const def=COL_KEYS[k];
+    if(!def){missing.push(k);return}
+    frags.push(`<div class="ck-item"><div class="ck-icon">${def.icon}</div><div><div class="ck-label">${def.label}</div><div class="ck-desc">${def.desc}</div></div></div>`);
+  });
+  grid.innerHTML=frags.join('');
+  if(missing.length)console.warn('[ColKey] Missing definitions for:',missing);
+  return missing;
+}
 
 function sw(t,b){document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));document.getElementById('p-'+t).classList.add('on');b.classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
 
 function proc(){
-let tRO=0;
-P=db.map(d=>{
-let o={...d,name:d.n,price:d.p,wave:d.w,courseHistory:d.ch,locked:false,excluded:false};
-const cur=d.t||d.m||d.s; o.curOdds=cur;
-o.liveImp=100/(cur+100);
-const sunImp=100/(d.s+100);
-o.steamRaw=(o.liveImp-sunImp)/sunImp;
-o.steamAbs=Math.abs(o.steamRaw)*100;
-o.isSteam=o.steamRaw>0.02;
-o.isDrift=o.steamRaw<-0.05;
-o.hasHistory=d.ch<NH;
-o.isChalk=CHALK.includes(d.n);
-o.hasCPS=CPS_GOOD.includes(d.n);
-o.isLighthouse=LIGHTHOUSE.includes(d.n);
-o.spark=[100/(d.s+100),100/(d.m+100),100/((d.t||d.m)+100)];
-let app=d.sa*3,arg=(d.sr||0)*2,prox=(30-(d.px||22))*2,rgh=(d.gr||57)/20,bird=(d.bp||22)/20;
-o.rawFit=app+arg+prox+rgh+bird;
-return o;
-});
-const fs=P.map(x=>x.rawFit),mxF=Math.max(...fs),mnF=Math.min(...fs);
-P.forEach(p=>p.profileFit=((p.rawFit-mnF)/(mxF-mnF))*100);
-P.sort((a,b)=>b.price-a.price).forEach((p,i)=>p.salRank=i+1);
-P.sort((a,b)=>b.liveImp-a.liveImp).forEach((p,i)=>p.oddsRank=i+1);
-P.forEach(p=>{
-p.dlta=p.salRank-p.oddsRank;
-let base=p.price>=10000?15:(p.price>=9000?13:(p.price>=8000?10:12));
-let bump=p.dlta*1.2;
-let hist=p.hasHistory&&p.courseHistory<=20?5:(p.hasHistory&&p.courseHistory<=40?2:0);
-let steam=p.isSteam?4:0;
-let chalk=p.isChalk?10:0;
-p.rawOwn=Math.max(0.5,base+bump+hist+steam+chalk);
-tRO+=p.rawOwn;
-});
-const norm=600/tRO;
-P.forEach(p=>{
-p.pOwn=Math.min(42,p.rawOwn*norm);
-const logOwn=Math.log2(Math.max(1,p.pOwn));
-p.rawLev=p.profileFit-(logOwn*8);
-if(p.hasCPS)p.rawLev*=1.1; // CPS bonus
-});
-const lv=P.map(x=>x.rawLev),mxL=Math.max(...lv),mnL=Math.min(...lv);
-P.forEach(p=>{
-p.leverage=((p.rawLev-mnL)/(mxL-mnL))*100;
-const histB=p.hasHistory?((80-p.courseHistory)*0.5):0;
-const oddsB=p.liveImp*120;
-p.composite=p.profileFit+histB+oddsB;
-});
-P.sort((a,b)=>b.composite-a.composite);
-ren();upd();
+  let tRO=0;
+  P=db.map(d=>{
+    let o={...d,name:d.n,price:d.p,wave:d.w,courseHistory:d.ch,locked:false,excluded:false};
+    const cur=d.t||d.m||d.s; o.curOdds=cur;
+    o.liveImp=100/(cur+100);
+    const sunImp=100/(d.s+100);
+    o.steamRaw=(o.liveImp-sunImp)/sunImp;
+    o.steamAbs=Math.abs(o.steamRaw)*100;
+    o.isSteam=o.steamRaw>0.02;
+    o.isDrift=o.steamRaw<-0.05;
+    o.hasHistory=d.ch<NH;
+    o.isChalk=CHALK.includes(d.n);
+    o.hasCPS=CPS_GOOD.includes(d.n);
+    o.isLighthouse=LIGHTHOUSE.includes(d.n);
+    o.spark=[100/(d.s+100),100/(d.m+100),100/((d.t||d.m)+100)];
+    let app=d.sa*3,arg=(d.sr||0)*2,prox=(30-(d.px||22))*2,rgh=(d.gr||57)/20,bird=(d.bp||22)/20;
+    o.rawFit=app+arg+prox+rgh+bird;
+    return o;
+  });
+  const fs=P.map(x=>x.rawFit),mxF=Math.max(...fs),mnF=Math.min(...fs);
+  P.forEach(p=>p.profileFit=((p.rawFit-mnF)/(mxF-mnF))*100);
+  P.sort((a,b)=>b.price-a.price).forEach((p,i)=>p.salRank=i+1);
+  P.sort((a,b)=>b.liveImp-a.liveImp).forEach((p,i)=>p.oddsRank=i+1);
+  P.forEach(p=>{
+    p.dlta=p.salRank-p.oddsRank;
+    let base=p.price>=10000?15:(p.price>=9000?13:(p.price>=8000?10:12));
+    let bump=p.dlta*1.2;
+    let hist=p.hasHistory&&p.courseHistory<=20?5:(p.hasHistory&&p.courseHistory<=40?2:0);
+    let steam=p.isSteam?4:0;
+    let chalk=p.isChalk?10:0;
+    p.rawOwn=Math.max(0.5,base+bump+hist+steam+chalk);
+    tRO+=p.rawOwn;
+  });
+  const norm=600/tRO;
+  P.forEach(p=>{
+    p.pOwn=Math.min(42,p.rawOwn*norm);
+    const logOwn=Math.log2(Math.max(1,p.pOwn));
+    p.rawLev=p.profileFit-(logOwn*8);
+    if(p.hasCPS)p.rawLev*=1.1;
+  });
+  const lv=P.map(x=>x.rawLev),mxL=Math.max(...lv),mnL=Math.min(...lv);
+  P.forEach(p=>{
+    p.leverage=((p.rawLev-mnL)/(mxL-mnL))*100;
+    const histB=p.hasHistory?((80-p.courseHistory)*0.5):0;
+    const oddsB=p.liveImp*120;
+    p.composite=p.profileFit+histB+oddsB;
+  });
+  P.sort((a,b)=>b.leverage-a.leverage);
+  ren();upd();
 }
 
 function flt(f,b){CF=f;document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');ren()}
@@ -617,158 +609,248 @@ function tE(n){const p=P.find(x=>x.name===n);if(p){p.excluded=!p.excluded;if(p.e
 function clrL(){P.forEach(p=>p.locked=false);ren();upd()}
 
 function ren(){
-const q=document.getElementById('srch').value.toLowerCase();
-let d=P.filter(p=>{
-if(q&&!p.name.toLowerCase().includes(q))return false;
-if(CF==='am')return p.wave==='AM';if(CF==='pm')return p.wave==='PM';
-if(CF==='steam')return p.isSteam;if(CF==='dlta')return p.dlta>3;if(CF==='lev')return p.leverage>65;if(CF==='chalk')return p.isChalk;
-return true;
-});
-d.sort((a,b)=>{let va=a[SC],vb=b[SC];if(typeof va==='string')return SA?va.localeCompare(vb):vb.localeCompare(va);return SA?va-vb:vb-va});
-document.querySelectorAll('th[data-c]').forEach(th=>{th.classList.toggle('act',th.dataset.c===SC);const s=th.querySelector('.s');if(s)s.textContent=th.dataset.c===SC?(SA?'▲':'▼'):'▼'});
-document.getElementById('tb').innerHTML=d.map(p=>{
-const rc=p.locked?'row-lk':(p.excluded?'row-ex':'');
-const cur=p.curOdds;
-let oc='',oa='';if(cur<p.s){oc='os';oa=' ▼'}else if(cur>p.s){oc='od';oa=' ▲'}
-const spMax=Math.max(...p.spark);
-const bars=p.spark.map((v,i)=>{const h=Math.max(2,Math.round((v/spMax)*16));const c=i===p.spark.length-1?(v>=p.spark[0]?'var(--grn)':'var(--red)'):'var(--tx3)';return`<div class="sb" style="height:${h}px;background:${c}"></div>`}).join('');
-const stC=p.isSteam?'vg':(p.isDrift?'vr':'');
-const hist=p.hasHistory?p.courseHistory.toFixed(1):'<span class="na">N/A</span>';
-const dC=p.dlta>2?'vg':(p.dlta<-2?'vr':'');
-const chk=p.isChalk?'<span class="ct">CHALK</span>':'';
-const cps=p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>':'';
-const wc=p.wave==='AM'?'wam':'wpm';
-return`<tr class="${rc}"><td><div class="pn">${p.name}<span class="wv ${wc}">${p.wave}</span>${chk}${cps}</div><div class="acts"><button class="bi ${p.locked?'lk':''}" onclick="tL('${p.name.replace(/'/g,"\\'")}')">🔒</button><button class="bi ${p.excluded?'ex':''}" onclick="tE('${p.name.replace(/'/g,"\\'")}')">✕</button></div></td><td class="vg mn" style="font-size:12px">$${p.price/1000}k</td><td class="oc"><div class="oo">+${p.s}→+${p.m}→</div><div class="${oc}" style="font-weight:700">+${cur}${oa}</div></td><td><div class="sp">${bars}</div></td><td class="${dC} mn" style="font-weight:600">${p.dlta>0?'+'+p.dlta:p.dlta}</td><td class="${stC} mn">${p.steamAbs.toFixed(1)}%</td><td class="mn">${hist}</td><td><strong style="color:${p.profileFit>75?'var(--grn)':'inherit'}">${p.profileFit.toFixed(1)}</strong></td><td class="mn ${p.isChalk?'vr':''}" style="font-weight:700">${p.pOwn.toFixed(1)}%</td><td class="mn ${p.leverage>80?'vgl':''}" style="font-weight:700">${p.leverage.toFixed(1)}</td></tr>`}).join('');
+  const q=document.getElementById('srch').value.toLowerCase();
+  let d=P.filter(p=>{
+    if(q&&!p.name.toLowerCase().includes(q))return false;
+    if(CF==='am')return p.wave==='AM';if(CF==='pm')return p.wave==='PM';
+    if(CF==='steam')return p.isSteam;if(CF==='dlta')return p.dlta>3;if(CF==='lev')return p.leverage>65;if(CF==='chalk')return p.isChalk;
+    return true;
+  });
+  d.sort((a,b)=>{let va=a[SC],vb=b[SC];if(typeof va==='string')return SA?va.localeCompare(vb):vb.localeCompare(va);return SA?va-vb:vb-va});
+  document.querySelectorAll('th[data-c]').forEach(th=>{th.classList.toggle('act',th.dataset.c===SC);const s=th.querySelector('.s');if(s)s.textContent=th.dataset.c===SC?(SA?'▲':'▼'):'▼'});
+  document.getElementById('tb').innerHTML=d.map(p=>{
+    const rc=p.locked?'row-lk':(p.excluded?'row-ex':'');
+    const cur=p.curOdds;
+    // Truncated odds: just current + indicator. No redundant 3-value progression.
+    let oC='oflat',oA='';
+    if(cur<p.s){oC='os';oA=' ▼'}
+    else if(cur>p.s){oC='od';oA=' ▲'}
+    const spMax=Math.max(...p.spark);
+    const bars=p.spark.map((v,i)=>{const h=Math.max(2,Math.round((v/spMax)*16));const c=i===p.spark.length-1?(v>=p.spark[0]?'var(--grn)':'var(--red)'):'var(--tx3)';return`<div class="sb" style="height:${h}px;background:${c}"></div>`}).join('');
+    const stC=p.isSteam?'vg':(p.isDrift?'vr':'');
+    const hist=p.hasHistory?p.courseHistory.toFixed(1):'<span class="na">N/A</span>';
+    const dC=p.dlta>2?'vg':(p.dlta<-2?'vr':'');
+    const chk=p.isChalk?'<span class="ct">CH</span>':'';
+    const cps=p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS</span>':'';
+    const wc=p.wave==='AM'?'wam':'wpm';
+    return`<tr class="${rc}"><td><div class="pn"><span class="pname" title="${p.name}">${shortName(p.name)}</span><span class="wv ${wc}">${p.wave}</span>${chk}${cps}</div><div class="acts"><button class="bi ${p.locked?'lk':''}" onclick="tL('${p.name.replace(/'/g,"\\'")}')" title="Lock">🔒</button><button class="bi ${p.excluded?'ex':''}" onclick="tE('${p.name.replace(/'/g,"\\'")}')" title="Exclude">✕</button></div></td><td class="vg mn" style="font-size:12px">$${p.price/1000}k</td><td class="mn ${oC}">+${cur}${oA}</td><td><div class="sp">${bars}</div></td><td class="${dC} mn" style="font-weight:600">${p.dlta>0?'+'+p.dlta:p.dlta}</td><td class="${stC} mn">${p.steamAbs.toFixed(1)}%</td><td class="mn">${hist}</td><td><strong style="color:${p.profileFit>75?'var(--grn)':'inherit'}">${p.profileFit.toFixed(1)}</strong></td><td class="mn ${p.isChalk?'vr':''}" style="font-weight:700">${p.pOwn.toFixed(1)}%</td><td class="mn ${p.leverage>80?'vgl':''}" style="font-weight:700">${p.leverage.toFixed(1)}</td></tr>`
+  }).join('');
 }
 
 function upd(){
-const lk=P.filter(x=>x.locked),ex=P.filter(x=>x.excluded);
-const sal=lk.reduce((s,p)=>s+p.price,0),own=lk.reduce((s,p)=>s+p.pOwn,0),pts=lk.reduce((s,p)=>s+p.composite,0);
-document.getElementById('sL').textContent=`${lk.length}/6`;
-document.getElementById('sE').textContent=ex.length;
-document.getElementById('sS').textContent='$'+sal.toLocaleString();
-document.getElementById('sR').textContent='$'+(50000-sal).toLocaleString();
-document.getElementById('sP').textContent=pts.toFixed(1);
-document.getElementById('sO').textContent=own.toFixed(1)+'%';
-document.getElementById('fC').textContent=`${lk.length}/6`;
-document.getElementById('fS').textContent='$'+(50000-sal).toLocaleString();
-document.getElementById('fP').textContent=pts.toFixed(1);
-document.getElementById('fO').textContent=own.toFixed(1)+'%';
-const ll=document.getElementById('ll');
-if(!lk.length){ll.innerHTML='<div class="le">No players locked.</div>'}
-else{ll.innerHTML=lk.map(p=>`<div class="li"><span>🔒 <strong>${p.name}</strong> <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span></span><span class="mn vg">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}
+  const lk=P.filter(x=>x.locked),ex=P.filter(x=>x.excluded);
+  const sal=lk.reduce((s,p)=>s+p.price,0),own=lk.reduce((s,p)=>s+p.pOwn,0),pts=lk.reduce((s,p)=>s+p.leverage,0);
+  document.getElementById('sL').textContent=`${lk.length}/6`;
+  document.getElementById('sE').textContent=ex.length;
+  document.getElementById('sS').textContent='$'+sal.toLocaleString();
+  document.getElementById('sR').textContent='$'+(50000-sal).toLocaleString();
+  document.getElementById('sP').textContent=pts.toFixed(1);
+  document.getElementById('sO').textContent=own.toFixed(1)+'%';
+  document.getElementById('fC').textContent=`${lk.length}/6`;
+  document.getElementById('fS').textContent='$'+(50000-sal).toLocaleString();
+  document.getElementById('fP').textContent=pts.toFixed(1);
+  document.getElementById('fO').textContent=own.toFixed(1)+'%';
+  const ll=document.getElementById('ll');
+  if(!lk.length){ll.innerHTML='<div class="le">No players locked.</div>'}
+  else{ll.innerHTML=lk.map(p=>`<div class="li"><span>🔒 <strong>${shortName(p.name)}</strong> <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span></span><span class="mn vg">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}
 }
 
-// KNAPSACK
-function gen(type){
-const lk=P.filter(x=>x.locked);
-if(lk.length>6)return alert("Max 6 locks.");
-let lkS=lk.reduce((s,p)=>s+p.price,0);
-if(lkS>50000)return alert("Locks exceed $50k.");
-const pool=P.filter(x=>!x.excluded&&!x.locked);
-const req=6-lk.length;
-if(req===0){lastLU={roster:lk,type};return showLU(lk,type)}
-const unit=100,maxU=Math.floor((50000-lkS)/unit);
-let dp=Array(req+1).fill(null).map(()=>Array(maxU+1).fill(null));
-dp[0][0]={score:0,r:[]};
-for(const p of pool){
-const wt=Math.floor(p.price/unit);
-const val=type==='cash'?p.composite:(p.composite+p.leverage*0.5);
-for(let k=req-1;k>=0;k--){for(let w=maxU-wt;w>=0;w--){
-if(dp[k][w]!==null){const ns=dp[k][w].score+val,nw=w+wt;
-if(!dp[k+1][nw]||dp[k+1][nw].score<ns)dp[k+1][nw]={score:ns,r:[...dp[k][w].r,p]}}
-}}}
-let best=null;
-const minU=Math.max(0,Math.ceil((49000-lkS)/unit));
-for(let w=maxU;w>=minU;w--){if(dp[req][w]){
-const c=dp[req][w];
-const tO=lk.reduce((s,p)=>s+p.pOwn,0)+c.r.reduce((s,p)=>s+p.pOwn,0);
-if(type==='gpp'&&tO>85)continue;
-if(!best||c.score>best.score)best=c;
-}}
-if(!best){for(let w=maxU;w>=minU;w--){if(dp[req][w]&&(!best||dp[req][w].score>best.score))best=dp[req][w]}}
-if(!best)return alert("Can't build lineup ≥$49k. Clear some locks.");
-const full=[...lk,...best.r];lastLU={roster:full,type};showLU(full,type);
+// ============================================
+// GPP-TUNED KNAPSACK OPTIMIZER
+// Fix: single objective that actually differentiates from "highest projection"
+// Old bug: composite-based obj made Cash===GPP because composite dominates
+// New: leverage is primary, fit secondary, ownership penalty explicit
+// ============================================
+function gen(){
+  const lk=P.filter(x=>x.locked);
+  if(lk.length>6){alert("Max 6 locks.");return}
+  let lkS=lk.reduce((s,p)=>s+p.price,0);
+  if(lkS>50000){alert("Locks exceed $50k.");return}
+  const pool=P.filter(x=>!x.excluded&&!x.locked);
+  const req=6-lk.length;
+  if(req===0){lastLU={roster:lk};showLU(lk);runTests(lk);return}
+  const unit=100,maxU=Math.floor((50000-lkS)/unit);
+  let dp=Array(req+1).fill(null).map(()=>Array(maxU+1).fill(null));
+  dp[0][0]={score:0,r:[]};
+  // GPP objective: leverage-dominant, fit-supported, ownership-penalized
+  const objective=(p)=>{
+    return p.leverage*1.6
+         + p.profileFit*0.5
+         + (p.hasHistory?(80-p.courseHistory)*0.25:0)
+         - p.pOwn*0.45;
+  };
+  for(const p of pool){
+    const wt=Math.floor(p.price/unit);
+    const val=objective(p);
+    for(let k=req-1;k>=0;k--){
+      for(let w=maxU-wt;w>=0;w--){
+        if(dp[k][w]!==null){
+          const ns=dp[k][w].score+val,nw=w+wt;
+          if(!dp[k+1][nw]||dp[k+1][nw].score<ns)dp[k+1][nw]={score:ns,r:[...dp[k][w].r,p]}
+        }
+      }
+    }
+  }
+  let best=null;
+  const minU=Math.max(0,Math.ceil((49000-lkS)/unit));
+  // First pass: strict ownership cap 90%
+  for(let w=maxU;w>=minU;w--){
+    if(dp[req][w]){
+      const c=dp[req][w];
+      const tO=lk.reduce((s,p)=>s+p.pOwn,0)+c.r.reduce((s,p)=>s+p.pOwn,0);
+      if(tO>90)continue;
+      if(!best||c.score>best.score)best=c;
+    }
+  }
+  // Fallback: relax ownership if impossible
+  if(!best){
+    for(let w=maxU;w>=minU;w--){
+      if(dp[req][w]&&(!best||dp[req][w].score>best.score))best=dp[req][w]
+    }
+  }
+  if(!best){alert("Can't build lineup ≥$49k. Clear some locks or exclusions.");return}
+  const full=[...lk,...best.r];
+  lastLU={roster:full};
+  showLU(full);
+  runTests(full);
 }
 
-function showLU(roster,type){
-const card=document.getElementById('oc');card.style.display='block';
-document.getElementById('ot').innerHTML=type==='cash'?'🛡️ OPTIMAL CASH':'🚀 OPTIMAL GPP';
-let sal=0,own=0,pts=0;roster.forEach(p=>{sal+=p.price;own+=p.pOwn;pts+=p.composite});
-document.getElementById('os').innerHTML=`<span>SAL: <strong>$${sal.toLocaleString()}</strong></span><span>PROJ: <strong>${pts.toFixed(1)}</strong></span><span>OWN: <strong style="color:${own>85?'var(--red)':'inherit'}">${own.toFixed(1)}%</strong></span>`;
-document.getElementById('olist').innerHTML=roster.sort((a,b)=>b.price-a.price).map(p=>`<li><div><div style="font-weight:700">${p.locked?'🔒 ':''}${p.name} <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span>${p.isChalk?'<span class="ct">CHALK</span>':''}${p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>':''}</div><div style="font-size:9px;color:var(--tx2);font-family:var(--mn);margin-top:2px">pOWN ${p.pOwn.toFixed(1)}% · LEV ${p.leverage.toFixed(0)} · FIT ${p.profileFit.toFixed(0)}</div></div><div class="vg mn" style="font-weight:700;font-size:13px">$${(p.price/1000).toFixed(1)}k</div></li>`).join('');
+function showLU(roster){
+  const card=document.getElementById('oc');card.style.display='block';
+  document.getElementById('ot').innerHTML='🎯 OPTIMAL GPP LINEUP';
+  let sal=0,own=0,lev=0,fit=0;
+  roster.forEach(p=>{sal+=p.price;own+=p.pOwn;lev+=p.leverage;fit+=p.profileFit});
+  document.getElementById('os').innerHTML=`<span>SAL: <strong>$${sal.toLocaleString()}</strong></span><span>LEV: <strong>${(lev/6).toFixed(1)}</strong></span><span>FIT: <strong>${(fit/6).toFixed(1)}</strong></span><span>OWN: <strong style="color:${own>90?'var(--red)':'inherit'}">${own.toFixed(1)}%</strong></span>`;
+  document.getElementById('olist').innerHTML=roster.sort((a,b)=>b.price-a.price).map(p=>`<li><div><div style="font-weight:700">${p.locked?'🔒 ':''}${p.name} <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span>${p.isChalk?'<span class="ct">CH</span>':''}${p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS</span>':''}</div><div style="font-size:9px;color:var(--tx2);font-family:var(--mn);margin-top:2px">pOWN ${p.pOwn.toFixed(1)}% · LEV ${p.leverage.toFixed(0)} · FIT ${p.profileFit.toFixed(0)}</div></div><div class="vg mn" style="font-weight:700;font-size:13px">$${(p.price/1000).toFixed(1)}k</div></li>`).join('');
 }
 
 function xCSV(){
-if(!lastLU)return;
-const h='G,G,G,G,G,G';const n=lastLU.roster.sort((a,b)=>b.price-a.price).map(p=>p.name).join(',');
-const blob=new Blob([h+'\n'+n],{type:'text/csv'});const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${lastLU.type}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  if(!lastLU)return;
+  const h='G,G,G,G,G,G';const n=lastLU.roster.sort((a,b)=>b.price-a.price).map(p=>p.name).join(',');
+  const blob=new Blob([h+'\n'+n],{type:'text/csv'});const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=`plaid_genie_gpp.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 
-// MONTE CARLO (main thread, chunked)
+// ============================================
+// RED/GREEN TDD — self-audit every build
+// ============================================
+function runStartupTests(){
+  const tests=[
+    {n:'All columns defined in key', f:()=>{
+      const missing=Array.from(document.querySelectorAll('th[data-k]')).filter(th=>!COL_KEYS[th.dataset.k]);
+      return missing.length===0;
+    }},
+    {n:'Player pool loaded', f:()=>P.length>0},
+    {n:'Fit scores valid (0-100)', f:()=>P.every(p=>p.profileFit>=0&&p.profileFit<=100)},
+    {n:'Ownership sums ~600%', f:()=>{const tot=P.reduce((s,p)=>s+p.pOwn,0);return Math.abs(tot-600)<50}},
+    {n:'Leverage scores valid', f:()=>P.every(p=>p.leverage>=0&&p.leverage<=100)},
+    {n:'Odds parsed for all players', f:()=>P.every(p=>p.curOdds>0)}
+  ];
+  renderRAG(tests,'Startup');
+}
+
+function runTests(roster){
+  const locked=P.filter(x=>x.locked);
+  const excluded=P.filter(x=>x.excluded);
+  const sal=roster.reduce((s,p)=>s+p.price,0);
+  const own=roster.reduce((s,p)=>s+p.pOwn,0);
+  const tests=[
+    {n:'6 unique players', f:()=>new Set(roster.map(p=>p.name)).size===6},
+    {n:`Salary $${(sal/1000).toFixed(1)}k in $49k-$50k`, f:()=>sal>=49000&&sal<=50000},
+    {n:`Ownership ${own.toFixed(1)}% ≤ 90%`, f:()=>own<=90},
+    {n:'No excluded in roster', f:()=>!roster.some(p=>excluded.some(e=>e.name===p.name))},
+    {n:'All locks honored', f:()=>locked.every(l=>roster.some(r=>r.name===l.name))},
+    {n:'Leverage objective (not composite)', f:()=>{
+      // Sanity: average leverage of optimized roster should exceed average leverage of top-6-by-composite
+      const byComp=[...P].filter(p=>!p.excluded).sort((a,b)=>b.composite-a.composite).slice(0,6);
+      const lAvg=roster.reduce((s,p)=>s+p.leverage,0)/6;
+      const cAvg=byComp.reduce((s,p)=>s+p.leverage,0)/6;
+      return lAvg>=cAvg-5; // should be at least as good on leverage
+    }}
+  ];
+  renderRAG(tests,'Build');
+}
+
+function renderRAG(tests,label){
+  const results=tests.map(t=>{try{return{n:t.n,p:!!t.f()}}catch(e){return{n:t.n,p:false,e:e.message}}});
+  const pass=results.filter(r=>r.p).length,tot=results.length;
+  const wrap=document.getElementById('ragwrap');
+  const bar=document.getElementById('ragBar');
+  const sum=document.getElementById('ragSummary');
+  if(wrap){
+    wrap.classList.add('on');
+    sum.innerHTML=`<strong style="color:${pass===tot?'var(--grn)':'var(--red)'}">${pass}/${tot}</strong> · ${label}`;
+    bar.innerHTML=results.map(r=>`<span class="rag ${r.p?'rg':'rr'}" title="${r.e||''}">${r.p?'✓':'✗'} ${r.n}</span>`).join('');
+  }
+  console.log(`[${label} RAG] ${pass}/${tot}`,results);
+}
+
+// ============================================
+// MONTE CARLO (unchanged — pre-built lineups naturally diverge)
+// ============================================
 let simOn=false;
 function runSim(){
-if(simOn)return;simOn=true;
-const btn=document.getElementById('simB'),pw=document.getElementById('pw'),pf=document.getElementById('pf'),ptt=document.getElementById('ptt'),sr=document.getElementById('simR');
-btn.disabled=true;btn.textContent='⏳ SIMULATING...';
-pw.style.display='block';sr.style.display='none';
-document.getElementById('ch').style.display='none';document.getElementById('gh').style.display='none';
-document.getElementById('cg').innerHTML='';document.getElementById('gg').innerHTML='';
-pf.style.width='0%';ptt.textContent='Initializing 5,000,000 simulations...';
-const pool=P.filter(p=>!p.excluded);
-const locked=pool.filter(p=>p.locked);
-const lkS=locked.reduce((s,p)=>s+p.price,0);
-const avail=pool.filter(p=>!p.locked);
-const minP=Math.min(...pool.map(p=>p.price));
-avail.forEach(p=>{p.simMean=p.composite*0.85+20;p.simStd=p.price>9000?15:22});
-const wts=avail.map(p=>Math.max(1,Math.pow(p.composite,2)));
-const tW=wts.reduce((s,w)=>s+w,0);const cW=[];let ac=0;
-for(let i=0;i<wts.length;i++){ac+=wts[i];cW.push(ac)}
-function wP(){const r=Math.random()*tW;let lo=0,hi=cW.length-1;while(lo<hi){const m=(lo+hi)>>1;if(cW[m]<r)lo=m+1;else hi=m}return lo}
-function bM(mean,std){const u1=Math.max(1e-10,Math.random()),u2=Math.random();return mean+Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2)*std}
-function bL(){const pk=new Set(),ros=[...locked];let sal=lkS,att=0;
-while(ros.length<6&&att<80){const i=wP(),p=avail[i];
-if(pk.has(i)){att++;continue}if(sal+p.price>50000){att++;continue}
-const rem=6-ros.length-1;if(50000-(sal+p.price)<rem*minP){att++;continue}
-ros.push(p);pk.add(i);sal+=p.price;att++}
-return(ros.length===6&&sal>=49000)?{roster:ros,sal}:null}
-const lS=new Map(),TOT=5000000,CHK=100000;let done=0;
-function chunk(){
-const amAdv=(Math.random()-0.5)*8;
-for(let i=0;i<CHK;i++){const b=bL();if(!b)continue;
-let sc=0,am=0,pm=0;
-for(const p of b.roster){const wm=p.wave==='AM'?amAdv:-amAdv;sc+=bM(p.simMean+wm,p.simStd*0.6);if(p.wave==='AM')am++;else pm++}
-if(Math.abs(am-pm)>=4)sc+=Math.abs(amAdv)*0.3;
-const k=b.roster.map(p=>p.name).sort().join('|');const ex=lS.get(k);
-if(ex){ex.sc++;ex.ts+=sc;if(sc>ex.mx)ex.mx=sc}
-else lS.set(k,{roster:b.roster,sal:b.sal,sc:1,ts:sc,mx:sc})}
-done+=CHK;const pct=(done/TOT)*100;
-pf.style.width=pct+'%';ptt.textContent=`${done.toLocaleString()} / ${TOT.toLocaleString()} (${pct.toFixed(1)}%)`;
-if(done<TOT)setTimeout(chunk,0);else fin()
-}
-function fin(){
-const all=Array.from(lS.values()).filter(l=>l.sc>=2);
-all.forEach(l=>{l.avg=l.ts/l.sc;l.tOwn=l.roster.reduce((s,p)=>s+p.pOwn,0);l.aLev=l.roster.reduce((s,p)=>s+p.leverage,0)/6});
-const cash=[...all].sort((a,b)=>b.avg-a.avg).slice(0,5);
-const gpp=[...all].filter(l=>l.tOwn<=90).sort((a,b)=>(b.mx+b.aLev*.5)-(a.mx+a.aLev*.5)).slice(0,3);
-pf.style.width='100%';ptt.textContent=`✓ Done. ${all.length.toLocaleString()} unique lineups evaluated.`;
-sr.style.display='block';document.getElementById('ch').style.display='flex';document.getElementById('gh').style.display='flex';
-const rc=(l,i,t)=>{const s=[...l.roster].sort((a,b)=>b.price-a.price);const id=`pb_${t}_${i}`;window[`_lu_${id}`]=s;
-return`<div class="lc ${t}"><div class="lch"><span>#${i+1} · ${t.toUpperCase()}</span><span>MEAN <strong>${l.avg.toFixed(1)}</strong> · CEIL <strong>${l.mx.toFixed(1)}</strong></span></div><div class="lcb">${s.map(p=>`<div class="lcr"><span class="lcn">${p.name} <span class="wv ${p.wave==='AM'?'wam':'wpm'}" style="font-size:7px">${p.wave}</span>${p.isChalk?'<span class="ct">CH</span>':''}</span><span class="lcp">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}</div><div class="lcf"><span>SAL <strong>$${l.sal.toLocaleString()}</strong></span><span>OWN <strong>${l.tOwn.toFixed(1)}%</strong></span><span>LEV <strong>${l.aLev.toFixed(0)}</strong></span><span>SIMS <strong>${l.sc}</strong></span></div><div class="lcx"><button onclick="xPB('${id}','${t}',${i+1})">📥 CSV</button></div></div>`};
-document.getElementById('cg').innerHTML=cash.map((l,i)=>rc(l,i,'cash')).join('');
-document.getElementById('gg').innerHTML=gpp.map((l,i)=>rc(l,i,'gpp')).join('');
-btn.disabled=false;btn.textContent='▶ RUN 5M SIMULATIONS';simOn=false;
-setTimeout(()=>document.getElementById('ch').scrollIntoView({behavior:'smooth'}),200);
-}
-setTimeout(chunk,50);
+  if(simOn)return;simOn=true;
+  const btn=document.getElementById('simB'),pw=document.getElementById('pw'),pf=document.getElementById('pf'),ptt=document.getElementById('ptt'),sr=document.getElementById('simR');
+  btn.disabled=true;btn.textContent='⏳ SIMULATING...';
+  pw.style.display='block';sr.style.display='none';
+  document.getElementById('ch').style.display='none';document.getElementById('gh').style.display='none';
+  document.getElementById('cg').innerHTML='';document.getElementById('gg').innerHTML='';
+  pf.style.width='0%';ptt.textContent='Initializing 5,000,000 simulations...';
+  const pool=P.filter(p=>!p.excluded);
+  const locked=pool.filter(p=>p.locked);
+  const lkS=locked.reduce((s,p)=>s+p.price,0);
+  const avail=pool.filter(p=>!p.locked);
+  const minP=Math.min(...pool.map(p=>p.price));
+  avail.forEach(p=>{p.simMean=p.composite*0.85+20;p.simStd=p.price>9000?15:22});
+  const wts=avail.map(p=>Math.max(1,Math.pow(p.composite,2)));
+  const tW=wts.reduce((s,w)=>s+w,0);const cW=[];let ac=0;
+  for(let i=0;i<wts.length;i++){ac+=wts[i];cW.push(ac)}
+  function wP(){const r=Math.random()*tW;let lo=0,hi=cW.length-1;while(lo<hi){const m=(lo+hi)>>1;if(cW[m]<r)lo=m+1;else hi=m}return lo}
+  function bM(mean,std){const u1=Math.max(1e-10,Math.random()),u2=Math.random();return mean+Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2)*std}
+  function bL(){const pk=new Set(),ros=[...locked];let sal=lkS,att=0;
+    while(ros.length<6&&att<80){const i=wP(),p=avail[i];
+      if(pk.has(i)){att++;continue}if(sal+p.price>50000){att++;continue}
+      const rem=6-ros.length-1;if(50000-(sal+p.price)<rem*minP){att++;continue}
+      ros.push(p);pk.add(i);sal+=p.price;att++}
+    return(ros.length===6&&sal>=49000)?{roster:ros,sal}:null}
+  const lS=new Map(),TOT=5000000,CHK=100000;let done=0;
+  function chunk(){
+    const amAdv=(Math.random()-0.5)*8;
+    for(let i=0;i<CHK;i++){const b=bL();if(!b)continue;
+      let sc=0,am=0,pm=0;
+      for(const p of b.roster){const wm=p.wave==='AM'?amAdv:-amAdv;sc+=bM(p.simMean+wm,p.simStd*0.6);if(p.wave==='AM')am++;else pm++}
+      if(Math.abs(am-pm)>=4)sc+=Math.abs(amAdv)*0.3;
+      const k=b.roster.map(p=>p.name).sort().join('|');const ex=lS.get(k);
+      if(ex){ex.sc++;ex.ts+=sc;if(sc>ex.mx)ex.mx=sc}
+      else lS.set(k,{roster:b.roster,sal:b.sal,sc:1,ts:sc,mx:sc})}
+    done+=CHK;const pct=(done/TOT)*100;
+    pf.style.width=pct+'%';ptt.textContent=`${done.toLocaleString()} / ${TOT.toLocaleString()} (${pct.toFixed(1)}%)`;
+    if(done<TOT)setTimeout(chunk,0);else fin()
+  }
+  function fin(){
+    const all=Array.from(lS.values()).filter(l=>l.sc>=2);
+    all.forEach(l=>{l.avg=l.ts/l.sc;l.tOwn=l.roster.reduce((s,p)=>s+p.pOwn,0);l.aLev=l.roster.reduce((s,p)=>s+p.leverage,0)/6});
+    const cash=[...all].sort((a,b)=>b.avg-a.avg).slice(0,5);
+    const gpp=[...all].filter(l=>l.tOwn<=90).sort((a,b)=>(b.mx+b.aLev*.5)-(a.mx+a.aLev*.5)).slice(0,3);
+    pf.style.width='100%';ptt.textContent=`✓ Done. ${all.length.toLocaleString()} unique lineups evaluated.`;
+    sr.style.display='block';document.getElementById('ch').style.display='flex';document.getElementById('gh').style.display='flex';
+    const rc=(l,i,t)=>{const s=[...l.roster].sort((a,b)=>b.price-a.price);const id=`pb_${t}_${i}`;window[`_lu_${id}`]=s;
+      return`<div class="lc ${t}"><div class="lch"><span>#${i+1} · ${t.toUpperCase()}</span><span>MEAN <strong>${l.avg.toFixed(1)}</strong> · CEIL <strong>${l.mx.toFixed(1)}</strong></span></div><div class="lcb">${s.map(p=>`<div class="lcr"><span class="lcn">${shortName(p.name)} <span class="wv ${p.wave==='AM'?'wam':'wpm'}" style="font-size:7px">${p.wave}</span>${p.isChalk?'<span class="ct">CH</span>':''}</span><span class="lcp">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}</div><div class="lcf"><span>SAL <strong>$${l.sal.toLocaleString()}</strong></span><span>OWN <strong>${l.tOwn.toFixed(1)}%</strong></span><span>LEV <strong>${l.aLev.toFixed(0)}</strong></span><span>SIMS <strong>${l.sc}</strong></span></div><div class="lcx"><button onclick="xPB('${id}','${t}',${i+1})">📥 CSV</button></div></div>`};
+    document.getElementById('cg').innerHTML=cash.map((l,i)=>rc(l,i,'cash')).join('');
+    document.getElementById('gg').innerHTML=gpp.map((l,i)=>rc(l,i,'gpp')).join('');
+    btn.disabled=false;btn.textContent='▶ RUN 5M SIMULATIONS';simOn=false;
+    setTimeout(()=>document.getElementById('ch').scrollIntoView({behavior:'smooth'}),200);
+  }
+  setTimeout(chunk,50);
 }
 function xPB(id,t,i){
-const r=window[`_lu_${id}`];if(!r)return;
-const h='G,G,G,G,G,G',n=r.map(p=>p.name).join(',');
-const blob=new Blob([h+'\n'+n],{type:'text/csv'});const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${t}_${i}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);
+  const r=window[`_lu_${id}`];if(!r)return;
+  const h='G,G,G,G,G,G',n=r.map(p=>p.name).join(',');
+  const blob=new Blob([h+'\n'+n],{type:'text/csv'});const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${t}_${i}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
 </script>
+
 </body>
 </html>
