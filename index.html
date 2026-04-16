@@ -1,9 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Plaid Genie V5.4 — Heritage Optimizer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Plaid Genie — DFS lineup optimizer for the RBC Heritage. 4-Point Steam, Reddit Model Fit, and Δ/Fit arbitrage scoring.">
+<title>Plaid Genie V5.5 — Heritage Optimizer</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#050507;--sf:#0E0E12;--sf2:#151519;--gl:rgba(14,14,18,.88);--bd:#27272F;--bd2:#35353F;--tx:#EAEAEF;--tx2:#9898A6;--tx3:#5E5E6E;--grn:#34D399;--red:#F87171;--gld:#FBBF24;--blu:#60A5FA;--pur:#A78BFA;--fn:'DM Sans',sans-serif;--mn:'DM Mono',monospace}
@@ -34,7 +36,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .cp{border-color:rgba(167,139,250,.4);color:var(--pur)}
 .cd{border-color:rgba(96,165,250,.4);color:var(--blu)}
 .ck{background:var(--sf);border:1px solid var(--bd);border-radius:10px;margin-bottom:10px;overflow:hidden}
-.ck-h{padding:8px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;font-size:10px;font-weight:600;color:var(--tx3);transition:background .15s}
+.ck-h{padding:8px 14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;font-size:10px;font-weight:600;color:var(--tx3);transition:background .15s;background:none;border:none;width:100%;font-family:var(--fn)}
 .ck-h:hover{background:var(--sf2)}
 .ck-arr{font-size:8px;transition:transform .3s}
 .ck.open .ck-arr{transform:rotate(180deg)}
@@ -212,13 +214,19 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 .ce,.ct{display:none}.oo{display:none}.sp{display:none}.hide-m{display:none}
 .fit-raw{display:none}.oc-cell{font-size:9px}.pre-modes{flex-direction:column;align-items:center}
 }
+/* V5.5 additions */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+button:focus-visible,th:focus-visible,[tabindex="0"]:focus-visible{outline:2px solid var(--blu);outline-offset:2px}
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--sf2);border:1px solid var(--red);color:var(--red);padding:10px 16px;border-radius:8px;font-size:12px;font-weight:600;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.6);opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.steam-arr{font-size:8px;margin-right:2px}
 </style>
 </head>
 <body>
 <div class="c">
 <header class="hdr">
 <div style="display:flex;align-items:center;gap:14px">
-<svg width="28" height="52" viewBox="0 0 28 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+<svg width="28" height="52" viewBox="0 0 28 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0" aria-hidden="true" focusable="false">
 <rect x="9" y="44" width="10" height="8" rx="1" fill="#555" opacity=".6"/>
 <polygon points="10,44 18,44 17,14 11,14" fill="#E8E8EC"/>
 <polygon points="10.5,44 17.5,44 17,32 11,32" fill="#CC2936"/>
@@ -232,45 +240,45 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 <path d="M16 9 L26 5 L26 14 L16 10 Z" fill="var(--gld)" opacity=".12"/>
 </svg>
 <div>
-<h1>Plaid Genie <span class="tag">V5.4</span></h1>
+<h1>Plaid Genie <span class="tag">V5.5</span></h1>
 <div class="hdr-sub">RBC Heritage · 4-Point Steam · Reddit Fit · Δ/Fit Pre-Build · Wed Odds Live</div>
 </div>
 </div>
 <div class="hdr-wx">R1 Thu: 74°F · E 10-15 mph AM → SSE 5-10 mph PM · 0% rain</div>
 </header>
 
-<div class="tabs">
-<button class="tab on" onclick="sw('guide',this)">📚 GUIDE</button>
-<button class="tab" onclick="sw('pool',this)">📊 POOL</button>
-<button class="tab" onclick="sw('build',this)">🛠️ BUILD</button>
-<button class="tab" onclick="sw('pre',this)">🎰 PRE-BUILT</button>
+<div class="tabs" role="tablist" aria-label="Plaid Genie sections">
+<button class="tab on" role="tab" id="tab-guide" aria-selected="true" aria-controls="p-guide" tabindex="0" data-panel="guide">📚 GUIDE</button>
+<button class="tab" role="tab" id="tab-pool" aria-selected="false" aria-controls="p-pool" tabindex="-1" data-panel="pool">📊 POOL</button>
+<button class="tab" role="tab" id="tab-build" aria-selected="false" aria-controls="p-build" tabindex="-1" data-panel="build">🛠️ BUILD</button>
+<button class="tab" role="tab" id="tab-pre" aria-selected="false" aria-controls="p-pre" tabindex="-1" data-panel="pre">🎰 PRE-BUILT</button>
 </div>
 
-<div class="pnl on" id="p-guide">
+<div class="pnl on" id="p-guide" role="tabpanel" aria-labelledby="tab-guide">
 <div class="g-hero">
-<h2>🏌️ Harbour Town — V5.4</h2>
-<p>4-Point Steam (Sun/Mon/Tue/Wed), Reddit Model Fit (24-stat, 0-1000), and a new <strong>Δ/Fit Pre-Build</strong> mode that optimizes purely on salary-odds arbitrage × course fit. The algorithm rewards players the market undervalues at their DK salary with strong Harbour Town profiles. Full 82-player field loaded.</p>
+<h2>🏌️ Harbour Town — V5.5</h2>
+<p>4-Point Steam (Sun/Mon/Tue/Wed), Reddit Model Fit (24-stat, 0-1000), and a <strong>Δ/Fit Pre-Build</strong> mode that optimizes purely on salary-odds arbitrage × course fit. The algorithm rewards players the market undervalues at their DK salary with strong Harbour Town profiles. Full 82-player field loaded.</p>
 </div>
 <div class="g-cards">
 <div class="g-card"><div class="g-num">01</div>
 <h3>⚖️ Δ/Fit Pre-Build</h3>
-<p>New in V5.4. Ranks every player by <strong>Delta × Fit score</strong> — salary-odds arbitrage multiplied by Reddit course fit. Finds the 6-man roster under $50k that maximizes this combined signal. Best for identifying market inefficiencies the touts haven't caught yet.</p>
-<button class="g-go" onclick="sw('pre',document.querySelectorAll('.tab')[3])">RUN Δ/FIT BUILD →</button>
+<p>Ranks every player by <strong>Delta × Fit score</strong> — salary-odds arbitrage multiplied by Reddit course fit. Finds the 6-man roster under $50k that maximizes this combined signal. Best for identifying market inefficiencies the touts haven't caught yet.</p>
+<button class="g-go" data-go="pre">RUN Δ/FIT BUILD →</button>
 </div>
 <div class="g-card"><div class="g-num">02</div>
 <h3>🚂 4-Point Steam</h3>
 <p>Tracks implied win probability across 4 snapshots: Sun → Mon → Tue → Wed. Sustained shortening across all days = the strongest sharp signal available before lock. Combined with positive Delta = the sharpest plays in the pool.</p>
-<button class="g-go" onclick="sw('pool',document.querySelectorAll('.tab')[1]);setTimeout(()=>{flt('steam',document.querySelectorAll('.chip')[3])},200)">VIEW STEAM →</button>
+<button class="g-go" data-go="pool" data-filter="steam">VIEW STEAM →</button>
 </div>
 <div class="g-card"><div class="g-num">03</div>
 <h3>🧠 Reddit Model Top 15</h3>
 <p>24-stat Pete Dye specific composite. Weighted Proximity, SG:APP, Small Greens GIR%, SG:ARG, ARG Proximity, Pete Dye History, Opps to 10ft from 175-200 and more. Top 15 scores get 🧠 EXPERT badge.</p>
-<button class="g-go" onclick="sw('pool',document.querySelectorAll('.tab')[1]);setTimeout(()=>{flt('expert',document.querySelectorAll('.chip')[7])},200)">VIEW EXPERT 15 →</button>
+<button class="g-go" data-go="pool" data-filter="expert">VIEW EXPERT 15 →</button>
 </div>
 <div class="g-card"><div class="g-num">04</div>
 <h3>🚀 GPP Optimizer</h3>
 <p>Knapsack DP optimizer targeting $49k-$50k, 6 players, max 85% total pOWN. Maximizes composite + leverage score. Lock players in the Pool tab first to force them into any build.</p>
-<button class="g-go" onclick="sw('build',document.querySelectorAll('.tab')[2])">BUILD LINEUPS →</button>
+<button class="g-go" data-go="build">BUILD LINEUPS →</button>
 </div>
 </div>
 <div class="g-section">
@@ -323,35 +331,36 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 </div>
 </div>
 
-<div class="pnl" id="p-pool">
+<div class="pnl" id="p-pool" role="tabpanel" aria-labelledby="tab-pool">
 <div class="toolbar">
-<input class="srch" id="srch" placeholder="Search..." oninput="ren()">
-<button class="chip on" onclick="flt('all',this)">ALL</button>
-<button class="chip" onclick="flt('am',this)">☀️ AM</button>
-<button class="chip" onclick="flt('pm',this)">🌥️ PM</button>
-<button class="chip cg" onclick="flt('steam',this)">🚂 STEAM</button>
-<button class="chip cd" onclick="flt('dlta',this)">⚖️ DELTA</button>
-<button class="chip cg" onclick="flt('lev',this)">📈 LEV</button>
-<button class="chip cr" onclick="flt('chalk',this)">🐑 CHALK</button>
-<button class="chip cp" onclick="flt('expert',this)">🧠 EXPERT 15</button>
+<label for="srch" class="sr-only">Search players by name</label>
+<input class="srch" id="srch" type="search" placeholder="Search..." aria-controls="player-table">
+<button class="chip on" data-filter="all">ALL</button>
+<button class="chip" data-filter="am">☀️ AM</button>
+<button class="chip" data-filter="pm">🌥️ PM</button>
+<button class="chip cg" data-filter="steam">🚂 STEAM</button>
+<button class="chip cd" data-filter="dlta">⚖️ DELTA</button>
+<button class="chip cg" data-filter="lev">📈 LEV</button>
+<button class="chip cr" data-filter="chalk">🐑 CHALK</button>
+<button class="chip cp" data-filter="expert">🧠 EXPERT 15</button>
 </div>
 <div class="ck" id="colKey">
-<div class="ck-h" onclick="document.getElementById('colKey').classList.toggle('open')">
-<span>📖 COLUMN KEY</span><span class="ck-arr">▼</span>
-</div>
-<div class="ck-b">
+<button class="ck-h" type="button" aria-expanded="false" aria-controls="colKeyBody" id="colKeyToggle">
+<span>📖 COLUMN KEY</span><span class="ck-arr" aria-hidden="true">▼</span>
+</button>
+<div class="ck-b" id="colKeyBody">
 <div class="ck-grid">
-<div class="ck-item"><div class="ck-icon">🏌️</div><div><div class="ck-label">Player</div><div class="ck-desc"><span class="ck-tag ck-tag-wave-am">AM</span> windier · <span class="ck-tag ck-tag-wave-pm">PM</span> calmer · 🔒 lock · ✕ exclude</div></div></div>
-<div class="ck-item"><div class="ck-icon">💵</div><div><div class="ck-label">Salary</div><div class="ck-desc">DK cost. $50k cap / 6 players. Target $49k+.</div></div></div>
-<div class="ck-item"><div class="ck-icon">🎲</div><div><div class="ck-label">Wed Odds</div><div class="ck-desc">Live win odds. Tiny = S/M/T history. <span style="color:var(--grn)">▼</span> shorter = sharp money. <span style="color:var(--red)">▲</span> longer = fading.</div></div></div>
-<div class="ck-item"><div class="ck-icon">📊</div><div><div class="ck-label">Spark S/M/T/W</div><div class="ck-desc">4 bars = implied win % each snapshot. Climbing bars = sharps backing him all week.</div></div></div>
-<div class="ck-item"><div class="ck-icon">⚖️</div><div><div class="ck-label">Δ Delta</div><div class="ck-desc"><span style="color:var(--grn)">+</span> = DK underpriced vs. market (value). <span style="color:var(--red)">−</span> = DK overpriced him.</div></div></div>
-<div class="ck-item"><div class="ck-icon">🚂</div><div><div class="ck-label">Steam %</div><div class="ck-desc">Odds shift Sun→Wed. <span style="color:var(--grn)">Green</span> = sharp money. <span style="color:var(--red)">Red</span> = fading. 3/3🔥 = shortened every transition.</div></div></div>
-<div class="ck-item"><div class="ck-icon">🏛️</div><div><div class="ck-label">Course Hist.</div><div class="ck-desc">Avg finish at Harbour Town. Lower = better. N/A = never played here.</div></div></div>
-<div class="ck-item" style="border-color:rgba(251,191,36,.25)"><div class="ck-icon">🎯</div><div><div class="ck-label">Fit (0–100)</div><div class="ck-desc">Game fit for Harbour Town. 24-stat Reddit model. 80+ elite · under 30 poor.</div></div></div>
-<div class="ck-item" style="border-color:rgba(251,191,36,.25)"><div class="ck-icon">⚡</div><div><div class="ck-label">Δ/Fit — KEY SCORE</div><div class="ck-desc">Delta × Fit. <strong>High = underpriced + fits this course.</strong> <span style="color:var(--gld)">Gold = best value</span>. Drives Pre-Built optimizer.</div></div></div>
-<div class="ck-item"><div class="ck-icon">👥</div><div><div class="ck-label">pOWN%</div><div class="ck-desc">% of lineups owning him. High = over-owned = less GPP edge. Target &lt;15% with good Fit.</div></div></div>
-<div class="ck-item"><div class="ck-icon">📈</div><div><div class="ck-label">Leverage (0–100)</div><div class="ck-desc">High Fit + low ownership = GPP edge. <span style="color:var(--gld)">Gold = tournament plays</span>. <span class="ck-tag ck-tag-cps">CPS+</span> = proven closer.</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">🏌️</div><div><div class="ck-label">Player</div><div class="ck-desc"><span class="ck-tag ck-tag-wave-am">AM</span> windier · <span class="ck-tag ck-tag-wave-pm">PM</span> calmer · 🔒 lock · ✕ exclude</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">💵</div><div><div class="ck-label">Salary</div><div class="ck-desc">DK cost. $50k cap / 6 players. Target $49k+.</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">🎲</div><div><div class="ck-label">Wed Odds</div><div class="ck-desc">Live win odds. Tiny = S/M/T history. <span style="color:var(--grn)">▼</span> shorter = sharp money. <span style="color:var(--red)">▲</span> longer = fading.</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">📊</div><div><div class="ck-label">Spark S/M/T/W</div><div class="ck-desc">4 bars = implied win % each snapshot. Climbing bars = sharps backing him all week.</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">⚖️</div><div><div class="ck-label">Δ Delta</div><div class="ck-desc"><span style="color:var(--grn)">+</span> = DK underpriced vs. market (value). <span style="color:var(--red)">−</span> = DK overpriced him.</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">🚂</div><div><div class="ck-label">Steam %</div><div class="ck-desc">Odds shift Sun→Wed. <span style="color:var(--grn)">Green ▲</span> = sharp money. <span style="color:var(--red)">Red ▼</span> = fading. 3/3🔥 = shortened every transition.</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">🏛️</div><div><div class="ck-label">Course Hist.</div><div class="ck-desc">Avg finish at Harbour Town. Lower = better. N/A = never played here.</div></div></div>
+<div class="ck-item" style="border-color:rgba(251,191,36,.25)"><div class="ck-icon" aria-hidden="true">🎯</div><div><div class="ck-label">Fit (0–100)</div><div class="ck-desc">Game fit for Harbour Town. 24-stat Reddit model. 80+ elite · under 30 poor.</div></div></div>
+<div class="ck-item" style="border-color:rgba(251,191,36,.25)"><div class="ck-icon" aria-hidden="true">⚡</div><div><div class="ck-label">Δ/Fit — KEY SCORE</div><div class="ck-desc">Delta × Fit. <strong>High = underpriced + fits this course.</strong> <span style="color:var(--gld)">Gold = best value</span>. Drives Pre-Built optimizer.</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">👥</div><div><div class="ck-label">pOWN%</div><div class="ck-desc">% of lineups owning him. High = over-owned = less GPP edge. Target &lt;15% with good Fit.</div></div></div>
+<div class="ck-item"><div class="ck-icon" aria-hidden="true">📈</div><div><div class="ck-label">Leverage (0–100)</div><div class="ck-desc">High Fit + low ownership = GPP edge. <span style="color:var(--gld)">Gold = tournament plays</span>. <span class="ck-tag ck-tag-cps">CPS+</span> = proven closer.</div></div></div>
 </div>
 <div class="ck-tags">
 <span style="font-size:8px;color:var(--tx3);font-weight:600">BADGES:</span>
@@ -364,35 +373,36 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 </div>
 </div>
 
-<div class="tw"><table><thead><tr>
-<th onclick="so('name')" data-c="name">🏌️ Player <span class="s">▼</span></th>
-<th onclick="so('price')" data-c="price">💵 <span class="s">▼</span></th>
-<th onclick="so('liveImp')" data-c="liveImp">🎲 Wed <span class="s">▼</span></th>
+<div class="tw"><table id="player-table" aria-label="RBC Heritage player pool"><thead><tr>
+<th data-c="name" aria-sort="none">🏌️ Player <span class="s" aria-hidden="true">▼</span></th>
+<th data-c="price" aria-sort="none">💵 <span class="s" aria-hidden="true">▼</span></th>
+<th data-c="liveImp" aria-sort="none">🎲 Wed <span class="s" aria-hidden="true">▼</span></th>
 <th data-c="spark" style="cursor:default" class="hide-m">📊 S/M/T/W</th>
-<th onclick="so('dlta')" data-c="dlta">⚖️ Δ <span class="s">▼</span></th>
-<th onclick="so('steamAbs')" data-c="steamAbs">🚂 <span class="s">▼</span></th>
-<th onclick="so('courseHistory')" data-c="courseHistory">🏛️ <span class="s">▼</span></th>
-<th onclick="so('profileFit')" data-c="profileFit">🎯 FIT <span class="s">▼</span></th>
-<th onclick="so('dfScore')" data-c="dfScore">⚡ Δ/FIT <span class="s">▼</span></th>
-<th onclick="so('pOwn')" data-c="pOwn">👥 <span class="s">▼</span></th>
-<th onclick="so('leverage')" data-c="leverage">📈 LEV <span class="s">▼</span></th>
+<th data-c="dlta" aria-sort="none">⚖️ Δ <span class="s" aria-hidden="true">▼</span></th>
+<th data-c="steamAbs" aria-sort="none">🚂 <span class="s" aria-hidden="true">▼</span></th>
+<th data-c="courseHistory" aria-sort="none">🏛️ <span class="s" aria-hidden="true">▼</span></th>
+<th data-c="profileFit" aria-sort="none">🎯 FIT <span class="s" aria-hidden="true">▼</span></th>
+<th data-c="dfScore" aria-sort="none">⚡ Δ/FIT <span class="s" aria-hidden="true">▼</span></th>
+<th data-c="pOwn" aria-sort="none">👥 <span class="s" aria-hidden="true">▼</span></th>
+<th data-c="leverage" aria-sort="none">📈 LEV <span class="s" aria-hidden="true">▼</span></th>
 </tr></thead><tbody id="tb"></tbody></table></div>
+<div id="sr-announce" role="status" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 </div>
 
-<div class="pnl" id="p-build">
+<div class="pnl" id="p-build" role="tabpanel" aria-labelledby="tab-build">
 <div class="bw">
 <div class="bm">
 <h3>🛠️ Lineup Builder</h3>
 <p>Lock players in the Pool tab, then generate. Knapsack DP · 6 players · $49k–$50k cap.</p>
 <div class="ba">
-<button class="bb gp" onclick="gen('gpp')"><div class="bt">🚀 GPP</div><div class="bs2">Max composite + leverage. Caps pOWN at 85%.</div></button>
-<button class="bb df" onclick="gen('delta')"><div class="bt">⚡ Δ/FIT</div><div class="bs2">Max delta × fit arbitrage. Market value + course fit.</div></button>
+<button class="bb gp" data-gen="gpp"><div class="bt">🚀 GPP</div><div class="bs2">Max composite + leverage. Caps pOWN at 85%.</div></button>
+<button class="bb df" data-gen="delta"><div class="bt">⚡ Δ/FIT</div><div class="bs2">Max delta × fit arbitrage. Market value + course fit.</div></button>
 </div>
-<div class="ld"><div class="lh"><h4>🔒 Locked Players</h4><button class="clr" onclick="clrL()">CLEAR ALL</button></div><div id="ll"><div class="le">No players locked.</div></div></div>
+<div class="ld"><div class="lh"><h4>🔒 Locked Players</h4><button class="clr" id="clrLocks">CLEAR ALL</button></div><div id="ll"><div class="le">No players locked.</div></div></div>
 <div class="oc2" id="oc">
 <div class="oh"><h4 id="ot">Optimal Lineup</h4><div class="ost" id="os"></div></div>
 <ul class="ol" id="olist"></ul>
-<button class="xb" onclick="xCSV()">📥 EXPORT DRAFTKINGS CSV</button>
+<button class="xb" id="xCsvBtn">📥 EXPORT DRAFTKINGS CSV</button>
 </div>
 </div>
 <div class="bsd"><h4>📋 Roster State</h4>
@@ -407,13 +417,13 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 </div>
 </div>
 
-<div class="pnl" id="p-pre">
+<div class="pnl" id="p-pre" role="tabpanel" aria-labelledby="tab-pre">
 <div class="ph">
 <h2>🎰 Pre-Built Lineups</h2>
 <p>Two engines. <strong>Monte Carlo GPP</strong> runs 5M simulations for ceiling plays. <strong>Δ/Fit Optimizer</strong> uses pure delta × fit knapsack for market-value lineups. Both output 5 ready-to-export lineups.</p>
 <div class="pre-modes">
-<button class="pre-btn gpp" id="simB" onclick="runSim()">▶ RUN 5M GPP SIMS</button>
-<button class="pre-btn delta" id="dfB" onclick="runDeltaFit()">⚡ RUN Δ/FIT OPTIMIZER</button>
+<button class="pre-btn gpp" id="simB">▶ RUN 5M GPP SIMS</button>
+<button class="pre-btn delta" id="dfB">⚡ RUN Δ/FIT OPTIMIZER</button>
 </div>
 <div class="pw" id="pw">
 <div class="pbg"><div class="pbf" id="pf"></div></div>
@@ -434,7 +444,7 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 </div>
 </div>
 
-<div class="fc"><div class="fab" onclick="sw('build',document.querySelectorAll('.tab')[2])">
+<div class="fc"><div class="fab" id="fabBtn" tabindex="0" role="button" aria-label="Go to Build tab">
 <div class="fs">
 <div class="fb"><span class="fv" id="fC">0/6</span><span class="fl">Roster</span></div>
 <div class="fb"><span class="fv vg" id="fS">$50,000</span><span class="fl">Rem Cap</span></div>
@@ -444,24 +454,88 @@ th:first-child,td:first-child{width:100px;min-width:100px;padding-left:6px}
 <div style="color:var(--tx3);font-size:11px;font-family:var(--mn)">BUILD →</div>
 </div></div>
 
+<div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
 <script>
-const NH=75;
-const CHALK=["Scottie Scheffler","Matt Fitzpatrick","Russell Henley","Patrick Cantlay","Cameron Young","Xander Schauffele","Jacob Bridgeman","S. Yellamaraju","Ryo Hisatsune","Tommy Fleetwood"];
-const CPS_GOOD=["Billy Horschel","Chris Gotterup","Viktor Hovland","Gary Woodland","Matt Wallace","Matt Fitzpatrick","Xander Schauffele","Jason Day","Justin Thomas"];
-const REDDIT_MS={
+'use strict';
+
+/* ============================================================
+   V5.5 SAFETY UTILITIES
+   ============================================================ */
+
+// Escape for HTML text content / attribute values when interpolated into innerHTML
+const escHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({
+  '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+}[c]));
+
+// CSV export: neutralize formula injection (=, +, -, @, tab, CR at start) + quote when needed
+const escCsv = (s) => {
+  let v = String(s ?? '');
+  if (/^[=+\-@\t\r]/.test(v)) v = "'" + v;
+  if (/[",\n\r]/.test(v)) v = '"' + v.replace(/"/g, '""') + '"';
+  return v;
+};
+
+// Defensive number coercion — returns fallback for null/undefined/NaN
+const num = (v, fallback = 0) => { const n = Number(v); return Number.isFinite(n) ? n : fallback; };
+const fmtSalaryK = (n) => '$' + (num(n) / 1000).toFixed(1) + 'k';
+const fmtPct = (n, dp = 1) => num(n).toFixed(dp) + '%';
+const fmtFixed = (n, dp = 1) => num(n).toFixed(dp);
+
+// Generalized American odds → implied probability (handles both + and -)
+const impliedProb = (americanOdds) => {
+  const o = num(americanOdds);
+  if (o === 0) return 0;
+  return o > 0 ? 100 / (o + 100) : Math.abs(o) / (Math.abs(o) + 100);
+};
+
+// Name normalization for Reddit lookup — strips diacritics + tolerates abbreviations
+const normalizeName = (s) => String(s ?? '')
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/\b([A-Z])\.\s*/g, '$1 ')
+  .toLowerCase().trim();
+
+// Toast (replaces alert)
+let _toastTimer = null;
+const toast = (msg) => {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+};
+
+// Live region announcer
+const announce = (msg) => {
+  const el = document.getElementById('sr-announce');
+  if (el) el.textContent = msg;
+};
+
+// Lineup cache (replaces window['_lu_*'] global pollution)
+const lineupCache = new Map();
+
+/* ============================================================
+   DATA
+   ============================================================ */
+const NH = 75;
+const CHALK = ["Scottie Scheffler","Matt Fitzpatrick","Russell Henley","Patrick Cantlay","Cameron Young","Xander Schauffele","Jacob Bridgeman","S. Yellamaraju","Ryo Hisatsune","Tommy Fleetwood"];
+const CPS_GOOD = ["Billy Horschel","Chris Gotterup","Viktor Hovland","Gary Woodland","Matt Wallace","Matt Fitzpatrick","Xander Schauffele","Jason Day","Justin Thomas"];
+
+const REDDIT_MS = {
 "Scottie Scheffler":1000,"Russell Henley":987,"Collin Morikawa":977,"Tommy Fleetwood":953,
 "Xander Schauffele":916,"Matt Fitzpatrick":889,"Si Woo Kim":879,"Ludvig Åberg":876,
-"Patrick Cantlay":856,"Shane Lowry":819,"S. Yellamaraju":809,"Ryo Hisatsune":799,
-"Viktor Hovland":785,"Ryan Gerard":782,"Cameron Young":769,"Justin Thomas":765,
-"J.J. Spaun":749,"Daniel Berger":742,"Corey Conners":728,"Kurt Kitayama":722,
-"Sepp Straka":682,"Maverick McNealy":675,"Brian Harman":675,"Austin Smotherman":675,
-"Jordan Spieth":665,"Ben Griffin":655,"Keegan Bradley":655,"Sam Stevens":648,
-"Bud Cauley":614,"Robert MacIntyre":598,"Andrew Novak":578,"Chris Gotterup":564,
-"Taylor Pendrith":564,"Wyndham Clark":544,"Sam Burns":537,"Akshay Bhatia":537,
-"Lucas Glover":534,"Min Woo Lee":514,"Rickie Fowler":501,"Sungjae Im":497,
-"J.T. Poston":457,"Matt Wallace":454,"Nick Taylor":450,"Jacob Bridgeman":447,
-"Ricky Castillo":427,"Harry Hall":413,"Nicolai Højgaard":400,"Ryan Fox":397,
-"Alex Noren":393,"David Lipsky":387,"Tony Finau":383,"Sahith Theegala":363,
+"Michael Thorbjornsen":861,"Patrick Cantlay":856,"Shane Lowry":819,"S. Yellamaraju":809,
+"Ryo Hisatsune":799,"Viktor Hovland":785,"Ryan Gerard":782,"Cameron Young":769,
+"Justin Thomas":765,"J.J. Spaun":749,"Daniel Berger":742,"Corey Conners":728,
+"Kurt Kitayama":722,"Sepp Straka":682,"Maverick McNealy":675,"Brian Harman":675,
+"Austin Smotherman":675,"Jordan Spieth":665,"Ben Griffin":655,"Keegan Bradley":655,
+"Sam Stevens":648,"Bud Cauley":614,"Robert MacIntyre":598,"Andrew Novak":578,
+"Chris Gotterup":564,"Taylor Pendrith":564,"Wyndham Clark":544,"Sam Burns":537,
+"Akshay Bhatia":537,"Lucas Glover":534,"Min Woo Lee":514,"Rickie Fowler":501,
+"Sungjae Im":497,"J.T. Poston":457,"Matt Wallace":454,"Nick Taylor":450,
+"Jacob Bridgeman":447,"Ricky Castillo":427,"Harry Hall":413,"Nicolai Højgaard":400,
+"Ryan Fox":397,"Alex Noren":393,"David Lipsky":387,"Tony Finau":383,"Sahith Theegala":363,
 "Harris English":360,"Jason Day":356,"Andrew Putnam":333,"Nico Echavarria":330,
 "Jake Knapp":326,"Jhonattan Vegas":313,"Michael Brennan":306,"Jordan Smith":303,
 "Matt McCarty":303,"Patrick Rodgers":283,"Gary Woodland":252,"Sami Valimaki":229,
@@ -471,9 +545,23 @@ const REDDIT_MS={
 "Garrick Higgo":98,"Chandler Blanchet":51,"Joe Highsmith":48,"Aldrich Potgieter":38,
 "Adam Schenk":8
 };
-const EXPERT_TOP=Object.entries(REDDIT_MS).sort((a,b)=>b[1]-a[1]).slice(0,15).map(e=>e[0]);
 
-const db=[
+// Build normalized index for tolerant lookup
+const REDDIT_INDEX = (() => {
+  const m = new Map();
+  for (const [name, score] of Object.entries(REDDIT_MS)) m.set(normalizeName(name), score);
+  return m;
+})();
+const lookupReddit = (name) => {
+  const score = REDDIT_INDEX.get(normalizeName(name));
+  if (score === undefined) console.warn('[plaid-genie] No Reddit match:', name);
+  return score;
+};
+
+const EXPERT_TOP = Object.entries(REDDIT_MS).sort((a,b)=>b[1]-a[1]).slice(0,15).map(e=>e[0]);
+const EXPERT_TOP_NORM = new Set(EXPERT_TOP.map(normalizeName));
+
+const db = [
 {n:"Scottie Scheffler",s:350,m:370,t:385,wed:380,w:"PM",p:13500,sa:.08,bp:30.79,ch:19.7,sr:.618,px:18.4,gr:58.5},
 {n:"Xander Schauffele",s:1450,m:1450,t:1500,wed:1475,w:"PM",p:10500,sa:.662,bp:23.5,ch:22,sr:.009,px:20.9,gr:59.1},
 {n:"Tommy Fleetwood",s:1700,m:1750,t:1800,wed:1850,w:"PM",p:10100,sa:.459,bp:24.44,ch:22.7,sr:.712,px:19.5,gr:62.2},
@@ -558,331 +646,538 @@ const db=[
 {n:"Joe Highsmith",s:200000,m:170000,t:190000,wed:180000,w:"AM",p:6000,sa:-.112,bp:22,ch:74.25,sr:-.338,px:22.5,gr:57}
 ];
 
-let P=[],CF='all',SC='composite',SA=false,lastLU=null;
-window.onload=()=>{proc()};
+let P = [], CF = 'all', SC = 'composite', SA = false, lastLU = null;
 
-function sw(t,b){
-  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
-  document.getElementById('p-'+t).classList.add('on');
-  b.classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
+/* ============================================================
+   INIT
+   ============================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  proc();
+  initEvents();
+});
+
+function initEvents() {
+  // Tabs: click + keyboard arrow nav
+  const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => activateTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      let next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); activateTab(next); next.focus(); }
+    });
+  });
+
+  // Guide CTAs
+  document.querySelectorAll('[data-go]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const panel = btn.dataset.go;
+      const filter = btn.dataset.filter;
+      const tab = document.getElementById('tab-' + panel);
+      if (tab) activateTab(tab);
+      if (filter) setTimeout(() => applyFilterByName(filter), 150);
+    });
+  });
+
+  // Filter chips
+  document.querySelectorAll('.chip[data-filter]').forEach(chip => {
+    chip.addEventListener('click', () => applyFilterByName(chip.dataset.filter, chip));
+  });
+
+  // Search
+  document.getElementById('srch').addEventListener('input', ren);
+
+  // Sortable headers
+  document.querySelectorAll('th[data-c]').forEach(th => {
+    if (th.dataset.c === 'spark') return; // not sortable
+    th.setAttribute('tabindex', '0');
+    th.setAttribute('role', 'button');
+    th.addEventListener('click', () => so(th.dataset.c));
+    th.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); so(th.dataset.c); }
+    });
+  });
+
+  // Column key collapse
+  const ckToggle = document.getElementById('colKeyToggle');
+  ckToggle.addEventListener('click', () => {
+    const ck = document.getElementById('colKey');
+    const open = ck.classList.toggle('open');
+    ckToggle.setAttribute('aria-expanded', String(open));
+  });
+
+  // Build / Generate
+  document.querySelectorAll('[data-gen]').forEach(btn => {
+    btn.addEventListener('click', () => gen(btn.dataset.gen));
+  });
+  document.getElementById('clrLocks').addEventListener('click', clrL);
+  document.getElementById('xCsvBtn').addEventListener('click', xCSV);
+
+  // Pre-built
+  document.getElementById('simB').addEventListener('click', runSim);
+  document.getElementById('dfB').addEventListener('click', runDeltaFit);
+
+  // Floating action button → Build tab
+  const fab = document.getElementById('fabBtn');
+  const goBuild = () => {
+    const tab = document.getElementById('tab-build');
+    if (tab) activateTab(tab);
+  };
+  fab.addEventListener('click', goBuild);
+  fab.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goBuild(); }
+  });
+
+  // Table delegation: lock/exclude buttons + badge popovers
+  document.getElementById('tb').addEventListener('click', (e) => {
+    const actionBtn = e.target.closest('button[data-action]');
+    if (actionBtn) {
+      const name = actionBtn.dataset.name;
+      if (actionBtn.dataset.action === 'lock') tL(name);
+      else if (actionBtn.dataset.action === 'exclude') tE(name);
+      return;
+    }
+    const dot = e.target.closest('[data-bp]');
+    if (dot) {
+      e.stopPropagation();
+      toggleBP(dot.dataset.bp);
+    }
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.bp-pop.show').forEach(x => x.classList.remove('show'));
+  });
 }
 
-function proc(){
-  let tRO=0;
-  P=db.map(d=>{
-    let o={...d,name:d.n,price:d.p,wave:d.w,courseHistory:d.ch,locked:false,excluded:false};
-    const np=d.n.split(' ');
-    o.sn=np.length>1?(np[0][0]+'. '+np.slice(1).join(' ')):d.n;
-    const impS=100/(d.s+100);
-    const impM=100/(d.m+100);
-    const impT=100/(d.t+100);
-    const impW=100/(d.wed+100);
-    o.liveImp=impW;
-    o.curOdds=d.wed;
-    o.spark=[impS,impM,impT,impW];
-    o.steamRaw=(impW-impS)/impS;
-    o.steamAbs=Math.abs(o.steamRaw)*100;
-    o.isSteam=o.steamRaw>0.02;
-    o.isDrift=o.steamRaw<-0.05;
-    const t1=impM>impS?1:0;
-    const t2=impT>impM?1:0;
-    const t3=impW>impT?1:0;
-    o.steamPoints=t1+t2+t3;
-    o.hasHistory=d.ch<NH;
-    o.isChalk=CHALK.includes(d.n);
-    o.hasCPS=CPS_GOOD.includes(d.n);
-    o.isExpert=EXPERT_TOP.includes(d.n);
-    const rms=REDDIT_MS[d.n];
-    o.redditScore=rms!==undefined?rms:null;
-    o.hasReddit=rms!==undefined;
-    o.rawFit=o.hasReddit?rms:(()=>{
-      let app=d.sa*3,arg=(d.sr||0)*2,prox=(30-(d.px||22))*2,rgh=(d.gr||57)/20,bird=(d.bp||22)/20;
-      return Math.max(100,Math.min(700,300+(app+arg+prox+rgh+bird)*30));
-    })();
-    return o;
+function activateTab(tab) {
+  document.querySelectorAll('[role="tab"]').forEach(t => {
+    t.setAttribute('aria-selected', 'false');
+    t.setAttribute('tabindex', '-1');
+    t.classList.remove('on');
   });
-  P.forEach(p=>{p.profileFit=p.rawFit/10});
-  P.sort((a,b)=>b.price-a.price).forEach((p,i)=>p.salRank=i+1);
-  P.sort((a,b)=>b.liveImp-a.liveImp).forEach((p,i)=>p.oddsRank=i+1);
-  let tRO2=0;
-  P.forEach(p=>{
-    p.dlta=p.salRank-p.oddsRank;
-    let base=p.price>=10000?15:(p.price>=9000?13:(p.price>=8000?10:12));
-    let bump=p.dlta*1.2;
-    let hist=p.hasHistory&&p.courseHistory<=20?5:(p.hasHistory&&p.courseHistory<=40?2:0);
-    let steam=p.isSteam?4:0;
-    let chalk=p.isChalk?10:0;
-    let expert=p.isExpert?4:0;
-    p.rawOwn=Math.max(0.5,base+bump+hist+steam+chalk+expert);
-    tRO2+=p.rawOwn;
-  });
-  const norm=600/tRO2;
-  P.forEach(p=>{
-    p.pOwn=Math.min(42,p.rawOwn*norm);
-    const logOwn=Math.log2(Math.max(1,p.pOwn));
-    p.rawLev=p.profileFit-(logOwn*8);
-    if(p.hasCPS)p.rawLev*=1.1;
-  });
-  const lv=P.map(x=>x.rawLev),mxL=Math.max(...lv),mnL=Math.min(...lv);
-  P.forEach(p=>{
-    p.leverage=((p.rawLev-mnL)/(mxL-mnL))*100;
-    const histB=p.hasHistory?((80-p.courseHistory)*0.5):0;
-    const oddsB=p.liveImp*120;
-    p.composite=p.profileFit+histB+oddsB;
-    const dltaNorm=Math.max(0,(p.dlta+20)/40);
-    p.dfScore=Math.round(dltaNorm*p.profileFit*100)/100;
-  });
-  const dfVals=P.map(x=>x.dfScore),mxDF=Math.max(...dfVals),mnDF=Math.min(...dfVals);
-  P.forEach(p=>{p.dfScoreN=((p.dfScore-mnDF)/(mxDF-mnDF))*100});
-  P.sort((a,b)=>b.composite-a.composite);
-  ren();upd();
+  document.querySelectorAll('[role="tabpanel"]').forEach(p => p.classList.remove('on'));
+  tab.setAttribute('aria-selected', 'true');
+  tab.setAttribute('tabindex', '0');
+  tab.classList.add('on');
+  const panel = document.getElementById(tab.getAttribute('aria-controls'));
+  if (panel) panel.classList.add('on');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function flt(f,b){CF=f;document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));b.classList.add('on');ren()}
-function so(c){SA=SC===c?!SA:false;SC=c;ren()}
-function tL(n){const p=P.find(x=>x.name===n);if(p){p.locked=!p.locked;if(p.locked)p.excluded=false}ren();upd()}
-function tE(n){const p=P.find(x=>x.name===n);if(p){p.excluded=!p.excluded;if(p.excluded)p.locked=false}ren();upd()}
-function clrL(){P.forEach(p=>p.locked=false);ren();upd()}
+function applyFilterByName(name, chipEl) {
+  CF = name;
+  const chip = chipEl || document.querySelector(`.chip[data-filter="${name}"]`);
+  document.querySelectorAll('.chip').forEach(x => x.classList.remove('on'));
+  if (chip) chip.classList.add('on');
+  ren();
+}
 
-function ren(){
-  const q=document.getElementById('srch').value.toLowerCase();
-  let d=P.filter(p=>{
-    if(q&&!p.name.toLowerCase().includes(q))return false;
-    if(CF==='am')return p.wave==='AM';
-    if(CF==='pm')return p.wave==='PM';
-    if(CF==='steam')return p.isSteam;
-    if(CF==='dlta')return p.dlta>3;
-    if(CF==='lev')return p.leverage>65;
-    if(CF==='chalk')return p.isChalk;
-    if(CF==='expert')return p.isExpert;
+/* ============================================================
+   DATA PROCESSING
+   ============================================================ */
+function proc() {
+  P = db.map(d => {
+    try {
+      let o = { ...d, name: d.n, price: num(d.p), wave: d.w, courseHistory: num(d.ch, 75), locked: false, excluded: false };
+      const np = d.n.split(' ');
+      o.sn = np.length > 1 ? (np[0][0] + '. ' + np.slice(1).join(' ')) : d.n;
+
+      // Use generalized impliedProb (handles + and -); guard against missing odds
+      o.liveImp = impliedProb(d.wed);
+      o.curOdds = num(d.wed);
+      const impS = impliedProb(d.s);
+      const impM = impliedProb(d.m);
+      const impT = impliedProb(d.t);
+      const impW = o.liveImp;
+      o.spark = [impS, impM, impT, impW];
+      o.steamRaw = impS > 0 ? (impW - impS) / impS : 0;
+      o.steamAbs = Math.abs(o.steamRaw) * 100;
+      o.isSteam = o.steamRaw > 0.02;
+      o.isDrift = o.steamRaw < -0.05;
+      o.steamPoints = (impM > impS ? 1 : 0) + (impT > impM ? 1 : 0) + (impW > impT ? 1 : 0);
+
+      o.hasHistory = num(d.ch, 75) < NH;
+      o.isChalk = CHALK.includes(d.n);
+      o.hasCPS = CPS_GOOD.includes(d.n);
+      o.isExpert = EXPERT_TOP_NORM.has(normalizeName(d.n));
+
+      // Tolerant Reddit lookup (handles diacritic + abbreviation mismatches)
+      const rms = lookupReddit(d.n);
+      o.redditScore = rms !== undefined ? rms : null;
+      o.hasReddit = rms !== undefined;
+      o.rawFit = o.hasReddit ? rms : (() => {
+        let app = num(d.sa) * 3, arg = num(d.sr) * 2, prox = (30 - num(d.px, 22)) * 2,
+            rgh = num(d.gr, 57) / 20, bird = num(d.bp, 22) / 20;
+        return Math.max(100, Math.min(700, 300 + (app + arg + prox + rgh + bird) * 30));
+      })();
+      return o;
+    } catch (err) {
+      console.error('[plaid-genie] Failed to process player', d?.n, err);
+      return null;
+    }
+  }).filter(Boolean);
+
+  P.forEach(p => { p.profileFit = p.rawFit / 10; });
+  P.sort((a, b) => b.price - a.price).forEach((p, i) => p.salRank = i + 1);
+  P.sort((a, b) => b.liveImp - a.liveImp).forEach((p, i) => p.oddsRank = i + 1);
+
+  let tRO2 = 0;
+  P.forEach(p => {
+    p.dlta = p.salRank - p.oddsRank;
+    let base = p.price >= 10000 ? 15 : (p.price >= 9000 ? 13 : (p.price >= 8000 ? 10 : 12));
+    let bump = p.dlta * 1.2;
+    let hist = p.hasHistory && p.courseHistory <= 20 ? 5 : (p.hasHistory && p.courseHistory <= 40 ? 2 : 0);
+    let steam = p.isSteam ? 4 : 0;
+    let chalk = p.isChalk ? 10 : 0;
+    let expert = p.isExpert ? 4 : 0;
+    p.rawOwn = Math.max(0.5, base + bump + hist + steam + chalk + expert);
+    tRO2 += p.rawOwn;
+  });
+
+  // Guard against div-by-zero
+  const norm = tRO2 > 0 ? 600 / tRO2 : 1;
+  P.forEach(p => {
+    p.pOwn = Math.min(42, p.rawOwn * norm);
+    const logOwn = Math.log2(Math.max(1, p.pOwn));
+    p.rawLev = p.profileFit - (logOwn * 8);
+    if (p.hasCPS) p.rawLev *= 1.1;
+  });
+
+  if (P.length) {
+    const lv = P.map(x => x.rawLev), mxL = Math.max(...lv), mnL = Math.min(...lv);
+    const range = mxL - mnL || 1;
+    P.forEach(p => {
+      p.leverage = ((p.rawLev - mnL) / range) * 100;
+      const histB = p.hasHistory ? ((80 - p.courseHistory) * 0.5) : 0;
+      const oddsB = p.liveImp * 120;
+      p.composite = p.profileFit + histB + oddsB;
+      const dltaNorm = Math.max(0, (p.dlta + 20) / 40);
+      p.dfScore = Math.round(dltaNorm * p.profileFit * 100) / 100;
+    });
+    const dfVals = P.map(x => x.dfScore), mxDF = Math.max(...dfVals), mnDF = Math.min(...dfVals);
+    const dfRange = mxDF - mnDF || 1;
+    P.forEach(p => { p.dfScoreN = ((p.dfScore - mnDF) / dfRange) * 100; });
+    P.sort((a, b) => b.composite - a.composite);
+  }
+  ren();
+  upd();
+}
+
+function so(c) { SA = SC === c ? !SA : false; SC = c; ren(); announce(`Sorted by ${c}, ${SA ? 'ascending' : 'descending'}`); }
+function tL(n) { const p = P.find(x => x.name === n); if (p) { p.locked = !p.locked; if (p.locked) p.excluded = false; } ren(); upd(); }
+function tE(n) { const p = P.find(x => x.name === n); if (p) { p.excluded = !p.excluded; if (p.excluded) p.locked = false; } ren(); upd(); }
+function clrL() { P.forEach(p => p.locked = false); ren(); upd(); }
+
+/* ============================================================
+   RENDER (XSS-safe via escHtml on all interpolated player data)
+   ============================================================ */
+function ren() {
+  const q = (document.getElementById('srch').value || '').toLowerCase();
+  let d = P.filter(p => {
+    if (q && !p.name.toLowerCase().includes(q)) return false;
+    if (CF === 'am') return p.wave === 'AM';
+    if (CF === 'pm') return p.wave === 'PM';
+    if (CF === 'steam') return p.isSteam;
+    if (CF === 'dlta') return p.dlta > 3;
+    if (CF === 'lev') return p.leverage > 65;
+    if (CF === 'chalk') return p.isChalk;
+    if (CF === 'expert') return p.isExpert;
     return true;
   });
-  d.sort((a,b)=>{
-    let va=a[SC],vb=b[SC];
-    if(typeof va==='string')return SA?va.localeCompare(vb):vb.localeCompare(va);
-    return SA?va-vb:vb-va;
+  d.sort((a, b) => {
+    let va = a[SC], vb = b[SC];
+    if (va == null) va = SA ? Infinity : -Infinity;
+    if (vb == null) vb = SA ? Infinity : -Infinity;
+    if (typeof va === 'string') return SA ? va.localeCompare(vb) : vb.localeCompare(va);
+    return SA ? va - vb : vb - va;
   });
-  document.querySelectorAll('th[data-c]').forEach(th=>{
-    th.classList.toggle('act',th.dataset.c===SC);
-    const s=th.querySelector('.s');
-    if(s)s.textContent=th.dataset.c===SC?(SA?'▲':'▼'):'▼';
+
+  document.querySelectorAll('th[data-c]').forEach(th => {
+    const isActive = th.dataset.c === SC;
+    th.classList.toggle('act', isActive);
+    if (th.dataset.c !== 'spark') {
+      th.setAttribute('aria-sort', isActive ? (SA ? 'ascending' : 'descending') : 'none');
+    }
+    const s = th.querySelector('.s');
+    if (s) s.textContent = isActive ? (SA ? '▲' : '▼') : '▼';
   });
-  document.getElementById('tb').innerHTML=d.map(p=>{
-    const rc=p.locked?'row-lk':(p.excluded?'row-ex':'');
-    const cur=p.curOdds;
-    let oc='',oa='';
-    if(cur<p.s){oc='os';oa=' ▼';}else if(cur>p.s){oc='od';oa=' ▲';}
-    const spMax=Math.max(...p.spark);
-    const bars=p.spark.map((v,i)=>{
-      const h=Math.max(2,Math.round((v/spMax)*18));
-      const c=i===p.spark.length-1?(v>=p.spark[0]?'var(--grn)':'var(--red)'):'var(--tx3)';
-      return`<div class="sb" style="height:${h}px;background:${c}"></div>`;
-    }).join('');
-    const stC=p.isSteam?'vg':(p.isDrift?'vr':'');
-    const hist=p.hasHistory?p.courseHistory.toFixed(1):'<span class="na">N/A</span>';
-    const dC=p.dlta>2?'vg':(p.dlta<-2?'vr':'');
-    const chk=p.isChalk?'<span class="ct">CHALK</span>':'';
-    const cps=p.hasCPS?'<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>':'';
-    const exp=p.isExpert?'<span class="ce">🧠 EXPERT</span>':'';
-    const wc=p.wave==='AM'?'wam':'wpm';
-    const fitRaw=p.hasReddit?`<span class="fit-raw">RDT ${p.redditScore}</span>`:`<span class="fit-raw" style="color:var(--red);font-style:italic">~fit</span>`;
-    const fitColor=p.profileFit>75?'var(--grn)':(p.profileFit>50?'var(--tx)':(p.profileFit<25?'var(--red)':'inherit'));
-    const dfColor=p.dfScoreN>70?'var(--gld)':(p.dfScoreN>40?'var(--tx)':'var(--tx3)');
-    let spBadge='';
-    if(p.steamPoints===3&&p.isSteam)spBadge='<span style="font-size:7px;background:rgba(52,211,153,.2);color:var(--grn);border:1px solid rgba(52,211,153,.4);padding:1px 4px;border-radius:3px;font-family:var(--mn);font-weight:700;margin-left:2px">3/3🔥</span>';
-    else if(p.steamPoints>=1&&p.isSteam)spBadge=`<span style="font-size:7px;background:rgba(251,191,36,.12);color:var(--gld);border:1px solid rgba(251,191,36,.3);padding:1px 4px;border-radius:3px;font-family:var(--mn);font-weight:700;margin-left:2px">${p.steamPoints}/3</span>`;
-    const hasBdg=p.isExpert||p.isChalk||p.hasCPS;
-    const bpId='bp_'+p.name.replace(/[^a-zA-Z]/g,'');
-    const bpDot=hasBdg?`<span class="bp-dot" onclick="event.stopPropagation();toggleBP('${bpId}')"></span>`:'';
-    const bpPop=hasBdg?`<div class="bp-pop" id="${bpId}">${exp}${chk}${cps}</div>`:'';
-    return`<tr class="${rc}">
-<td><div class="pn">${p.sn}<span class="wv ${wc}">${p.wave}</span>${exp}${chk}${cps}${spBadge}${bpDot}${bpPop}</div>
-<div class="acts"><button class="bi ${p.locked?'lk':''}" onclick="tL('${p.name.replace(/'/g,"\\'")}')">🔒</button><button class="bi ${p.excluded?'ex':''}" onclick="tE('${p.name.replace(/'/g,"\\'")}')">✕</button></div></td>
-<td class="vg mn" style="font-size:12px">$${p.price/1000}k</td>
-<td class="oc-cell"><div class="oo">S+${p.s} M+${p.m} T+${p.t}</div><div class="${oc}" style="font-weight:700">+${cur}${oa}</div></td>
-<td class="hide-m"><div class="sp">${bars}</div></td>
-<td class="${dC} mn" style="font-weight:600">${p.dlta>0?'+'+p.dlta:p.dlta}</td>
-<td class="${stC} mn">${p.steamAbs.toFixed(1)}%</td>
-<td class="mn">${hist}</td>
-<td><div class="fit-cell"><strong style="color:${fitColor}">${p.profileFit.toFixed(1)}</strong>${fitRaw}</div></td>
-<td class="mn" style="font-weight:700;color:${dfColor}">${p.dfScoreN.toFixed(1)}</td>
-<td class="mn ${p.isChalk?'vr':''}" style="font-weight:700">${p.pOwn.toFixed(1)}%</td>
-<td class="mn ${p.leverage>80?'vgl':''}" style="font-weight:700">${p.leverage.toFixed(1)}</td>
-</tr>`;
+
+  document.getElementById('tb').innerHTML = d.map(p => {
+    try { return rowHtml(p); }
+    catch (err) { console.error('[plaid-genie] Row render failed:', p?.name, err); return ''; }
   }).join('');
 }
 
-function upd(){
-  const lk=P.filter(x=>x.locked),ex=P.filter(x=>x.excluded);
-  const sal=lk.reduce((s,p)=>s+p.price,0);
-  const own=lk.reduce((s,p)=>s+p.pOwn,0);
-  const pts=lk.reduce((s,p)=>s+p.composite,0);
-  const df=lk.reduce((s,p)=>s+p.dfScoreN,0);
-  document.getElementById('sL').textContent=`${lk.length}/6`;
-  document.getElementById('sE').textContent=ex.length;
-  document.getElementById('sS').textContent='$'+sal.toLocaleString();
-  document.getElementById('sR').textContent='$'+(50000-sal).toLocaleString();
-  document.getElementById('sP').textContent=pts.toFixed(1);
-  document.getElementById('sDF').textContent=df.toFixed(1);
-  document.getElementById('sO').textContent=own.toFixed(1)+'%';
-  document.getElementById('fC').textContent=`${lk.length}/6`;
-  document.getElementById('fS').textContent='$'+(50000-sal).toLocaleString();
-  document.getElementById('fP').textContent=pts.toFixed(1);
-  document.getElementById('fO').textContent=own.toFixed(1)+'%';
-  const ll=document.getElementById('ll');
-  if(!lk.length)ll.innerHTML='<div class="le">No players locked.</div>';
-  else ll.innerHTML=lk.map(p=>`<div class="li"><span>🔒 <strong>${p.name}</strong> <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span></span><span class="mn vg">$${(p.price/1000).toFixed(1)}k</span></div>`).join('');
+function rowHtml(p) {
+  const safeName = escHtml(p.name);
+  const safeSn = escHtml(p.sn);
+  const rc = p.locked ? 'row-lk' : (p.excluded ? 'row-ex' : '');
+  const cur = num(p.curOdds);
+  let oc = '', oa = '';
+  if (cur < num(p.s)) { oc = 'os'; oa = ' ▼'; }
+  else if (cur > num(p.s)) { oc = 'od'; oa = ' ▲'; }
+  const spMax = Math.max(...p.spark, 0.0001);
+  const bars = p.spark.map((v, i) => {
+    const h = Math.max(2, Math.round((v / spMax) * 18));
+    const c = i === p.spark.length - 1 ? (v >= p.spark[0] ? 'var(--grn)' : 'var(--red)') : 'var(--tx3)';
+    return `<div class="sb" style="height:${h}px;background:${c}"></div>`;
+  }).join('');
+
+  // Steam: arrow prefix is non-color signal (WCAG 1.4.1)
+  let stArr = '', stC = '';
+  if (p.isSteam) { stArr = '<span class="steam-arr">▲</span>'; stC = 'vg'; }
+  else if (p.isDrift) { stArr = '<span class="steam-arr">▼</span>'; stC = 'vr'; }
+
+  const hist = p.hasHistory ? fmtFixed(p.courseHistory) : '<span class="na">N/A</span>';
+  const dC = p.dlta > 2 ? 'vg' : (p.dlta < -2 ? 'vr' : '');
+  const dArr = p.dlta > 2 ? '▲ ' : (p.dlta < -2 ? '▼ ' : '');
+  const chk = p.isChalk ? '<span class="ct">CHALK</span>' : '';
+  const cps = p.hasCPS ? '<span class="ct" style="background:rgba(167,139,250,.12);color:var(--pur)">CPS+</span>' : '';
+  const exp = p.isExpert ? '<span class="ce">🧠 EXPERT</span>' : '';
+  const wc = p.wave === 'AM' ? 'wam' : 'wpm';
+  const fitRaw = p.hasReddit
+    ? `<span class="fit-raw">RDT ${num(p.redditScore)}</span>`
+    : `<span class="fit-raw" style="color:var(--red);font-style:italic">~fit</span>`;
+  const fitColor = p.profileFit > 75 ? 'var(--grn)' : (p.profileFit > 50 ? 'var(--tx)' : (p.profileFit < 25 ? 'var(--red)' : 'inherit'));
+  const dfColor = p.dfScoreN > 70 ? 'var(--gld)' : (p.dfScoreN > 40 ? 'var(--tx)' : 'var(--tx3)');
+
+  let spBadge = '';
+  if (p.steamPoints === 3 && p.isSteam) {
+    spBadge = '<span style="font-size:7px;background:rgba(52,211,153,.2);color:var(--grn);border:1px solid rgba(52,211,153,.4);padding:1px 4px;border-radius:3px;font-family:var(--mn);font-weight:700;margin-left:2px">3/3🔥</span>';
+  } else if (p.steamPoints >= 1 && p.isSteam) {
+    spBadge = `<span style="font-size:7px;background:rgba(251,191,36,.12);color:var(--gld);border:1px solid rgba(251,191,36,.3);padding:1px 4px;border-radius:3px;font-family:var(--mn);font-weight:700;margin-left:2px">${p.steamPoints}/3</span>`;
+  }
+
+  const hasBdg = p.isExpert || p.isChalk || p.hasCPS;
+  const bpId = 'bp_' + escHtml(p.name).replace(/[^a-zA-Z]/g, '');
+  const bpDot = hasBdg ? `<span class="bp-dot" data-bp="${bpId}"></span>` : '';
+  const bpPop = hasBdg ? `<div class="bp-pop" id="${bpId}">${exp}${chk}${cps}</div>` : '';
+
+  // Lock/Exclude buttons use data attributes (no inline JS, no XSS surface)
+  const lockLabel = p.locked ? `Unlock ${safeName}` : `Lock ${safeName} in lineup`;
+  const exLabel = p.excluded ? `Re-include ${safeName}` : `Exclude ${safeName} from pool`;
+
+  return `<tr class="${rc}">
+<td><div class="pn">${safeSn}<span class="wv ${wc}">${escHtml(p.wave)}</span>${exp}${chk}${cps}${spBadge}${bpDot}${bpPop}</div>
+<div class="acts">
+<button class="bi ${p.locked ? 'lk' : ''}" data-action="lock" data-name="${safeName}" aria-label="${lockLabel}" aria-pressed="${!!p.locked}">🔒</button>
+<button class="bi ${p.excluded ? 'ex' : ''}" data-action="exclude" data-name="${safeName}" aria-label="${exLabel}" aria-pressed="${!!p.excluded}">✕</button>
+</div></td>
+<td class="vg mn" style="font-size:12px">${fmtSalaryK(p.price)}</td>
+<td class="oc-cell"><div class="oo">S+${num(p.s)} M+${num(p.m)} T+${num(p.t)}</div><div class="${oc}" style="font-weight:700">+${cur}${oa}</div></td>
+<td class="hide-m"><div class="sp">${bars}</div></td>
+<td class="${dC} mn" style="font-weight:600">${dArr}${p.dlta > 0 ? '+' + p.dlta : p.dlta}</td>
+<td class="${stC} mn">${stArr}${fmtPct(p.steamAbs)}</td>
+<td class="mn">${hist}</td>
+<td><div class="fit-cell"><strong style="color:${fitColor}">${fmtFixed(p.profileFit)}</strong>${fitRaw}</div></td>
+<td class="mn" style="font-weight:700;color:${dfColor}">${fmtFixed(p.dfScoreN)}</td>
+<td class="mn ${p.isChalk ? 'vr' : ''}" style="font-weight:700">${fmtPct(p.pOwn)}</td>
+<td class="mn ${p.leverage > 80 ? 'vgl' : ''}" style="font-weight:700">${fmtFixed(p.leverage)}</td>
+</tr>`;
 }
 
-function gen(type){
-  const lk=P.filter(x=>x.locked);
-  if(lk.length>6)return alert("Max 6 locks.");
-  const lkS=lk.reduce((s,p)=>s+p.price,0);
-  if(lkS>50000)return alert("Locks exceed $50k.");
-  const pool=P.filter(x=>!x.excluded&&!x.locked);
-  const req=6-lk.length;
-  if(req===0){lastLU={roster:lk,type};showLU(lk,type);return;}
-  const unit=100,maxU=Math.floor((50000-lkS)/unit);
-  const minU=Math.max(0,Math.ceil((49000-lkS)/unit));
-  let dp=Array(req+1).fill(null).map(()=>Array(maxU+1).fill(null));
-  dp[0][0]={score:0,r:[]};
-  for(const p of pool){
-    const wt=Math.floor(p.price/unit);
-    const val=type==='delta'?p.dfScoreN:(p.composite+p.leverage*0.5);
-    for(let k=req-1;k>=0;k--){
-      for(let w=maxU-wt;w>=0;w--){
-        if(!dp[k][w])continue;
-        const ns=dp[k][w].score+val,nw=w+wt;
-        if(!dp[k+1][nw]||dp[k+1][nw].score<ns)dp[k+1][nw]={score:ns,r:[...dp[k][w].r,p]};
+function upd() {
+  const lk = P.filter(x => x.locked), ex = P.filter(x => x.excluded);
+  const sal = lk.reduce((s, p) => s + num(p.price), 0);
+  const own = lk.reduce((s, p) => s + num(p.pOwn), 0);
+  const pts = lk.reduce((s, p) => s + num(p.composite), 0);
+  const df = lk.reduce((s, p) => s + num(p.dfScoreN), 0);
+  document.getElementById('sL').textContent = `${lk.length}/6`;
+  document.getElementById('sE').textContent = ex.length;
+  document.getElementById('sS').textContent = '$' + sal.toLocaleString();
+  document.getElementById('sR').textContent = '$' + (50000 - sal).toLocaleString();
+  document.getElementById('sP').textContent = pts.toFixed(1);
+  document.getElementById('sDF').textContent = df.toFixed(1);
+  document.getElementById('sO').textContent = own.toFixed(1) + '%';
+  document.getElementById('fC').textContent = `${lk.length}/6`;
+  document.getElementById('fS').textContent = '$' + (50000 - sal).toLocaleString();
+  document.getElementById('fP').textContent = pts.toFixed(1);
+  document.getElementById('fO').textContent = own.toFixed(1) + '%';
+  const ll = document.getElementById('ll');
+  if (!lk.length) ll.innerHTML = '<div class="le">No players locked.</div>';
+  else ll.innerHTML = lk.map(p => `<div class="li"><span>🔒 <strong>${escHtml(p.name)}</strong> <span class="wv ${p.wave === 'AM' ? 'wam' : 'wpm'}">${escHtml(p.wave)}</span></span><span class="mn vg">${fmtSalaryK(p.price)}</span></div>`).join('');
+}
+
+/* ============================================================
+   OPTIMIZER
+   ============================================================ */
+function gen(type) {
+  const lk = P.filter(x => x.locked);
+  if (lk.length > 6) return toast('Max 6 locks.');
+  const lkS = lk.reduce((s, p) => s + num(p.price), 0);
+  if (lkS > 50000) return toast('Locked players exceed $50k cap.');
+  const pool = P.filter(x => !x.excluded && !x.locked);
+  const req = 6 - lk.length;
+  if (pool.length < req) return toast('Not enough available players. Clear some exclusions.');
+  if (req === 0) { lastLU = { roster: lk, type }; showLU(lk, type); return; }
+
+  const unit = 100, maxU = Math.floor((50000 - lkS) / unit);
+  const minU = Math.max(0, Math.ceil((49000 - lkS) / unit));
+  let dp = Array(req + 1).fill(null).map(() => Array(maxU + 1).fill(null));
+  dp[0][0] = { score: 0, r: [] };
+  for (const p of pool) {
+    const wt = Math.floor(p.price / unit);
+    const val = type === 'delta' ? p.dfScoreN : (p.composite + p.leverage * 0.5);
+    for (let k = req - 1; k >= 0; k--) {
+      for (let w = maxU - wt; w >= 0; w--) {
+        if (!dp[k][w]) continue;
+        const ns = dp[k][w].score + val, nw = w + wt;
+        if (!dp[k + 1][nw] || dp[k + 1][nw].score < ns) dp[k + 1][nw] = { score: ns, r: [...dp[k][w].r, p] };
       }
     }
   }
-  let best=null;
-  for(let w=maxU;w>=minU;w--){
-    if(!dp[req][w])continue;
-    const c=dp[req][w];
-    const tO=lk.reduce((s,p)=>s+p.pOwn,0)+c.r.reduce((s,p)=>s+p.pOwn,0);
-    if(type==='gpp'&&tO>85)continue;
-    if(!best||c.score>best.score)best=c;
+  let best = null;
+  for (let w = maxU; w >= minU; w--) {
+    if (!dp[req][w]) continue;
+    const c = dp[req][w];
+    const tO = lk.reduce((s, p) => s + p.pOwn, 0) + c.r.reduce((s, p) => s + p.pOwn, 0);
+    if (type === 'gpp' && tO > 85) continue;
+    if (!best || c.score > best.score) best = c;
   }
-  if(!best){
-    for(let w=maxU;w>=minU;w--){
-      if(dp[req][w]&&(!best||dp[req][w].score>best.score))best=dp[req][w];
+  if (!best) {
+    for (let w = maxU; w >= minU; w--) {
+      if (dp[req][w] && (!best || dp[req][w].score > best.score)) best = dp[req][w];
     }
   }
-  if(!best)return alert("Can't build a valid lineup ≥$49k. Try clearing locks or exclusions.");
-  const full=[...lk,...best.r];
-  lastLU={roster:full,type};
-  showLU(full,type);
+  if (!best) return toast("Can't build a valid lineup ≥$49k. Try clearing locks or exclusions.");
+  const full = [...lk, ...best.r];
+  lastLU = { roster: full, type };
+  showLU(full, type);
 }
 
-function showLU(roster,type){
-  const card=document.getElementById('oc');
-  card.style.display='block';
-  const isDelta=type==='delta';
-  document.getElementById('ot').innerHTML=isDelta?'⚡ Δ/FIT OPTIMAL':'🚀 GPP OPTIMAL';
-  card.style.borderColor=isDelta?'var(--gld)':'var(--blu)';
-  card.querySelector('.oh').style.background=isDelta?'rgba(251,191,36,.8)':'var(--blu)';
-  card.querySelector('.oh').style.color=isDelta?'#000':'#fff';
-  let sal=0,own=0,pts=0,df=0;
-  roster.forEach(p=>{sal+=p.price;own+=p.pOwn;pts+=p.composite;df+=p.dfScoreN;});
-  document.getElementById('os').innerHTML=`<span>SAL: <strong>$${sal.toLocaleString()}</strong></span><span>PROJ: <strong>${pts.toFixed(1)}</strong></span><span>Δ/FIT: <strong>${df.toFixed(1)}</strong></span><span>OWN: <strong style="color:${own>85?'var(--red)':'inherit'}">${own.toFixed(1)}%</strong></span>`;
-  document.getElementById('olist').innerHTML=roster.sort((a,b)=>b.price-a.price).map(p=>`
+function showLU(roster, type) {
+  const card = document.getElementById('oc');
+  card.style.display = 'block';
+  const isDelta = type === 'delta';
+  document.getElementById('ot').textContent = isDelta ? '⚡ Δ/FIT OPTIMAL' : '🚀 GPP OPTIMAL';
+  card.style.borderColor = isDelta ? 'var(--gld)' : 'var(--blu)';
+  card.querySelector('.oh').style.background = isDelta ? 'rgba(251,191,36,.8)' : 'var(--blu)';
+  card.querySelector('.oh').style.color = isDelta ? '#000' : '#fff';
+  let sal = 0, own = 0, pts = 0, df = 0;
+  roster.forEach(p => { sal += num(p.price); own += num(p.pOwn); pts += num(p.composite); df += num(p.dfScoreN); });
+  document.getElementById('os').innerHTML = `<span>SAL: <strong>$${sal.toLocaleString()}</strong></span><span>PROJ: <strong>${pts.toFixed(1)}</strong></span><span>Δ/FIT: <strong>${df.toFixed(1)}</strong></span><span>OWN: <strong style="color:${own > 85 ? 'var(--red)' : 'inherit'}">${own.toFixed(1)}%</strong></span>`;
+  document.getElementById('olist').innerHTML = roster.sort((a, b) => b.price - a.price).map(p => `
 <li>
 <div>
-  <div style="font-weight:700">${p.locked?'🔒 ':''}${p.sn} <span class="wv ${p.wave==='AM'?'wam':'wpm'}">${p.wave}</span>${p.isExpert?'<span class="ce">🧠</span>':''}${p.isChalk?'<span class="ct">CHALK</span>':''}</div>
-  <div style="font-size:9px;color:var(--tx2);font-family:var(--mn);margin-top:2px">Δ/FIT ${p.dfScoreN.toFixed(1)} · FIT ${p.profileFit.toFixed(0)} · Δ ${p.dlta>0?'+'+p.dlta:p.dlta} · pOWN ${p.pOwn.toFixed(1)}%</div>
+  <div style="font-weight:700">${p.locked ? '🔒 ' : ''}${escHtml(p.sn)} <span class="wv ${p.wave === 'AM' ? 'wam' : 'wpm'}">${escHtml(p.wave)}</span>${p.isExpert ? '<span class="ce">🧠</span>' : ''}${p.isChalk ? '<span class="ct">CHALK</span>' : ''}</div>
+  <div style="font-size:9px;color:var(--tx2);font-family:var(--mn);margin-top:2px">Δ/FIT ${fmtFixed(p.dfScoreN)} · FIT ${num(p.profileFit).toFixed(0)} · Δ ${p.dlta > 0 ? '+' + p.dlta : p.dlta} · pOWN ${fmtPct(p.pOwn)}</div>
 </div>
-<div class="vg mn" style="font-weight:700;font-size:13px">$${(p.price/1000).toFixed(1)}k</div>
+<div class="vg mn" style="font-weight:700;font-size:13px">${fmtSalaryK(p.price)}</div>
 </li>`).join('');
+  announce(`${isDelta ? 'Delta-Fit' : 'GPP'} optimal lineup ready, total salary $${sal.toLocaleString()}`);
 }
 
-function xCSV(){
-  if(!lastLU)return;
-  const h='G,G,G,G,G,G';
-  const n=lastLU.roster.sort((a,b)=>b.price-a.price).map(p=>p.name).join(',');
-  const blob=new Blob([h+'\n'+n],{type:'text/csv'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=`plaid_genie_${lastLU.type}.csv`;
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
+/* ============================================================
+   CSV EXPORT (with formula injection prevention)
+   ============================================================ */
+function xCSV() {
+  if (!lastLU) return toast('No lineup to export. Generate one first.');
+  exportLineupCsv(lastLU.roster, `plaid_genie_${lastLU.type}.csv`);
 }
 
-function toggleBP(id){
-  const el=document.getElementById(id);if(!el)return;
-  const show=!el.classList.contains('show');
-  document.querySelectorAll('.bp-pop.show').forEach(x=>x.classList.remove('show'));
-  if(show)el.classList.add('show');
+function exportLineupCsv(roster, filename) {
+  if (!roster || !roster.length) return;
+  const sorted = [...roster].sort((a, b) => b.price - a.price);
+  const header = 'G,G,G,G,G,G';
+  const names = sorted.map(p => escCsv(p.name)).join(',');
+  const blob = new Blob([header + '\n' + names + '\n'], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
 }
-document.addEventListener('click',()=>{document.querySelectorAll('.bp-pop.show').forEach(x=>x.classList.remove('show'))});
 
-function runDeltaFit(){
-  const btn=document.getElementById('dfB'),simB=document.getElementById('simB');
-  btn.disabled=true;simB.disabled=true;
-  btn.textContent='⏳ OPTIMIZING...';
-  document.getElementById('pw').style.display='block';
-  document.getElementById('pf').style.width='0%';
-  document.getElementById('ptt').textContent='Running Δ/Fit optimizer — generating 5 diverse lineups...';
-  document.getElementById('simR').style.display='none';
-  setTimeout(()=>{
-    const pool=P.filter(p=>!p.excluded);
-    const locked=pool.filter(p=>p.locked);
-    const avail=pool.filter(p=>!p.locked);
-    const lkS=locked.reduce((s,p)=>s+p.price,0);
-    const unit=100;
-    const maxU=Math.floor((50000-lkS)/unit);
-    const minU=Math.max(0,Math.ceil((49000-lkS)/unit));
-    const req=6-locked.length;
-    const lineups=[];
-    const usedKeys=new Set();
-    const penalties=new Map();
-    for(let attempt=0;attempt<20&&lineups.length<5;attempt++){
-      let dp=Array(req+1).fill(null).map(()=>Array(maxU+1).fill(null));
-      dp[0][0]={score:0,r:[]};
-      for(const p of avail){
-        const wt=Math.floor(p.price/unit);
-        const pen=penalties.get(p.name)||0;
-        const val=Math.max(0,p.dfScoreN-pen);
-        for(let k=req-1;k>=0;k--){
-          for(let w=maxU-wt;w>=0;w--){
-            if(!dp[k][w])continue;
-            const ns=dp[k][w].score+val,nw=w+wt;
-            if(!dp[k+1][nw]||dp[k+1][nw].score<ns)dp[k+1][nw]={score:ns,r:[...dp[k][w].r,p]};
+function xPB(id, t, i) {
+  const r = lineupCache.get(id);
+  if (!r) return toast('Lineup not found.');
+  exportLineupCsv(r, `plaid_genie_${t}_${i}.csv`);
+}
+
+function toggleBP(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const show = !el.classList.contains('show');
+  document.querySelectorAll('.bp-pop.show').forEach(x => x.classList.remove('show'));
+  if (show) el.classList.add('show');
+}
+
+/* ============================================================
+   DELTA-FIT PRE-BUILT
+   ============================================================ */
+function runDeltaFit() {
+  const btn = document.getElementById('dfB'), simB = document.getElementById('simB');
+  btn.disabled = true; simB.disabled = true;
+  btn.textContent = '⏳ OPTIMIZING...';
+  document.getElementById('pw').style.display = 'block';
+  document.getElementById('pf').style.width = '0%';
+  document.getElementById('ptt').textContent = 'Running Δ/Fit optimizer — generating 5 diverse lineups...';
+  document.getElementById('simR').style.display = 'none';
+
+  setTimeout(() => {
+    const pool = P.filter(p => !p.excluded);
+    const locked = pool.filter(p => p.locked);
+    const avail = pool.filter(p => !p.locked);
+    const lkS = locked.reduce((s, p) => s + num(p.price), 0);
+    const unit = 100;
+    const maxU = Math.floor((50000 - lkS) / unit);
+    const minU = Math.max(0, Math.ceil((49000 - lkS) / unit));
+    const req = 6 - locked.length;
+    const lineups = [];
+    const usedKeys = new Set();
+    const penalties = new Map();
+
+    for (let attempt = 0; attempt < 20 && lineups.length < 5; attempt++) {
+      let dp = Array(req + 1).fill(null).map(() => Array(maxU + 1).fill(null));
+      dp[0][0] = { score: 0, r: [] };
+      for (const p of avail) {
+        const wt = Math.floor(p.price / unit);
+        const pen = penalties.get(p.name) || 0;
+        const val = Math.max(0, p.dfScoreN - pen);
+        for (let k = req - 1; k >= 0; k--) {
+          for (let w = maxU - wt; w >= 0; w--) {
+            if (!dp[k][w]) continue;
+            const ns = dp[k][w].score + val, nw = w + wt;
+            if (!dp[k + 1][nw] || dp[k + 1][nw].score < ns) dp[k + 1][nw] = { score: ns, r: [...dp[k][w].r, p] };
           }
         }
       }
-      let best=null;
-      for(let w=maxU;w>=minU;w--){
-        if(dp[req][w]&&(!best||dp[req][w].score>best.score))best=dp[req][w];
+      let best = null;
+      for (let w = maxU; w >= minU; w--) {
+        if (dp[req][w] && (!best || dp[req][w].score > best.score)) best = dp[req][w];
       }
-      if(!best)break;
-      const full=[...locked,...best.r];
-      const key=full.map(p=>p.name).sort().join('|');
-      if(!usedKeys.has(key)){
+      if (!best) break;
+      const full = [...locked, ...best.r];
+      const key = full.map(p => p.name).sort().join('|');
+      if (!usedKeys.has(key)) {
         usedKeys.add(key);
-        const sal=full.reduce((s,p)=>s+p.price,0);
-        const df=full.reduce((s,p)=>s+p.dfScoreN,0);
-        const own=full.reduce((s,p)=>s+p.pOwn,0);
-        const comp=full.reduce((s,p)=>s+p.composite,0);
-        lineups.push({roster:full,sal,df,own,comp});
+        const sal = full.reduce((s, p) => s + p.price, 0);
+        const df = full.reduce((s, p) => s + p.dfScoreN, 0);
+        const own = full.reduce((s, p) => s + p.pOwn, 0);
+        const comp = full.reduce((s, p) => s + p.composite, 0);
+        lineups.push({ roster: full, sal, df, own, comp });
       }
-      best.r.forEach(p=>{penalties.set(p.name,(penalties.get(p.name)||0)+15)});
+      best.r.forEach(p => { penalties.set(p.name, (penalties.get(p.name) || 0) + 15); });
     }
-    document.getElementById('pf').style.width='100%';
-    document.getElementById('ptt').textContent=`✓ Done. ${lineups.length} Δ/Fit lineups generated.`;
-    document.getElementById('simR').style.display='block';
-    document.getElementById('df-sec').style.display='block';
-    document.getElementById('dg').innerHTML=lineups.map((l,i)=>{
-      const id=`df_pre_${i}`;window[`_lu_${id}`]=l.roster;
-      const s=[...l.roster].sort((a,b)=>b.price-a.price);
-      return`<div class="lc delta">
-<div class="lch"><span>#${i+1} · Δ/FIT</span><span>SCORE <strong>${l.df.toFixed(1)}</strong></span></div>
-<div class="lcb">${s.map(p=>`<div class="lcr">
-<span class="lcn">${p.sn} <span class="wv ${p.wave==='AM'?'wam':'wpm'}" style="font-size:7px">${p.wave}</span>${p.isExpert?'<span class="ce" style="font-size:7px">🧠</span>':''}
-<span style="font-size:8px;font-family:var(--mn);color:var(--gld)">Δ/F ${p.dfScoreN.toFixed(0)}</span></span>
-<span class="lcp">$${(p.price/1000).toFixed(1)}k</span>
+
+    document.getElementById('pf').style.width = '100%';
+    document.getElementById('ptt').textContent = `✓ Done. ${lineups.length} Δ/Fit lineups generated.`;
+    document.getElementById('simR').style.display = 'block';
+    document.getElementById('df-sec').style.display = 'block';
+
+    document.getElementById('dg').innerHTML = lineups.map((l, i) => {
+      const id = `df_pre_${i}`;
+      const s = [...l.roster].sort((a, b) => b.price - a.price);
+      lineupCache.set(id, s);
+      return `<div class="lc delta">
+<div class="lch"><span>#${i + 1} · Δ/FIT</span><span>SCORE <strong>${l.df.toFixed(1)}</strong></span></div>
+<div class="lcb">${s.map(p => `<div class="lcr">
+<span class="lcn">${escHtml(p.sn)} <span class="wv ${p.wave === 'AM' ? 'wam' : 'wpm'}" style="font-size:7px">${escHtml(p.wave)}</span>${p.isExpert ? '<span class="ce" style="font-size:7px">🧠</span>' : ''}
+<span style="font-size:8px;font-family:var(--mn);color:var(--gld)">Δ/F ${num(p.dfScoreN).toFixed(0)}</span></span>
+<span class="lcp">${fmtSalaryK(p.price)}</span>
 </div>`).join('')}</div>
 <div class="lcf">
 <span>SAL <strong>$${l.sal.toLocaleString()}</strong></span>
@@ -890,88 +1185,145 @@ function runDeltaFit(){
 <span>OWN <strong>${l.own.toFixed(1)}%</strong></span>
 <span>PROJ <strong>${l.comp.toFixed(0)}</strong></span>
 </div>
-<div class="lcx"><button onclick="xPB('${id}','delta',${i+1})">📥 CSV</button></div>
+<div class="lcx"><button data-export="${id}" data-type="delta" data-idx="${i + 1}">📥 CSV</button></div>
 </div>`;
     }).join('');
-    btn.disabled=false;simB.disabled=false;
-    btn.textContent='⚡ RUN Δ/FIT OPTIMIZER';
-    setTimeout(()=>document.getElementById('df-sec').scrollIntoView({behavior:'smooth'}),200);
-  },60);
+
+    // Bind export handlers
+    document.querySelectorAll('#dg button[data-export]').forEach(b => {
+      b.addEventListener('click', () => xPB(b.dataset.export, b.dataset.type, b.dataset.idx));
+    });
+
+    btn.disabled = false; simB.disabled = false;
+    btn.textContent = '⚡ RUN Δ/FIT OPTIMIZER';
+    setTimeout(() => document.getElementById('df-sec').scrollIntoView({ behavior: 'smooth' }), 200);
+  }, 60);
 }
 
-let simOn=false;
-function runSim(){
-  if(simOn)return;simOn=true;
-  const btn=document.getElementById('simB'),dfB=document.getElementById('dfB');
-  btn.disabled=true;dfB.disabled=true;btn.textContent='⏳ SIMULATING...';
-  const pw=document.getElementById('pw'),pf=document.getElementById('pf'),sr=document.getElementById('simR');
-  pw.style.display='block';sr.style.display='none';
-  document.getElementById('gpp-sec').style.display='none';
-  pf.style.width='0%';document.getElementById('ptt').textContent='Initializing 5,000,000 simulations...';
-  const pool=P.filter(p=>!p.excluded);
-  const locked=pool.filter(p=>p.locked);
-  const lkS=locked.reduce((s,p)=>s+p.price,0);
-  const avail=pool.filter(p=>!p.locked);
-  const minP=Math.min(...pool.map(p=>p.price));
-  avail.forEach(p=>{p.simMean=p.composite*0.85+20;p.simStd=p.price>9000?15:22});
-  const wts=avail.map(p=>Math.max(1,Math.pow(p.composite,2)));
-  const tW=wts.reduce((s,w)=>s+w,0);
-  const cW=[];let ac=0;
-  for(let i=0;i<wts.length;i++){ac+=wts[i];cW.push(ac);}
-  function wP(){const r=Math.random()*tW;let lo=0,hi=cW.length-1;while(lo<hi){const m=(lo+hi)>>1;if(cW[m]<r)lo=m+1;else hi=m;}return lo;}
-  function bM(mean,std){const u1=Math.max(1e-10,Math.random()),u2=Math.random();return mean+Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2)*std;}
-  function bL(){const pk=new Set(),ros=[...locked];let sal=lkS,att=0;
-    while(ros.length<6&&att<80){const i=wP(),p=avail[i];
-      if(pk.has(i)){att++;continue;}if(sal+p.price>50000){att++;continue;}
-      const rem=6-ros.length-1;if(50000-(sal+p.price)<rem*minP){att++;continue;}
-      ros.push(p);pk.add(i);sal+=p.price;att++;}
-    return(ros.length===6&&sal>=49000)?{roster:ros,sal}:null;}
-  const lS=new Map(),TOT=5000000,CHK=100000;let done=0;
-  function chunk(){
-    const amAdv=(Math.random()-0.5)*8;
-    for(let i=0;i<CHK;i++){
-      const b=bL();if(!b)continue;
-      let sc=0,am=0,pm=0;
-      for(const p of b.roster){const wm=p.wave==='AM'?amAdv:-amAdv;sc+=bM(p.simMean+wm,p.simStd*0.6);if(p.wave==='AM')am++;else pm++;}
-      if(Math.abs(am-pm)>=4)sc+=Math.abs(amAdv)*0.3;
-      const k=b.roster.map(p=>p.name).sort().join('|');const ex=lS.get(k);
-      if(ex){ex.sc++;ex.ts+=sc;if(sc>ex.mx)ex.mx=sc;}
-      else lS.set(k,{roster:b.roster,sal:b.sal,sc:1,ts:sc,mx:sc});}
-    done+=CHK;const pct=(done/TOT)*100;
-    pf.style.width=pct+'%';document.getElementById('ptt').textContent=`${done.toLocaleString()} / ${TOT.toLocaleString()} (${pct.toFixed(1)}%)`;
-    if(done<TOT)setTimeout(chunk,0);else fin();
+/* ============================================================
+   MONTE CARLO GPP SIM
+   ============================================================ */
+let simOn = false;
+function runSim() {
+  if (simOn) return;
+  simOn = true;
+  const btn = document.getElementById('simB'), dfB = document.getElementById('dfB');
+  btn.disabled = true; dfB.disabled = true; btn.textContent = '⏳ SIMULATING...';
+  const pw = document.getElementById('pw'), pf = document.getElementById('pf'), sr = document.getElementById('simR');
+  pw.style.display = 'block'; sr.style.display = 'none';
+  document.getElementById('gpp-sec').style.display = 'none';
+  pf.style.width = '0%'; document.getElementById('ptt').textContent = 'Initializing 5,000,000 simulations...';
+
+  const pool = P.filter(p => !p.excluded);
+  const locked = pool.filter(p => p.locked);
+  const lkS = locked.reduce((s, p) => s + p.price, 0);
+  const avail = pool.filter(p => !p.locked);
+
+  if (avail.length + locked.length < 6) {
+    toast('Not enough available players to simulate.');
+    pw.style.display = 'none';
+    btn.disabled = false; dfB.disabled = false;
+    btn.textContent = '▶ RUN 5M GPP SIMS';
+    simOn = false;
+    return;
   }
-  function fin(){
-    const all=Array.from(lS.values()).filter(l=>l.sc>=2);
-    all.forEach(l=>{l.avg=l.ts/l.sc;l.tOwn=l.roster.reduce((s,p)=>s+p.pOwn,0);l.aLev=l.roster.reduce((s,p)=>s+p.leverage,0)/6;l.df=l.roster.reduce((s,p)=>s+p.dfScoreN,0);});
-    const gpp=[...all].filter(l=>l.tOwn<=90).sort((a,b)=>(b.mx+b.aLev*.5)-(a.mx+a.aLev*.5)).slice(0,5);
-    pf.style.width='100%';document.getElementById('ptt').textContent=`✓ Done. ${all.size||all.length} unique lineups evaluated.`;
-    sr.style.display='block';document.getElementById('gpp-sec').style.display='block';
-    const rc=(l,i)=>{
-      const s=[...l.roster].sort((a,b)=>b.price-a.price);
-      const id=`pb_gpp_${i}`;window[`_lu_${id}`]=s;
-      return`<div class="lc gpp">
-<div class="lch"><span>#${i+1} · GPP</span><span>MEAN <strong>${l.avg.toFixed(1)}</strong> · CEIL <strong>${l.mx.toFixed(1)}</strong></span></div>
-<div class="lcb">${s.map(p=>`<div class="lcr"><span class="lcn">${p.sn} <span class="wv ${p.wave==='AM'?'wam':'wpm'}" style="font-size:7px">${p.wave}</span>${p.isExpert?'<span class="ce" style="font-size:7px">🧠</span>':''}${p.isChalk?'<span class="ct">CH</span>':''}</span><span class="lcp">$${(p.price/1000).toFixed(1)}k</span></div>`).join('')}</div>
+
+  const minP = Math.min(...pool.map(p => p.price));
+  avail.forEach(p => { p.simMean = p.composite * 0.85 + 20; p.simStd = p.price > 9000 ? 15 : 22; });
+  const wts = avail.map(p => Math.max(1, Math.pow(p.composite, 2)));
+  const tW = wts.reduce((s, w) => s + w, 0);
+  const cW = []; let ac = 0;
+  for (let i = 0; i < wts.length; i++) { ac += wts[i]; cW.push(ac); }
+
+  function wP() {
+    const r = Math.random() * tW;
+    let lo = 0, hi = cW.length - 1;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (cW[m] < r) lo = m + 1; else hi = m; }
+    return lo;
+  }
+  function bM(mean, std) {
+    const u1 = Math.max(1e-10, Math.random()), u2 = Math.random();
+    return mean + Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2) * std;
+  }
+  function bL() {
+    const pk = new Set(), ros = [...locked];
+    let sal = lkS, att = 0;
+    while (ros.length < 6 && att < 80) {
+      const i = wP(), p = avail[i];
+      if (pk.has(i)) { att++; continue; }
+      if (sal + p.price > 50000) { att++; continue; }
+      const rem = 6 - ros.length - 1;
+      if (50000 - (sal + p.price) < rem * minP) { att++; continue; }
+      ros.push(p); pk.add(i); sal += p.price; att++;
+    }
+    return (ros.length === 6 && sal >= 49000) ? { roster: ros, sal } : null;
+  }
+
+  const lS = new Map(), TOT = 5000000, CHK = 100000;
+  let done = 0;
+
+  function chunk() {
+    const amAdv = (Math.random() - 0.5) * 8;
+    for (let i = 0; i < CHK; i++) {
+      const b = bL(); if (!b) continue;
+      let sc = 0, am = 0, pm = 0;
+      for (const p of b.roster) {
+        const wm = p.wave === 'AM' ? amAdv : -amAdv;
+        sc += bM(p.simMean + wm, p.simStd * 0.6);
+        if (p.wave === 'AM') am++; else pm++;
+      }
+      if (Math.abs(am - pm) >= 4) sc += Math.abs(amAdv) * 0.3;
+      const k = b.roster.map(p => p.name).sort().join('|');
+      const ex = lS.get(k);
+      if (ex) { ex.sc++; ex.ts += sc; if (sc > ex.mx) ex.mx = sc; }
+      else lS.set(k, { roster: b.roster, sal: b.sal, sc: 1, ts: sc, mx: sc });
+    }
+    done += CHK;
+    const pct = (done / TOT) * 100;
+    pf.style.width = pct + '%';
+    document.getElementById('ptt').textContent = `${done.toLocaleString()} / ${TOT.toLocaleString()} (${pct.toFixed(1)}%)`;
+    if (done < TOT) setTimeout(chunk, 0); else fin();
+  }
+
+  function fin() {
+    const all = Array.from(lS.values()).filter(l => l.sc >= 2);
+    all.forEach(l => {
+      l.avg = l.ts / l.sc;
+      l.tOwn = l.roster.reduce((s, p) => s + p.pOwn, 0);
+      l.aLev = l.roster.reduce((s, p) => s + p.leverage, 0) / 6;
+      l.df = l.roster.reduce((s, p) => s + p.dfScoreN, 0);
+    });
+    const gpp = [...all].filter(l => l.tOwn <= 90).sort((a, b) => (b.mx + b.aLev * .5) - (a.mx + a.aLev * .5)).slice(0, 5);
+    pf.style.width = '100%';
+    document.getElementById('ptt').textContent = `✓ Done. ${all.length} unique lineups evaluated.`;
+    sr.style.display = 'block';
+    document.getElementById('gpp-sec').style.display = 'block';
+
+    document.getElementById('gg').innerHTML = gpp.map((l, i) => {
+      const s = [...l.roster].sort((a, b) => b.price - a.price);
+      const id = `pb_gpp_${i}`;
+      lineupCache.set(id, s);
+      return `<div class="lc gpp">
+<div class="lch"><span>#${i + 1} · GPP</span><span>MEAN <strong>${l.avg.toFixed(1)}</strong> · CEIL <strong>${l.mx.toFixed(1)}</strong></span></div>
+<div class="lcb">${s.map(p => `<div class="lcr"><span class="lcn">${escHtml(p.sn)} <span class="wv ${p.wave === 'AM' ? 'wam' : 'wpm'}" style="font-size:7px">${escHtml(p.wave)}</span>${p.isExpert ? '<span class="ce" style="font-size:7px">🧠</span>' : ''}${p.isChalk ? '<span class="ct">CH</span>' : ''}</span><span class="lcp">${fmtSalaryK(p.price)}</span></div>`).join('')}</div>
 <div class="lcf"><span>SAL <strong>$${l.sal.toLocaleString()}</strong></span><span>OWN <strong>${l.tOwn.toFixed(1)}%</strong></span><span>LEV <strong>${l.aLev.toFixed(0)}</strong></span><span>Δ/FIT <strong>${l.df.toFixed(0)}</strong></span></div>
-<div class="lcx"><button onclick="xPB('pb_gpp_${i}','gpp',${i+1})">📥 CSV</button></div>
+<div class="lcx"><button data-export="${id}" data-type="gpp" data-idx="${i + 1}">📥 CSV</button></div>
 </div>`;
-    };
-    document.getElementById('gg').innerHTML=gpp.map((l,i)=>rc(l,i)).join('');
-    btn.disabled=false;dfB.disabled=false;btn.textContent='▶ RUN 5M GPP SIMS';simOn=false;
-    setTimeout(()=>document.getElementById('gpp-sec').scrollIntoView({behavior:'smooth'}),200);
-  }
-  setTimeout(chunk,50);
-}
+    }).join('');
 
-function xPB(id,t,i){
-  const r=window[`_lu_${id}`];if(!r)return;
-  const h='G,G,G,G,G,G',n=r.map(p=>p.name).join(',');
-  const blob=new Blob([h+'\n'+n],{type:'text/csv'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);a.download=`plaid_genie_${t}_${i}.csv`;
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
+    document.querySelectorAll('#gg button[data-export]').forEach(b => {
+      b.addEventListener('click', () => xPB(b.dataset.export, b.dataset.type, b.dataset.idx));
+    });
+
+    btn.disabled = false; dfB.disabled = false;
+    btn.textContent = '▶ RUN 5M GPP SIMS';
+    simOn = false;
+    setTimeout(() => document.getElementById('gpp-sec').scrollIntoView({ behavior: 'smooth' }), 200);
+  }
+
+  setTimeout(chunk, 50);
 }
 </script>
+
 </body>
 </html>
